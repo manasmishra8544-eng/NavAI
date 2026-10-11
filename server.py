@@ -50,6 +50,11 @@ def favicon():
     return send_from_directory(APP_DIR, "favicon.svg", mimetype="image/svg+xml")
 
 
+@app.route("/navai-logo.svg")
+def navai_logo():
+    return send_from_directory(APP_DIR, "navai-logo.svg", mimetype="image/svg+xml")
+
+
 @app.route("/api/chat", methods=["POST"])
 def chat():
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
