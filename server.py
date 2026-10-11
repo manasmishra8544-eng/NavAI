@@ -77,7 +77,7 @@ def chat():
             f"The current date is {current_date} in India (Asia/Kolkata). "
             "Never assume the year is 2024 or use an outdated date. "
             "Answer clearly and naturally in English or Hindi. "
-            "For current or changing facts, never pretend your knowledge is live "
+            "Use browser search for current or changing facts whenever available. ""Never pretend your knowledge is live "
             "and never invent recent news, results, prices, or dates. "
             "If you cannot verify current information, say so clearly. "
             "Answer stable questions normally. "
@@ -145,14 +145,17 @@ def chat():
 
     messages.append(current_message)
 
-    # FIX: Request fewer output tokens than the reported 1,000 OTPM limit.
+    # Use built-in web search for text questions; preserve image support.
     payload = {
-        "model": MODEL,
+        "model": MODEL if image_data else "openai/gpt-oss-20b",
         "messages": messages,
         "stream": False,
-        "max_completion_tokens": 800,
-        "temperature": 0.2
+        "max_completion_tokens": 1400,
+        "temperature": 0.2 if image_data else 1.0
     }
+
+    if not image_data:
+        payload["tools"] = [{"type": "browser_search"}]
 
     try:
         req = urllib.request.Request(
