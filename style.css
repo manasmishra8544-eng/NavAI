@@ -1396,3 +1396,14 @@ body[data-theme="light"] .welcome-content h1 span {
     height: 100%;
     object-fit: contain;
 }
+
+
+.sidebar-signature {
+    margin-top: 10px;
+    padding: 12px 9px 4px;
+    color: var(--text-muted, #8b95a7);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-align: center;
+}
