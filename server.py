@@ -9,8 +9,9 @@ from flask import Flask, jsonify, request, send_from_directory
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Load private .env settings locally.
+# Load .env locally. Render uses its Environment Variables.
 env_file = os.path.join(APP_DIR, ".env")
+
 if os.path.isfile(env_file):
     with open(env_file, "r", encoding="utf-8") as file:
         for line in file:
@@ -50,10 +51,11 @@ def chat():
 
     if not api_key:
         return jsonify({
-            "error": "Groq API key is missing. Check your private .env file."
+            "error": "Groq API key is missing. Check your environment settings."
         }), 503
 
     data = request.get_json(silent=True) or {}
+
     message = str(data.get("message", "")).strip()
     image_data = data.get("image")
     history = data.get("history", [])
@@ -82,6 +84,7 @@ def chat():
 
             if role in ("user", "assistant") and isinstance(content, str):
                 content = content.strip()
+
                 if content:
                     messages.append({
                         "role": role,
@@ -99,13 +102,16 @@ def chat():
 
             if isinstance(image_data, str) and image_data.startswith("data:"):
                 header, image_data = image_data.split(",", 1)
+
                 if ";" in header:
                     mime_type = header[5:].split(";", 1)[0]
 
             image_bytes = base64.b64decode(image_data, validate=True)
 
             if len(image_bytes) > 10 * 1024 * 1024:
-                return jsonify({"error": "Image is too large."}), 400
+                return jsonify({
+                    "error": "Image is too large. Please use a smaller image."
+                }), 400
 
             encoded = base64.b64encode(image_bytes).decode("utf-8")
             image_url = f"data:{mime_type};base64,{encoded}"
@@ -128,11 +134,12 @@ def chat():
 
     messages.append(current_message)
 
+    # FIX: Request fewer output tokens than the reported 1,000 OTPM limit.
     payload = {
         "model": MODEL,
         "messages": messages,
         "stream": False,
-        "max_completion_tokens": 1024,
+        "max_completion_tokens": 800,
         "temperature": 0.2
     }
 
@@ -167,6 +174,7 @@ def chat():
 
     except urllib.error.HTTPError as error:
         details = error.read().decode("utf-8", errors="replace")
+
         app.logger.warning(
             "Groq HTTP %s response: %s",
             error.code,
@@ -174,30 +182,40 @@ def chat():
         )
 
         if error.code == 401:
-            message = "Groq rejected the API key. Check your private settings."
+            error_message = "Groq rejected the API key. Check your settings."
         elif error.code == 403:
-            message = "Groq denied the request. See the terminal for details."
+            error_message = "Groq denied the request. Check the Render logs."
         elif error.code == 429:
-            message = "Groq usage limit reached. Try again later."
+            error_message = (
+                "Groq rate limit reached. Please wait and try again. "
+                "Check Render logs for the exact limit."
+            )
         else:
-            message = f"Groq returned HTTP {error.code}. See the terminal."
+            error_message = f"Groq returned HTTP {error.code}."
 
-        return jsonify({"error": message}), 502
+        return jsonify({"error": error_message}), 502
 
     except urllib.error.URLError:
         return jsonify({
-            "error": "Could not reach Groq. Check your internet connection."
+            "error": "Could not reach Groq. Please try again later."
         }), 503
 
     except Exception:
         app.logger.exception("NavAI chat error")
+
         return jsonify({
             "error": "Something went wrong while generating the response."
         }), 500
 
 
+@app.errorhandler(413)
+def file_too_large(error):
+    return jsonify({
+        "error": "Request is too large. Please use a smaller image."
+    }), 413
+
+
 if __name__ == "__main__":
     print("NavAI server starting...", flush=True)
     print(f"AI model: {MODEL}", flush=True)
-    print("Website: http://127.0.0.1:5000", flush=True)
     app.run(host="127.0.0.1", port=5000, debug=False)
