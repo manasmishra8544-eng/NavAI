@@ -65,11 +65,22 @@ def chat():
             "error": "Please enter a message or attach an image."
         }), 400
 
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+
+    current_date = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d %B %Y")
+
     messages = [{
         "role": "system",
         "content": (
             "You are NavAI, a helpful AI assistant. "
+            f"The current date is {current_date} in India (Asia/Kolkata). "
+            "Never assume the year is 2024 or use an outdated date. "
             "Answer clearly and naturally in English or Hindi. "
+            "For current or changing facts, never pretend your knowledge is live "
+            "and never invent recent news, results, prices, or dates. "
+            "If you cannot verify current information, say so clearly. "
+            "Answer stable questions normally. "
             "If an image is provided, inspect it and answer based on it."
         )
     }]
