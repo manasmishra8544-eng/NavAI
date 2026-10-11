@@ -1372,3 +1372,18 @@ body[data-theme="light"] .welcome-content h1 span {
 .history-open-button:hover {
     color: var(--text);
 }
+
+/* NavAI Creator Credit */
+.creator-credit {
+    margin: 12px 0 4px;
+    text-align: center;
+    color: #9aa3b2;
+    font-size: 12px;
+    line-height: 1.7;
+    letter-spacing: 0.2px;
+}
+
+.creator-credit strong {
+    color: #d5b8ff;
+    font-weight: 600;
+}

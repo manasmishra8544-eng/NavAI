@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +7,13 @@
     <meta name="theme-color" content="#0b0d12">
 
     <meta name="google-site-verification" content="9ID4jWGnCCwx4jLA2jaDbkg-bAOh1kgm7u-5nDRNEuU">
-
-    <meta name="description" content="NavAI is a personal AI assistant project created by Manas Mishra. Ask questions, learn new things, and explore AI through NavAI.">
+    <meta name="description" content="NavAI is an independent AI assistant project created by Manas Mishra. Ask questions, learn new things, solve problems, and explore AI.">
     <meta name="author" content="Manas Mishra">
+
+    <meta property="og:title" content="NavAI — Your AI Assistant">
+    <meta property="og:description" content="Discover NavAI, an independent AI assistant project created by Manas Mishra.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://navai-kpyu.onrender.com/">
 
     <title>NavAI — Your AI Assistant</title>
     <link rel="stylesheet" href="/style.css">
@@ -16,8 +21,6 @@
 
 <body>
     <div class="app-shell">
-
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-top">
                 <a href="/" class="brand" id="homeBtn">
@@ -29,9 +32,7 @@
                 </a>
 
                 <button class="icon-button sidebar-close" id="menuBtn"
-                        type="button" aria-label="Close menu">
-                    ✕
-                </button>
+                        type="button" aria-label="Close menu">✕</button>
             </div>
 
             <button class="new-chat-button" id="newChatBtn" type="button">
@@ -45,7 +46,6 @@
                     <span>YOUR CHATS</span>
                     <span class="section-dot"></span>
                 </div>
-
                 <div class="chat-history" id="chatHistory">
                     <div class="history-empty">
                         Your conversations will appear here.
@@ -57,8 +57,8 @@
                 <div class="local-note">
                     <span class="status-indicator"></span>
                     <div>
-                        <strong>Local AI</strong>
-                        <p>Running on your computer</p>
+                        <strong>NavAI Assistant</strong>
+                        <p>AI-powered conversations</p>
                     </div>
                 </div>
 
@@ -76,31 +76,27 @@
 
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <!-- Main area -->
         <main class="main-area">
             <header class="topbar">
                 <div class="topbar-left">
                     <button class="icon-button mobile-menu" id="mobileMenuBtn"
-                            type="button" aria-label="Open menu">
-                        ☰
-                    </button>
+                            type="button" aria-label="Open menu">☰</button>
 
                     <div class="page-title">
                         <span class="online-dot"></span>
                         <span>NavAI</span>
-                        <span class="model-label">LOCAL MODEL</span>
+                        <span class="model-label">AI ASSISTANT</span>
                     </div>
                 </div>
 
                 <div class="topbar-right">
                     <span class="privacy-label">
                         <span class="privacy-icon">◇</span>
-                        On-device AI
+                        AI-powered
                     </span>
                 </div>
             </header>
 
-            <!-- Welcome screen -->
             <section class="welcome-screen" id="welcomeScreen">
                 <div class="welcome-content">
                     <div class="welcome-emblem">
@@ -166,13 +162,11 @@
                 </div>
             </section>
 
-            <!-- Conversation -->
             <section class="conversation hidden" id="conversation">
                 <div class="messages" id="messages"></div>
                 <div class="conversation-end" id="conversationEnd"></div>
             </section>
 
-            <!-- Message composer -->
             <footer class="composer-area">
                 <div class="composer-wrap">
                     <div class="attachment-preview hidden" id="imagePreviewContainer">
@@ -181,7 +175,6 @@
                             <button class="remove-image-button" id="removeImageBtn"
                                     type="button" aria-label="Remove image">✕</button>
                         </div>
-
                         <div class="preview-file-info">
                             <strong>Image attached</strong>
                             <span id="imageFileName">Ready to send</span>
@@ -189,12 +182,8 @@
                     </div>
 
                     <form class="composer" id="chatForm">
-                        <input
-                            type="file"
-                            id="imageInput"
-                            accept="image/png,image/jpeg,image/webp,image/gif"
-                            hidden
-                        >
+                        <input type="file" id="imageInput"
+                               accept="image/png,image/jpeg,image/webp,image/gif" hidden>
 
                         <button class="attach-button" id="attachBtn" type="button"
                                 aria-label="Attach an image" title="Attach an image">
@@ -202,13 +191,9 @@
                         </button>
 
                         <div class="composer-input-area">
-                            <textarea
-                                id="messageInput"
-                                name="message"
-                                rows="1"
-                                placeholder="Message NavAI..."
-                                aria-label="Message NavAI"
-                            ></textarea>
+                            <textarea id="messageInput" name="message" rows="1"
+                                      placeholder="Message NavAI..."
+                                      aria-label="Message NavAI"></textarea>
 
                             <div class="composer-hint">
                                 <span class="hint-key">↵</span>
@@ -226,6 +211,11 @@
 
                     <p class="composer-disclaimer">
                         NavAI can make mistakes. Check important information.
+                    </p>
+
+                    <p class="creator-credit">
+                        NavAI is an independent AI assistant project created by
+                        <strong>Manas Mishra</strong>.
                     </p>
                 </div>
             </footer>
