@@ -45,6 +45,11 @@ def script():
     return send_from_directory(APP_DIR, "script.js")
 
 
+@app.route("/favicon.svg")
+def favicon():
+    return send_from_directory(APP_DIR, "favicon.svg", mimetype="image/svg+xml")
+
+
 @app.route("/api/chat", methods=["POST"])
 def chat():
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
