@@ -8,8 +8,22 @@ import urllib.error
 from flask import Flask, jsonify, request, send_from_directory
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
-OLLAMA_URL = "http://127.0.0.1:11434/api/chat"
-MODEL = "qwen2.5vl:3b"
+
+# Load private .env settings locally.
+env_file = os.path.join(APP_DIR, ".env")
+if os.path.isfile(env_file):
+    with open(env_file, "r", encoding="utf-8") as file:
+        for line in file:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, value = line.split("=", 1)
+                os.environ.setdefault(
+                    key.strip(),
+                    value.strip().strip('"').strip("'")
+                )
+
+GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+MODEL = "qwen/qwen3.8-27b"
 
 app = Flask(__name__, static_folder=None)
 app.config["MAX_CONTENT_LENGTH"] = 12 * 1024 * 1024
@@ -32,21 +46,29 @@ def script():
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+
+    if not api_key:
+        return jsonify({
+            "error": "Groq API key is missing. Check your private .env file."
+        }), 503
+
     data = request.get_json(silent=True) or {}
     message = str(data.get("message", "")).strip()
     image_data = data.get("image")
     history = data.get("history", [])
 
     if not message and not image_data:
-        return jsonify({"error": "Please enter a message or attach an image."}), 400
+        return jsonify({
+            "error": "Please enter a message or attach an image."
+        }), 400
 
     messages = [{
         "role": "system",
         "content": (
             "You are NavAI, a helpful AI assistant. "
-            "Answer clearly and naturally. Support English and Hindi. "
-            "If an image is attached, inspect it and answer based on what you can see. "
-            "Never claim you cannot view images when an image is provided."
+            "Answer clearly and naturally in English or Hindi. "
+            "If an image is provided, inspect it and answer based on it."
         )
     }]
 
@@ -54,8 +76,10 @@ def chat():
         for item in history[-8:]:
             if not isinstance(item, dict):
                 continue
+
             role = item.get("role")
             content = item.get("content", item.get("text", ""))
+
             if role in ("user", "assistant") and isinstance(content, str):
                 content = content.strip()
                 if content:
@@ -71,14 +95,36 @@ def chat():
 
     if image_data:
         try:
-            if isinstance(image_data, str) and "," in image_data:
-                image_data = image_data.split(",", 1)[1]
+            mime_type = "image/jpeg"
+
+            if isinstance(image_data, str) and image_data.startswith("data:"):
+                header, image_data = image_data.split(",", 1)
+                if ";" in header:
+                    mime_type = header[5:].split(";", 1)[0]
+
             image_bytes = base64.b64decode(image_data, validate=True)
+
             if len(image_bytes) > 10 * 1024 * 1024:
                 return jsonify({"error": "Image is too large."}), 400
-            current_message["images"] = [base64.b64encode(image_bytes).decode("utf-8")]
+
+            encoded = base64.b64encode(image_bytes).decode("utf-8")
+            image_url = f"data:{mime_type};base64,{encoded}"
+
+            current_message["content"] = [
+                {
+                    "type": "text",
+                    "text": message or "Please describe this image."
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {"url": image_url}
+                }
+            ]
+
         except Exception:
-            return jsonify({"error": "The image could not be read. Please upload it again."}), 400
+            return jsonify({
+                "error": "The image could not be read. Please upload it again."
+            }), 400
 
     messages.append(current_message)
 
@@ -86,37 +132,68 @@ def chat():
         "model": MODEL,
         "messages": messages,
         "stream": False,
-        "options": {
-            "num_ctx": 2048,
-            "num_predict": 512,
-            "temperature": 0.2,
-            "repeat_penalty": 1.1
-        }
+        "max_completion_tokens": 1024,
+        "temperature": 0.2
     }
 
     try:
         req = urllib.request.Request(
-            OLLAMA_URL,
+            GROQ_URL,
             data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}",
+                "User-Agent": "NavAI/1.0"
+            },
             method="POST"
         )
-        with urllib.request.urlopen(req, timeout=300) as response:
+
+        with urllib.request.urlopen(req, timeout=120) as response:
             result = json.loads(response.read().decode("utf-8"))
 
-        answer = result.get("message", {}).get("content", "").strip()
-        if not answer:
+        choices = result.get("choices", [])
+        answer = ""
+
+        if choices:
+            answer = choices[0].get("message", {}).get("content", "")
+
+        if not isinstance(answer, str) or not answer.strip():
             answer = "I couldn't generate a response. Please try again."
 
-        return jsonify({"response": answer, "answer": answer})
-
-    except urllib.error.URLError as error:
         return jsonify({
-            "error": "Could not connect to Ollama. Please check that Ollama is running."
+            "response": answer.strip(),
+            "answer": answer.strip()
+        })
+
+    except urllib.error.HTTPError as error:
+        details = error.read().decode("utf-8", errors="replace")
+        app.logger.warning(
+            "Groq HTTP %s response: %s",
+            error.code,
+            details[:1000]
+        )
+
+        if error.code == 401:
+            message = "Groq rejected the API key. Check your private settings."
+        elif error.code == 403:
+            message = "Groq denied the request. See the terminal for details."
+        elif error.code == 429:
+            message = "Groq usage limit reached. Try again later."
+        else:
+            message = f"Groq returned HTTP {error.code}. See the terminal."
+
+        return jsonify({"error": message}), 502
+
+    except urllib.error.URLError:
+        return jsonify({
+            "error": "Could not reach Groq. Check your internet connection."
         }), 503
-    except Exception as error:
+
+    except Exception:
         app.logger.exception("NavAI chat error")
-        return jsonify({"error": f"Something went wrong: {error}"}), 500
+        return jsonify({
+            "error": "Something went wrong while generating the response."
+        }), 500
 
 
 if __name__ == "__main__":
