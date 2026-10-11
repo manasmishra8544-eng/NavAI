@@ -1,227 +1,173 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0b0d12">
 
-    <meta name="google-site-verification" content="9ID4jWGnCCwx4jLA2jaDbkg-bAOh1kgm7u-5nDRNEuU">
-    <meta name="description" content="NavAI is an independent AI assistant project created by Manas Mishra. Ask questions, learn new things, solve problems, and explore AI.">
+    <title>NavAI — AI Assistant by Manas Mishra</title>
+
+    <meta name="description" content="NavAI is an independent AI assistant created by Manas Mishra. Ask questions, explore ideas, learn new things, and solve problems with NavAI.">
     <meta name="author" content="Manas Mishra">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#080b14">
 
-    <meta property="og:title" content="NavAI — Your AI Assistant">
-    <meta property="og:description" content="Discover NavAI, an independent AI assistant project created by Manas Mishra.">
+    <meta name="google-site-verification" content="9ID4jWGnCCwx4jLA2jaDbkg-bAOh1kgm7u-5nDRNEu">
+
+    <link rel="canonical" href="https://navai-kpyu.onrender.com/">
+
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="NavAI">
+    <meta property="og:title" content="NavAI — AI Assistant by Manas Mishra">
+    <meta property="og:description" content="Meet NavAI, an independent AI assistant project created by Manas Mishra.">
     <meta property="og:url" content="https://navai-kpyu.onrender.com/">
 
-    <title>NavAI — Your AI Assistant</title>
-    <link rel="stylesheet" href="/style.css">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="NavAI — AI Assistant by Manas Mishra">
+    <meta name="twitter:description" content="An independent AI assistant project created by Manas Mishra.">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NavAI",
+      "alternateName": "NavAI AI Assistant",
+      "url": "https://navai-kpyu.onrender.com/",
+      "description": "NavAI is an independent AI assistant project created by Manas Mishra.",
+      "creator": {
+        "@type": "Person",
+        "name": "Manas Mishra"
+      },
+      "inLanguage": "en"
+    }
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <div class="app-shell">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-top">
-                <a href="/" class="brand" id="homeBtn">
-                    <div class="brand-icon">N</div>
-                    <div class="brand-text">
-                        <span class="brand-name">NavAI</span>
-                        <span class="brand-caption">YOUR AI ASSISTANT</span>
-                    </div>
-                </a>
+    <div class="app-container">
 
-                <button class="icon-button sidebar-close" id="menuBtn"
-                        type="button" aria-label="Close menu">✕</button>
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">N</div>
+                <span>NavAI</span>
             </div>
 
-            <button class="new-chat-button" id="newChatBtn" type="button">
-                <span class="new-chat-icon">＋</span>
-                <span>New chat</span>
-                <span class="shortcut">Ctrl K</span>
+            <button class="new-chat-btn" id="new-chat-btn" type="button">
+                <span>＋</span> New chat
             </button>
 
             <div class="sidebar-section">
-                <div class="section-heading">
-                    <span>YOUR CHATS</span>
-                    <span class="section-dot"></span>
-                </div>
-                <div class="chat-history" id="chatHistory">
-                    <div class="history-empty">
-                        Your conversations will appear here.
-                    </div>
+                <p class="section-label">YOUR SPACE</p>
+                <div class="chat-history" id="chat-history">
+                    <p class="history-empty">Your conversations will appear here.</p>
                 </div>
             </div>
 
             <div class="sidebar-bottom">
-                <div class="local-note">
-                    <span class="status-indicator"></span>
-                    <div>
-                        <strong>NavAI Assistant</strong>
-                        <p>AI-powered conversations</p>
-                    </div>
+                <div class="sidebar-note">
+                    <span class="status-dot"></span>
+                    <span>NavAI Assistant</span>
                 </div>
-
-                <button class="sidebar-action" id="themeBtn" type="button">
-                    <span class="action-icon" id="themeIcon">☼</span>
-                    <span id="themeLabel">Switch appearance</span>
-                </button>
-
-                <button class="sidebar-action" id="historyBtn" type="button">
-                    <span class="action-icon">◷</span>
-                    <span>Chat history</span>
-                </button>
+                <p class="sidebar-credit">Created by Manas Mishra</p>
             </div>
         </aside>
 
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <main class="main-panel">
 
-        <main class="main-area">
             <header class="topbar">
-                <div class="topbar-left">
-                    <button class="icon-button mobile-menu" id="mobileMenuBtn"
-                            type="button" aria-label="Open menu">☰</button>
+                <button class="icon-btn menu-btn" id="menu-btn"
+                        type="button" aria-label="Toggle sidebar">☰</button>
 
-                    <div class="page-title">
-                        <span class="online-dot"></span>
-                        <span>NavAI</span>
-                        <span class="model-label">AI ASSISTANT</span>
-                    </div>
+                <div class="topbar-title">
+                    <span class="topbar-brand">NavAI</span>
+                    <span class="model-label">AI Assistant</span>
                 </div>
 
-                <div class="topbar-right">
-                    <span class="privacy-label">
-                        <span class="privacy-icon">◇</span>
-                        AI-powered
-                    </span>
-                </div>
+                <button class="icon-btn" id="clear-chat-btn"
+                        type="button" aria-label="Clear conversation"
+                        title="Clear conversation">↺</button>
             </header>
 
-            <section class="welcome-screen" id="welcomeScreen">
-                <div class="welcome-content">
-                    <div class="welcome-emblem">
-                        <div class="emblem-core">N</div>
-                        <span class="emblem-orbit orbit-one"></span>
-                        <span class="emblem-orbit orbit-two"></span>
-                    </div>
+            <section class="chat-area" id="chat-area">
+                <div class="welcome-screen" id="welcome-screen">
+                    <div class="welcome-logo">N</div>
 
-                    <div class="eyebrow">
-                        <span class="eyebrow-line"></span>
-                        MEET YOUR AI ASSISTANT
-                        <span class="eyebrow-line"></span>
-                    </div>
-
-                    <h1>Think it.<br><span>Ask NavAI.</span></h1>
-
+                    <p class="eyebrow">YOUR AI ASSISTANT</p>
+                    <h1>What can I help you <span>with?</span></h1>
                     <p class="welcome-description">
-                        Ask questions, learn new things, solve problems,
-                        or upload an image to explore it with AI.
+                        Ask a question, explore an idea, or start something new.
                     </p>
 
                     <div class="suggestion-grid">
                         <button class="suggestion-card" type="button"
                                 data-prompt="Explain a difficult topic in simple words.">
-                            <span class="suggestion-icon icon-blue">✳</span>
-                            <span class="suggestion-title">Explain something</span>
-                            <span class="suggestion-description">
-                                Make a difficult topic easy to understand.
-                            </span>
-                            <span class="suggestion-arrow">↗</span>
+                            <span class="suggestion-icon">✦</span>
+                            <span class="suggestion-title">Learn something</span>
+                            <span class="suggestion-description">Understand any topic simply</span>
                         </button>
 
                         <button class="suggestion-card" type="button"
-                                data-prompt="Help me solve a maths problem step by step.">
-                            <span class="suggestion-icon icon-purple">∑</span>
+                                data-prompt="Help me brainstorm creative ideas for a project.">
+                            <span class="suggestion-icon">◇</span>
+                            <span class="suggestion-title">Get creative</span>
+                            <span class="suggestion-description">Explore fresh ideas</span>
+                        </button>
+
+                        <button class="suggestion-card" type="button"
+                                data-prompt="Help me write a clear and well-organised piece of writing.">
+                            <span class="suggestion-icon">↗</span>
+                            <span class="suggestion-title">Write something</span>
+                            <span class="suggestion-description">Turn thoughts into words</span>
+                        </button>
+
+                        <button class="suggestion-card" type="button"
+                                data-prompt="Help me solve a problem step by step.">
+                            <span class="suggestion-icon">⌘</span>
                             <span class="suggestion-title">Solve a problem</span>
-                            <span class="suggestion-description">
-                                Work through a question step by step.
-                            </span>
-                            <span class="suggestion-arrow">↗</span>
-                        </button>
-
-                        <button class="suggestion-card" type="button"
-                                data-prompt="Help me make a simple plan for today.">
-                            <span class="suggestion-icon icon-orange">◷</span>
-                            <span class="suggestion-title">Plan your day</span>
-                            <span class="suggestion-description">
-                                Organise tasks and make a useful plan.
-                            </span>
-                            <span class="suggestion-arrow">↗</span>
-                        </button>
-
-                        <button class="suggestion-card" type="button"
-                                data-prompt="Give me a creative idea for a website project.">
-                            <span class="suggestion-icon icon-green">⌘</span>
-                            <span class="suggestion-title">Create something</span>
-                            <span class="suggestion-description">
-                                Explore ideas, code and new projects.
-                            </span>
-                            <span class="suggestion-arrow">↗</span>
+                            <span class="suggestion-description">Work through it together</span>
                         </button>
                     </div>
                 </div>
+
+                <div class="messages" id="messages" aria-live="polite"></div>
             </section>
 
-            <section class="conversation hidden" id="conversation">
-                <div class="messages" id="messages"></div>
-                <div class="conversation-end" id="conversationEnd"></div>
-            </section>
+            <section class="composer-section">
+                <form class="composer" id="chat-form">
+                    <textarea
+                        id="message-input"
+                        name="message"
+                        placeholder="Message NavAI..."
+                        rows="1"
+                        maxlength="10000"
+                        aria-label="Message NavAI"
+                        required
+                    ></textarea>
 
-            <footer class="composer-area">
-                <div class="composer-wrap">
-                    <div class="attachment-preview hidden" id="imagePreviewContainer">
-                        <div class="preview-image-wrap">
-                            <img id="imagePreview" src="" alt="Selected image preview">
-                            <button class="remove-image-button" id="removeImageBtn"
-                                    type="button" aria-label="Remove image">✕</button>
-                        </div>
-                        <div class="preview-file-info">
-                            <strong>Image attached</strong>
-                            <span id="imageFileName">Ready to send</span>
-                        </div>
+                    <div class="composer-toolbar">
+                        <span class="composer-hint">Ask anything</span>
+                        <button class="send-btn" id="send-btn"
+                                type="submit" aria-label="Send message">
+                            <span>↑</span>
+                        </button>
                     </div>
+                </form>
 
-                    <form class="composer" id="chatForm">
-                        <input type="file" id="imageInput"
-                               accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+                <p class="composer-disclaimer">
+                    NavAI can make mistakes. Check important information.
+                </p>
 
-                        <button class="attach-button" id="attachBtn" type="button"
-                                aria-label="Attach an image" title="Attach an image">
-                            <span>＋</span>
-                        </button>
-
-                        <div class="composer-input-area">
-                            <textarea id="messageInput" name="message" rows="1"
-                                      placeholder="Message NavAI..."
-                                      aria-label="Message NavAI"></textarea>
-
-                            <div class="composer-hint">
-                                <span class="hint-key">↵</span>
-                                <span>to send</span>
-                                <span class="hint-separator">·</span>
-                                <span>Shift + Enter for a new line</span>
-                            </div>
-                        </div>
-
-                        <button class="send-button" id="sendBtn" type="submit"
-                                aria-label="Send message" title="Send message">
-                            <span class="send-arrow">↑</span>
-                        </button>
-                    </form>
-
-                    <p class="composer-disclaimer">
-                        NavAI can make mistakes. Check important information.
-                    </p>
-
-                    <p class="creator-credit">
-                        NavAI is an independent AI assistant project created by
-                        <strong>Manas Mishra</strong>.
-                    </p>
-                </div>
-            </footer>
+                <p class="creator-credit">
+                    NavAI is an independent AI assistant project created by
+                    <strong>Manas Mishra</strong>.
+                </p>
+            </section>
         </main>
     </div>
 
-    <script src="/script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+```
