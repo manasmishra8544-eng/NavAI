@@ -63,11 +63,7 @@
       <strong>NavAI Voice Tools</strong>
       <button type="button" id="navai-image">＋ Attach image</button>
       <hr>
-      <strong>📚 Study</strong>
-      <button type="button" id="navai-study-explain">📘 Explain Topic</button>
-      <button type="button" id="navai-study-notes">📝 Make Notes</button>
-      <button type="button" id="navai-study-quiz">🧠 Practice Quiz</button>
-      <button type="button" id="navai-study-formulas">📐 Revise Formulas</button>
+      <button type="button" id="navai-study">📚 Study</button>
       <button type="button" id="navai-mic">🎙️ Speak to type</button>
       <button type="button" id="navai-read">🔊 Read answer</button>
       <button type="button" id="navai-stop">⏹ Stop voice</button>
@@ -80,23 +76,15 @@
       <div id="navai-voice-status" role="status">Voice ready</div>
     `;
     form.appendChild(panel);
-    const studyPrompts = {
-      "navai-study-explain": "Act as my personal study tutor for any class, course, exam, or topic. Explain my topic from the basics in simple Hinglish, step by step, with examples. Topic: ",
-      "navai-study-notes": "Make clear, exam-ready revision notes for any class, course, subject, or topic in simple language. Include important definitions, key points and examples. Subject and chapter: ",
-      "navai-study-quiz": "Create a practice quiz for any class, course, subject, or topic. Ask one question at a time, wait for my answer, check it, explain mistakes and keep score. Subject and chapter: ",
-      "navai-study-formulas": "Help me revise formulas and key concepts for any class or subject. List the important formulas for my chapter, explain each symbol and give one example. Subject and chapter: "
-    };
-
-    panel.addEventListener("click", event => {
-      const button = event.target.closest("button");
-      if (!button || !studyPrompts[button.id]) return;
-
-      input.value = studyPrompts[button.id];
-      input.dispatchEvent(new Event("input", { bubbles: true }));
-      input.focus();
+    panel.querySelector("#navai-study").addEventListener("click", () => {
+      window.dispatchEvent(new Event("navai:study"));
+      input.placeholder = "Message Study...";
+      input.setAttribute("aria-label", "Message Study");
       panel.classList.remove("open");
-      setStatus("Study Mode ready. Add your subject or chapter, then press Send.");
+      setStatus("Study mode ready. Ask any question.");
+      input.focus();
     });
+
 
 
     const status = panel.querySelector("#navai-voice-status");
@@ -231,3 +219,84 @@
 })();
 
 
+
+
+
+
+
+// NAVAI STUDY MODE — additive patch
+(() => {
+    if (window.__NAVAI_STUDY_MODE_INSTALLED) return;
+    window.__NAVAI_STUDY_MODE_INSTALLED = true;
+
+    let studyMode = false;
+
+    const style = document.createElement("style");
+    style.textContent = `
+      #navai-study-toggle {
+        position: fixed; right: 22px; bottom: 100px; z-index: 99999;
+        display: flex; align-items: center; gap: 9px;
+        padding: 12px 17px; border-radius: 14px;
+        border: 1px solid #536dfe; background: #111a32;
+        color: #dce5ff; font: 600 14px Arial, sans-serif;
+        cursor: pointer; box-shadow: 0 0 22px #536dfe35;
+      }
+      #navai-study-toggle.active {
+        background: #243c91; border-color: #91a7ff;
+        box-shadow: 0 0 24px #536dfe75;
+      }
+      #navai-study-toggle .study-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: #78849d;
+      }
+      #navai-study-toggle.active .study-dot { background: #73ffbf; }
+    `;
+    document.head.appendChild(style);
+
+    function addButton() {
+        if (!document.body || document.getElementById("navai-study-toggle")) return;
+
+        const button = document.createElement("button");
+        button.id = "navai-study-toggle";
+        button.type = "button";
+        button.innerHTML = '<span class="study-dot"></span><span>Study Mode: OFF</span>';
+        button.title = "Toggle Study Mode";
+
+        button.addEventListener("click", () => {
+            studyMode = !studyMode;
+            button.classList.toggle("active", studyMode);
+            button.querySelector("span:last-child").textContent =
+                "Study Mode: " + (studyMode ? "ON" : "OFF");
+            button.setAttribute("aria-pressed", String(studyMode));
+        });
+
+        document.body.appendChild(button);
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", addButton, { once: true });
+    } else {
+        addButton();
+    }
+
+    // Attach Study Mode state to NavAI chat requests.
+    const originalFetch = window.fetch.bind(window);
+    window.fetch = function (resource, options) {
+        const url = typeof resource === "string"
+            ? resource
+            : (resource && resource.url) || "";
+
+        if (studyMode && url.includes("/api/chat") &&
+            options && typeof options.body === "string") {
+            try {
+                const body = JSON.parse(options.body);
+                body.study = true;
+                options = { ...options, body: JSON.stringify(body) };
+            } catch (error) {
+                console.warn("NavAI Study Mode could not update this request.", error);
+            }
+        }
+
+        return originalFetch(resource, options);
+    };
+})();
