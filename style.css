@@ -1900,3 +1900,183 @@ body[data-theme="light"] .brand-icon {
     }
 }
 
+
+/* =====================================
+   NavAI — Obsidian Neon theme
+   Cyan + Emerald + Deep Black
+   ===================================== */
+
+:root {
+    --navai-neon: #38e8ff;
+    --navai-neon-soft: rgba(56,232,255,.13);
+    --navai-green: #55f5b0;
+    --navai-bg: #080b10;
+    --navai-panel: #0c1119;
+    --navai-border: rgba(91,224,255,.16);
+}
+
+/* Global background and text */
+body {
+    background-color: var(--navai-bg);
+    color: #edf8ff;
+}
+
+.sidebar {
+    background:
+        radial-gradient(ellipse at 0% 0%, rgba(0,205,255,.12), transparent 43%),
+        radial-gradient(ellipse at 100% 100%, rgba(43,255,168,.055), transparent 42%),
+        #080b10 !important;
+    border-right: 1px solid var(--navai-border) !important;
+    box-shadow: 8px 0 36px rgba(0,0,0,.24);
+}
+
+/* NavAI brand */
+.brand-name {
+    color: #f3fcff;
+    text-shadow: 0 0 20px rgba(56,232,255,.16);
+}
+
+.brand-icon {
+    border: 1px solid rgba(56,232,255,.4);
+    box-shadow:
+        0 0 12px rgba(56,232,255,.17),
+        0 0 32px rgba(56,232,255,.09);
+}
+
+/* New Chat */
+.new-chat-button {
+    background: linear-gradient(
+        110deg,
+        rgba(56,232,255,.16),
+        rgba(85,245,176,.075)
+    ) !important;
+    border: 1px solid rgba(56,232,255,.32) !important;
+    color: #eaffff !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.055);
+}
+
+.new-chat-button:hover {
+    background: linear-gradient(
+        110deg,
+        rgba(56,232,255,.25),
+        rgba(85,245,176,.14)
+    ) !important;
+    border-color: rgba(56,232,255,.65) !important;
+    box-shadow: 0 0 23px rgba(56,232,255,.12);
+}
+
+.new-chat-icon {
+    background: rgba(56,232,255,.13);
+    color: var(--navai-neon);
+}
+
+/* Sidebar headings */
+.section-heading {
+    color: #6e8c9b !important;
+    letter-spacing: 1.8px;
+}
+
+.section-dot {
+    background: var(--navai-green) !important;
+    box-shadow: 0 0 9px rgba(85,245,176,.65);
+}
+
+/* Chat history */
+.history-item {
+    color: #9aabbc !important;
+    border-color: transparent !important;
+    transition: all .2s ease;
+}
+
+.history-item:hover {
+    color: #effcff !important;
+    background: rgba(56,232,255,.055) !important;
+    border-color: rgba(56,232,255,.12) !important;
+}
+
+.history-item.active {
+    color: #f1fdff !important;
+    background: linear-gradient(
+        100deg,
+        rgba(56,232,255,.12),
+        rgba(85,245,176,.045)
+    ) !important;
+    border-color: rgba(56,232,255,.22) !important;
+    box-shadow: inset 2px 0 var(--navai-neon);
+}
+
+.history-item-icon,
+.action-icon {
+    color: var(--navai-neon) !important;
+}
+
+/* Sidebar actions */
+.sidebar-action {
+    color: #a3b3c2 !important;
+    border-color: transparent !important;
+}
+
+.sidebar-action:hover {
+    color: #f0fdff !important;
+    background: rgba(56,232,255,.065) !important;
+    border-color: rgba(56,232,255,.13) !important;
+}
+
+/* Bottom status card */
+.local-note {
+    background: linear-gradient(
+        125deg,
+        rgba(56,232,255,.075),
+        rgba(85,245,176,.035)
+    ) !important;
+    border: 1px solid rgba(56,232,255,.13) !important;
+    border-radius: 13px;
+}
+
+.status-indicator {
+    background: var(--navai-green) !important;
+    box-shadow: 0 0 10px rgba(85,245,176,.55);
+}
+
+.sidebar-bottom {
+    border-top-color: rgba(56,232,255,.12) !important;
+}
+
+.sidebar-signature {
+    color: #607989 !important;
+    border-top-color: rgba(56,232,255,.09) !important;
+}
+
+/* Main chat area */
+.chat-container,
+.chat-main,
+.main-content {
+    background-color: var(--navai-bg);
+}
+
+textarea,
+input {
+    accent-color: var(--navai-neon);
+}
+
+::selection {
+    color: #041015;
+    background: rgba(56,232,255,.7);
+}
+
+/* Subtle scrollbar */
+.chat-history::-webkit-scrollbar-thumb {
+    background: rgba(56,232,255,.22);
+}
+
+.chat-history::-webkit-scrollbar-thumb:hover {
+    background: rgba(56,232,255,.45);
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+    .sidebar {
+        box-shadow: 12px 0 40px rgba(0,0,0,.4);
+    }
+}
+
