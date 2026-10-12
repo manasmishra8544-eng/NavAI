@@ -1681,3 +1681,7 @@ body[data-theme="light"] .brand-icon {
         transition: none;
     }
 }
+/* Remove the temporary floating Study Mode button */
+#navai-study-toggle {
+    display: none !important;
+}
