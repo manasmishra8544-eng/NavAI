@@ -62,6 +62,12 @@
     panel.innerHTML = `
       <strong>NavAI Voice Tools</strong>
       <button type="button" id="navai-image">＋ Attach image</button>
+      <hr>
+      <strong>📚 Study Mode - Class 9</strong>
+      <button type="button" id="navai-study-explain">📘 Explain Topic</button>
+      <button type="button" id="navai-study-notes">📝 Make Notes</button>
+      <button type="button" id="navai-study-quiz">🧠 Practice Quiz</button>
+      <button type="button" id="navai-study-formulas">📐 Revise Formulas</button>
       <button type="button" id="navai-mic">🎙️ Speak to type</button>
       <button type="button" id="navai-read">🔊 Read answer</button>
       <button type="button" id="navai-stop">⏹ Stop voice</button>
@@ -74,6 +80,24 @@
       <div id="navai-voice-status" role="status">Voice ready</div>
     `;
     form.appendChild(panel);
+    const studyPrompts = {
+      "navai-study-explain": "Act as my Class 9 CBSE study tutor. Explain my topic from the basics in simple Hinglish, step by step, with examples. Topic: ",
+      "navai-study-notes": "Make clear, exam-ready Class 9 CBSE revision notes in simple language. Include important definitions, key points and examples. Subject and chapter: ",
+      "navai-study-quiz": "Create a Class 9 CBSE practice quiz for me. Ask one question at a time, wait for my answer, check it, explain mistakes and keep score. Subject and chapter: ",
+      "navai-study-formulas": "Help me revise Class 9 formulas. List the important formulas for my chapter, explain each symbol and give one example. Subject and chapter: "
+    };
+
+    panel.addEventListener("click", event => {
+      const button = event.target.closest("button");
+      if (!button || !studyPrompts[button.id]) return;
+
+      input.value = studyPrompts[button.id];
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.focus();
+      panel.classList.remove("open");
+      setStatus("Study Mode ready. Add your subject or chapter, then press Send.");
+    });
+
 
     const status = panel.querySelector("#navai-voice-status");
     const language = panel.querySelector("#navai-voice-language");
@@ -205,3 +229,4 @@
     init();
   }
 })();
+
