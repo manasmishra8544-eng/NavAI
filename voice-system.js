@@ -63,7 +63,7 @@
       <strong>NavAI Voice Tools</strong>
       <button type="button" id="navai-image">＋ Attach image</button>
       <hr>
-      <strong>📚 Study Mode - Class 9</strong>
+      <strong>📚 Study</strong>
       <button type="button" id="navai-study-explain">📘 Explain Topic</button>
       <button type="button" id="navai-study-notes">📝 Make Notes</button>
       <button type="button" id="navai-study-quiz">🧠 Practice Quiz</button>
@@ -81,10 +81,10 @@
     `;
     form.appendChild(panel);
     const studyPrompts = {
-      "navai-study-explain": "Act as my Class 9 CBSE study tutor. Explain my topic from the basics in simple Hinglish, step by step, with examples. Topic: ",
-      "navai-study-notes": "Make clear, exam-ready Class 9 CBSE revision notes in simple language. Include important definitions, key points and examples. Subject and chapter: ",
-      "navai-study-quiz": "Create a Class 9 CBSE practice quiz for me. Ask one question at a time, wait for my answer, check it, explain mistakes and keep score. Subject and chapter: ",
-      "navai-study-formulas": "Help me revise Class 9 formulas. List the important formulas for my chapter, explain each symbol and give one example. Subject and chapter: "
+      "navai-study-explain": "Act as my personal study tutor for any class, course, exam, or topic. Explain my topic from the basics in simple Hinglish, step by step, with examples. Topic: ",
+      "navai-study-notes": "Make clear, exam-ready revision notes for any class, course, subject, or topic in simple language. Include important definitions, key points and examples. Subject and chapter: ",
+      "navai-study-quiz": "Create a practice quiz for any class, course, subject, or topic. Ask one question at a time, wait for my answer, check it, explain mistakes and keep score. Subject and chapter: ",
+      "navai-study-formulas": "Help me revise formulas and key concepts for any class or subject. List the important formulas for my chapter, explain each symbol and give one example. Subject and chapter: "
     };
 
     panel.addEventListener("click", event => {
@@ -229,4 +229,5 @@
     init();
   }
 })();
+
 
