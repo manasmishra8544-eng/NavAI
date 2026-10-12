@@ -2,73 +2,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080b14">
-  <title>NavAI — Your AI Assistant</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0d12">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <meta name="google-site-verification" content="9ID4jWGnCCwx4jLA2jaDbkg-bAOh1kgm7u-5nDRNEuU">
+
+    <meta property="og:title" content="NavAI — Your AI Assistant">
+    <meta property="og:description" content="Discover NavAI, your AI assistant.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://navai-kpyu.onrender.com/">
+
+    <title>NavAI — Your AI Assistant</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
-  <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-icon">N</div>
-        <div><strong>NavAI</strong><small>Your AI space</small></div>
-      </div>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <a href="/" class="brand" id="homeBtn">
+                    <div class="brand-icon"><img src="/navai-logo.svg" alt="NavAI phoenix logo"></div>
+                    <div class="brand-text">
+                        <span class="brand-name">NavAI</span>
+                        <span class="brand-caption">YOUR AI ASSISTANT</span>
+                    </div>
+                </a>
 
-      <button class="new-chat" id="newChatBtn">＋ New chat</button>
+                <button class="icon-button sidebar-close" id="menuBtn"
+                        type="button" aria-label="Close menu">✕</button>
+            </div>
 
-      <div class="section-label">RECENT CHATS</div>
-      <div id="historyList" class="history-list"></div>
+            <button class="new-chat-button" id="newChatBtn" type="button">
+                <span class="new-chat-icon">＋</span>
+                <span>New chat</span>
+                <span class="shortcut">Ctrl K</span>
+            </button>
 
-      <div class="sidebar-bottom">
-        <div class="profile">
-          <div class="avatar">N</div>
-          <div><strong>NavAI</strong><small>Personal assistant</small></div>
-        </div>
-        <button id="themeBtn" class="secondary-btn">☼ Toggle theme</button>
-      </div>
-    </aside>
+            <div class="sidebar-section">
+                <div class="section-heading">
+                    <span>YOUR CHATS</span>
+                    <span class="section-dot"></span>
+                </div>
+                <div class="chat-history" id="chatHistory">
+                    <div class="history-empty">
+                        Your conversations will appear here.
+                    </div>
+                </div>
+            </div>
 
-    <main class="main">
-      <header class="topbar">
-        <button id="menuBtn" class="icon-btn" aria-label="Toggle sidebar">☰</button>
-        <span class="topbar-title">NavAI <span class="online-dot"></span></span>
-        <button id="clearBtn" class="secondary-btn">New conversation</button>
-      </header>
+            <div class="sidebar-bottom">
+                <div class="local-note">
+                    <span class="status-indicator"></span>
+                    <div>
+                        <strong>NavAI Assistant</strong>
+                        <p>AI-powered conversations</p>
+                    </div>
+                </div>
 
-      <section class="chat-area" id="chatArea">
-        <div id="welcome" class="welcome">
-          <div class="welcome-mark">N</div>
-          <p class="eyebrow">YOUR PERSONAL AI ASSISTANT</p>
-          <h1>What can I help you<br><span>with today?</span></h1>
-          <p class="welcome-subtitle">Ask a question, explore an idea, or work through a problem.</p>
-          <div class="suggestions">
-            <button class="suggestion" data-prompt="Explain a difficult topic in simple words.">✦ Explain something</button>
-            <button class="suggestion" data-prompt="Help me make a practical study timetable.">▤ Plan my day</button>
-            <button class="suggestion" data-prompt="Help me write clean, working code for my project.">⌘ Help with coding</button>
-            <button class="suggestion" data-prompt="Give me creative ideas for a new project.">✧ Brainstorm ideas</button>
-          </div>
-        </div>
+                <button class="sidebar-action" id="themeBtn" type="button">
+                    <span class="action-icon" id="themeIcon">☼</span>
+                    <span id="themeLabel">Switch appearance</span>
+                </button>
 
-        <div id="messages" class="messages" aria-live="polite"></div>
-        <div id="status" class="status" role="status"></div>
-      </section>
+                <button class="sidebar-action" id="historyBtn" type="button">
+                    <span class="action-icon">◷</span>
+                    <span>Chat history</span>
+                </button>
 
-      <footer class="composer-wrap">
-        <form id="chatForm" class="composer">
-          <textarea id="messageInput" rows="1" maxlength="8000"
-            placeholder="Message NavAI..." aria-label="Message NavAI"></textarea>
-          <div class="composer-bottom">
-            <span class="composer-hint">Enter to send · Shift + Enter for a new line</span>
-            <button id="sendBtn" type="submit" aria-label="Send message">↑</button>
-          </div>
-        </form>
-        <p class="disclaimer">NavAI can make mistakes. Check important information.</p>
-      </footer>
-    </main>
-  </div>
-  <script src="/script.js"></script>
-<script src="voice-system.js"></script>
+                <div class="sidebar-signature">Manas Mishra</div>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="icon-button mobile-menu" id="mobileMenuBtn"
+                            type="button" aria-label="Open menu">☰</button>
+
+                    <div class="page-title">
+                        <span class="online-dot"></span>
+                        <span>NavAI</span>
+                        <span class="model-label">AI ASSISTANT</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-content">
+                    <div class="eyebrow">
+                        <span class="eyebrow-line"></span>
+                        MEET YOUR AI ASSISTANT
+                        <span class="eyebrow-line"></span>
+                    </div>
+                    <h1>Think it.<br><span>Ask NavAI.</span></h1>
+                </div>
+            </section>
+
+            <section class="conversation hidden" id="conversation">
+                <div class="messages" id="messages"></div>
+                <div class="conversation-end" id="conversationEnd"></div>
+            </section>
+
+            <footer class="composer-area">
+                <div class="composer-wrap">
+                    <div class="attachment-preview hidden" id="imagePreviewContainer">
+                        <div class="preview-image-wrap">
+                            <img id="imagePreview" src="" alt="Selected image preview">
+                            <button class="remove-image-button" id="removeImageBtn"
+                                    type="button" aria-label="Remove image">✕</button>
+                        </div>
+                        <div class="preview-file-info">
+                            <strong>Image attached</strong>
+                            <span id="imageFileName">Ready to send</span>
+                        </div>
+                    </div>
+
+                    <form class="composer" id="chatForm">
+                        <input type="file" id="imageInput"
+                               accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+
+                        <button class="attach-button" id="attachBtn" type="button"
+                                aria-label="Attach an image" title="Attach an image">
+                            <span>＋</span>
+                        </button>
+
+                        <div class="composer-input-area">
+                            <textarea id="messageInput" name="message" rows="1"
+                                      placeholder="Message NavAI..."
+                                      aria-label="Message NavAI"></textarea>
+
+                            <div class="composer-hint">
+                                <span class="hint-key">↵</span>
+                                <span>to send</span>
+                                <span class="hint-separator">·</span>
+                                <span>Shift + Enter for a new line</span>
+                            </div>
+                        </div>
+
+                        <button class="send-button" id="sendBtn" type="submit"
+                                aria-label="Send message" title="Send message">
+                            <span class="send-arrow">↑</span>
+                        </button>
+                    </form>
+
+                    <p class="composer-disclaimer">
+                        NavAI can make mistakes. Check important information.
+                    </p>
+
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/script.js"></script>
+    <script src="/voice-system.js"></script>
 </body>
 </html>
