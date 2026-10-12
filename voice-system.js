@@ -52,6 +52,15 @@
     `;
     document.body.appendChild(panel);
 
+    // Keep voice controls away from the chat input
+    panel.style.setProperty("position", "fixed", "important");
+    panel.style.setProperty("top", "80px", "important");
+    panel.style.setProperty("bottom", "auto", "important");
+    panel.style.setProperty("right", "18px", "important");
+    panel.style.setProperty("left", "auto", "important");
+    panel.style.setProperty("z-index", "99999", "important");
+    panel.style.setProperty("max-width", "calc(100vw - 36px)", "important");
+
     const mic = panel.querySelector("#navai-mic");
     const read = panel.querySelector("#navai-read");
     const stop = panel.querySelector("#navai-stop");
