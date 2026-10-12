@@ -300,3 +300,132 @@
         return originalFetch(resource, options);
     };
 })();
+
+
+/* NAVAI PREMIUM TOOLS MENU */
+(() => {
+    if (window.__NAVAI_TOOLS_MENU_INSTALLED) return;
+    window.__NAVAI_TOOLS_MENU_INSTALLED = true;
+
+    const attach = document.getElementById("attachBtn");
+    const input = document.getElementById("imageInput");
+    const composer = document.querySelector(".composer");
+    if (!attach || !input || !composer) return;
+
+    window.__NAVAI_STUDY_MODE = false;
+
+    const menu = document.createElement("div");
+    menu.id = "navai-tools-menu";
+    menu.className = "navai-tools-menu";
+    menu.setAttribute("role", "menu");
+    menu.innerHTML = `
+      <div class="navai-tools-heading">TOOLS & ATTACHMENTS</div>
+      <button type="button" class="navai-tool-item" data-tool="files">
+        <span class="navai-tool-icon">＋</span>
+        <span class="navai-tool-copy">
+          <strong>Photos &amp; files</strong>
+          <small>Attach an image to your message</small>
+        </span>
+      </button>
+      <button type="button" class="navai-tool-item" data-tool="study">
+        <span class="navai-tool-icon">✦</span>
+        <span class="navai-tool-copy">
+          <strong>Study &amp; Learn</strong>
+          <small>Get learning-focused answers</small>
+        </span>
+        <span class="navai-tool-status" id="navai-study-status">OFF</span>
+      </button>
+      <div class="navai-tool-item navai-tool-disabled" aria-disabled="true">
+        <span class="navai-tool-icon">⌕</span>
+        <span class="navai-tool-copy">
+          <strong>Web Search</strong>
+          <small>Coming soon</small>
+        </span>
+      </div>
+    `;
+
+    const wrap = document.querySelector(".composer-wrap");
+    if (!wrap) return;
+    wrap.appendChild(menu);
+
+    function closeMenu() {
+        menu.classList.remove("is-open");
+        attach.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleMenu(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (attach.disabled) return;
+        menu.classList.toggle("is-open");
+        attach.setAttribute(
+            "aria-expanded",
+            menu.classList.contains("is-open") ? "true" : "false"
+        );
+    }
+
+    // Intercept the existing + button without replacing its original code.
+    attach.addEventListener("click", toggleMenu, true);
+    attach.setAttribute("aria-haspopup", "menu");
+    attach.setAttribute("aria-expanded", "false");
+    attach.setAttribute("title", "Open tools");
+
+    menu.addEventListener("click", event => {
+        const item = event.target.closest("[data-tool]");
+        if (!item) return;
+
+        if (item.dataset.tool === "files") {
+            closeMenu();
+            input.click();
+        }
+
+        if (item.dataset.tool === "study") {
+            window.__NAVAI_STUDY_MODE = !window.__NAVAI_STUDY_MODE;
+            const enabled = window.__NAVAI_STUDY_MODE;
+            menu.classList.toggle("study-enabled", enabled);
+            document.getElementById("navai-study-status").textContent =
+                enabled ? "ON" : "OFF";
+            item.setAttribute("aria-pressed", String(enabled));
+            closeMenu();
+
+            const notice = document.createElement("div");
+            notice.className = "navai-mode-notice";
+            notice.textContent = enabled
+                ? "Study & Learn is ON"
+                : "Study & Learn is OFF";
+            wrap.appendChild(notice);
+            setTimeout(() => notice.remove(), 2200);
+        }
+    });
+
+    document.addEventListener("click", event => {
+        if (!menu.contains(event.target) && !attach.contains(event.target)) {
+            closeMenu();
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeMenu();
+    });
+
+    // Add the Study Mode flag to existing NavAI chat requests.
+    // The original script and its response handling remain untouched.
+    const originalFetch = window.fetch.bind(window);
+    window.fetch = async function(resource, options) {
+        const url = typeof resource === "string"
+            ? resource
+            : (resource && resource.url) || "";
+
+        if (url.includes("/api/chat") && options && typeof options.body === "string") {
+            try {
+                const body = JSON.parse(options.body);
+                body.study = Boolean(window.__NAVAI_STUDY_MODE);
+                options = { ...options, body: JSON.stringify(body) };
+            } catch (error) {
+                console.warn("NavAI Study Mode could not update this request.", error);
+            }
+        }
+
+        return originalFetch(resource, options);
+    };
+})();

@@ -2080,3 +2080,149 @@ input {
     }
 }
 
+
+
+/* NAVAI PREMIUM TOOLS POPUP */
+.composer-wrap {
+    position: relative;
+}
+
+.navai-tools-menu {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    bottom: 92px;
+    width: min(330px, calc(100vw - 48px));
+    padding: 10px;
+    border: 1px solid rgba(130, 160, 255, .23);
+    border-radius: 19px;
+    background: rgba(13, 17, 30, .97);
+    box-shadow: 0 20px 65px rgba(0, 0, 0, .48),
+                0 0 28px rgba(56, 232, 255, .07);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(9px) scale(.98);
+    transform-origin: bottom left;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+}
+
+.navai-tools-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.navai-tools-heading {
+    padding: 8px 10px 10px;
+    color: #8793ac;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.navai-tool-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 59px;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: #edf3ff;
+    text-align: left;
+    cursor: pointer;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+button.navai-tool-item:hover {
+    background: rgba(100, 125, 190, .13);
+    border-color: rgba(120, 155, 255, .16);
+}
+
+.navai-tool-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 38px;
+    height: 38px;
+    border: 1px solid rgba(100, 150, 255, .2);
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(56, 232, 255, .12), rgba(130, 90, 255, .15));
+    color: #70eaff;
+    font-size: 22px;
+}
+
+.navai-tool-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.navai-tool-copy strong {
+    color: #f0f4ff;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.navai-tool-copy small {
+    color: #929db5;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.navai-tool-status {
+    padding: 4px 7px;
+    border: 1px solid rgba(150, 160, 185, .22);
+    border-radius: 7px;
+    color: #a5aec1;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .6px;
+}
+
+.navai-tools-menu.study-enabled [data-tool="study"] {
+    background: rgba(56, 232, 255, .08);
+    border-color: rgba(56, 232, 255, .25);
+}
+
+.navai-tools-menu.study-enabled .navai-tool-status {
+    color: #62f3b8;
+    border-color: rgba(98, 243, 184, .35);
+}
+
+.navai-tool-disabled {
+    opacity: .55;
+    cursor: default;
+}
+
+.navai-mode-notice {
+    position: absolute;
+    left: 48px;
+    bottom: 83px;
+    z-index: 101;
+    padding: 9px 13px;
+    border: 1px solid rgba(56, 232, 255, .22);
+    border-radius: 10px;
+    background: #111a29;
+    color: #a7f4ff;
+    font-size: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .25);
+    animation: navai-notice-in .2s ease-out;
+}
+
+@keyframes navai-notice-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 520px) {
+    .navai-tools-menu {
+        bottom: 88px;
+        width: min(310px, calc(100vw - 32px));
+    }
+}
