@@ -66,7 +66,7 @@ function makeId() {
 
 function makeTitle(text) {
     text = String(text || "Image question").trim().replace(/\s+/g, " ");
-    return text.length > 42 ? text.slice(0, 42) + "…" : text;
+    return text.length > 42 ? text.slice(0, 42) + "â€¦" : text;
 }
 
 function getActiveChat() {
@@ -110,7 +110,7 @@ function renderHistory() {
 
         const icon = document.createElement("span");
         icon.className = "history-item-icon";
-        icon.textContent = "◷";
+        icon.textContent = "â—·";
 
         const title = document.createElement("span");
         title.className = "history-item-title";
@@ -122,7 +122,7 @@ function renderHistory() {
         const del = document.createElement("button");
         del.type = "button";
         del.className = "delete-chat-button";
-        del.textContent = "×";
+        del.textContent = "Ã—";
         del.title = "Delete chat";
         del.setAttribute("aria-label", "Delete chat");
         del.addEventListener("click", event => {
@@ -364,7 +364,7 @@ async function copyText(text) {
     if (!success) throw new Error("Copy failed");
 }
 
-/* SEND MESSAGE — supports response, answer, or reply */
+/* SEND MESSAGE â€” supports response, answer, or reply */
 
 chatForm.addEventListener("submit", async event => {
     event.preventDefault();
@@ -519,7 +519,7 @@ imageInput.addEventListener("change", async () => {
     attachBtn.disabled = true;
 
     try {
-        showToast("Preparing image…");
+        showToast("Preparing imageâ€¦");
         currentImage = await compressImage(file);
         currentImageName = file.name;
         imagePreview.src = currentImage;
@@ -614,7 +614,7 @@ function setTheme(theme) {
     const icon = $("themeIcon");
     const label = $("themeLabel");
 
-    if (icon) icon.textContent = selected === "dark" ? "☼" : "☾";
+    if (icon) icon.textContent = (selected === "dark" ? "\u263C" : "\u263E");
     if (label) label.textContent = selected === "dark" ? "Switch to light mode" : "Switch to dark mode";
 
     try {
@@ -714,3 +714,4 @@ try {
 renderHistory();
 startNewChat();
 console.log("NavAI frontend loaded successfully.");
+

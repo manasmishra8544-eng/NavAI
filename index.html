@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +35,7 @@
             </div>
 
             <button class="new-chat-button" id="newChatBtn" type="button">
-                <span class="new-chat-icon">ï¼‹</span>
+                <span class="new-chat-icon">+</span>
                 <span>New chat</span>
                 <span class="shortcut">Ctrl K</span>
             </button>
@@ -62,12 +62,12 @@
                 </div>
 
                 <button class="sidebar-action" id="themeBtn" type="button">
-                    <span class="action-icon" id="themeIcon">â˜¼</span>
+                    <span class="action-icon" id="themeIcon">☀</span>
                     <span id="themeLabel">Switch appearance</span>
                 </button>
 
                 <button class="sidebar-action" id="historyBtn" type="button">
-                    <span class="action-icon">â—·</span>
+                    <span class="action-icon">◷</span>
                     <span>Chat history</span>
                 </button>
 
@@ -81,7 +81,7 @@
             <header class="topbar">
                 <div class="topbar-left">
                     <button class="icon-button mobile-menu" id="mobileMenuBtn"
-                            type="button" aria-label="Open menu">â˜°</button>
+                            type="button" aria-label="Open menu">&#9776;</button>
 
                     <div class="page-title">
                         <span class="online-dot"></span>
@@ -102,11 +102,11 @@
                     <h1>Welcome Back <span>NavAI!</span></h1>
                     <p class="welcome-description navai-reference-subtitle">What would you like help with today?</p>
                     <div class="navai-reference-prompts">
-                        <button type="button" data-prompt="Help me write code for a project">â–¤&nbsp; Coding</button>
-                        <button type="button" data-prompt="Help me learn a new skill step by step">â˜•&nbsp; Learning</button>
-                        <button type="button" data-prompt="Help me understand a health topic safely">â™¡&nbsp; Health</button>
-                        <button type="button" data-prompt="Help me plan a trip">â™§&nbsp; Trips</button>
-                        <button type="button" data-prompt="Help me troubleshoot a technical problem">âŒ•&nbsp; Troubleshoot</button>
+                        <button type="button" data-prompt="Help me write code for a project">▤&nbsp; Coding</button>
+                        <button type="button" data-prompt="Help me learn a new skill step by step">☕&nbsp; Learning</button>
+                        <button type="button" data-prompt="Help me understand a health topic safely">♡&nbsp; Health</button>
+                        <button type="button" data-prompt="Help me plan a trip">♧&nbsp; Trips</button>
+                        <button type="button" data-prompt="Help me troubleshoot a technical problem">⌕&nbsp; Troubleshoot</button>
                     </div>
                 </div>
             </section>
@@ -136,7 +136,7 @@
 
                         <button class="attach-button" id="attachBtn" type="button"
                                 aria-label="Attach an image" title="Attach an image">
-                            <span>ï¼‹</span>
+                            <span>+</span>
                         </button>
 
                         <div class="composer-input-area">
@@ -145,16 +145,16 @@
                                       aria-label="Message NavAI"></textarea>
 
                             <div class="composer-hint">
-                                <span class="hint-key">â†µ</span>
+                                <span class="hint-key">↵</span>
                                 <span>to send</span>
-                                <span class="hint-separator">Â·</span>
+                                <span class="hint-separator">·</span>
                                 <span>Shift + Enter for a new line</span>
                             </div>
                         </div>
 
                         <button class="send-button" id="sendBtn" type="submit"
                                 aria-label="Send message" title="Send message">
-                            <span class="send-arrow">â†‘</span>
+                            <span class="send-arrow">↑</span>
                         </button>
                     </form>
 
@@ -169,6 +169,9 @@
 
     <script src="/script.js"></script>
     <script src="/voice-system.js"></script>
+    <script src="/image-generator.js"></script>
 </body>
 </html>
+
+
 
