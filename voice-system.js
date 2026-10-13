@@ -1,255 +1,223 @@
 ﻿(() => {
-  if (window.__navaiVoiceChatInstalled) return;
-  window.__navaiVoiceChatInstalled = true;
+  if (window.__navAIVoiceInstalled) return;
+  window.__navAIVoiceInstalled = true;
 
   function init() {
-    const input = document.querySelector("#messageInput");
-    const messages = document.querySelector("#messages");
-    const form = input?.closest("form");
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("messageInput");
+    const plus = document.getElementById("attachBtn");
+    const imageInput = document.getElementById("imageInput");
 
-    if (!input || !messages || !form) {
-      console.error("NavAI Voice Chat: chat elements not found.");
+    if (!form || !input || !plus || !imageInput) {
+      console.error("NavAI Voice: composer elements not found.");
       return;
     }
 
+    document.getElementById("navai-voice-panel")?.remove();
+
     const style = document.createElement("style");
     style.textContent = `
-      #navai-voice-launch {
-        display:inline-flex;align-items:center;justify-content:center;
-        gap:7px;margin:0 5px;padding:10px 13px;border-radius:12px;
-        border:1px solid #547cff;background:#17274a;color:#fff;
-        font:600 13px system-ui;cursor:pointer;
+      #navai-voice-panel {
+        display: none;
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 10px);
+        z-index: 10000;
+        width: 245px;
+        max-width: calc(100vw - 40px);
+        padding: 12px;
+        flex-direction: column;
+        gap: 8px;
+        border: 1px solid #46588c;
+        border-radius: 15px;
+        background: #10172b;
+        color: white;
+        box-shadow: 0 12px 35px #0008;
+        font: 14px system-ui, sans-serif;
       }
-      #navai-voice-launch.active {
-        background:#a62f4d;border-color:#ff7895;
+      #navai-voice-panel.open { display: flex; }
+      #navai-voice-panel button,
+      #navai-voice-panel select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        color: white;
+        background: #202b50;
+        border: 1px solid #46588c;
+        border-radius: 10px;
+        font: inherit;
+        cursor: pointer;
       }
-      #navai-voice-status {
-        display:none;padding:8px 12px;color:#bcd0ff;
-        font:12px system-ui;text-align:center;
+      #navai-voice-panel #navai-voice-status {
+        font-size: 12px;
+        color: #c6d2ff;
+        overflow-wrap: anywhere;
       }
-      #navai-voice-status.visible {display:block}
+      #chatForm { position: relative; }
     `;
     document.head.appendChild(style);
 
-    const button = document.createElement("button");
-    button.id = "navai-voice-launch";
-    button.type = "button";
-    button.textContent = "🎙 Voice Chat";
-    button.setAttribute("aria-pressed", "false");
+    const panel = document.createElement("div");
+    panel.id = "navai-voice-panel";
+    panel.innerHTML = `
+      <strong>NavAI Voice Tools</strong>
+      <button type="button" id="navai-image">＋ Attach image</button>
+      <hr>
+      <button type="button" id="navai-study">📚 Study</button>
+      <button type="button" id="navai-mic">🎙️ Speak to type</button>
+      <button type="button" id="navai-read">🔊 Read answer</button>
+      <button type="button" id="navai-stop">⏹ Stop voice</button>
+      <label for="navai-voice-language">Voice language</label>
+      <select id="navai-voice-language">
+        <option value="hi-IN">Hindi</option>
+        <option value="en-IN">English (India)</option>
+        <option value="en-US">English (US)</option>
+      </select>
+      <div id="navai-voice-status" role="status">Voice ready</div>
+    `;
+    form.appendChild(panel);
+    panel.querySelector("#navai-study").addEventListener("click", () => {
+      window.dispatchEvent(new Event("navai:study"));
+      input.placeholder = "Message Study...";
+      input.setAttribute("aria-label", "Message Study");
+      panel.classList.remove("open");
+      setStatus("Study mode ready. Ask any question.");
+      input.focus();
+    });
+    panel.addEventListener("click", event => {
+      const button = event.target.closest("button");
+      if (!button || !studyPrompts[button.id]) return;
 
-    const status = document.createElement("div");
-    status.id = "navai-voice-status";
-    status.setAttribute("role", "status");
+      input.value = studyPrompts[button.id];
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.focus();
+      panel.classList.remove("open");
+      setStatus("Study Mode ready. Add your subject or chapter, then press Send.");
+    });
 
-    const composer = input.closest(".composer") || input.parentElement;
-    composer.appendChild(button);
-    composer.appendChild(status);
+
+    const status = panel.querySelector("#navai-voice-status");
+    const language = panel.querySelector("#navai-voice-language");
+    const mic = panel.querySelector("#navai-mic");
+    const setStatus = text => { status.textContent = text; };
+
+    // Use the existing + button to open the menu.
+    plus.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      panel.classList.toggle("open");
+    }, true);
+
+    panel.querySelector("#navai-image").addEventListener("click", () => {
+      panel.classList.remove("open");
+      imageInput.click();
+    });
+
+    document.addEventListener("click", event => {
+      if (!panel.contains(event.target) && !plus.contains(event.target)) {
+        panel.classList.remove("open");
+      }
+    });
 
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    let active = false;
-    let listening = false;
-    let speaking = false;
-    let waiting = false;
     let recognition = null;
-    let lastSpoken = "";
-    let restartTimer = null;
-    let speechRun = 0;
+    let listening = false;
 
-    const sayStatus = text => {
-      status.textContent = text;
-      status.classList.add("visible");
-    };
-
-    function stopMic() {
-      if (recognition && listening) {
-        try { recognition.stop(); } catch {}
-      }
-    }
-
-    function startMic() {
-      if (!active || listening || speaking || waiting) return;
-
+    mic.addEventListener("click", () => {
       if (!SpeechRecognition) {
-        sayStatus("Voice input is not supported here. Try Chrome.");
-        active = false;
-        updateButton();
+        setStatus("Voice input unavailable. Try Chrome or Edge.");
+        return;
+      }
+      if (listening && recognition) {
+        recognition.stop();
         return;
       }
 
-      const rec = new SpeechRecognition();
-      recognition = rec;
-      rec.lang = "hi-IN";
-      rec.continuous = false;
-      rec.interimResults = false;
+      recognition = new SpeechRecognition();
+      recognition.lang = language.value;
+      recognition.continuous = false;
+      recognition.interimResults = false;
 
-      rec.onstart = () => {
-        if (recognition !== rec) return;
+      recognition.onstart = () => {
         listening = true;
-        sayStatus("🎙 Listening... Speak now.");
+        mic.textContent = "⏹ Stop listening";
+        setStatus("Listening... Speak now.");
       };
 
-      rec.onresult = event => {
-        if (recognition !== rec) return;
-        const text = event.results?.[0]?.[0]?.transcript?.trim();
-        if (!text || !active) return;
-
-        input.value = text;
+      recognition.onresult = event => {
+        const text = event.results[0][0].transcript;
+        const setter = Object.getOwnPropertyDescriptor(
+          HTMLTextAreaElement.prototype, "value"
+        ).set;
+        setter.call(input, text);
         input.dispatchEvent(new Event("input", { bubbles: true }));
-        waiting = true;
-        sayStatus("You: " + text);
-
-        setTimeout(() => {
-          if (!active) return;
-          if (input.disabled) {
-            sayStatus("NavAI is busy. Please wait.");
-            waiting = false;
-            return;
-          }
-          form.requestSubmit();
-        }, 300);
+        input.focus();
+        setStatus("Text added. Check it and press Send.");
       };
 
-      rec.onerror = event => {
-        if (recognition !== rec) return;
-        sayStatus(event.error === "not-allowed"
+      recognition.onerror = event => {
+        setStatus(event.error === "not-allowed"
           ? "Allow microphone permission in your browser."
-          : "Voice error: " + event.error);
-        if (event.error === "not-allowed" ||
-            event.error === "service-not-allowed") {
-          active = false;
-          waiting = false;
-          updateButton();
-        }
+          : "Voice input error: " + event.error);
       };
 
-      rec.onend = () => {
-        if (recognition !== rec) return;
+      recognition.onend = () => {
         listening = false;
-        if (active && !waiting && !speaking) {
-          restartTimer = setTimeout(startMic, 700);
+        mic.textContent = "🎙️ Speak to type";
+      };
+
+      try {
+        recognition.start();
+      } catch {
+        setStatus("Could not start microphone. Try again.");
+      }
+    });
+
+    panel.querySelector("#navai-read").addEventListener("click", () => {
+      if (!window.speechSynthesis) {
+        setStatus("Voice playback is not supported in this browser.");
+        return;
+      }
+
+      const selected = window.getSelection()?.toString().trim();
+      const answerSelectors = [
+        "#messages .message-row.assistant .message-bubble",
+        ".message-row.assistant .message-bubble",
+        ".message.assistant",
+        ".assistant-message"
+      ];
+
+      let answer = selected || "";
+      if (!answer) {
+        for (const selector of answerSelectors) {
+          const messages = document.querySelectorAll(selector);
+          if (messages.length) {
+            answer = messages[messages.length - 1].innerText.trim();
+            break;
+          }
         }
-      };
+      }
 
-      try { rec.start(); }
-      catch { sayStatus("Microphone could not start. Tap Voice Chat again."); }
-    }
-
-    function updateButton() {
-      button.textContent = active ? "⏹ End Voice Chat" : "🎙 Voice Chat";
-      button.classList.toggle("active", active);
-      button.setAttribute("aria-pressed", String(active));
-    }
-
-    function speak(text) {
-      if (!active || !text || !("speechSynthesis" in window)) return;
-      text = text.trim().slice(0, 6000);
-      if (!text || text === lastSpoken) {
-        waiting = false;
+      if (!answer) {
+        setStatus("No answer found yet. Ask NavAI first.");
         return;
       }
 
-      lastSpoken = text;
-      const run = ++speechRun;
-      speechSynthesis.cancel();
-      stopMic();
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = /[\u0900-\u097F]/.test(text) ? "hi-IN" : "en-IN";
-
-      utterance.onstart = () => {
-        if (run !== speechRun) return;
-        speaking = true;
-        sayStatus("🔊 NavAI is speaking...");
-      };
-
-      utterance.onend = () => {
-        if (run !== speechRun) return;
-        speaking = false;
-        waiting = false;
-        if (active) {
-          sayStatus("Your turn. Listening...");
-          restartTimer = setTimeout(startMic, 600);
-        }
-      };
-
-      utterance.onerror = () => {
-        if (run !== speechRun) return;
-        speaking = false;
-        waiting = false;
-        if (active) restartTimer = setTimeout(startMic, 800);
-      };
-
-      speechSynthesis.speak(utterance);
-    }
-
-    function latestAssistantText() {
-      const rows = messages.querySelectorAll(
-        ".message-row.assistant, .message.assistant, [data-role='assistant']"
-      );
-      const row = rows[rows.length - 1];
-      if (row) return row.innerText.trim();
-
-      const children = [...messages.children];
-      const last = children[children.length - 1];
-      return last?.innerText?.trim() || "";
-    }
-
-    let previousText = "";
-    const observer = new MutationObserver(() => {
-      if (!active || !waiting) return;
-      const text = latestAssistantText();
-      if (!text || text === previousText) return;
-
-      previousText = text;
-
-      // Wait until the reply stops changing before reading it.
-      clearTimeout(window.__navaiVoiceReplyTimer);
-      window.__navaiVoiceReplyTimer = setTimeout(() => {
-        if (active && waiting) speak(latestAssistantText());
-      }, 1100);
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(answer.slice(0, 8000));
+      utterance.lang = language.value;
+      utterance.onstart = () => setStatus("Reading answer...");
+      utterance.onend = () => setStatus("Finished reading.");
+      utterance.onerror = () => setStatus("Could not play voice.");
+      window.speechSynthesis.speak(utterance);
     });
 
-    observer.observe(messages, {
-      childList: true, subtree: true, characterData: true
+    panel.querySelector("#navai-stop").addEventListener("click", () => {
+      if (recognition && listening) recognition.stop();
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      setStatus("Voice stopped.");
     });
-
-    button.addEventListener("click", () => {
-      if (active) {
-        active = false;
-        waiting = false;
-        speaking = false;
-        clearTimeout(restartTimer);
-        clearTimeout(window.__navaiVoiceReplyTimer);
-        ++speechRun;
-        if ("speechSynthesis" in window) speechSynthesis.cancel();
-        stopMic();
-        updateButton();
-        sayStatus("Voice Chat ended.");
-        return;
-      }
-
-      if (!SpeechRecognition) {
-        sayStatus("Voice recognition is unavailable. Try Chrome on HTTPS.");
-        return;
-      }
-
-      active = true;
-      waiting = false;
-      previousText = latestAssistantText();
-      updateButton();
-      sayStatus("Starting Voice Chat. Allow microphone access.");
-      startMic();
-    });
-
-    // Detect when NavAI's reply starts appearing.
-    form.addEventListener("submit", () => {
-      if (!active) return;
-      waiting = true;
-      previousText = latestAssistantText();
-      sayStatus("Sending your question to NavAI...");
-    }, true);
   }
 
   if (document.readyState === "loading") {
@@ -258,3 +226,8 @@
     init();
   }
 })();
+
+
+
+
+
