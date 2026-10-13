@@ -1,108 +1,141 @@
 ﻿(() => {
-  function initNavAISidebar() {
-    const sidebar = document.querySelector("#sidebar");
+  function init() {
+    const sidebar = document.querySelector(".sidebar");
+    const newChat = document.querySelector("#newChatBtn");
     const history = document.querySelector("#chatHistory");
-    if (!sidebar || !history || sidebar.dataset.premiumNav === "1") return;
-    sidebar.dataset.premiumNav = "1";
 
-    const css = document.createElement("style");
-    css.textContent = `
-      .navai-reference-nav { display:flex; flex-direction:column; gap:5px; margin:14px 0 20px; }
-      .navai-search-wrap { position:relative; margin-bottom:5px; }
-      .navai-search-wrap input {
-        width:100%; box-sizing:border-box; height:43px; padding:0 38px 0 42px;
-        border:1px solid var(--border); border-radius:12px;
-        background:var(--panel); color:var(--text); font:inherit; outline:none;
-      }
-      .navai-search-wrap input:focus { border-color:var(--accent, #647eea); }
-      .navai-search-symbol { position:absolute; left:14px; top:11px; opacity:.75; pointer-events:none; }
-      .navai-search-shortcut { position:absolute; right:11px; top:10px; opacity:.7; font-size:12px; }
-      .navai-reference-item {
-        display:flex; align-items:center; gap:13px; width:100%; min-height:43px;
-        padding:0 13px; box-sizing:border-box; border:1px solid transparent;
-        border-radius:11px; background:transparent; color:var(--muted);
-        text-align:left; font:inherit; cursor:pointer; transition:background .15s ease,color .15s ease;
-      }
-      .navai-reference-item:hover,.navai-reference-item.selected {
-        background:var(--panel-hover); color:var(--text);
-      }
-      .navai-reference-item .nav-icon { width:19px; text-align:center; font-size:18px; flex-shrink:0; }
-      .navai-today-label { margin:9px 9px 7px; color:var(--muted); font-size:13px; }
-      .navai-sidebar-notice { padding:9px 10px; font-size:12px; color:var(--muted); line-height:1.5; }
-      #chatHistory .history-item { border-radius:10px; margin:3px 0; }
-      #chatHistory .history-item-title { white-space:nowrap; }
-      @media(max-width:700px) {
-        .navai-reference-nav { margin-top:10px; }
-        .navai-reference-item { min-height:44px; }
-      }
-    `;
-    document.head.appendChild(css);
-
-    const nav = document.createElement("div");
-    nav.className = "navai-reference-nav";
-    nav.innerHTML = `
-      <label class="navai-search-wrap">
-        <span class="navai-search-symbol">⌕</span>
-        <input id="navaiSidebarSearch" type="search" placeholder="Search" aria-label="Search conversations">
-        <span class="navai-search-shortcut">/</span>
-      </label>
-      <button type="button" class="navai-reference-item" data-nav="home"><span class="nav-icon">⌂</span>Home</button>
-      <button type="button" class="navai-reference-item" data-nav="explore"><span class="nav-icon">◎</span>Explore</button>
-      <button type="button" class="navai-reference-item" data-nav="library"><span class="nav-icon">▱</span>Library</button>
-      <button type="button" class="navai-reference-item" data-nav="history"><span class="nav-icon">◷</span>History</button>
-      <button type="button" class="navai-reference-item" data-nav="interrogations"><span class="nav-icon">⚿</span>Interrogations</button>
-    `;
-
-    const firstSection = sidebar.querySelector(".sidebar-section");
-    if (firstSection) sidebar.insertBefore(nav, firstSection);
-    else sidebar.insertBefore(nav, history);
-
-    const heading = firstSection?.querySelector(".section-heading");
-    if (heading) {
-      const label = heading.querySelector("span");
-      if (label) label.textContent = "TODAY";
+    if (!sidebar || !newChat || !history) {
+      console.error("NavAI sidebar: required elements not found.");
+      return;
     }
 
-    const search = nav.querySelector("#navaiSidebarSearch");
+    document.querySelector("#navai-reference-style")?.remove();
+    document.querySelector("#navai-reference-nav")?.remove();
+
+    const style = document.createElement("style");
+    style.id = "navai-reference-style";
+    style.textContent = `
+      #navai-reference-nav {
+        display:flex; flex-direction:column; gap:5px;
+        margin:12px 0 18px; width:100%; box-sizing:border-box;
+      }
+      #navai-reference-nav .nr-search {
+        height:43px; display:flex; align-items:center; gap:10px;
+        padding:0 12px; margin-bottom:5px; border:1px solid var(--border);
+        border-radius:12px; background:var(--panel); box-sizing:border-box;
+      }
+      #navai-reference-nav .nr-search-icon { font-size:20px; opacity:.8; }
+      #navai-reference-nav input {
+        width:100%; min-width:0; border:0; outline:0; background:transparent;
+        color:var(--text); font:inherit;
+      }
+      #navai-reference-nav input::placeholder { color:var(--muted); }
+      #navai-reference-nav .nr-shortcut {
+        padding:2px 7px; border:1px solid var(--border);
+        border-radius:6px; font-size:12px; opacity:.8;
+      }
+      #navai-reference-nav .nr-link {
+        display:flex; align-items:center; gap:13px; width:100%;
+        min-height:43px; padding:0 13px; box-sizing:border-box;
+        border:1px solid transparent; border-radius:11px;
+        background:transparent; color:var(--muted); font:inherit;
+        text-align:left; cursor:pointer; transition:background .16s,color .16s;
+      }
+      #navai-reference-nav .nr-link:hover,
+      #navai-reference-nav .nr-link.nr-active {
+        background:var(--panel); color:var(--text);
+      }
+      #navai-reference-nav .nr-icon {
+        width:20px; text-align:center; flex-shrink:0; font-size:18px;
+      }
+      #navai-reference-nav .nr-label {
+        margin:8px 9px 4px; color:var(--muted); font-size:12px;
+        letter-spacing:.5px;
+      }
+      #chatHistory .history-item {
+        border-radius:10px;
+      }
+      @media(max-width:700px) {
+        #navai-reference-nav { margin-top:8px; }
+        #navai-reference-nav .nr-link { min-height:44px; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const nav = document.createElement("nav");
+    nav.id = "navai-reference-nav";
+    nav.setAttribute("aria-label", "Main navigation");
+    nav.innerHTML = `
+      <label class="nr-search">
+        <span class="nr-search-icon" aria-hidden="true">⌕</span>
+        <input id="navai-sidebar-search" type="search" placeholder="Search" autocomplete="off" aria-label="Search chats">
+        <span class="nr-shortcut">/</span>
+      </label>
+      <button type="button" class="nr-link nr-active" data-action="home"><span class="nr-icon">⌂</span><span>Home</span></button>
+      <button type="button" class="nr-link" data-action="explore"><span class="nr-icon">◎</span><span>Explore</span></button>
+      <button type="button" class="nr-link" data-action="library"><span class="nr-icon">▱</span><span>Library</span></button>
+      <button type="button" class="nr-link" data-action="history"><span class="nr-icon">◷</span><span>History</span></button>
+      <button type="button" class="nr-link" data-action="interrogations"><span class="nr-icon">⚿</span><span>Interrogations</span></button>
+      <div class="nr-label">YOUR CHATS</div>
+    `;
+
+    newChat.insertAdjacentElement("afterend", nav);
+
+    const section = sidebar.querySelector(".sidebar-section");
+    const headingText = section?.querySelector(".section-heading span");
+    if (headingText) headingText.textContent = "TODAY";
+
+    const search = nav.querySelector("#navai-sidebar-search");
     search.addEventListener("input", () => {
-      const query = search.value.trim().toLowerCase();
-      history.querySelectorAll(".history-item").forEach(item => {
-        item.style.display = item.innerText.toLowerCase().includes(query) ? "" : "none";
+      const query = search.value.trim().toLocaleLowerCase();
+      [...history.children].forEach(item => {
+        const match = item.textContent.toLocaleLowerCase().includes(query);
+        item.style.display = match ? "" : "none";
       });
     });
 
     nav.addEventListener("click", event => {
-      const button = event.target.closest("[data-nav]");
+      const button = event.target.closest("[data-action]");
       if (!button) return;
-      const action = button.dataset.nav;
-      nav.querySelectorAll("[data-nav]").forEach(item => item.classList.toggle("selected", item === button));
+
+      const action = button.dataset.action;
+      nav.querySelectorAll(".nr-link").forEach(link => {
+        link.classList.toggle("nr-active", link === button);
+      });
 
       if (action === "home") {
         document.querySelector("#homeBtn")?.click();
       } else if (action === "history") {
         history.scrollIntoView({ behavior:"smooth", block:"start" });
       } else if (action === "explore") {
-        showNotice("Explore", "Explore navigation is ready for your future NavAI tools.");
+        window.dispatchEvent(new CustomEvent("navai:explore"));
+        showMessage("Explore", "Explore section selected.");
       } else if (action === "library") {
-        showNotice("Library", "Your saved conversations remain in chat history. A separate file library needs storage integration.");
+        window.dispatchEvent(new CustomEvent("navai:library"));
+        showMessage("Library", "Library section selected.");
       } else if (action === "interrogations") {
-        showNotice("Interrogations", "This section can host practice questions and quizzes.");
+        window.dispatchEvent(new CustomEvent("navai:interrogations"));
+        showMessage("Interrogations", "Practice section selected.");
       }
     });
 
-    function showNotice(title, message) {
-      let box = sidebar.querySelector("#navai-sidebar-notice");
-      if (!box) {
-        box = document.createElement("div");
-        box.id = "navai-sidebar-notice";
-        box.className = "navai-sidebar-notice";
-        nav.appendChild(box);
+    function showMessage(title, message) {
+      let notice = nav.querySelector(".nr-notice");
+      if (!notice) {
+        notice = document.createElement("div");
+        notice.className = "nr-notice";
+        notice.style.cssText =
+          "padding:9px 11px;font-size:12px;line-height:1.5;" +
+          "color:var(--muted);overflow-wrap:anywhere;";
+        nav.appendChild(notice);
       }
-      box.textContent = title + " — " + message;
+      notice.textContent = title + " — " + message;
     }
 
     document.addEventListener("keydown", event => {
-      if (event.key === "/" && !["INPUT","TEXTAREA"].includes(document.activeElement.tagName)) {
+      if (event.key === "/" &&
+          !["INPUT","TEXTAREA"].includes(document.activeElement.tagName) &&
+          !document.activeElement.isContentEditable) {
         event.preventDefault();
         search.focus();
       }
@@ -112,11 +145,13 @@
         search.blur();
       }
     });
+
+    console.log("NavAI premium sidebar initialized.");
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initNavAISidebar, { once:true });
+    document.addEventListener("DOMContentLoaded", init, { once:true });
   } else {
-    initNavAISidebar();
+    init();
   }
 })();
