@@ -31,19 +31,66 @@
     `;
     document.head.appendChild(style);
 
+    
     const button = document.createElement("button");
     button.id = "navai-voice-launch";
     button.type = "button";
-    button.textContent = "🎙 Voice Chat";
+    button.textContent = "?? Start Voice Chat";
     button.setAttribute("aria-pressed", "false");
 
     const status = document.createElement("div");
     status.id = "navai-voice-status";
     status.setAttribute("role", "status");
 
-    const composer = input.closest(".composer") || input.parentElement;
-    composer.appendChild(button);
-    composer.appendChild(status);
+    const panel = document.createElement("div");
+    panel.id = "navai-voice-panel";
+    Object.assign(panel.style, {
+      display: "none",
+      position: "absolute",
+      left: "0",
+      bottom: "calc(100% + 10px)",
+      zIndex: "10000",
+      width: "270px",
+      maxWidth: "calc(100vw - 32px)",
+      boxSizing: "border-box",
+      padding: "14px",
+      flexDirection: "column",
+      gap: "10px",
+      border: "1px solid #405b99",
+      borderRadius: "16px",
+      background: "#0d1528",
+      boxShadow: "0 15px 40px #0009"
+    });
+
+    button.style.cssText =
+      "width:100%;padding:12px;border:1px solid #547cff;" +
+      "border-radius:10px;background:#315de9;color:white;" +
+      "font:600 14px system-ui;cursor:pointer;";
+
+    status.style.cssText =
+      "color:#c9d7ff;font:12px system-ui;line-height:1.5;" +
+      "overflow-wrap:anywhere;";
+
+    panel.append(button, status);
+    form.style.position = "relative";
+    form.appendChild(panel);
+
+    const plus = document.getElementById("attachBtn");
+    if (plus) {
+      plus.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        panel.style.display =
+          panel.style.display === "flex" ? "none" : "flex";
+      }, true);
+    }
+
+    document.addEventListener("click", event => {
+      if (!panel.contains(event.target) && !plus?.contains(event.target)) {
+        panel.style.display = "none";
+      }
+    });
+
 
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
