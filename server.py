@@ -59,6 +59,10 @@ def voice_system():
     return send_from_directory(APP_DIR, "voice-system.js")
 
 
+@app.route("/navai-icon.png")
+def navai_icon_png():
+    return send_from_directory(APP_DIR, "navai-icon.png")
+
 @app.route("/api/chat", methods=["POST"])
 def chat():
     try:
@@ -207,4 +211,5 @@ if __name__ == "__main__":
     print("Text model:", TEXT_MODEL, flush=True)
     print("Image model:", IMAGE_MODEL, flush=True)
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "5000")), debug=False)
+
 
