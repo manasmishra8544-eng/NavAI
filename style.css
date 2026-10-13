@@ -2516,3 +2516,188 @@ body {
         font-size: 12px;
     }
 }
+
+/* NAVAI PREMIUM BLUE SIDEBAR */
+.sidebar {
+    position: relative;
+    background:
+        radial-gradient(ellipse at 15% 0%, rgba(0, 112, 220, .13), transparent 42%),
+        linear-gradient(180deg, #03172b 0%, #041326 48%, #020d1b 100%) !important;
+    border-right: 1px solid rgba(32, 133, 225, .2) !important;
+    box-shadow: 8px 0 35px rgba(0, 0, 0, .12);
+}
+
+.sidebar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(0, 132, 255, .32),
+        rgba(48, 190, 255, .08),
+        transparent
+    );
+    pointer-events: none;
+}
+
+.sidebar-top,
+.sidebar-bottom {
+    position: relative;
+    z-index: 1;
+}
+
+.brand {
+    gap: 12px;
+    padding: 18px 15px !important;
+}
+
+.brand-name,
+.brand span {
+    letter-spacing: -.3px;
+}
+
+.new-chat-button {
+    min-height: 45px;
+    margin: 8px 10px 18px !important;
+    padding: 0 14px !important;
+    border: 1px solid rgba(51, 149, 255, .3) !important;
+    border-radius: 13px !important;
+    background: linear-gradient(
+        115deg,
+        rgba(9, 94, 171, .27),
+        rgba(5, 37, 68, .72)
+    ) !important;
+    color: #e7f4ff !important;
+    box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+    transition: background .2s ease, border-color .2s ease,
+                transform .2s ease, box-shadow .2s ease;
+}
+
+.new-chat-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(44, 166, 255, .7) !important;
+    background: linear-gradient(
+        115deg,
+        rgba(9, 116, 210, .4),
+        rgba(5, 48, 87, .9)
+    ) !important;
+    box-shadow: 0 5px 22px rgba(0, 105, 220, .12);
+}
+
+.sidebar-section {
+    padding: 8px 12px 5px !important;
+}
+
+.sidebar-section-title {
+    padding: 8px 10px !important;
+    color: #7893af !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.35px !important;
+    text-transform: uppercase;
+}
+
+.chat-history {
+    padding: 3px 7px 12px !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(48, 132, 208, .28) transparent;
+}
+
+.history-item {
+    margin: 4px 0 !important;
+    border: 1px solid transparent !important;
+    border-radius: 11px !important;
+    background: transparent !important;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.history-item:hover {
+    border-color: rgba(46, 132, 210, .17) !important;
+    background: rgba(15, 57, 91, .58) !important;
+}
+
+.history-item.active,
+.history-item.selected {
+    border-color: rgba(38, 139, 238, .24) !important;
+    background: linear-gradient(
+        90deg,
+        rgba(7, 101, 183, .22),
+        rgba(8, 42, 72, .42)
+    ) !important;
+}
+
+.history-open-button {
+    min-height: 39px;
+    border-radius: 10px !important;
+    color: #c1d2e5 !important;
+}
+
+.history-item:hover .history-open-button,
+.history-item.active .history-open-button,
+.history-item.selected .history-open-button {
+    color: #f0f7ff !important;
+}
+
+.history-item-icon {
+    color: #65baff !important;
+}
+
+.history-item-title {
+    font-size: 12px !important;
+}
+
+.history-empty {
+    padding: 16px 12px !important;
+    border: 1px dashed rgba(91, 140, 183, .18);
+    border-radius: 12px;
+    color: #728ba5 !important;
+    font-size: 12px !important;
+    text-align: center;
+}
+
+.sidebar-bottom {
+    padding: 12px !important;
+    border-top: 1px solid rgba(45, 122, 190, .14);
+    background: linear-gradient(
+        180deg,
+        rgba(3, 18, 34, .1),
+        rgba(2, 12, 24, .72)
+    );
+}
+
+.sidebar-action {
+    min-height: 40px;
+    margin: 3px 0 !important;
+    padding: 0 11px !important;
+    border: 1px solid transparent !important;
+    border-radius: 11px !important;
+    color: #a9bfd5 !important;
+    transition: all .18s ease;
+}
+
+.sidebar-action:hover {
+    border-color: rgba(51, 143, 223, .2) !important;
+    background: rgba(11, 57, 93, .5) !important;
+    color: #f0f8ff !important;
+}
+
+.local-note,
+.sidebar-signature {
+    color: #607b96 !important;
+    font-size: 10px !important;
+}
+
+.sidebar-overlay {
+    background: rgba(0, 5, 14, .7) !important;
+    backdrop-filter: blur(5px);
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        box-shadow: 15px 0 45px rgba(0, 0, 0, .3);
+    }
+}
