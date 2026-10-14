@@ -110,7 +110,7 @@ function renderHistory() {
 
         const icon = document.createElement("span");
         icon.className = "history-item-icon";
-        icon.textContent = "â—·";
+        icon.textContent = "\u22ef";
 
         const title = document.createElement("span");
         title.className = "history-item-title";
@@ -122,7 +122,7 @@ function renderHistory() {
         const del = document.createElement("button");
         del.type = "button";
         del.className = "delete-chat-button";
-        del.textContent = "Ã—";
+        del.textContent = "×";
         del.title = "Delete chat";
         del.setAttribute("aria-label", "Delete chat");
         del.addEventListener("click", event => {
@@ -496,8 +496,41 @@ chatForm.addEventListener("submit", async event => {
 
 /* IMAGE UPLOAD */
 
-attachBtn.addEventListener("click", () => {
-    if (!isSending) imageInput.click();
+const navaiPlusMenu = document.createElement("div");
+navaiPlusMenu.className = "navai-plus-menu";
+navaiPlusMenu.hidden = true;
+navaiPlusMenu.innerHTML = `
+    <button type="button" class="navai-plus-menu-item" data-action="attach">??Attach image</button>
+    <button type="button" class="navai-plus-menu-item" data-action="create">??Create Image</button>`;
+attachBtn.insertAdjacentElement("afterend", navaiPlusMenu);
+attachBtn.setAttribute("aria-expanded", "false");
+
+function closeNavaiPlusMenu() {
+    navaiPlusMenu.hidden = true;
+    attachBtn.setAttribute("aria-expanded", "false");
+}
+
+attachBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    if (isSending || attachBtn.disabled) return;
+    navaiPlusMenu.hidden = !navaiPlusMenu.hidden;
+    attachBtn.setAttribute("aria-expanded", String(!navaiPlusMenu.hidden));
+});
+
+navaiPlusMenu.addEventListener("click", (event) => {
+    const item = event.target.closest("[data-action]");
+    if (!item || isSending) return;
+    const action = item.dataset.action;
+    closeNavaiPlusMenu();
+    if (action === "attach") imageInput.click();
+    if (action === "create") document.dispatchEvent(new Event("navai:open-image-generator"));
+});
+
+document.addEventListener("click", (event) => {
+    if (!navaiPlusMenu.contains(event.target) && !attachBtn.contains(event.target)) closeNavaiPlusMenu();
+});
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeNavaiPlusMenu();
 });
 
 imageInput.addEventListener("change", async () => {
