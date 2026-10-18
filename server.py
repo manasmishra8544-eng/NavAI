@@ -274,8 +274,6 @@ def chat():
     if needs_web_search(user_message) and not image_data:
         payload["tools"] = [{"type": "browser_search"}]
         payload["tool_choice"] = "required"
-        payload["reasoning_effort"] = "low"
-        payload["citation_options"] = "disabled"
 
     try:
         response = requests.post(
