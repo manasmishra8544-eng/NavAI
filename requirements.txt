@@ -2,3 +2,6 @@
 Flask
 gunicorn
 tzdata
+
+huggingface_hub
+ddgs
