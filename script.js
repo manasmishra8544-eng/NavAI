@@ -203,6 +203,22 @@ function escapeHTML(value) {
     })[ch]);
 }
 
+
+function cleanAssistantText(value) {
+    let text = String(value ?? "");
+    text = text.replace(/\\+(\|)/g, "$1");
+    text = text.replace(/\\+([#*_~])/g, "$1");
+    text = text.replace(/\\+<br\s*\/?>/gi, "\n");
+    text = text.replace(/<br\s*\/?>/gi, "\n");
+    text = text.replace(/^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/gm, "");
+    text = text.replace(/^\s*\|(.+)\|\s*$/gm, function (line, cells) {
+        return cells.split("|").map(function (cell) {
+            return cell.trim();
+        }).filter(Boolean).join(" - ");
+    });
+    text = text.replace(/^\s*\\---+\s*$/gm, "");
+    return text.trim();
+}
 function renderMarkdown(text) {
     let html = escapeHTML(text);
     const blocks = [];
@@ -281,7 +297,7 @@ function renderMessage(message) {
     if (message.content) {
         const text = document.createElement("div");
         text.innerHTML = message.role === "assistant"
-            ? renderMarkdown(message.content)
+            ? renderMarkdown(cleanAssistantText(message.content))
             : escapeHTML(message.content).replace(/\n/g, "<br>");
         bubble.appendChild(text);
     }
