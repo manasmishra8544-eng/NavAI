@@ -1,4 +1,4 @@
-﻿
+
 import os
 import base64
 import re
@@ -234,28 +234,6 @@ def chat():
                 "content": content.strip()
             })
 
-    # Automatically search only for queries likely to need current facts.
-    # Search failure must not crash normal chat.
-    if needs_web_search(user_message):
-        search_results = search_web(user_message)
-
-        if search_results:
-            messages.append({
-                "role": "system",
-                "content": format_search_results(search_results)
-            })
-        else:
-            messages.append({
-                "role": "system",
-                "content": (
-                    "A live search was attempted for this question, but "
-                    "no usable results were returned. Do not claim the "
-                    "answer has been verified. If you cannot answer "
-                    "reliably, clearly state that current information "
-                    "could not be verified."
-                )
-            })
-
     # Optional image input sent by the frontend as a base64 data URL.
     image_data = (
         data.get("image")
@@ -291,6 +269,13 @@ def chat():
         "messages": messages,
         "max_completion_tokens": 1400
     }
+
+    # Use Groq's built-in live browser search for current questions.
+    if needs_web_search(user_message) and not image_data:
+        payload["tools"] = [{"type": "browser_search"}]
+        payload["tool_choice"] = "required"
+        payload["reasoning_effort"] = "low"
+        payload["citation_options"] = "disabled"
 
     try:
         response = requests.post(
