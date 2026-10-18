@@ -56,6 +56,10 @@ RESPONSE RULES:
 - Do not pretend that the current date alone verifies current facts.
 - Use readable Markdown when helpful.
 - Avoid repetitive introductions and unnecessary disclaimers.
+- For research answers with supplied search results, synthesize the
+  evidence into a useful explanation instead of listing headlines.
+- Include source URLs only when actual search results were supplied.
+- Do not force tables, checklists, or verification labels into normal answers.
 - Be friendly, accurate, and useful.
 """
 
@@ -77,6 +81,9 @@ def needs_web_search(question):
         r"\b(ipl|cricket world cup|football world cup|champions league|"
         r"nba|olympics|election)\b",
         r"\b(2025|2026|2027|2028)\b",
+        r"\b(research|look up|search the web|find information|sources|"
+        r"verify|fact.?check|deep dive|investigate)\b",
+        r"\b(ai news|technology news|latest ai|latest technology)\b",
         r"\bprime minister of\b",
         r"\bpresident of\b",
         r"\bceo of\b",
@@ -270,10 +277,40 @@ def chat():
         "max_completion_tokens": 1400
     }
 
-    # Use Groq's built-in live browser search for current questions.
+    # NAVAI_RESEARCH_PATCH_V3
+    # Use the existing web-search helper; leave ordinary chats unchanged.
     if needs_web_search(user_message) and not image_data:
-        payload["tools"] = [{"type": "browser_search"}]
-        payload["tool_choice"] = "required"
+        research_results = search_web(user_message)
+        if research_results:
+            research_context = (
+                format_search_results(research_results)
+                + "\n\nRESPONSE INSTRUCTIONS: Answer the user's actual "
+                "question in natural, connected prose. Explain important "
+                "details and context rather than dumping headlines. Be as "
+                "detailed as the question needs. Use search results as "
+                "evidence, compare them when useful, and distinguish facts "
+                "from uncertainty. Do not invent details or citations. "
+                "Finish with a short Sources section containing actual "
+                "URLs from the supplied results that support the answer. "
+                "Do not force a table or checklist unless it helps."
+            )
+            messages.insert(
+                max(1, len(messages) - 1),
+                {"role": "system", "content": research_context}
+            )
+        else:
+            messages.insert(
+                max(1, len(messages) - 1),
+                {
+                    "role": "system",
+                    "content": (
+                        "Live web search did not return usable results. "
+                        "Do not claim that you searched successfully or "
+                        "invent sources. Answer from existing knowledge "
+                        "where appropriate and be clear about uncertainty."
+                    )
+                }
+            )
 
     try:
         response = requests.post(
