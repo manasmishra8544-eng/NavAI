@@ -320,8 +320,8 @@ navaiBrokenSymbolFix.textContent = `
 document.head.appendChild(navaiBrokenSymbolFix);
 
 
-const navaiHistoryIconFix = document.createElement("style");
-navaiHistoryIconFix.textContent = `
+const navaiHistoryIconFix2 = document.createElement("style");
+navaiHistoryIconFix2.textContent = `
   #chatHistory .history-item .history-item-icon {
     display: inline-flex !important;
     visibility: visible !important;
@@ -332,4 +332,4 @@ navaiHistoryIconFix.textContent = `
     opacity: 1 !important;
   }
 `;
-document.head.appendChild(navaiHistoryIconFix);
+document.head.appendChild(navaiHistoryIconFix2);
