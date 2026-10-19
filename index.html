@@ -3,21 +3,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<meta name="description" content="NavAI is a personal AI assistant created by Manas Mishra, a 16-year-old Class 9 student and aspiring developer. Explore AI, ask questions, and learn new things through NavAI.">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0d12">
+
+    <title>NavAI</title>
+
+    <meta name="description" content="NavAI is a personal AI assistant created by Manas Mishra. Ask questions, write code, learn new skills, and explore ideas with NavAI.">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://navai-kpyu.onrender.com/">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css">
 
     <meta name="google-site-verification" content="9ID4jWGnCCwx4jLA2jaDbkg-bAOh1kgm7u-5nDRNEuU">
 
-    <meta property="og:title" content="NavAI - Your AI Assistant">
-    <meta property="og:description" content="NavAI is a personal AI assistant created by Manas Mishra, a 16-year-old Class 9 student and aspiring developer. Explore AI, ask questions, and learn new things through NavAI.">
+    <meta property="og:site_name" content="NavAI">
+    <meta property="og:title" content="NavAI">
+    <meta property="og:description" content="Explore NavAI, ask questions, write code, and discover new ideas.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://navai-kpyu.onrender.com/">
 
-    <title>NavAI - Your AI Assistant</title>
-    <link rel="stylesheet" href="/style.css">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="NavAI">
+    <meta name="twitter:description" content="Explore NavAI and discover new ideas.">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "NavAI",
+        "alternateName": "NavAI",
+        "url": "https://navai-kpyu.onrender.com/"
+    }
+    </script>
 </head>
 
 <body>
@@ -25,15 +43,16 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-top">
                 <a href="/" class="brand" id="homeBtn">
-                    <div class="brand-icon"><img src="/navai-icon.png" alt="NavAI circuit logo"></div>
+                    <div class="brand-icon">
+                        <img src="/navai-icon.png" alt="NavAI">
+                    </div>
                     <div class="brand-text">
                         <span class="brand-name">NavAI</span>
-                        <span class="brand-caption">YOUR AI ASSISTANT</span>
                     </div>
                 </a>
 
                 <button class="icon-button sidebar-close" id="menuBtn"
-                        type="button" aria-label="Close menu">×</button>
+                        type="button" aria-label="Close menu">Ã—</button>
             </div>
 
             <button class="new-chat-button" id="newChatBtn" type="button">
@@ -47,6 +66,7 @@
                     <span>YOUR CHATS</span>
                     <span class="section-dot"></span>
                 </div>
+
                 <div class="chat-history" id="chatHistory">
                     <div class="history-empty">
                         Your conversations will appear here.
@@ -54,22 +74,26 @@
                 </div>
             </div>
 
+            <a class="sidebar-action" href="/developer" style="display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-decoration:none;">
+                <span class="action-icon">✦</span>
+                <span>Website Developer</span>
+            </a>
             <div class="sidebar-bottom">
                 <div class="local-note">
                     <span class="status-indicator"></span>
                     <div>
-                        <strong>NavAI Assistant</strong>
+                        <strong>NavAI</strong>
                         <p>AI-powered conversations</p>
                     </div>
                 </div>
 
                 <button class="sidebar-action" id="themeBtn" type="button">
-                    <span class="action-icon" id="themeIcon">☀</span>
+                    <span class="action-icon" id="themeIcon">â˜€</span>
                     <span id="themeLabel">Switch appearance</span>
                 </button>
 
                 <button class="sidebar-action" id="historyBtn" type="button">
-                    <span class="action-icon">⋯</span>
+                    <span class="action-icon">â‹¯</span>
                     <span>Chat history</span>
                 </button>
 
@@ -88,27 +112,34 @@
                     <div class="page-title">
                         <span class="online-dot"></span>
                         <span>NavAI</span>
-                        <span class="model-label">AI ASSISTANT</span>
                     </div>
                 </div>
             </header>
 
             <section class="welcome-screen" id="welcomeScreen">
                 <div class="welcome-content">
-                    <div class="navai-orb" aria-hidden="true"><span></span></div>
+                    <div class="navai-orb" aria-hidden="true">
+                        <span></span>
+                    </div>
+
                     <div class="eyebrow">
                         <span class="eyebrow-line"></span>
-                        MEET YOUR AI ASSISTANT
+                        NavAI
                         <span class="eyebrow-line"></span>
                     </div>
+
                     <h1>Welcome Back <span>NavAI!</span></h1>
-                    <p class="welcome-description navai-reference-subtitle">What would you like help with today?</p>
+
+                    <p class="welcome-description navai-reference-subtitle">
+                        What would you like help with today?
+                    </p>
+
                     <div class="navai-reference-prompts">
-                        <button type="button" data-prompt="Help me write code for a project">⌘&nbsp; Coding</button>
-                        <button type="button" data-prompt="Help me learn a new skill step by step">☕&nbsp; Learning</button>
-                        <button type="button" data-prompt="Help me understand a health topic safely">♡&nbsp; Health</button>
-                        <button type="button" data-prompt="Help me plan a trip">♧&nbsp; Trips</button>
-                        <button type="button" data-prompt="Help me troubleshoot a technical problem">⌕&nbsp; Troubleshoot</button>
+                        <button type="button" data-prompt="Help me write code for a project">âŒ˜&nbsp; Coding</button>
+                        <button type="button" data-prompt="Help me learn a new skill step by step">â˜•&nbsp; Learning</button>
+                        <button type="button" data-prompt="Help me understand a health topic safely">â™¡&nbsp; Health</button>
+                        <button type="button" data-prompt="Help me plan a trip">â™§&nbsp; Trips</button>
+                        <button type="button" data-prompt="Help me troubleshoot a technical problem">âŒ•&nbsp; Troubleshoot</button>
                     </div>
                 </div>
             </section>
@@ -124,8 +155,9 @@
                         <div class="preview-image-wrap">
                             <img id="imagePreview" src="" alt="Selected image preview">
                             <button class="remove-image-button" id="removeImageBtn"
-                                    type="button" aria-label="Remove image">×</button>
+                                    type="button" aria-label="Remove image">Ã—</button>
                         </div>
+
                         <div class="preview-file-info">
                             <strong>Image attached</strong>
                             <span id="imageFileName">Ready to send</span>
@@ -147,23 +179,22 @@
                                       aria-label="Message NavAI"></textarea>
 
                             <div class="composer-hint">
-                                <span class="hint-key">↵</span>
+                                <span class="hint-key">â†µ</span>
                                 <span>to send</span>
-                                <span class="hint-separator">·</span>
+                                <span class="hint-separator">Â·</span>
                                 <span>Shift + Enter for a new line</span>
                             </div>
                         </div>
 
                         <button class="send-button" id="sendBtn" type="submit"
                                 aria-label="Send message" title="Send message">
-                            <span class="send-arrow">↑</span>
+                            <span class="send-arrow">â†‘</span>
                         </button>
                     </form>
 
                     <p class="composer-disclaimer">
                         NavAI can make mistakes. Check important information.
                     </p>
-
                 </div>
             </footer>
         </main>
@@ -173,9 +204,112 @@
     <script src="/voice-system.js"></script>
     <script src="/image-generator.js"></script>
     <script src="/sidebar-enhancement.js"></script>
+
+
+
+<script id="navai-three-dot-script">
+(function(){
+  if(document.getElementById("navai-three-dot-script-loaded")) return;
+  var oldWrap = document.getElementById("navai-more-wrap");
+  if(oldWrap) oldWrap.remove();
+
+  var developer = /\/developer\/?$/.test(location.pathname);
+  var wrap = document.createElement("div");
+  wrap.id = "navai-more-wrap";
+  wrap.style.cssText = "position:relative;display:inline-flex;align-items:center;flex-shrink:0;z-index:100000;margin-left:8px";
+  wrap.innerHTML =
+    '<button id="navai-more-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navai-more-menu" style="width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(140,164,255,.27);border-radius:12px;background:linear-gradient(145deg,rgba(45,65,112,.7),rgba(15,24,45,.94));color:#eaf0ff;cursor:pointer;font:700 24px/1 system-ui;box-shadow:0 5px 20px rgba(0,0,0,.15)">⋯</button>' +
+    '<nav id="navai-more-menu" aria-label="NavAI navigation" aria-hidden="true" style="position:absolute;left:0;top:calc(100% + 9px);width:245px;padding:9px;border:1px solid rgba(137,160,215,.25);border-radius:16px;background:rgba(9,16,33,.98);box-shadow:0 20px 55px rgba(0,0,0,.48);backdrop-filter:blur(22px);opacity:0;transform:translateY(-5px);pointer-events:none;transition:opacity .16s,transform .16s">' +
+    '<div style="padding:8px 10px;color:#8f9fbe;font:600 10px system-ui;letter-spacing:1.4px">NAVAI WORKSPACE</div>' +
+    (developer
+      ? '<a href="/" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">⌂</span><span>Back to NavAI Chat<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Return to your conversations</small></span></a>'
+      : '<a href="/developer" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">✦</span><span>Website Developer<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Create websites with AI</small></span></a>') +
+    '</nav>';
+
+  var style = document.createElement("style");
+  style.id = "navai-three-dot-polish";
+  style.textContent =
+    '#navai-more-button:hover{border-color:rgba(153,176,255,.7)!important;background:linear-gradient(145deg,rgba(69,95,163,.8),rgba(24,35,64,.98))!important;transform:translateY(-1px)}' +
+    '#navai-more-menu.navai-open{opacity:1!important;transform:translateY(0)!important;pointer-events:auto!important}' +
+    '#navai-more-menu a:hover{background:rgba(103,130,224,.17)!important}' +
+    '#navai-more-button:focus-visible{outline:2px solid #8ba4ff;outline-offset:3px}';
+  document.head.appendChild(style);
+
+  var sidebar = document.querySelector('aside,[class*="sidebar" i],[id*="sidebar" i]');
+  var selectors = [
+    '[class*="brand" i]','[class*="logo" i]','[id*="logo" i]',
+    '[class*="sidebar-header" i]','[class*="header-brand" i]'
+  ];
+  var logo = null;
+
+  // Prefer an identifiable brand/logo inside the sidebar.
+  for(var i=0;i<selectors.length && !logo;i++){
+    var list = document.querySelectorAll(selectors[i]);
+    for(var j=0;j<list.length;j++){
+      var el=list[j];
+      if(!el.getClientRects().length || wrap.contains(el)) continue;
+      if(sidebar && !sidebar.contains(el) && !developer) continue;
+      var t=(el.innerText||el.textContent||"").trim();
+      if(/navai/i.test(t) && t.length<100){logo=el;break;}
+    }
+  }
+
+  // Fallback: find a visible element whose text is exactly NavAI.
+  if(!logo){
+    var all=document.querySelectorAll("a,div,span,button,h1,h2");
+    for(var k=0;k<all.length;k++){
+      var node=all[k];
+      if(!node.getClientRects().length || wrap.contains(node)) continue;
+      var text=(node.innerText||node.textContent||"").replace(/[✦⋯]/g,"").trim();
+      if(/^navai$/i.test(text)){
+        if(!sidebar || sidebar.contains(node) || developer){logo=node;break;}
+      }
+    }
+  }
+
+  if(logo && logo.parentElement){
+    var parent=logo.parentElement;
+    parent.insertBefore(wrap,logo.nextSibling);
+    // Keep the logo and menu on the same line where possible.
+    var display=getComputedStyle(parent).display;
+    if(display==="flex" || display==="inline-flex"){
+      parent.style.alignItems="center";
+      parent.style.flexWrap="nowrap";
+    }
+  } else if(sidebar && !developer){
+    sidebar.insertBefore(wrap,sidebar.firstChild);
+    wrap.style.margin="10px 12px";
+  } else {
+    var header=document.querySelector("header");
+    if(header) header.insertBefore(wrap,header.firstChild);
+    else document.body.insertBefore(wrap,document.body.firstChild);
+  }
+
+  var button=document.getElementById("navai-more-button");
+  var menu=document.getElementById("navai-more-menu");
+
+  function close(){
+    menu.classList.remove("navai-open");
+    menu.setAttribute("aria-hidden","true");
+    button.setAttribute("aria-expanded","false");
+  }
+  button.addEventListener("click",function(e){
+    e.stopPropagation();
+    var opening=!menu.classList.contains("navai-open");
+    menu.classList.toggle("navai-open",opening);
+    menu.setAttribute("aria-hidden",String(!opening));
+    button.setAttribute("aria-expanded",String(opening));
+  });
+  document.addEventListener("click",function(e){if(!wrap.contains(e.target))close();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
+
+  var marker=document.createElement("meta");
+  marker.id="navai-three-dot-script-loaded";
+  document.head.appendChild(marker);
+})();
+</script>
 </body>
 </html>
-
 
 
 
