@@ -343,6 +343,89 @@
 })();
 </script>
 <script src="/auth-cloud-sync.js"></script>
+<!-- NAVAI ICON-ONLY DEVELOPER FIX -->
+<script>
+(function () {
+  "use strict";
+
+  function applyNavAIIconOnlyDeveloper() {
+    var button = document.getElementById("navai-more-button");
+
+    if (button) {
+      if ((button.textContent || "").trim() !== "✦") {
+        button.textContent = "✦";
+      }
+
+      button.setAttribute("aria-label", "Website Developer");
+      button.setAttribute("title", "Website Developer");
+      button.style.cursor = "pointer";
+
+      if (button.getAttribute("data-navai-icon-only-developer") !== "1") {
+        button.setAttribute("data-navai-icon-only-developer", "1");
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          window.location.href = "/developer";
+        }, true);
+      }
+    }
+
+    var labels = document.querySelectorAll("body *");
+
+    for (var i = 0; i < labels.length; i++) {
+      var label = labels[i];
+
+      if (
+        label.children.length !== 0 ||
+        (label.textContent || "").trim() !== "Website Developer"
+      ) continue;
+
+      var item = label.closest("a, button, [role='button']");
+
+      if (item && item.id !== "navai-more-button") {
+        if (item.style.display !== "none") {
+          item.style.setProperty("display", "none", "important");
+        }
+        continue;
+      }
+
+      var parent = label.parentElement;
+
+      for (var depth = 0; parent && depth < 4; depth++, parent = parent.parentElement) {
+        var cls = typeof parent.className === "string" ? parent.className : "";
+        var text = (parent.textContent || "").replace(/\s+/g, " ").trim();
+
+        if (
+          (/action|developer|sidebar|nav-item/i.test(cls) &&
+           text.indexOf("Website Developer") >= 0) ||
+          text === "✦ Website Developer" ||
+          text === "✦Website Developer"
+        ) {
+          if (parent.style.display !== "none") {
+            parent.style.setProperty("display", "none", "important");
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyNavAIIconOnlyDeveloper);
+  } else {
+    applyNavAIIconOnlyDeveloper();
+  }
+
+  var watcher = new MutationObserver(function () {
+    applyNavAIIconOnlyDeveloper();
+  });
+
+  watcher.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+})();
+</script>
 </body>
 </html>
 
