@@ -455,6 +455,84 @@ def method_not_allowed(_error):
     }), 405
 
 
+# NAVAI_WEBSITE_BUILDER_API
+@app.route("/developer")
+def navai_website_developer_page():
+    from flask import send_from_directory
+    import os
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "website-developer.html")
+
+@app.route("/api/website-builder", methods=["POST"])
+def navai_website_builder_api():
+    import os, json, re, sqlite3, hashlib, datetime, urllib.request, urllib.error
+    from flask import request, jsonify
+
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        return jsonify({"error": "Website generation is not configured: GROQ_API_KEY is missing on this server."}), 503
+
+    body = request.get_json(silent=True) or {}
+    prompt = str(body.get("prompt", "")).strip()
+    existing_html = str(body.get("existing_html", ""))[:60000]
+    if not prompt or len(prompt) > 5000:
+        return jsonify({"error": "Enter a website prompt of up to 5000 characters."}), 400
+
+    # Lightweight daily limit: five successful/attempted requests per IP per UTC day.
+    # This is not a login-based user identity system.
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(base_dir, "navai_website_usage.sqlite3")
+    day = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    ip_hash = hashlib.sha256((request.remote_addr or "unknown").encode("utf-8")).hexdigest()
+
+    try:
+        with sqlite3.connect(db_path, timeout=10) as db:
+            db.execute("CREATE TABLE IF NOT EXISTS usage (ip TEXT NOT NULL, day TEXT NOT NULL, count INTEGER NOT NULL, PRIMARY KEY(ip, day))")
+            row = db.execute("SELECT count FROM usage WHERE ip=? AND day=?", (ip_hash, day)).fetchone()
+            used = row[0] if row else 0
+            if used >= 5:
+                return jsonify({"error": "Daily limit reached (5 attempts). Please try again tomorrow."}), 429
+            db.execute("INSERT INTO usage(ip,day,count) VALUES(?,?,1) ON CONFLICT(ip,day) DO UPDATE SET count=count+1", (ip_hash, day))
+    except Exception:
+        return jsonify({"error": "Could not check the daily usage limit. Please try again."}), 500
+
+    system_prompt = """You are NavAI Website Developer. Generate one complete, self-contained HTML document with embedded CSS and JavaScript. Return ONLY the HTML, without Markdown fences or explanations. Make the result polished, responsive, accessible, and functional. Use original CSS and inline SVG where useful. Do not claim external forms or payments work unless actually implemented. Never include instructions or code that steals credentials, exfiltrates data, or performs harmful actions."""
+    if existing_html:
+        user_prompt = "Modify this existing website according to the requested changes. Preserve useful existing functionality. Request: " + prompt + "\n\nExisting HTML:\n" + existing_html
+    else:
+        user_prompt = "Create a complete website from this brief:\n" + prompt
+
+    payload = {
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 8000
+    }
+    req = urllib.request.Request(
+        "https://api.groq.com/openai/v1/chat/completions",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Authorization": "Bearer " + api_key, "Content-Type": "application/json"},
+        method="POST"
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=120) as response:
+            result = json.loads(response.read().decode("utf-8"))
+        output = result["choices"][0]["message"]["content"].strip()
+        output = re.sub(r"^```(?:html)?\s*", "", output, flags=re.IGNORECASE)
+        output = re.sub(r"\s*```$", "", output)
+        if "<html" not in output.lower():
+            return jsonify({"error": "The AI did not return a complete HTML document. Try a more specific prompt."}), 502
+        return jsonify({"html": output})
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")[:500]
+        print("NavAI website builder API error:", exc.code, detail)
+        return jsonify({"error": "AI provider returned an error (HTTP " + str(exc.code) + "). Check the server logs and API key."}), 502
+    except Exception as exc:
+        print("NavAI website builder error:", repr(exc))
+        return jsonify({"error": "Website generation failed. Check the server logs and try again."}), 502
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
