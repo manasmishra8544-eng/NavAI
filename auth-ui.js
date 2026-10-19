@@ -27,18 +27,6 @@
   if (sidebarBottom) sidebarBottom.insertBefore(trigger, sidebarBottom.firstChild);
   else document.body.appendChild(trigger);
 
-  const signupTrigger = document.createElement("button");
-  signupTrigger.id = "navai-signup-trigger";
-  signupTrigger.type = "button";
-  signupTrigger.textContent = "Sign Up";
-  signupTrigger.setAttribute("aria-label", "Create a NavAI account");
-  signupTrigger.classList.add("navai-sidebar-auth-trigger");
-
-  const newChatButton = document.getElementById("newChatBtn");
-  if (newChatButton && newChatButton.parentNode) {
-    newChatButton.parentNode.insertBefore(signupTrigger, newChatButton);
-  }
-
   const overlay = document.createElement("div");
   overlay.id = "navai-auth-overlay";
   overlay.hidden = true;
@@ -156,12 +144,6 @@
     }
   });
   trigger.addEventListener("click", openModal);
-
-  signupTrigger.addEventListener("click", () => {
-    mode = "signup";
-    renderSession(currentSession);
-    openModal();
-  });
   overlay.querySelector(".navai-auth-close").addEventListener("click", closeModal);
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) closeModal();
