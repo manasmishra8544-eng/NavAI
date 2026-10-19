@@ -1,6 +1,42 @@
-﻿(() => {
+(() => {
   const client = window.NAVAI_SUPABASE_CLIENT;
-  const bridge = window.NAVAI_CHAT_BRIDGE;
+
+  const bridge = window.NAVAI_CHAT_BRIDGE || (() => {
+    try {
+      if (typeof chats === "undefined" || typeof saveChats !== "function") return null;
+
+      const adapter = {
+        getChats() {
+          return Array.isArray(chats) ? chats : [];
+        },
+        replaceChats(nextChats) {
+          if (!Array.isArray(nextChats)) return;
+          chats = nextChats;
+
+          try {
+            localStorage.setItem("navai_chat_history", JSON.stringify(chats));
+          } catch (error) {
+            console.error("NavAI local chat history save failed:", error.message);
+          }
+
+          if (typeof activeChatId !== "undefined" &&
+              !chats.some(chat => String(chat.id) === String(activeChatId))) {
+            activeChatId = chats[0]?.id || null;
+          }
+
+          if (typeof renderHistory === "function") renderHistory();
+          if (typeof renderCurrentChat === "function") renderCurrentChat();
+        }
+      };
+
+      window.NAVAI_CHAT_BRIDGE = adapter;
+      return adapter;
+    } catch (error) {
+      console.error("NavAI chat bridge setup failed:", error);
+      return null;
+    }
+  })();
+
   if (!client || !bridge) {
     console.error("NavAI cloud sync: auth client or chat bridge missing.");
     return;
