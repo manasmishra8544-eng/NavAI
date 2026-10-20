@@ -144,66 +144,86 @@
                 </div>
             </section>
 
-            <section id="navai-tool-dashboard" aria-label="NavAI tools">
+            <section id="navai-tool-dashboard">
 <style>
-#navai-tool-dashboard{width:min(1050px,94%);margin:10px auto 34px;color:#edf3ff;font-family:inherit}
-#navai-tool-dashboard .dash-heading{text-align:center;margin:0 0 22px}
-#navai-tool-dashboard .dash-kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8daeff;font-weight:700}
-#navai-tool-dashboard h2{font-size:clamp(23px,3vw,32px);margin:9px 0;color:#f4f7ff;letter-spacing:-.8px}
-#navai-tool-dashboard .dash-subtitle{color:#9caac5;font-size:14px;margin:0}
-#navai-tool-dashboard .dash-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-#navai-tool-dashboard .dash-card{position:relative;display:flex;flex-direction:column;min-height:205px;padding:23px 21px;border:1px solid rgba(139,164,220,.19);border-radius:19px;background:linear-gradient(145deg,rgba(20,34,65,.94),rgba(10,17,35,.96));text-decoration:none;color:#f4f7ff;overflow:hidden;transition:border-color .2s,transform .2s,background .2s;box-sizing:border-box}
-#navai-tool-dashboard .dash-card:hover{border-color:rgba(117,151,255,.72);transform:translateY(-3px);background:linear-gradient(145deg,rgba(28,46,87,.98),rgba(11,20,42,.99))}
-#navai-tool-dashboard .dash-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;margin-bottom:21px;font-size:23px;font-weight:700;background:rgba(83,125,255,.15);border:1px solid rgba(113,148,255,.25);color:#a9c1ff}
-#navai-tool-dashboard .dash-card:nth-child(2) .dash-icon{background:rgba(161,105,255,.14);color:#d1b3ff;border-color:rgba(185,143,255,.25)}
-#navai-tool-dashboard .dash-card:nth-child(3) .dash-icon{background:rgba(45,207,185,.12);color:#83eadb;border-color:rgba(45,207,185,.23)}
-#navai-tool-dashboard .dash-card h3{font-size:17px;line-height:1.35;margin:0 0 8px;font-weight:700}
-#navai-tool-dashboard .dash-card p{font-size:13px;line-height:1.65;color:#a6b3ce;margin:0 0 20px}
-#navai-tool-dashboard .dash-open{margin-top:auto;color:#9cb6ff;font-size:12px;font-weight:700;letter-spacing:.2px}
-#navai-tool-dashboard .dash-arrow{float:right;font-size:17px}
-@media(max-width:760px){#navai-tool-dashboard .dash-grid{grid-template-columns:1fr;gap:12px}#navai-tool-dashboard .dash-card{min-height:0;padding:18px;display:grid;grid-template-columns:48px 1fr;column-gap:14px;align-items:start}#navai-tool-dashboard .dash-icon{grid-row:1/4;margin:0}#navai-tool-dashboard .dash-card h3{margin-top:2px}#navai-tool-dashboard .dash-card p{margin-bottom:10px}#navai-tool-dashboard .dash-open{grid-column:2}}
+#navai-tool-dashboard{position:fixed;inset:0;z-index:999999;overflow-y:auto;background:radial-gradient(ellipse at 50% 0%,#172750 0%,#0a1124 42%,#060a14 78%);color:#f4f7ff;font-family:inherit;display:flex;align-items:center;justify-content:center;padding:35px 22px;box-sizing:border-box}
+#navai-tool-dashboard *{box-sizing:border-box}
+#navai-tool-dashboard .home-wrap{width:100%;max-width:1000px;margin:auto}
+#navai-tool-dashboard .brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:65px}
+#navai-tool-dashboard .brand-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,#6688ff,#8658ed);box-shadow:0 5px 35px #5277ff45;font-size:25px;font-weight:800}
+#navai-tool-dashboard .brand-name{font-size:23px;font-weight:750;letter-spacing:-.8px}
+#navai-tool-dashboard .brand-name span{color:#8da8ff}
+#navai-tool-dashboard .eyebrow{text-align:center;text-transform:uppercase;letter-spacing:4px;font-size:10px;color:#93aaff;font-weight:750;margin-bottom:17px}
+#navai-tool-dashboard .hero{text-align:center;margin-bottom:45px}
+#navai-tool-dashboard .hero h1{font-size:clamp(35px,5.4vw,57px);line-height:1.12;letter-spacing:-2.3px;margin:0 auto 17px;font-weight:750}
+#navai-tool-dashboard .hero h1 span{background:linear-gradient(90deg,#9bb7ff,#c3a6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+#navai-tool-dashboard .hero p{font-size:15px;line-height:1.8;color:#a5b1cb;margin:0}
+#navai-tool-dashboard .tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+#navai-tool-dashboard .tool{min-height:245px;text-decoration:none;color:inherit;border:1px solid #8298cf2b;background:linear-gradient(145deg,#17233bd9,#0c1426ed);border-radius:23px;padding:25px 23px 22px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:transform .2s,border-color .2s,background .2s}
+#navai-tool-dashboard .tool:before{content:"";position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,#9cb4ff8c,transparent)}
+#navai-tool-dashboard .tool:hover{transform:translateY(-5px);border-color:#819effa6;background:linear-gradient(145deg,#1d2d50,#101a30)}
+#navai-tool-dashboard .tool-icon{width:49px;height:49px;display:grid;place-items:center;border:1px solid #819fff40;border-radius:16px;background:#6688ff19;color:#adc0ff;font-size:23px;font-weight:750;margin-bottom:25px}
+#navai-tool-dashboard .tool:nth-child(2) .tool-icon{background:#b17aff17;border-color:#c09aff3d;color:#d0b0ff}
+#navai-tool-dashboard .tool:nth-child(3) .tool-icon{background:#4cdbc017;border-color:#4cdbc03d;color:#7cebd9}
+#navai-tool-dashboard .tool h2{font-size:18px;margin:0 0 10px;letter-spacing:-.35px}
+#navai-tool-dashboard .tool p{font-size:13px;line-height:1.75;color:#a6b3cc;margin:0 0 24px}
+#navai-tool-dashboard .tool-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:auto;color:#b3c5ff;font-size:12px;font-weight:700}
+#navai-tool-dashboard .tool-arrow{font-size:19px;transition:transform .2s}
+#navai-tool-dashboard .tool:hover .tool-arrow{transform:translateX(4px)}
+#navai-tool-dashboard .footer{text-align:center;color:#677797;font-size:11px;margin-top:35px}
+#navai-dashboard-return{position:fixed;z-index:999998;bottom:22px;left:22px;display:none;border:1px solid #7e9fff55;background:#101b32;color:#dce5ff;border-radius:13px;padding:12px 16px;font:600 12px inherit;cursor:pointer;box-shadow:0 8px 30px #0005}
+@media(max-width:720px){#navai-tool-dashboard{align-items:flex-start;padding:25px 17px}.brand{margin-bottom:43px!important}.hero{margin-bottom:28px!important}#navai-tool-dashboard .tools{grid-template-columns:1fr;gap:12px}#navai-tool-dashboard .tool{min-height:0;padding:18px;display:grid;grid-template-columns:48px 1fr;column-gap:15px;align-items:start;border-radius:18px}#navai-tool-dashboard .tool-icon{grid-row:1/4;margin:0;width:46px;height:46px}#navai-tool-dashboard .tool h2{margin:2px 0 6px}#navai-tool-dashboard .tool p{margin:0 0 12px}#navai-tool-dashboard .tool-bottom{grid-column:2}#navai-tool-dashboard .footer{margin-top:23px}}
+@media(prefers-reduced-motion:reduce){#navai-tool-dashboard .tool{transition:none}}
 </style>
-<div class="dash-heading">
-  <div class="dash-kicker">One workspace. Three powerful tools.</div>
-  <h2>What do you want to do?</h2>
-  <p class="dash-subtitle">Choose a NavAI tool to get started.</p>
-</div>
-<div class="dash-grid">
-  <a class="dash-card" href="#navai-chat" data-navai-tool="chat" aria-label="Open NavAI Chat">
-    <span class="dash-icon" aria-hidden="true">✳</span>
-    <h3>NavAI Chat</h3>
-    <p>Ask questions, solve problems, brainstorm ideas and get help with your work.</p>
-    <span class="dash-open">Start chatting <span class="dash-arrow">→</span></span>
-  </a>
-  <a class="dash-card" href="/developer">
-    <span class="dash-icon" aria-hidden="true">&lt;/&gt;</span>
-    <h3>NavAI Website Builder</h3>
-    <p>Create websites and build your ideas with your AI development assistant.</p>
-    <span class="dash-open">Build a website <span class="dash-arrow">→</span></span>
-  </a>
-  <a class="dash-card" href="/classroom.html">
-    <span class="dash-icon" aria-hidden="true">✧</span>
-    <h3>NavAI Teacher</h3>
-    <p>Learn difficult topics step by step with clear explanations and visual lessons.</p>
-    <span class="dash-open">Start learning <span class="dash-arrow">→</span></span>
-  </a>
+<div class="home-wrap">
+  <div class="brand"><div class="brand-icon">N</div><div class="brand-name">Nav<span>AI</span></div></div>
+  <div class="hero">
+    <div class="eyebrow">Your AI workspace</div>
+    <h1>One place. <span>More possibilities.</span></h1>
+    <p>What would you like to create, discover, or learn today?</p>
+  </div>
+  <div class="tools">
+    <a class="tool" href="#open-chat" data-open-chat>
+      <div class="tool-icon">✳</div>
+      <h2>NavAI Chat</h2>
+      <p>Ask questions, solve problems, explore ideas and get help with everyday tasks.</p>
+      <div class="tool-bottom"><span>Start a conversation</span><span class="tool-arrow">↗</span></div>
+    </a>
+    <a class="tool" href="/developer">
+      <div class="tool-icon">&lt;/&gt;</div>
+      <h2>Website Builder</h2>
+      <p>Turn your ideas into websites with help from your AI development assistant.</p>
+      <div class="tool-bottom"><span>Build a website</span><span class="tool-arrow">↗</span></div>
+    </a>
+    <a class="tool" href="/classroom.html">
+      <div class="tool-icon">✧</div>
+      <h2>NavAI Teacher</h2>
+      <p>Understand difficult topics with step-by-step explanations and visual learning.</p>
+      <div class="tool-bottom"><span>Start learning</span><span class="tool-arrow">↗</span></div>
+    </a>
+  </div>
+  <div class="footer">NAVAI · YOUR IDEAS START HERE</div>
 </div>
 <script>
 (function(){
-  var card=document.querySelector('#navai-tool-dashboard [data-navai-tool="chat"]');
-  if(!card)return;
-  card.addEventListener('click',function(event){
-    event.preventDefault();
+  var home=document.getElementById('navai-tool-dashboard');
+  if(!home || home.dataset.ready)return;
+  home.dataset.ready='1';
+  var back=document.createElement('button');
+  back.id='navai-dashboard-return';
+  back.type='button';
+  back.textContent='← Dashboard';
+  document.body.appendChild(back);
+  home.querySelector('[data-open-chat]').addEventListener('click',function(e){
+    e.preventDefault();
+    home.style.display='none';
+    back.style.display='block';
     var input=document.getElementById('messageInput');
-    var welcome=document.getElementById('welcomeScreen');
-    if(input){
-      if(welcome && welcome.classList.contains('hidden')) {
-        input.focus();
-      } else {
-        input.focus();
-        input.scrollIntoView({behavior:'smooth',block:'center'});
-      }
-    }
+    if(input){input.focus();input.scrollIntoView({behavior:'smooth',block:'center'});}
+  });
+  back.addEventListener('click',function(){
+    home.style.display='flex';
+    back.style.display='none';
   });
 })();
 </script>
