@@ -171,9 +171,13 @@
 #navai-tool-dashboard .tool-arrow{font-size:19px;transition:transform .2s}
 #navai-tool-dashboard .tool:hover .tool-arrow{transform:translateX(4px)}
 #navai-tool-dashboard .footer{text-align:center;color:#677797;font-size:11px;margin-top:35px}
-#navai-dashboard-return{position:fixed;z-index:999998;bottom:22px;left:22px;display:none;border:1px solid #7e9fff55;background:#101b32;color:#dce5ff;border-radius:13px;padding:12px 16px;font:600 12px inherit;cursor:pointer;box-shadow:0 8px 30px #0005}
+#navai-dashboard-return{position:fixed;z-index:1000001;top:14px;left:14px;display:none;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid #8ba7ff55;background:#111c33;color:#e2eaff;border-radius:11px;font-size:21px;line-height:1;cursor:pointer;box-shadow:0 5px 20px #0005;backdrop-filter:blur(12px)}#navai-dashboard-return:hover{background:#23365b;border-color:#9bb5ff}
 @media(max-width:720px){#navai-tool-dashboard{align-items:flex-start;padding:25px 17px}.brand{margin-bottom:43px!important}.hero{margin-bottom:28px!important}#navai-tool-dashboard .tools{grid-template-columns:1fr;gap:12px}#navai-tool-dashboard .tool{min-height:0;padding:18px;display:grid;grid-template-columns:48px 1fr;column-gap:15px;align-items:start;border-radius:18px}#navai-tool-dashboard .tool-icon{grid-row:1/4;margin:0;width:46px;height:46px}#navai-tool-dashboard .tool h2{margin:2px 0 6px}#navai-tool-dashboard .tool p{margin:0 0 12px}#navai-tool-dashboard .tool-bottom{grid-column:2}#navai-tool-dashboard .footer{margin-top:23px}}
 @media(prefers-reduced-motion:reduce){#navai-tool-dashboard .tool{transition:none}}
+
+#navai-tool-dashboard #navai-auth-trigger,#navai-tool-dashboard .navai-sidebar-auth-trigger{position:fixed!important;top:20px!important;right:24px!important;left:auto!important;bottom:auto!important;z-index:1000002!important;display:flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:88px!important;height:38px!important;padding:0 17px!important;border:1px solid #91aaff65!important;border-radius:12px!important;background:linear-gradient(135deg,#263b68,#172440)!important;color:#f2f5ff!important;font-size:12px!important;font-weight:700!important;box-shadow:0 6px 24px #0003!important;cursor:pointer!important}
+#navai-tool-dashboard #navai-auth-trigger:hover,#navai-tool-dashboard .navai-sidebar-auth-trigger:hover{border-color:#b5c6ff!important;background:#2b416f!important}
+@media(max-width:600px){#navai-tool-dashboard #navai-auth-trigger,#navai-tool-dashboard .navai-sidebar-auth-trigger{top:15px!important;right:15px!important;min-width:75px!important;height:34px!important;padding:0 12px!important}}
 </style>
 <div class="home-wrap">
   <div class="brand"><div class="brand-icon">N</div><div class="brand-name">Nav<span>AI</span></div></div>
@@ -209,10 +213,22 @@
   var home=document.getElementById('navai-tool-dashboard');
   if(!home || home.dataset.ready)return;
   home.dataset.ready='1';
+  function placeDashboardAuth(){
+    var auth=document.getElementById('navai-auth-trigger');
+    if(auth && !home.contains(auth)){
+      auth.classList.add('navai-sidebar-auth-trigger');
+      home.appendChild(auth);
+    }
+  }
+  placeDashboardAuth();
+  var authWatch=new MutationObserver(placeDashboardAuth);
+  authWatch.observe(document.body,{childList:true,subtree:true});
   var back=document.createElement('button');
   back.id='navai-dashboard-return';
   back.type='button';
-  back.textContent='← Dashboard';
+  back.textContent='←';
+  back.setAttribute('aria-label','Dashboard');
+  back.title='Dashboard';
   document.body.appendChild(back);
   home.querySelector('[data-open-chat]').addEventListener('click',function(e){
     e.preventDefault();
