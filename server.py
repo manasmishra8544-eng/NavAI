@@ -155,6 +155,95 @@ def home():
     return send_from_directory(BASE_DIR, "index.html")
 
 
+@app.route("/classroom")
+def classroom_page():
+    return send_from_directory(BASE_DIR, "classroom.html")
+
+
+@app.route("/api/classroom/explain", methods=["POST"])
+def classroom_explain():
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if not api_key:
+        return jsonify({"error": "GROQ_API_KEY is missing from the server environment."}), 500
+
+    data = request.get_json(silent=True) or {}
+    question = data.get("question", "")
+    if not isinstance(question, str):
+        question = str(question)
+    question = question.strip()[:1200]
+    if not question:
+        return jsonify({"error": "Please enter a topic or question."}), 400
+
+    level = str(data.get("level", "Beginner"))[:40]
+    language = str(data.get("language", "simple English"))[:40]
+    messages = [{
+        "role": "system",
+        "content": (
+            "You are Pico, a patient and excellent AI teacher inside NavAI Classroom. "
+            "Your goal is to make the student truly understand, not just give a short answer. "
+            "Start from basics and explain why and how the idea works. Use natural, friendly "
+            "language matching the requested language. Give a relatable real-life example. "
+            "For maths, show each calculation and explain every step. For science, explain "
+            "the process, causes and effects. For other subjects, define terms and connect "
+            "ideas. Answer the exact question fully. For broad topics, give a complete "
+            "mini-lesson. Use 5 to 8 meaningful steps when suitable, with 2 to 4 clear "
+            "sentences per step. Include a text diagram or concept labels when useful. "
+            "End with a recap and one practice question. Avoid filler and invented facts. "
+            "Return ONLY valid JSON, without markdown fences, using this exact shape: "
+            '{"title":"lesson title","intro":"clear introduction",'
+            '"steps":[{"heading":"step title","explanation":"detailed explanation",'
+            '"equation":"equation or empty string"}],'
+            '"visuals":["concept label"],"takeaway":"recap and practice question"}. '
+            "All fields must use correct JSON types and quotation marks must be escaped."
+        )
+    }]
+
+    history = data.get("history", [])
+    if isinstance(history, list):
+        for item in history[-6:]:
+            if not isinstance(item, dict):
+                continue
+            role = item.get("role")
+            content = item.get("content", "")
+            if role in ("user", "assistant") and isinstance(content, str) and content.strip():
+                messages.append({"role": role, "content": content.strip()[:1800]})
+
+    messages.append({
+        "role": "user",
+        "content": f"Level: {level}\nLanguage: {language}\nTeach this topic/question: {question}"
+    })
+
+    try:
+        response = requests.post(
+            GROQ_URL,
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"model": TEXT_MODEL, "messages": messages, "temperature": 0.4, "max_completion_tokens": 1800},
+            timeout=90
+        )
+        if response.status_code != 200:
+            if response.status_code in (401, 403):
+                message = "Groq rejected the API key. Check the server environment."
+            elif response.status_code == 429:
+                message = "Groq is busy or its usage limit has been reached. Please try again shortly."
+            else:
+                message = f"The AI service returned an error (HTTP {response.status_code})."
+            print("Classroom Groq error:", response.status_code, response.text[:500])
+            return jsonify({"error": message}), 502
+
+        choices = response.json().get("choices", [])
+        answer = choices[0].get("message", {}).get("content", "") if choices else ""
+        if not isinstance(answer, str) or not answer.strip():
+            return jsonify({"error": "The AI returned an empty lesson. Please try again."}), 502
+        return jsonify({"lesson": answer.strip()})
+    except requests.Timeout:
+        return jsonify({"error": "The lesson took too long to generate. Please try again."}), 504
+    except requests.RequestException:
+        return jsonify({"error": "Could not connect to the AI service. Please try again."}), 502
+    except Exception as exc:
+        print("Classroom error:", type(exc).__name__)
+        return jsonify({"error": "Something went wrong while creating the lesson."}), 500
+
+
 @app.route("/<path:filename>")
 def static_files(filename):
     requested = (BASE_DIR / filename).resolve()
