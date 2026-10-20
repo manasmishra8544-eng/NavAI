@@ -144,6 +144,71 @@
                 </div>
             </section>
 
+            <section id="navai-tool-dashboard" aria-label="NavAI tools">
+<style>
+#navai-tool-dashboard{width:min(1050px,94%);margin:10px auto 34px;color:#edf3ff;font-family:inherit}
+#navai-tool-dashboard .dash-heading{text-align:center;margin:0 0 22px}
+#navai-tool-dashboard .dash-kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#8daeff;font-weight:700}
+#navai-tool-dashboard h2{font-size:clamp(23px,3vw,32px);margin:9px 0;color:#f4f7ff;letter-spacing:-.8px}
+#navai-tool-dashboard .dash-subtitle{color:#9caac5;font-size:14px;margin:0}
+#navai-tool-dashboard .dash-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+#navai-tool-dashboard .dash-card{position:relative;display:flex;flex-direction:column;min-height:205px;padding:23px 21px;border:1px solid rgba(139,164,220,.19);border-radius:19px;background:linear-gradient(145deg,rgba(20,34,65,.94),rgba(10,17,35,.96));text-decoration:none;color:#f4f7ff;overflow:hidden;transition:border-color .2s,transform .2s,background .2s;box-sizing:border-box}
+#navai-tool-dashboard .dash-card:hover{border-color:rgba(117,151,255,.72);transform:translateY(-3px);background:linear-gradient(145deg,rgba(28,46,87,.98),rgba(11,20,42,.99))}
+#navai-tool-dashboard .dash-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;margin-bottom:21px;font-size:23px;font-weight:700;background:rgba(83,125,255,.15);border:1px solid rgba(113,148,255,.25);color:#a9c1ff}
+#navai-tool-dashboard .dash-card:nth-child(2) .dash-icon{background:rgba(161,105,255,.14);color:#d1b3ff;border-color:rgba(185,143,255,.25)}
+#navai-tool-dashboard .dash-card:nth-child(3) .dash-icon{background:rgba(45,207,185,.12);color:#83eadb;border-color:rgba(45,207,185,.23)}
+#navai-tool-dashboard .dash-card h3{font-size:17px;line-height:1.35;margin:0 0 8px;font-weight:700}
+#navai-tool-dashboard .dash-card p{font-size:13px;line-height:1.65;color:#a6b3ce;margin:0 0 20px}
+#navai-tool-dashboard .dash-open{margin-top:auto;color:#9cb6ff;font-size:12px;font-weight:700;letter-spacing:.2px}
+#navai-tool-dashboard .dash-arrow{float:right;font-size:17px}
+@media(max-width:760px){#navai-tool-dashboard .dash-grid{grid-template-columns:1fr;gap:12px}#navai-tool-dashboard .dash-card{min-height:0;padding:18px;display:grid;grid-template-columns:48px 1fr;column-gap:14px;align-items:start}#navai-tool-dashboard .dash-icon{grid-row:1/4;margin:0}#navai-tool-dashboard .dash-card h3{margin-top:2px}#navai-tool-dashboard .dash-card p{margin-bottom:10px}#navai-tool-dashboard .dash-open{grid-column:2}}
+</style>
+<div class="dash-heading">
+  <div class="dash-kicker">One workspace. Three powerful tools.</div>
+  <h2>What do you want to do?</h2>
+  <p class="dash-subtitle">Choose a NavAI tool to get started.</p>
+</div>
+<div class="dash-grid">
+  <a class="dash-card" href="#navai-chat" data-navai-tool="chat" aria-label="Open NavAI Chat">
+    <span class="dash-icon" aria-hidden="true">✳</span>
+    <h3>NavAI Chat</h3>
+    <p>Ask questions, solve problems, brainstorm ideas and get help with your work.</p>
+    <span class="dash-open">Start chatting <span class="dash-arrow">→</span></span>
+  </a>
+  <a class="dash-card" href="/developer">
+    <span class="dash-icon" aria-hidden="true">&lt;/&gt;</span>
+    <h3>NavAI Website Builder</h3>
+    <p>Create websites and build your ideas with your AI development assistant.</p>
+    <span class="dash-open">Build a website <span class="dash-arrow">→</span></span>
+  </a>
+  <a class="dash-card" href="/classroom.html">
+    <span class="dash-icon" aria-hidden="true">✧</span>
+    <h3>NavAI Teacher</h3>
+    <p>Learn difficult topics step by step with clear explanations and visual lessons.</p>
+    <span class="dash-open">Start learning <span class="dash-arrow">→</span></span>
+  </a>
+</div>
+<script>
+(function(){
+  var card=document.querySelector('#navai-tool-dashboard [data-navai-tool="chat"]');
+  if(!card)return;
+  card.addEventListener('click',function(event){
+    event.preventDefault();
+    var input=document.getElementById('messageInput');
+    var welcome=document.getElementById('welcomeScreen');
+    if(input){
+      if(welcome && welcome.classList.contains('hidden')) {
+        input.focus();
+      } else {
+        input.focus();
+        input.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    }
+  });
+})();
+</script>
+</section>
+
             <section class="conversation hidden" id="conversation">
                 <div class="messages" id="messages"></div>
                 <div class="conversation-end" id="conversationEnd"></div>
