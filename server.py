@@ -244,6 +244,96 @@ def classroom_explain():
         return jsonify({"error": "Something went wrong while creating the lesson."}), 500
 
 
+
+@app.route("/homework")
+def homework_page():
+    return send_from_directory(BASE_DIR, "homework.html")
+
+
+@app.route("/api/homework/solve", methods=["POST"])
+def homework_solve():
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if not api_key:
+        return jsonify({"error": "GROQ_API_KEY is missing from the server environment."}), 500
+
+    data = request.get_json(silent=True) or {}
+    question = str(data.get("question", "")).strip()[:5000]
+    subject = str(data.get("subject", "Other"))[:50]
+    style = str(data.get("style", "notebook"))[:30]
+    image = data.get("image", "")
+    if not question and not image:
+        return jsonify({"error": "Enter a question or upload a photo."}), 400
+    if image and (not isinstance(image, str) or not image.startswith(("data:image/jpeg;base64,", "data:image/png;base64,", "data:image/webp;base64,"))):
+        return jsonify({"error": "Please upload a valid JPG, PNG or WebP image."}), 400
+    if image and len(image) > 5_600_000:
+        return jsonify({"error": "Image is too large. Please use an image under 4 MB."}), 413
+
+    style_text = {
+        "notebook": "Write a clean, notebook-ready school answer with suitable headings and numbered steps where needed.",
+        "short": "Give a concise, direct answer suitable for a school notebook.",
+        "detailed": "Give a detailed school-level answer with all important reasoning and calculation steps."
+    }.get(style, "Write a clean, notebook-ready school answer.")
+
+    system_prompt = (
+        "You are NavAI Homework Helper for school students. Answer the exact question accurately. "
+        "Use clear, natural language appropriate for a Class 9 student unless the question specifies otherwise. "
+        "The answer must be ready to write in a notebook, without greetings, filler, or meta commentary. "
+        "For maths, show formula, substitutions, calculation steps and a clearly labelled final answer. "
+        "For science, use correct definitions, units, equations and concise explanations. "
+        "For language and social science, use proper grammar, relevant facts and the requested answer length. "
+        "Do not invent facts or pretend certainty. If a question/photo is unclear, state exactly what needs clarification. "
+        + style_text
+    )
+    user_text = "Subject: " + subject + "\nQuestion:\n" + (question or "Read and answer the question in the attached image.")
+    content = [{"type": "text", "text": user_text}]
+    model = TEXT_MODEL
+    if image:
+        model = "meta-llama/llama-4-scout-17b-16e-instruct"
+        content.append({"type": "image_url", "image_url": {"url": image}})
+
+    try:
+        response = requests.post(
+            GROQ_URL,
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": content if image else user_text}
+                ],
+                "temperature": 0.2,
+                "max_completion_tokens": 4096
+            },
+            timeout=90
+        )
+        if response.status_code != 200:
+            print("Homework Groq error:", response.status_code, response.text[:400])
+            if response.status_code in (401, 403):
+                message = "Groq rejected the API key. Check the server environment."
+            elif response.status_code == 429:
+                message = "Groq usage limit reached or service is busy. Please try again later."
+            elif image:
+                message = "The photo-reading model is unavailable or rejected this request. Try typing the question, or check Render logs."
+            else:
+                message = f"The AI service returned an error (HTTP {response.status_code})."
+            return jsonify({"error": message}), 502
+
+        payload = response.json()
+        choices = payload.get("choices", [])
+        answer = choices[0].get("message", {}).get("content", "") if choices else ""
+        if not isinstance(answer, str) or not answer.strip():
+            print("Homework empty response:", {"model": model, "finish_reason": choices[0].get("finish_reason") if choices else None})
+            return jsonify({"error": "The AI returned an empty answer. Please try again."}), 502
+        return jsonify({"answer": answer.strip()})
+    except requests.Timeout:
+        return jsonify({"error": "The answer took too long to generate. Please try again."}), 504
+    except requests.RequestException:
+        return jsonify({"error": "Could not connect to the AI service. Please try again."}), 502
+    except Exception as exc:
+        print("Homework error:", type(exc).__name__)
+        return jsonify({"error": "Something went wrong while generating the answer."}), 500
+
+
 @app.route("/<path:filename>")
 def static_files(filename):
     requested = (BASE_DIR / filename).resolve()
