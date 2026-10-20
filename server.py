@@ -217,7 +217,7 @@ def classroom_explain():
         response = requests.post(
             GROQ_URL,
             headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            json={"model": TEXT_MODEL, "messages": messages, "temperature": 0.4, "max_completion_tokens": 1800},
+            json={"model": TEXT_MODEL, "messages": messages, "temperature": 0.4, "max_completion_tokens": 4096},
             timeout=90
         )
         if response.status_code != 200:
