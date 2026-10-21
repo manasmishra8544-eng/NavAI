@@ -1,4 +1,4 @@
-
+﻿
 const STORAGE_KEY = "navai_chat_history";
 const THEME_KEY = "navai_theme";
 
@@ -54,6 +54,7 @@ function loadChats() {
 function saveChats() {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
+        if (window.NAVAI_CHAT_SYNC) window.NAVAI_CHAT_SYNC.queueSave(chats);
     } catch (error) {
         console.error("Chat history could not be saved:", error);
         showToast("Storage is full. Delete some old chats.");
@@ -66,7 +67,7 @@ function makeId() {
 
 function makeTitle(text) {
     text = String(text || "Image question").trim().replace(/\s+/g, " ");
-    return text.length > 42 ? text.slice(0, 42) + "â€¦" : text;
+    return text.length > 42 ? text.slice(0, 42) + "Ã¢â‚¬Â¦" : text;
 }
 
 function getActiveChat() {
@@ -122,7 +123,7 @@ function renderHistory() {
         const del = document.createElement("button");
         del.type = "button";
         del.className = "delete-chat-button";
-        del.textContent = "×";
+        del.textContent = "Ã—";
         del.title = "Delete chat";
         del.setAttribute("aria-label", "Delete chat");
         del.addEventListener("click", event => {
@@ -165,6 +166,7 @@ function deleteChat(id) {
     if (!confirm(`Delete "${chat.title}"? This cannot be undone.`)) return;
 
     chats = chats.filter(c => c.id !== id);
+    if (window.NAVAI_CHAT_SYNC) window.NAVAI_CHAT_SYNC.markDeleted(id);
     if (activeChatId === id) {
         activeChatId = null;
         messages.innerHTML = "";
@@ -380,7 +382,7 @@ async function copyText(text) {
     if (!success) throw new Error("Copy failed");
 }
 
-/* SEND MESSAGE â€” supports response, answer, or reply */
+/* SEND MESSAGE Ã¢â‚¬â€ supports response, answer, or reply */
 
 chatForm.addEventListener("submit", async event => {
     event.preventDefault();
@@ -568,7 +570,7 @@ imageInput.addEventListener("change", async () => {
     attachBtn.disabled = true;
 
     try {
-        showToast("Preparing imageâ€¦");
+        showToast("Preparing imageÃ¢â‚¬Â¦");
         currentImage = await compressImage(file);
         currentImageName = file.name;
         imagePreview.src = currentImage;
@@ -762,5 +764,34 @@ try {
 
 renderHistory();
 startNewChat();
+
+// NavAI cloud-sync bridge: keeps the existing chat UI intact.
+window.NAVAI_CHAT_BRIDGE = {
+    getChats: () => chats.map(chat => ({
+        ...chat,
+        messages: chat.messages.map(message => ({ ...message }))
+    })),
+    replaceChats: (items) => {
+        chats = items.map(chat => ({
+            id: String(chat.id),
+            title: String(chat.title || "New chat"),
+            updatedAt: Number(chat.updatedAt || Date.now()),
+            messages: Array.isArray(chat.messages) ? chat.messages : []
+        })).sort((a, b) => b.updatedAt - a.updatedAt);
+
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
+        } catch (error) {
+            console.error("Could not update local chat cache:", error);
+        }
+
+        if (activeChatId && !chats.some(chat => chat.id === activeChatId)) {
+            activeChatId = null;
+        }
+        renderHistory();
+        renderCurrentChat();
+    }
+};
 console.log("NavAI frontend loaded successfully.");
+
 

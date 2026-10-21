@@ -2,3 +2,94 @@
 
 
 .history-panel h2{margin:4px 0}.history-item{padding:15px 0;border-bottom:1px solid #ffffff14}.history-item:last-child{border-bottom:0}.history-title{font-size:11px;color:#91a8d1}.history-question{margin:7px 0 12px;overflow-wrap:anywhere;color:#e7edff}.history-actions{display:flex;gap:8px;flex-wrap:wrap}.history-panel .remove{padding:8px 11px}
+
+/* NAVAI HOMEWORK MOBILE PREMIUM PASS 2026 */
+@media (max-width: 650px) {
+    html, body {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+
+    .top {
+        height: auto;
+        min-height: 60px;
+        padding: 10px 14px !important;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .brand {
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .pill {
+        max-width: 100%;
+        font-size: 11px;
+    }
+
+    .wrap {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .intro {
+        padding-top: 28px;
+    }
+
+    .intro h1 {
+        font-size: clamp(27px, 8vw, 38px);
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+    }
+
+    .intro p {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .panel {
+        padding: 16px !important;
+        border-radius: 17px;
+    }
+
+    .panel input,
+    .panel textarea,
+    .panel select,
+    #question,
+    #subject {
+        width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .actions {
+        gap: 10px;
+    }
+
+    .actions button,
+    .actions a,
+    .primary {
+        max-width: 100%;
+        min-height: 44px;
+    }
+
+    .result,
+    .result pre,
+    #preview {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .result pre {
+        white-space: pre-wrap;
+        overflow-x: auto;
+    }
+
+    .history-panel {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+}

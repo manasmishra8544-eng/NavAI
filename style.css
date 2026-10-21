@@ -2819,3 +2819,221 @@ html, body { width: 100%; max-width: 100%; margin: 0; }
         min-width: 0 !important;
     }
 }
+
+
+/* NavAI: keep sidebar item colours consistent on hover and click */
+#sidebar a:hover,
+#sidebar button:hover,
+#sidebar a:active,
+#sidebar button:active,
+#sidebar a:focus,
+#sidebar button:focus,
+.sidebar a:hover,
+.sidebar button:hover,
+.sidebar a:active,
+.sidebar button:active,
+.sidebar a:focus,
+.sidebar button:focus,
+.sidebar .active,
+.sidebar .selected,
+.sidebar .active:hover,
+.sidebar .selected:hover,
+nav a:hover,
+nav button:hover,
+nav a:active,
+nav button:active {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+
+
+/* NAVAI FIXED SIDEBAR COLORS V2 */
+:is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+:is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item),
+:is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+:is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item):is(:hover, :active, :focus, :focus-visible, .active, .selected, [aria-current], [aria-selected="true"]),
+:is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"]) :is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item):is(:hover, :active, :focus, :focus-visible, .active, .selected, [aria-current], [aria-selected="true"]) {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: inherit !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    filter: none !important;
+    transform: none !important;
+    outline: none !important;
+    transition: none !important;
+}
+
+:is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"]) :is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item)::before,
+:is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"]) :is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item)::after {
+    background: transparent !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    transition: none !important;
+}
+
+
+/* NAVAI SEARCH: prevent black hover/click backgrounds */
+:is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+:is(button, a, input, [role="button"], [title*="Search" i], [aria-label*="Search" i]),
+:is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+:is(button, a, [role="button"], [title*="Search" i], [aria-label*="Search" i]):is(:hover, :active, :focus, .active, .selected) {
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+/* NavAI plus menu */
+.composer { position: relative; }
+.navai-plus-menu[hidden] { display: none !important; }
+.navai-plus-menu {
+    position: absolute;
+    z-index: 1100;
+    left: 12px;
+    bottom: calc(100% + 10px);
+    width: 205px;
+    padding: 7px;
+    border: 1px solid rgba(100,160,255,.28);
+    border-radius: 15px;
+    background: #10172a;
+    box-shadow: 0 14px 38px rgba(0,0,0,.42);
+}
+.navai-plus-menu-item {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 10px;
+    color: #eef3ff;
+    background: transparent;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+}
+.navai-plus-menu-item:hover,
+.navai-plus-menu-item:focus-visible {
+    background: rgba(65,115,220,.2);
+    outline: none;
+}
+
+/* NAVAI MOBILE PREMIUM PASS 2026 */
+@media (max-width: 650px) {
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        overflow-x: clip;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    .main-area,
+    .welcome-screen,
+    .conversation,
+    .composer-area,
+    .composer-wrap,
+    .composer,
+    .welcome-content {
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    .topbar {
+        gap: 8px;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .topbar-left,
+    .topbar-right {
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .welcome-content {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .welcome-content h1,
+    .welcome-screen h1 {
+        font-size: clamp(25px, 7vw, 34px);
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+    }
+
+    .suggestion-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
+        width: 100%;
+    }
+
+    .suggestion-grid > *,
+    .composer > *,
+    .composer-wrap > * {
+        min-width: 0;
+    }
+
+    .composer-area {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .composer {
+        gap: 8px;
+        border-radius: 18px;
+    }
+
+    #messageInput {
+        min-width: 0;
+        width: 100%;
+        font-size: 16px;
+        overflow-wrap: anywhere;
+    }
+
+    .conversation img,
+    .welcome-screen img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .conversation pre,
+    .conversation code {
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    .conversation table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    button, input, select, textarea {
+        max-width: 100%;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 380px) {
+    .suggestion-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .topbar {
+        gap: 6px;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    .welcome-content {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}

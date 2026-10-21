@@ -1,4 +1,4 @@
-﻿
+
 "use strict";
 
 (() => {
@@ -261,6 +261,18 @@
       generate.disabled = false;
     }
   }
+
+  window.addEventListener("navai:restore-website", event => {
+    const saved = event.detail || {};
+    if (typeof saved.html !== "string" || !saved.html.toLowerCase().includes("<html")) return;
+    currentHTML = saved.html;
+    prompt.value = saved.prompt || "";
+    preview.srcdoc = currentHTML;
+    showPreview();
+    showGeneratedWebsite();
+    download.disabled = false;
+    message("Saved website restored. You can preview, download, or continue editing it.", "success");
+  });
 
   generate.addEventListener("click", generateWebsite);
   $("regenerate").addEventListener("click", generateWebsite);

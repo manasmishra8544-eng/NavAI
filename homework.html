@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/homework.css">
 
 <style id="navai-back-button-style">
-.top-left{display:flex;align-items:center;gap:12px;min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.top-left{display:flex;align-items:center;gap:12px;min-width:0}.navai-dashboard-back{order:3}
 .navai-dashboard-back{position:static;width:36px;height:36px;flex-shrink:0;display:grid;place-items:center;border:1px solid rgba(145,170,255,.35);border-radius:10px;background:rgba(10,18,36,.94);color:#eef2ff;text-decoration:none;font:23px/1 Arial,sans-serif;transition:background .18s,border-color .18s}
 .navai-dashboard-back:hover{background:#1b2b4b;border-color:#91aaff}
 .navai-dashboard-back:focus-visible{outline:2px solid #91aaff;outline-offset:3px}
@@ -16,14 +16,11 @@
 </style>
 </head>
 <body>
-<a id="navai-dashboard-back" class="navai-dashboard-back" href="/" aria-label="Back to NavAI dashboard" title="Back to dashboard">&#8592;</a>
-
 <header class="top">
   <div class="top-left">
-    <a id="navai-dashboard-back" class="navai-dashboard-back" href="/" aria-label="Back to NavAI dashboard" title="Back to dashboard">&#8592;</a>
     <a class="brand" href="/">? <span>NavAI</span></a>
   </div>
-  <span class="pill">HOMEWORK HELPER</span>
+  <span class="pill">HOMEWORK HELPER</span><a id="navai-dashboard-back" class="navai-dashboard-back" href="/" aria-label="Back to NavAI dashboard" title="Back to dashboard">&#8592;</a>
 </header>
 <main class="wrap">
   <section class="intro">

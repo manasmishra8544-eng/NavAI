@@ -178,6 +178,21 @@
 #navai-tool-dashboard #navai-auth-trigger,#navai-tool-dashboard .navai-sidebar-auth-trigger{position:fixed!important;top:20px!important;right:24px!important;left:auto!important;bottom:auto!important;z-index:1000002!important;display:flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:88px!important;height:38px!important;padding:0 17px!important;border:1px solid #91aaff65!important;border-radius:12px!important;background:linear-gradient(135deg,#263b68,#172440)!important;color:#f2f5ff!important;font-size:12px!important;font-weight:700!important;box-shadow:0 6px 24px #0003!important;cursor:pointer!important}
 #navai-tool-dashboard #navai-auth-trigger:hover,#navai-tool-dashboard .navai-sidebar-auth-trigger:hover{border-color:#b5c6ff!important;background:#2b416f!important}
 @media(max-width:600px){#navai-tool-dashboard #navai-auth-trigger,#navai-tool-dashboard .navai-sidebar-auth-trigger{top:15px!important;right:15px!important;min-width:75px!important;height:34px!important;padding:0 12px!important}}
+
+/* NAVAI PREMIUM DASHBOARD ICONS */
+#navai-tool-dashboard .tool-icon svg {
+  display: block;
+  width: 29px;
+  height: 29px;
+}
+#navai-tool-dashboard .tool-arrow {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 500;
+}
+#navai-tool-dashboard .tool {
+  -webkit-tap-highlight-color: transparent;
+}
 </style>
 <div class="home-wrap">
   <div class="brand"><div class="brand-icon">N</div><div class="brand-name">Nav<span>AI</span></div></div>
@@ -194,7 +209,7 @@
       <div class="tool-bottom"><span>Start a conversation</span><span class="tool-arrow">↗</span></div>
     </a>
     <a class="tool" href="/developer">
-      <div class="tool-icon">&lt;/&gt;</div>
+      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h2>Website Builder</h2>
       <p>Turn your ideas into websites with help from your AI development assistant.</p>
       <div class="tool-bottom"><span>Build a website</span><span class="tool-arrow">↗</span></div>
@@ -206,10 +221,10 @@
       <div class="tool-bottom"><span>Start learning</span><span class="tool-arrow">↗</span></div>
     </a>
     <a class="tool" href="/homework">
-      <div class="tool-icon">?</div>
+      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v14l-7-4-7 4V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 8h6M9 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
       <h2>Homework Helper</h2>
       <p>Get clean, notebook-ready answers from a question or photo.</p>
-      <div class="tool-bottom"><span>Answer my homework</span><span class="tool-arrow">?</span></div>
+      <div class="tool-bottom"><span>Answer my homework</span><span class="tool-arrow" aria-hidden="true">↗</span></div>
     </a>
   </div>
   <div class="footer">NAVAI · YOUR IDEAS START HERE</div>

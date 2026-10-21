@@ -1264,3 +1264,63 @@ footer {
   }
 }
 /* ===== End Premium Refresh ===== */
+
+/* NAVAI TEACHER MOBILE PREMIUM PASS 2026 */
+@media (max-width: 650px) {
+    html, body {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+
+    .topbar {
+        min-height: 56px;
+        height: auto;
+        padding: 10px 12px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .brand {
+        min-width: 0;
+        font-size: 15px;
+    }
+
+    .live {
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .back {
+        max-width: 100%;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .welcome {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .welcome-copy h1 {
+        font-size: clamp(27px, 8vw, 36px);
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+    }
+
+    .teacher-message,
+    .teacher-benefits,
+    .teacher-state {
+        min-width: 0;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    input, textarea, select, button {
+        max-width: 100%;
+        font-size: 16px;
+    }
+
+    img, canvas, svg {
+        max-width: 100%;
+    }
+}

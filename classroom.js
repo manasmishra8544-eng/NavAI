@@ -261,6 +261,23 @@ async function teach(question, isFollowup = false) {
       { role: "assistant", content: raw }
     );
     history = history.slice(-8);
+    // NAVAI_PERSISTENT_TEACHER_HISTORY
+    try {
+      const key = "navai.teacher.history.v1";
+      const items = JSON.parse(localStorage.getItem(key) || "[]");
+      items.unshift({
+        id: Date.now().toString() + "-" + Math.random().toString(36).slice(2, 8),
+        question: String(question || "Untitled lesson"),
+        raw: String(raw || ""),
+        conversation: history.slice(),
+        updatedAt: Date.now()
+      });
+      localStorage.setItem(key, JSON.stringify(items.slice(0, 100)));
+      window.dispatchEvent(new Event("navai:teacher-history-updated"));
+    } catch (err) {
+      console.error("NavAI Teacher history save failed:", err);
+      setStatus("Lesson created, but history could not be saved in this browser.", "error");
+    }
 
     setStatus("Pico is starting your step-by-step lesson...");
 
@@ -341,3 +358,145 @@ $("stopBtn").addEventListener("click", () => {
 
 window.addEventListener("beforeunload", stopVoice);
 $("speakBtn").textContent = "Start teaching aloud";
+// NAVAI_TEACHER_HISTORY_V1
+(() => {
+  const KEY = "navai.teacher.history.v1";
+  let currentSavedLessonId = null;
+  const readSaved = () => {
+    try { const value = JSON.parse(localStorage.getItem(KEY) || "[]"); return Array.isArray(value) ? value : []; }
+    catch { return []; }
+  };
+  const writeSaved = items => {
+    try { localStorage.setItem(KEY, JSON.stringify(items)); return true; }
+    catch { setStatus("History could not be saved. Browser storage may be full.", "error"); return false; }
+  };
+  const escSaved = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+  const historyPanel = document.createElement("section");
+  historyPanel.id = "navai-teacher-history";
+  historyPanel.innerHTML = `
+    <style>
+      #navai-teacher-history{margin:18px 0;padding:18px;border:1px solid rgba(145,170,255,.22);border-radius:18px;background:rgba(9,17,35,.9);color:#eaf0ff}
+      #navai-teacher-history .nth-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+      #navai-teacher-history h2{font-size:18px;margin:0} #navai-teacher-history p{font-size:12px;color:#aab9d7;margin:6px 0 0}
+      #navai-teacher-history button{border:1px solid rgba(145,170,255,.3);border-radius:10px;background:#152544;color:#eaf0ff;padding:9px 12px;cursor:pointer}
+      #navai-teacher-history .nth-list{display:grid;gap:8px;margin-top:14px}
+      #navai-teacher-history .nth-item{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(145,170,255,.16);border-radius:12px;padding:11px}
+      #navai-teacher-history .nth-title{font-size:13px;overflow-wrap:anywhere} #navai-teacher-history .nth-date{font-size:11px;color:#aab9d7;margin-top:4px}
+      #navai-teacher-history .nth-actions{display:flex;gap:7px;flex-shrink:0}
+      #navai-teacher-history .nth-empty{font-size:13px;color:#aab9d7;padding:12px 0}
+      @media(max-width:560px){#navai-teacher-history .nth-item{align-items:flex-start;flex-direction:column}#navai-teacher-history .nth-actions{flex-wrap:wrap}}
+    </style>
+    <div class="nth-head"><div><h2>Lesson history</h2><p>Lessons and your current step are saved automatically in this browser.</p></div><button type="button" id="nth-clear">Clear history</button></div>
+    <div class="nth-list" id="nth-list"></div>`;
+  const host = document.querySelector(".layout") || document.body;
+  const boardSection = document.querySelector(".board-section");
+  if (boardSection) host.insertBefore(historyPanel, boardSection);
+  else host.appendChild(historyPanel);
+  const list = document.getElementById("nth-list");
+
+  function renderSavedList() {
+    const items = readSaved().sort((a,b) => b.updatedAt - a.updatedAt);
+    if (!items.length) { list.innerHTML = '<div class="nth-empty">No lessons saved yet. Ask Pico to teach a topic.</div>'; return; }
+    list.innerHTML = items.map(item => `
+      <div class="nth-item">
+        <div><div class="nth-title">${escSaved(item.title || item.question || "Untitled lesson")}</div><div class="nth-date">${escSaved(new Date(item.updatedAt).toLocaleString())} · Step ${(Number(item.activeStep)||0)+1}</div></div>
+        <div class="nth-actions"><button type="button" data-nth-open="${escSaved(item.id)}">Open</button><button type="button" data-nth-delete="${escSaved(item.id)}">Delete</button></div>
+      </div>`).join("");
+  }
+  function saveCurrentLesson(question, raw, isFollowup) {
+    if (!lesson) return;
+    const items = readSaved();
+    let item = isFollowup && currentSavedLessonId ? items.find(x => x.id === currentSavedLessonId) : null;
+    if (!item) {
+      item = {id: `${Date.now()}-${Math.random().toString(36).slice(2,8)}`, question, title: lesson.title || question, createdAt: Date.now()};
+      items.push(item);
+      currentSavedLessonId = item.id;
+    }
+    item.question = item.question || question;
+    item.title = lesson.title || item.question;
+    item.lesson = lesson;
+    item.chatHistory = history;
+    item.activeStep = activeStep;
+    item.updatedAt = Date.now();
+    writeSaved(items);
+    renderSavedList();
+  }
+  function saveStep() {
+    if (!currentSavedLessonId || !lesson) return;
+    const items = readSaved();
+    const item = items.find(x => x.id === currentSavedLessonId);
+    if (!item) return;
+    item.lesson = lesson;
+    item.chatHistory = history;
+    item.activeStep = activeStep;
+    item.updatedAt = Date.now();
+    writeSaved(items);
+    renderSavedList();
+  }
+  list.addEventListener("click", event => {
+    const openButton = event.target.closest("[data-nth-open]");
+    const deleteButton = event.target.closest("[data-nth-delete]");
+    if (openButton) {
+      const item = readSaved().find(x => x.id === openButton.dataset.nthOpen);
+      if (!item || !item.lesson) return;
+      stopVoice();
+      currentSavedLessonId = item.id;
+      lesson = item.lesson;
+      activeStep = Math.max(0, Math.min(Number(item.activeStep) || 0, lesson.steps.length - 1));
+      history = Array.isArray(item.chatHistory) ? item.chatHistory : [];
+      topicInput.value = item.question || item.title || "";
+      renderLesson();
+      setStatus("Saved lesson restored. Continue from where you left off.", "success");
+      document.querySelector(".board-section")?.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+    if (deleteButton) {
+      if (!confirm("Delete this saved lesson?")) return;
+      if (currentSavedLessonId === deleteButton.dataset.nthDelete) currentSavedLessonId = null;
+      writeSaved(readSaved().filter(x => x.id !== deleteButton.dataset.nthDelete));
+      renderSavedList();
+    }
+  });
+  document.getElementById("nth-clear").addEventListener("click", () => {
+    if (!readSaved().length) return;
+    if (confirm("Delete all NavAI Teacher lesson history? This cannot be undone.")) {
+      writeSaved([]);
+      currentSavedLessonId = null;
+      renderSavedList();
+    }
+  });
+
+  // Hook into the existing lesson flow without changing the AI request/response.
+  const originalTeach = teach;
+  teach = async function(question, isFollowup = false) {
+    const previousId = currentSavedLessonId;
+    const previousLesson = lesson;
+    await originalTeach(question, isFollowup);
+    if (lesson && lesson !== previousLesson) {
+      // A new topic creates a new saved lesson; follow-ups update that lesson.
+      if (!isFollowup) currentSavedLessonId = null;
+      saveCurrentLesson(question, "", isFollowup);
+    } else {
+      currentSavedLessonId = previousId;
+    }
+  };
+
+  // Existing step handlers run first; these listeners persist the updated step afterward.
+  document.getElementById("prevBtn")?.addEventListener("click", saveStep);
+  document.getElementById("nextBtn")?.addEventListener("click", saveStep);
+
+  renderSavedList();
+})();
+
+// NAVAI_PERSISTENT_TEACHER_RESTORE
+window.addEventListener("navai:restore-lesson", event => {
+  const item = event.detail;
+  if (!item || typeof item.raw !== "string") return;
+  lesson = parseLesson(item.raw, item.question || "Saved lesson");
+  activeStep = 0;
+  history = Array.isArray(item.conversation) ? item.conversation.slice(-8) : [];
+  renderLesson();
+  setStatus("Saved lesson restored. Continue learning!");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
