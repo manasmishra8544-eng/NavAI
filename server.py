@@ -388,6 +388,33 @@ def chat():
 
     user_message = user_message.strip()
 
+    # NAVAI_CREATOR_DIRECT_FIX
+    creator_question = re.search(
+        r"\b(who\s+(made|created|built|developed)\s+you|"
+        r"who\s+is\s+your\s+(creator|developer|maker)|"
+        r"who\s+is\s+behind\s+you|"
+        r"tumhe?\s+kisne\s+(banaya|banaya\s+hai)|"
+        r"tumhara\s+(creator|developer|maker)\s+kaun|"
+        r"kisne\s+banaya\s+navai|"
+        r"manas\s+mishra\s+kaun\s+hai|"
+        r"how\s+were\s+you\s+(made|created|built|developed))\b",
+        user_message,
+        re.IGNORECASE
+    )
+    if creator_question:
+        answer = (
+            "I am NavAI, created and developed by Manas Mishra, "
+            "a Class 9 student and aspiring developer. Manas built "
+            "NavAI using coding, AI models, and development tools. "
+            "ChatGPT may be used as a development aid, but NavAI is "
+            "an independent project, not an official OpenAI product."
+        )
+        return jsonify({
+            "response": answer,
+            "answer": answer,
+            "reply": answer
+        })
+
     if not user_message:
         return jsonify({"error": "Please enter a message."}), 400
 
