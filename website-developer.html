@@ -6,115 +6,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0d12">
 <title>Website Developer | NavAI</title>
-<style>
+<style id="navai-premium-creator-layout">
 :root {
-  color-scheme: dark;
-  --bg:#0b0d12;
-  --sidebar:#0f1118;
-  --panel:#141720;
-  --panel-hover:#1b1f2b;
-  --border:rgba(255,255,255,.08);
-  --text:#f1f4fc;
-  --muted:#8c93a5;
-  --blue:#6588ff;
-  --blue-bright:#82a0ff;
-  --blue-soft:rgba(101,136,255,.13);
+  --bg:#080b14;
+  --sidebar:#0b1020;
+  --panel:#101729;
+  --panel-hover:#18223a;
+  --border:rgba(155,174,230,.13);
+  --text:#f2f5ff;
+  --muted:#8995b2;
+  --blue:#7868ff;
+  --blue-bright:#9a8dff;
+  --blue-soft:rgba(120,104,255,.13);
   --green:#5ddeae;
 }
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--text);font:14px/1.5 "DM Sans",Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+body{background:var(--bg);color:var(--text);font:13px/1.55 Inter,"Segoe UI",system-ui,sans-serif}
 button,textarea{font:inherit}
 button{cursor:pointer}
 button:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-button:disabled{opacity:.48;cursor:not-allowed}
-.app{height:100dvh;display:flex;flex-direction:column;background:var(--bg)}
-.topbar{height:64px;min-height:64px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg);gap:16px}
-.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:750;letter-spacing:-.6px}
-.brand-mark{width:33px;height:33px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(140deg,#7795ff,#7659df);color:white;font-size:19px;box-shadow:0 4px 22px #6588ff2b}
-.brand span{color:var(--blue-bright)}
+.app{height:100dvh;display:grid;grid-template-columns:225px minmax(0,1fr) 265px;grid-template-rows:62px minmax(0,1fr);background:var(--bg)}
+.topbar{grid-column:1/-1;grid-row:1;height:62px;min-height:62px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:#0a0e19;gap:16px}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800;letter-spacing:-.6px}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(140deg,#8c7bff,#5143c9);color:white;font-size:20px;box-shadow:0 4px 22px #7868ff38}
+.brand span{color:#a79bff}
 .top-actions{display:flex;align-items:center;gap:12px}
-.credits{font-size:12px;color:var(--muted)}
+.credits{font-size:12px;color:#c6cafa;padding:8px 12px;background:#141a2c;border:1px solid var(--border);border-radius:10px}
 .back{color:#dce3f7;text-decoration:none;padding:9px 13px;border:1px solid var(--border);border-radius:10px;background:var(--panel);font-size:12px;white-space:nowrap}
 .back:hover,.secondary:hover{background:var(--panel-hover)}
-.workspace{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:0}
-.editor{min-width:0;min-height:0;overflow-y:auto;display:flex;justify-content:center;padding:clamp(20px,5vh,54px) 22px 24px}
-.editor-inner{width:100%;max-width:720px;display:flex;flex-direction:column;gap:23px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#a9bbff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.workspace{grid-column:2;grid-row:2;min-width:0;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.editor{min-width:0;min-height:0;overflow-y:auto;display:flex;justify-content:center;padding:30px 24px}
+.editor-inner{width:100%;max-width:900px;display:flex;flex-direction:column;gap:20px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#b7adff;font-size:10px;font-weight:750;letter-spacing:1.5px;text-transform:uppercase}
 .eyebrow-dot{width:7px;height:7px;background:var(--blue);border-radius:50%;box-shadow:0 0 13px var(--blue)}
-h1{font-size:clamp(29px,4vw,43px);line-height:1.12;letter-spacing:-1.8px;margin:12px 0}
-.subtitle{color:var(--muted);font-size:14px;line-height:1.8;margin:0;max-width:550px}
-.composer{border:1px solid rgba(130,160,255,.22);border-radius:18px;background:var(--panel);padding:17px;box-shadow:0 14px 55px rgba(0,0,0,.14)}
-.composer:focus-within{border-color:rgba(130,160,255,.48);box-shadow:0 0 0 3px rgba(101,136,255,.07)}
-.composer-label{font-size:12px;font-weight:650;color:#dfe5f7;display:block;margin-bottom:12px}
-textarea{width:100%;min-height:155px;max-height:35vh;resize:vertical;background:transparent;color:var(--text);border:0;outline:0;font-size:14px;line-height:1.8}
-textarea::placeholder{color:#70798d}
+h1{font-size:clamp(29px,3vw,42px);line-height:1.14;letter-spacing:-1.5px;margin:8px 0 10px;text-align:center}
+.subtitle{color:var(--muted);font-size:13px;line-height:1.8;margin:0 auto;max-width:550px;text-align:center}
+.editor-inner>.eyebrow{justify-content:center}
+.composer{border:1px solid rgba(151,139,255,.28);border-radius:18px;background:linear-gradient(145deg,#131a2c,#101525);padding:19px;box-shadow:0 15px 50px #0002}
+.composer:focus-within{border-color:#8779ff80;box-shadow:0 0 0 3px #7868ff12,0 18px 50px #0003}
+.composer-label{font-size:12px;font-weight:650;color:#e2e5fa;display:block;margin-bottom:10px}
+textarea{width:100%;min-height:125px;max-height:30vh;resize:vertical;background:transparent;color:var(--text);border:0;outline:0;font-size:14px;line-height:1.8}
+textarea::placeholder{color:#727e9a}
 .composer-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--border);padding-top:13px}
-.char-count{color:#70798d;font-size:11px}
+.char-count{color:#78839e;font-size:11px}
 .primary,.secondary{border:1px solid var(--border);border-radius:11px;padding:10px 14px;font-size:12px;font-weight:650;transition:background .15s,border-color .15s}
-.primary{background:var(--blue);color:white;border-color:transparent;box-shadow:0 5px 20px #6588ff25}
-.primary:hover{background:var(--blue-bright)}
+.primary{background:linear-gradient(135deg,#8170ff,#5d4de0);color:white;border-color:transparent;box-shadow:0 5px 20px #7868ff28}
+.primary:hover{background:linear-gradient(135deg,#9a8bff,#7160f5)}
 .secondary{background:var(--panel);color:var(--text)}
 .primary:disabled{box-shadow:none}
 .examples{display:flex;flex-wrap:wrap;gap:8px}
-.example{border:1px solid var(--border);border-radius:999px;background:transparent;color:#b8c0d3;padding:8px 12px;font-size:11px}
-.example:hover{border-color:#6588ff70;background:var(--blue-soft);color:#dce5ff}
-.section-label{font-size:11px;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;font-weight:700}
-.note{font-size:11px;line-height:1.8;color:#777f91;margin:0}
+.example{border:1px solid var(--border);border-radius:999px;background:#11182a;color:#c4cbe1;padding:8px 12px;font-size:11px}
+.example:hover{border-color:#8779ff70;background:var(--blue-soft);color:#e5e0ff}
+.section-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-weight:750}
+.note{font-size:11px;line-height:1.8;color:#858eaa;margin:0}
 .status{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);min-height:20px}
-.status.error{color:#ff9696}
-.status.success{color:var(--green)}
+.status.error{color:#ff9696}.status.success{color:var(--green)}
 .status-dot{width:7px;height:7px;flex-shrink:0;background:#6b7486;border-radius:50%}
 .status.loading .status-dot{background:var(--blue);animation:pulse 1s infinite}
-@keyframes pulse{50%{opacity:.3;box-shadow:0 0 0 5px #6588ff20}}
-.preview-panel{display:none;min-width:0;min-height:0;background:#101218;border-left:1px solid var(--border);flex-direction:column}
-.workspace.preview-open{grid-template-columns:minmax(0,35fr) minmax(0,65fr)}
+@keyframes pulse{50%{opacity:.3;box-shadow:0 0 0 5px #7868ff20}}
+.preview-panel{display:none;min-width:0;min-height:0;background:#0d1220;border-left:1px solid var(--border);flex-direction:column}
+.workspace.preview-open{grid-template-columns:minmax(300px,38fr) minmax(0,62fr)}
 .workspace.preview-open .editor{padding:22px 18px;justify-content:flex-start}
-.workspace.preview-open .editor-inner{max-width:none;gap:16px}
+.workspace.preview-open .editor-inner{max-width:none;gap:15px}
 .workspace.preview-open h1{font-size:27px;letter-spacing:-1px}
 .workspace.preview-open .subtitle{font-size:12px}
 .workspace.preview-open .composer{padding:13px}
-.workspace.preview-open textarea{min-height:130px;font-size:13px}
-.workspace.preview-open .examples{gap:6px}
-.workspace.preview-open .example{font-size:10px;padding:7px 9px}
+.workspace.preview-open textarea{min-height:100px;font-size:13px}
 .workspace.preview-open .preview-panel{display:flex}
-.preview-toolbar{height:56px;min-height:56px;padding:0 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);background:#11131a}
+.preview-toolbar{height:53px;min-height:53px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);background:#101627}
 .preview-title{display:flex;align-items:center;gap:9px;font-weight:650;font-size:12px}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px #5ddeae55}
-.device-actions{display:flex;gap:6px;align-items:center}
+.device-actions{display:flex;gap:5px;align-items:center}
 .device-btn{border:1px solid transparent;background:transparent;color:var(--muted);border-radius:8px;padding:7px 9px;font-size:11px}
-.device-btn.active{background:var(--blue-soft);border-color:#6588ff35;color:#cbd7ff}
-.preview-stage{flex:1;min-height:0;position:relative;display:flex;align-items:stretch;justify-content:center;padding:16px;background:radial-gradient(ellipse at center,#171a25 0%,#101218 72%)}
-.frame-shell{width:100%;height:100%;min-height:0;overflow:hidden;border:1px solid #303440;border-radius:12px;background:white;box-shadow:0 18px 60px #0004;transition:width .2s}
+.device-btn.active{background:var(--blue-soft);border-color:#7868ff40;color:#ded9ff}
+.preview-stage{flex:1;min-height:0;position:relative;display:flex;align-items:stretch;justify-content:center;padding:13px;background:radial-gradient(ellipse at center,#171d31 0%,#0d1220 72%)}
+.frame-shell{width:100%;height:100%;min-height:0;overflow:hidden;border:1px solid #30394f;border-radius:12px;background:white;box-shadow:0 18px 60px #0004;transition:width .2s}
 .frame-shell.mobile{width:390px;max-width:100%}
 iframe{display:block;width:100%;height:100%;border:0;background:white}
-.loading-screen{position:absolute;inset:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;border:1px solid var(--border);border-radius:12px;background:#11131a;color:var(--muted);text-align:center;padding:25px}
+.loading-screen{position:absolute;inset:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;border:1px solid var(--border);border-radius:12px;background:#101627;color:var(--muted);text-align:center;padding:25px}
 .loading-screen[hidden]{display:none}
-.loader-orb{width:48px;height:48px;border-radius:16px;background:linear-gradient(140deg,#7795ff,#7659df);display:grid;place-items:center;color:white;font-size:23px;animation:orb 1.6s ease-in-out infinite;box-shadow:0 0 38px #6588ff30}
-@keyframes orb{50%{transform:translateY(-5px) rotate(5deg);box-shadow:0 0 50px #6588ff55}}
+.loader-orb{width:48px;height:48px;border-radius:16px;background:linear-gradient(140deg,#9181ff,#5c4bdf);display:grid;place-items:center;color:white;font-size:23px;animation:orb 1.6s ease-in-out infinite;box-shadow:0 0 38px #7868ff30}
+@keyframes orb{50%{transform:translateY(-5px) rotate(5deg);box-shadow:0 0 50px #7868ff55}}
 .loading-title{color:var(--text);font-size:14px;font-weight:650}
 .loading-copy{font-size:12px;line-height:1.8;max-width:280px}
 .preview-footer{height:35px;min-height:35px;display:flex;align-items:center;justify-content:space-between;padding:0 17px;border-top:1px solid var(--border);font-size:10px;color:#7c8495}
-@media(min-width:1500px){.workspace.preview-open{grid-template-columns:minmax(0,35fr) minmax(0,65fr)}}
+#navai-builder-sidebar,#navai-builder-rail{grid-row:2;min-height:0;overflow-y:auto;background:#0b1020;padding:17px 13px}
+#navai-builder-sidebar{grid-column:1;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:7px}
+#navai-builder-rail{grid-column:3;border-left:1px solid var(--border);display:flex;flex-direction:column;gap:14px}
+.nv-side-label{font-size:10px;color:#7d89a7;text-transform:uppercase;letter-spacing:1.1px;font-weight:750;padding:13px 9px 5px}
+.nv-side-link{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:1px solid transparent;border-radius:10px;padding:10px;color:#aeb9d4;background:transparent;text-decoration:none;font-size:12px}
+.nv-side-link:hover,.nv-side-link.active{background:#171d32;border-color:#7868ff25;color:#eeeaff}
+.nv-side-link.active{background:linear-gradient(100deg,#7868ff25,#7868ff08)}
+.nv-side-icon{width:20px;text-align:center;font-size:15px}
+.nv-side-spacer{flex:1;min-height:15px}
+.nv-upgrade{padding:14px;border:1px solid #7868ff38;border-radius:13px;background:linear-gradient(145deg,#211d45,#15172c)}
+.nv-upgrade strong{display:block;font-size:12px;margin-bottom:5px}
+.nv-upgrade p{font-size:10px;color:#a7add0;line-height:1.65;margin:0 0 12px}
+.nv-upgrade button{width:100%}
+.nv-profile{display:flex;align-items:center;gap:9px;padding:12px 5px 2px;border-top:1px solid var(--border);font-size:11px}
+.nv-avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#7565ff,#396de7);font-weight:800}
+.nv-profile small{display:block;color:var(--muted);font-size:10px}
+.nv-rail-card{border:1px solid var(--border);border-radius:14px;background:linear-gradient(150deg,#111a2d,#101525);padding:14px}
+.nv-rail-title{font-size:12px;font-weight:750;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.nv-tip{display:flex;gap:9px;padding:10px 0;border-top:1px solid #ffffff09;color:#aab5d0;font-size:11px;line-height:1.6}
+.nv-tip:first-of-type{border-top:0}
+.nv-tip span{color:#a99bff}
+.nv-template{display:flex;align-items:center;gap:10px;width:100%;padding:10px 0;text-align:left;background:transparent;border:0;border-bottom:1px solid #ffffff0b;color:#e0e5f5}
+.nv-template:last-child{border-bottom:0}
+.nv-template:hover .nv-template-art{border-color:#887aff80;transform:translateY(-1px)}
+.nv-template-art{width:67px;height:48px;flex-shrink:0;border:1px solid #ffffff18;border-radius:7px;display:grid;place-items:center;font-size:18px;transition:.15s}
+.nv-template-art.purple{background:linear-gradient(135deg,#29214d,#171d38)}
+.nv-template-art.blue{background:linear-gradient(135deg,#163b57,#17223a)}
+.nv-template-art.green{background:linear-gradient(135deg,#17463e,#172a35)}
+.nv-template-art.gold{background:linear-gradient(135deg,#554023,#272038)}
+.nv-template strong{display:block;font-size:10px;font-weight:650}
+.nv-template small{display:block;font-size:9px;color:var(--muted);margin-top:3px}
+.nv-template-link{font-size:10px;color:#a99bff;text-decoration:none;display:block;text-align:center;padding:10px 0 0}
+#navai-template-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.nv-prompt-card{min-width:0;display:flex;align-items:flex-start;gap:10px;text-align:left;border:1px solid var(--border);border-radius:13px;padding:14px 12px;background:linear-gradient(145deg,#131b2d,#101525);color:var(--text);transition:transform .15s,border-color .15s,background .15s}
+.nv-prompt-card:hover{transform:translateY(-2px);border-color:#887aff66;background:#171d34}
+.nv-prompt-icon{width:34px;height:34px;flex-shrink:0;display:grid;place-items:center;border-radius:10px;background:#7868ff22;color:#c3baff;font-size:17px}
+.nv-prompt-card:nth-child(2) .nv-prompt-icon{background:#287be626;color:#8bc4ff}
+.nv-prompt-card:nth-child(3) .nv-prompt-icon{background:#2ab99422;color:#73e1c1}
+.nv-prompt-card:nth-child(4) .nv-prompt-icon{background:#e7a44a22;color:#ffc879}
+.nv-prompt-card strong{display:block;font-size:11px;margin-bottom:4px}
+.nv-prompt-card small{display:block;color:var(--muted);font-size:10px;line-height:1.5}
+@media(max-width:1180px){.app{grid-template-columns:190px minmax(0,1fr)}#navai-builder-rail{display:none}.workspace{grid-column:2}#navai-builder-sidebar{grid-column:1}#navai-template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){
+ html,body{height:100%;overflow:auto}
+ .app{height:auto;min-height:100dvh;display:flex;flex-direction:column}
  .topbar{height:56px;min-height:56px;padding:0 12px}
- .brand{font-size:17px}
- .back{padding:8px;font-size:11px}
- .credits{display:none}
- .workspace.preview-open{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(210px,40%) minmax(0,60%);overflow:auto}
- .workspace.preview-open .editor{padding:15px 13px;overflow:auto}
+ .brand{font-size:17px}.back{padding:8px;font-size:11px}.credits{display:none}
+ #navai-builder-sidebar{display:none}
+ .workspace{display:grid;grid-template-columns:minmax(0,1fr);min-height:70vh}
+ .editor{padding:25px 14px}
+ .editor-inner{gap:17px}
+ h1{font-size:31px}
+ textarea{min-height:120px}
+ #navai-template-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .nv-prompt-card{padding:11px 9px;gap:8px;flex-direction:column}
+ .workspace.preview-open{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(290px,auto) minmax(350px,65vh);overflow:visible}
+ .workspace.preview-open .editor{padding:15px 13px;overflow:visible}
  .workspace.preview-open .editor-inner{gap:12px}
  .workspace.preview-open h1{font-size:23px}
  .workspace.preview-open .subtitle{display:none}
  .workspace.preview-open textarea{min-height:80px;max-height:120px}
- .workspace.preview-open .examples{display:none}
  .workspace.preview-open .preview-panel{border-left:0;border-top:1px solid var(--border)}
  .preview-toolbar{height:45px;min-height:45px}
  .preview-stage{padding:8px}
  .loading-screen{inset:8px}
- .editor{padding:28px 16px}
- h1{font-size:32px}
- textarea{min-height:130px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -390,5 +431,110 @@ iframe{display:block;width:100%;height:100%;border:0;background:white}
 </style>
 <a id="navai-small-back" href="/" aria-label="Back to NavAI dashboard" title="Dashboard">←</a>
  <script src="/website-builder-history.js"></script>
+<script id="navai-premium-creator-layout-script">
+(() => {
+  if (document.getElementById("navai-builder-sidebar")) return;
+  const app = document.querySelector(".app");
+  const workspace = document.getElementById("workspace");
+  const editor = document.querySelector(".editor-inner");
+  if (!app || !workspace || !editor) return;
+
+  const sidebar = document.createElement("aside");
+  sidebar.id = "navai-builder-sidebar";
+  sidebar.innerHTML = `
+    <a class="nv-side-link" href="/" title="Back to NavAI"><span class="nv-side-icon">⌂</span>Dashboard</a>
+    <button class="nv-side-link active" type="button" id="nv-new-chat"><span class="nv-side-icon">＋</span>New website</button>
+    <div class="nv-side-label">Workspace</div>
+    <button class="nv-side-link" type="button" data-nv-focus="prompt"><span class="nv-side-icon">✦</span>Website Creator</button>
+    <button class="nv-side-link" type="button" data-nv-templates><span class="nv-side-icon">▦</span>Templates</button>
+    <button class="nv-side-link" type="button" data-nv-history><span class="nv-side-icon">◷</span>History</button>
+    <div class="nv-side-label">Quick start</div>
+    <button class="nv-side-link" type="button" data-prompt="Create a premium personal portfolio website with projects, about section, skills, and contact form."><span class="nv-side-icon">◈</span>Portfolio</button>
+    <button class="nv-side-link" type="button" data-prompt="Create a modern SaaS landing page with hero section, features, pricing, testimonials, and CTA."><span class="nv-side-icon">↗</span>Landing page</button>
+    <button class="nv-side-link" type="button" data-prompt="Create a premium ecommerce storefront with product cards, categories, offers, and shopping cart UI."><span class="nv-side-icon">▣</span>E-commerce</button>
+    <div class="nv-side-spacer"></div>
+    <div class="nv-upgrade"><strong>✦ Make something great</strong><p>Describe your idea and let NavAI build a website you can preview and download.</p><button class="primary" type="button" data-nv-focus="prompt">Start creating ↗</button></div>
+    <div class="nv-profile"><div class="nv-avatar">N</div><div><strong>NavAI Creator</strong><small>AI website workspace</small></div></div>`;
+
+  const rail = document.createElement("aside");
+  rail.id = "navai-builder-rail";
+  rail.innerHTML = `
+    <section class="nv-rail-card"><div class="nv-rail-title">✦ Tips for better results</div>
+      <div class="nv-tip"><span>◎</span>Be specific about your requirements</div>
+      <div class="nv-tip"><span>◎</span>Mention the type of website</div>
+      <div class="nv-tip"><span>◎</span>Include sections you need</div>
+      <div class="nv-tip"><span>◎</span>Describe your preferred style</div>
+      <div class="nv-tip"><span>◎</span>Ask for mobile-friendly design</div>
+      <button class="secondary" type="button" style="width:100%;margin-top:8px" data-nv-focus="prompt">Use these tips ↗</button>
+    </section>
+    <section class="nv-rail-card"><div class="nv-rail-title">Popular templates <span style="color:#a99bff">Ideas</span></div>
+      <button class="nv-template" type="button" data-prompt="Create a premium SaaS landing page with a bold hero, product benefits, pricing, testimonials, FAQ and responsive design."><span class="nv-template-art purple">✦</span><span><strong>SaaS Landing</strong><small>Modern · Product</small></span></button>
+      <button class="nv-template" type="button" data-prompt="Create a minimal professional portfolio with a hero, about, projects gallery, skills, and contact section."><span class="nv-template-art blue">◈</span><span><strong>Portfolio Minimal</strong><small>Personal · Clean</small></span></button>
+      <button class="nv-template" type="button" data-prompt="Create a stylish ecommerce website with product grid, categories, featured products, offers and cart interface."><span class="nv-template-art green">▣</span><span><strong>E-commerce</strong><small>Store · Products</small></span></button>
+      <button class="nv-template" type="button" data-prompt="Create a premium agency website with services, selected projects, team, client testimonials and contact form."><span class="nv-template-art gold">✧</span><span><strong>Agency Website</strong><small>Business · Studio</small></span></button>
+      <a class="nv-template-link" href="#navai-template-grid">Browse all ideas ↗</a>
+    </section>`;
+
+  app.insertBefore(sidebar, workspace);
+  app.appendChild(rail);
+
+  const grid = document.createElement("div");
+  grid.id = "navai-template-grid";
+  grid.innerHTML = `
+    <button class="nv-prompt-card" type="button" data-prompt="Create a premium personal portfolio website with a beautiful hero, projects, skills, about section and contact form."><span class="nv-prompt-icon">◈</span><span><strong>Portfolio Website</strong><small>Showcase your work and skills</small></span></button>
+    <button class="nv-prompt-card" type="button" data-prompt="Create a high-converting SaaS landing page with hero, features, pricing, testimonials and call to action."><span class="nv-prompt-icon">↗</span><span><strong>SaaS Landing Page</strong><small>Present your product clearly</small></span></button>
+    <button class="nv-prompt-card" type="button" data-prompt="Create a modern ecommerce storefront with product cards, category filters, featured deals and cart UI."><span class="nv-prompt-icon">▣</span><span><strong>E-commerce Store</strong><small>Showcase products beautifully</small></span></button>
+    <button class="nv-prompt-card" type="button" data-prompt="Create a stylish blog website with featured articles, categories, search, author profiles and responsive layout."><span class="nv-prompt-icon">✎</span><span><strong>Blog Website</strong><small>Share ideas with the world</small></span></button>`;
+
+  const heading = editor.querySelector("h1");
+  if (heading) {
+    heading.textContent = "Let's build something amazing";
+    const subtitle = editor.querySelector(".subtitle");
+    if (subtitle) subtitle.textContent = "Describe your website idea and NavAI will bring it to life.";
+  }
+
+  const examples = editor.querySelector(".examples");
+  if (examples) examples.replaceWith(grid);
+  else {
+    const composer = editor.querySelector(".composer");
+    if (composer) composer.insertAdjacentElement("afterend", grid);
+  }
+
+  const topBrand = app.querySelector(".brand");
+  if (topBrand) {
+    const mark = topBrand.querySelector(".brand-mark");
+    if (mark) mark.textContent = "✦";
+  }
+
+  function focusPrompt() {
+    const prompt = document.getElementById("prompt");
+    if (prompt) { prompt.focus(); prompt.scrollIntoView({behavior:"smooth",block:"center"}); }
+  }
+  function newProject() {
+    const button = document.getElementById("newProject");
+    if (button) button.click();
+    else {
+      const prompt = document.getElementById("prompt");
+      if (prompt) { prompt.value = ""; prompt.focus(); }
+    }
+  }
+
+  document.addEventListener("click", event => {
+    const target = event.target.closest("[data-nv-focus],[data-nv-templates],[data-nv-history],#nv-new-chat");
+    if (!target) return;
+    if (target.id === "nv-new-chat") { newProject(); return; }
+    if (target.hasAttribute("data-nv-focus")) { focusPrompt(); return; }
+    if (target.hasAttribute("data-nv-templates")) { grid.scrollIntoView({behavior:"smooth",block:"center"}); return; }
+    if (target.hasAttribute("data-nv-history")) {
+      const historyButton = document.querySelector("[data-navai-history],#historyButton,#history-btn");
+      if (historyButton) historyButton.click();
+      else {
+        const historyScript = document.querySelector('script[src*="website-builder-history"]');
+        alert(historyScript ? "Open the History control in your NavAI workspace to view saved websites." : "Website history control was not found.");
+      }
+    }
+  });
+})();
+</script>
 </body>
 </html>
