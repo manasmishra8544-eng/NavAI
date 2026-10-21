@@ -1,4 +1,4 @@
-﻿
+
 const STORAGE_KEY = "navai_chat_history";
 const THEME_KEY = "navai_theme";
 
@@ -123,7 +123,7 @@ function renderHistory() {
         const del = document.createElement("button");
         del.type = "button";
         del.className = "delete-chat-button";
-        del.textContent = "Ã—";
+        del.textContent = "\u00D7";
         del.title = "Delete chat";
         del.setAttribute("aria-label", "Delete chat");
         del.addEventListener("click", event => {
