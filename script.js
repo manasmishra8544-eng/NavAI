@@ -795,3 +795,61 @@ window.NAVAI_CHAT_BRIDGE = {
 console.log("NavAI frontend loaded successfully.");
 
 
+
+// NAVAI MOBILE KEYBOARD FIX v1
+(() => {
+  if (window.__navaiMobileKeyboardFix) return;
+  window.__navaiMobileKeyboardFix = true;
+
+  const root = document.documentElement;
+  const vv = window.visualViewport;
+  let frame = 0;
+
+  function updateMobileViewport() {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      if (window.innerWidth > 650) {
+        root.style.removeProperty('--navai-mobile-height');
+        document.body.classList.remove('navai-keyboard-open');
+        return;
+      }
+
+      const height = vv ? vv.height : window.innerHeight;
+      root.style.setProperty('--navai-mobile-height', `${Math.round(height)}px`);
+
+      const active = document.activeElement;
+      const editing = active &&
+        (active.id === 'messageInput' ||
+         active.matches('textarea, input') ||
+         active.isContentEditable);
+
+      const keyboardOpen = Boolean(
+        editing && vv &&
+        window.innerHeight - vv.height > 120
+      );
+
+      document.body.classList.toggle(
+        'navai-keyboard-open',
+        keyboardOpen
+      );
+    });
+  }
+
+  document.addEventListener('focusin', updateMobileViewport, true);
+  document.addEventListener('focusout', () => {
+    setTimeout(updateMobileViewport, 100);
+  }, true);
+
+  window.addEventListener('resize', updateMobileViewport, { passive: true });
+  window.addEventListener('orientationchange', () => {
+    setTimeout(updateMobileViewport, 250);
+  }, { passive: true });
+
+  if (vv) {
+    vv.addEventListener('resize', updateMobileViewport, { passive: true });
+    vv.addEventListener('scroll', updateMobileViewport, { passive: true });
+  }
+
+  updateMobileViewport();
+})();
+// END NAVAI MOBILE KEYBOARD FIX

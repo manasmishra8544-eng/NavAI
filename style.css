@@ -3037,3 +3037,191 @@ nav button:active {
         padding-right: 10px !important;
     }
 }
+
+/* NAVAI MOBILE KEYBOARD FIX v1 */
+@media (max-width: 650px) {
+  :root {
+    --navai-mobile-height: 100dvh;
+    --navai-keyboard-open: 0;
+  }
+
+  html {
+    height: 100%;
+    overflow: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    height: var(--navai-mobile-height, 100dvh);
+    min-height: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body.navai-keyboard-open {
+    height: var(--navai-mobile-height, 100dvh);
+    min-height: 0;
+  }
+
+  #messageInput {
+    min-width: 0;
+    max-width: 100%;
+    font-size: 16px;
+    scroll-margin-bottom: 12px;
+    -webkit-appearance: none;
+  }
+
+  #chatForm {
+    scroll-margin-bottom: 8px;
+  }
+
+  #chatForm button,
+  #sendBtn {
+    flex-shrink: 0;
+    touch-action: manipulation;
+  }
+
+  body.navai-keyboard-open #messageInput {
+    scroll-margin-bottom: 16px;
+  }
+
+  @supports (height: 100svh) {
+    body {
+      height: var(--navai-mobile-height, 100dvh);
+    }
+  }
+}
+/* END NAVAI MOBILE KEYBOARD FIX */
+
+
+/* NAVAI MOBILE KEYBOARD FIX v2 */
+@media (max-width: 650px) {
+    .app-shell {
+        height: var(--navai-mobile-height, 100dvh) !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .main-area {
+        display: flex !important;
+        flex-direction: column !important;
+        height: var(--navai-mobile-height, 100dvh) !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .main-area > .topbar {
+        flex: 0 0 auto !important;
+    }
+
+    .main-area > .welcome-screen,
+    .main-area > .conversation {
+        flex: 1 1 0% !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .main-area > .composer-area {
+        flex: 0 0 auto !important;
+        min-height: 0 !important;
+        padding-top: 8px !important;
+        padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .composer-area .composer {
+        min-height: 64px !important;
+        height: auto !important;
+        padding: 9px 10px !important;
+        align-items: flex-end !important;
+    }
+
+    .composer-area .composer textarea,
+    #messageInput {
+        min-height: 26px !important;
+        max-height: 100px !important;
+        font-size: 16px !important;
+        line-height: 1.45 !important;
+    }
+
+    body.navai-keyboard-open .main-area {
+        height: var(--navai-mobile-height, 100dvh) !important;
+    }
+
+    body.navai-keyboard-open .conversation {
+        scroll-padding-bottom: 16px;
+    }
+}
+/* END NAVAI MOBILE KEYBOARD FIX v2 */
+
+/* NAVAI MOBILE KEYBOARD FINAL FIX */
+@media (max-width: 650px) {
+  html, body {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  body.navai-keyboard-open {
+    height: var(--navai-mobile-height, 100dvh);
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  body.navai-keyboard-open .app-shell {
+    height: var(--navai-mobile-height, 100dvh) !important;
+    min-height: 0 !important;
+    max-height: var(--navai-mobile-height, 100dvh);
+    overflow: hidden !important;
+  }
+
+  body.navai-keyboard-open .main-area {
+    height: var(--navai-mobile-height, 100dvh) !important;
+    min-height: 0 !important;
+    max-height: var(--navai-mobile-height, 100dvh);
+    overflow: hidden !important;
+  }
+
+  body.navai-keyboard-open .chat-container,
+  body.navai-keyboard-open .chat-area,
+  body.navai-keyboard-open .messages-container {
+    min-height: 0;
+  }
+
+  body.navai-keyboard-open footer.composer-area {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    flex-shrink: 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    background: #080f20;
+  }
+
+  body.navai-keyboard-open .composer-wrap {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  body.navai-keyboard-open form.composer#chatForm {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+  }
+
+  body.navai-keyboard-open #messageInput {
+    min-width: 0;
+    max-height: 100px;
+    overflow-y: auto;
+    font-size: 16px;
+    line-height: 1.4;
+    scroll-margin-bottom: 12px;
+  }
+
+  body.navai-keyboard-open .sidebar {
+    display: none !important;
+  }
+}
+/* END NAVAI MOBILE KEYBOARD FINAL FIX */
