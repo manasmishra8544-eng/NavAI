@@ -500,3 +500,114 @@ window.addEventListener("navai:restore-lesson", event => {
   setStatus("Saved lesson restored. Continue learning!");
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
+
+// NAVAI_VOICE_QUESTION_AUTO_ANSWER_V1
+// Voice question -> automatic lesson/answer -> spoken response.
+(() => {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  function addVoiceQuestion(inputId, label, isFollowup) {
+    const input = document.getElementById(inputId);
+    if (!input || !input.parentNode) return;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "🎙️ Ask by voice";
+    button.setAttribute("aria-label", label + " using voice");
+    button.style.cssText =
+      "margin:8px 0;padding:10px 15px;border:1px solid #647cf5;" +
+      "border-radius:12px;background:#17264a;color:#fff;" +
+      "cursor:pointer;font-weight:600;";
+
+    input.insertAdjacentElement("afterend", button);
+
+    if (!SpeechRecognition) {
+      button.title = "Voice recognition is not supported in this browser.";
+      button.addEventListener("click", () => {
+        setStatus(
+          "Voice recognition is unavailable in this browser. Try updated Chrome.",
+          "error"
+        );
+      });
+      return;
+    }
+
+    let listening = false;
+    let recognition = null;
+
+    button.addEventListener("click", () => {
+      if (listening) {
+        recognition?.stop();
+        return;
+      }
+
+      if (isFollowup && !lesson) {
+        setStatus("Pehle Pico se ek lesson start karo.");
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.lang = /hindi|hinglish/i.test(
+        document.getElementById("language")?.value || ""
+      ) ? "hi-IN" : "en-IN";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      listening = true;
+      button.textContent = "🔴 Listening... (click to stop)";
+      setStatus("Pico sun raha hai. Apna question bolo...");
+
+      recognition.onresult = event => {
+        const question = event.results?.[0]?.[0]?.transcript?.trim();
+        if (!question) {
+          setStatus("Question samajh nahi aaya. Dobara try karo.", "error");
+          return;
+        }
+
+        input.value = question;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        setStatus("Tumhara question: " + question);
+
+        if (isFollowup) {
+          teach(question, true);
+        } else {
+          history = [];
+          teach(question, false);
+        }
+      };
+
+      recognition.onerror = event => {
+        if (event.error === "not-allowed" ||
+            event.error === "service-not-allowed") {
+          setStatus(
+            "Microphone permission allow karo, phir dobara try karo.",
+            "error"
+          );
+        } else if (event.error !== "aborted" &&
+                   event.error !== "no-speech") {
+          setStatus("Voice input error: " + event.error, "error");
+        } else if (event.error === "no-speech") {
+          setStatus("Koi question sunai nahi diya. Dobara bolo.", "error");
+        }
+      };
+
+      recognition.onend = () => {
+        listening = false;
+        button.textContent = "🎙️ Ask by voice";
+      };
+
+      try {
+        recognition.start();
+      } catch (error) {
+        listening = false;
+        button.textContent = "🎙️ Ask by voice";
+        setStatus("Mic restart nahi ho saka. Dobara try karo.", "error");
+      }
+    });
+  }
+
+  addVoiceQuestion("topic", "Ask a topic", false);
+  addVoiceQuestion("followInput", "Ask a follow-up", true);
+})();
