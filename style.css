@@ -3225,3 +3225,150 @@ nav button:active {
   }
 }
 /* END NAVAI MOBILE KEYBOARD FINAL FIX */
+
+/* NAVAI_PREMIUM_AMBIENT_BACKGROUND_V1 */
+html {
+    min-height: 100%;
+    background-color: #070b14 !important;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #070b14 !important;
+    background-image:
+        radial-gradient(
+            ellipse at 12% 8%,
+            rgba(45, 82, 165, 0.24) 0%,
+            transparent 43%
+        ),
+        radial-gradient(
+            ellipse at 88% 28%,
+            rgba(105, 64, 180, 0.15) 0%,
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 50% 100%,
+            rgba(24, 65, 125, 0.13) 0%,
+            transparent 45%
+        ),
+        linear-gradient(
+            135deg,
+            #080d19 0%,
+            #0b1020 48%,
+            #080b15 100%
+        ) !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+
+/* Keep the main canvas transparent so the new background shows through. */
+main,
+.main-content,
+.chat-container,
+.chat-layout,
+.main-area,
+.content-area {
+    background-color: transparent;
+    background-image: none;
+}
+
+/* NAVAI_PREMIUM_AMBIENT_BACKGROUND_END */
+/* NAVAI_BACKGROUND_FIX_V2 */
+html, body {
+    background-color: #070b14 !important;
+    background-image:
+        radial-gradient(ellipse at 10% 10%,
+            rgba(47, 91, 190, .32), transparent 42%),
+        radial-gradient(ellipse at 90% 20%,
+            rgba(125, 68, 205, .23), transparent 38%),
+        linear-gradient(135deg, #080d19, #10152b 55%, #080b15) !important;
+    background-attachment: fixed !important;
+}
+
+#app, #root, .app, .app-container, .app-layout,
+.main-content, .main-area, .content-area,
+.chat-container, .chat-layout, .chat-wrapper,
+.chat-main, .main-panel, .page-content {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+/* END NAVAI_BACKGROUND_FIX_V2 */
+/* NAVAI_TARGETED_BACKGROUND_V3 */
+html, body {
+    background: #080d19 !important;
+    background-image:
+        radial-gradient(ellipse at 12% 8%, rgba(60, 100, 220, .28), transparent 44%),
+        radial-gradient(ellipse at 88% 22%, rgba(130, 75, 220, .20), transparent 40%),
+        linear-gradient(135deg, #080d19 0%, #10172b 52%, #070b14 100%) !important;
+    background-attachment: fixed !important;
+}
+body > #app,
+body > #root,
+.app-shell,
+.app-container,
+.app-layout,
+.main-area,
+.main-content {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+/* END NAVAI_TARGETED_BACKGROUND_V3 */
+
+/* NAVAI_AURORA_VISIBLE_FIX_V2 */
+html, body {
+    background-color: #030712 !important;
+}
+
+body {
+    background-image:
+        radial-gradient(ellipse at 12% 18%, rgba(24, 91, 255, .42), transparent 42%),
+        radial-gradient(ellipse at 88% 22%, rgba(0, 220, 255, .27), transparent 40%),
+        radial-gradient(ellipse at 62% 88%, rgba(133, 45, 255, .34), transparent 45%) !important;
+    background-attachment: fixed !important;
+    background-size: 160% 160% !important;
+    animation: navaiAuroraVisibleV2 18s ease-in-out infinite alternate !important;
+}
+
+.app-shell {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+.sidebar {
+    background: rgba(4, 11, 29, .72) !important;
+    background-image: none !important;
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+}
+
+.main-area {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+.welcome-screen {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+@keyframes navaiAuroraVisibleV2 {
+    0% {
+        background-position: 0% 20%;
+    }
+    50% {
+        background-position: 100% 60%;
+    }
+    100% {
+        background-position: 20% 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body {
+        animation: none !important;
+    }
+}
+/* NAVAI_AURORA_VISIBLE_FIX_V2_END */
