@@ -30,6 +30,34 @@ GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 TEXT_MODEL = "openai/gpt-oss-20b"
 
 
+
+# NAVAI_PLAIN_TEXT_RESPONSE_CLEANUP_V1
+def clean_plain_text_response(value):
+    """Remove visible Markdown markers while preserving answer content."""
+    if not isinstance(value, str):
+        return value
+
+    text = value.strip()
+
+    # Undo escaped Markdown characters returned literally by the model.
+    text = re.sub(r'\\([*#_`~])', r'\1', text)
+
+    # Remove Markdown heading prefixes and divider-only lines.
+    text = re.sub(r'(?m)^\s{0,3}#{1,6}\s+', '', text)
+    text = re.sub(r'(?m)^\s*(?:---+|___+|\*\*\*+)\s*$', '', text)
+
+    # Remove bold/italic/code wrappers but retain their contents.
+    text = re.sub(r'(\*\*|__)(.*?)\1', r'\2', text, flags=re.S)
+    text = re.sub(r'(?<!\*)\*([^*\n]+)\*(?!\*)', r'\1', text)
+    text = re.sub(r'(?<!_)_([^_\n]+)_(?!_)', r'\1', text)
+    text = re.sub(r'`{1,3}([^`]*?)`{1,3}', r'\1', text)
+
+    # Remove horizontal-rule remnants and excess blank lines.
+    text = re.sub(r'(?m)^\s*(?:-{3,}|_{3,}|\*{3,})\s*$', '', text)
+    text = re.sub(r'\n[ \t]*\n(?:[ \t]*\n)+', '\n\n', text)
+
+    return text.strip()
+
 def india_date():
     try:
         return datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d %B %Y")
@@ -367,7 +395,7 @@ def homework_solve():
         if not isinstance(answer, str) or not answer.strip():
             print("Homework empty response:", {"model": model, "finish_reason": choices[0].get("finish_reason") if choices else None})
             return jsonify({"error": "The AI returned an empty answer. Please try again."}), 502
-        return jsonify({"answer": answer.strip()})
+        return jsonify({"answer": clean_plain_text_response(answer)})
     except requests.Timeout:
         return jsonify({"error": "The answer took too long to generate. Please try again."}), 504
     except requests.RequestException:
@@ -605,7 +633,7 @@ def chat():
                 "error": "The AI returned an empty response."
             }), 502
 
-        answer = answer.strip()
+        answer = clean_plain_text_response(answer)
 
         return jsonify({
             "response": answer,
