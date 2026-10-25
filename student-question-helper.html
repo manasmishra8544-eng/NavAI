@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06132d">
+<title>Student Question Helper — NavAI</title>
+<style>
+:root{color-scheme:dark;--bg:#041027;--panel:#081a38;--line:#174b89;--blue:#2780ff;--text:#edf5ff;--muted:#a7c5ed}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#102b58,#041027 65%);color:var(--text);font:15px/1.6 "Segoe UI",Arial,sans-serif;min-height:100vh}
+header{padding:20px 5%;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-size:23px;font-weight:800}.brand span{color:#649cff}
+a{color:#9dc6ff}
+main{max-width:1150px;margin:32px auto;padding:0 18px}
+.hero{margin-bottom:24px}.eyebrow{color:#48a5ff;font-weight:800;letter-spacing:2px;font-size:12px}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.15;margin:8px 0}
+p{color:var(--muted)}
+.layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+.panel{background:linear-gradient(145deg,#0a2043eF,#06152feF);border:1px solid var(--line);border-radius:18px;padding:21px;box-shadow:0 14px 45px #0003}
+h2{font-size:19px;margin:0 0 15px}
+label{display:block;font-size:13px;color:#c6dcfa;margin:14px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #25558d;border-radius:10px;background:#06132b;color:var(--text);font:inherit}
+textarea{min-height:75px;resize:vertical}
+button{border:1px solid #317bff;background:#1267ed;color:white;padding:12px 15px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+button.secondary{background:transparent;color:#bcd8ff}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.actions button:first-child{flex:1}
+.small{font-size:12px;color:var(--muted)}
+#status{margin-top:14px;color:#a9d2ff;white-space:pre-wrap}
+#results{min-height:230px}
+.question{padding:16px 0;border-bottom:1px solid #1b3c67}
+.question:last-child{border-bottom:0}
+.qtitle{font-weight:700;margin-bottom:8px}
+.qmeta{font-size:12px;color:#77b4ff;margin-bottom:6px}
+.answer{margin-top:10px;padding:12px;background:#07162d;border-radius:10px;color:#c5ddff}
+.hidden{display:none!important}
+.tag{display:inline-block;background:#103d78;color:#bdddff;border-radius:99px;padding:3px 9px;font-size:11px}
+footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}header{padding:15px}.panel{padding:16px}}
+@media print{body{background:white;color:#111}header,.form-panel,.actions,.no-print,footer{display:none!important}.panel{background:white;border:0;box-shadow:none;color:#111}.question,.answer{color:#111;border-color:#ddd;background:white}p{color:#333}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">NavAI <span>Student Question Helper</span></div>
+  <a href="/">Back to NavAI</a>
+</header>
+<main>
+<section class="hero">
+  <div class="eyebrow">EXAM PRACTICE STUDIO</div>
+  <h1>Practice smarter.<br>Prepare for your exam.</h1>
+  <p>Generate exam-style practice questions, test your understanding and review answers. Questions are practice material, not guaranteed predictions of an actual exam.</p>
+</section>
+<div class="layout">
+<section class="panel form-panel">
+<h2>Build your question paper</h2>
+<form id="builder">
+<label for="className">Class</label>
+<select id="className">
+<option>Class 9</option><option>Class 6</option><option>Class 7</option>
+<option>Class 8</option><option>Class 10</option><option>Class 11</option>
+<option>Class 12</option><option>Other</option>
+</select>
+<label for="board">Board / curriculum</label>
+<select id="board"><option>CBSE</option><option>ICSE</option><option>State Board</option><option>Other</option></select>
+<label for="subject">Subject</label>
+<select id="subject">
+<option>Science</option><option>Mathematics</option><option>Social Science</option>
+<option>English</option><option>Hindi</option><option>Computer</option>
+<option>Physics</option><option>Chemistry</option><option>Biology</option><option>Other</option>
+</select>
+<label for="chapter">Chapter / topic</label>
+<input id="chapter" required placeholder="e.g. Atoms and Molecules">
+<label for="types">Question type</label>
+<select id="types">
+<option>Mixed exam paper</option><option>Multiple-choice questions (MCQ)</option>
+<option>Very short-answer questions</option><option>Short-answer questions</option>
+<option>Long-answer questions</option><option>Case-based questions</option>
+<option>Numerical problems</option><option>Assertion and Reason</option>
+</select>
+<label for="difficulty">Difficulty</label>
+<select id="difficulty"><option>Mixed</option><option>Easy</option><option>Moderate</option><option>Challenging</option></select>
+<label for="count">Number of questions</label>
+<select id="count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
+<label for="marks">Total marks (optional)</label>
+<input id="marks" type="number" min="1" max="200" placeholder="e.g. 25">
+<label for="language">Question language</label>
+<select id="language"><option>English</option><option>Hindi</option><option>Simple Hinglish</option></select>
+<label><input id="answers" type="checkbox" checked style="width:auto;margin-right:8px">Include answer key and explanations</label>
+<div class="actions"><button id="generate" type="submit">Generate practice paper</button></div>
+<div id="status" role="status"></div>
+<p class="small">Uses NavAI's existing chat API. An internet connection and a working backend are required for AI-generated questions.</p>
+</form>
+</section>
+<section class="panel">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+<h2>Your practice paper</h2><span class="tag">EXAM MODE</span>
+</div>
+<div id="results"><p>Choose a chapter and press Generate practice paper. Your question paper will appear here.</p></div>
+<div class="actions no-print">
+<button class="secondary" id="toggleAnswers" type="button">Show / hide answers</button>
+<button class="secondary" id="print" type="button">Print / Save PDF</button>
+<button class="secondary" id="copy" type="button">Copy paper</button>
+</div>
+</section>
+</div>
+</main>
+<footer>NavAI Student Question Helper · Educational practice tool · Verify syllabus and marking scheme with your school</footer>
+<script>
+const $ = id => document.getElementById(id);
+let latestPaper = "";
+let answersVisible = true;
+
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+function parseAnswer(data) {
+  if (typeof data === "string") return data;
+  if (!data || typeof data !== "object") return "";
+  for (const k of ["reply","response","answer","output","text","content"]) {
+    if (typeof data[k] === "string" && data[k].trim()) return data[k];
+  }
+  if (data.message && typeof data.message === "string") return data.message;
+  if (data.choices?.[0]?.message?.content) return data.choices[0].message.content;
+  if (data.result && typeof data.result === "string") return data.result;
+  return "";
+}
+function renderPaper(text) {
+  latestPaper = text;
+  const escaped = escapeHTML(text);
+  $("results").innerHTML = '<div class="paper-text" style="white-space:pre-wrap;line-height:1.8">'+escaped+'</div>';
+  answersVisible = true;
+}
+$("builder").addEventListener("submit", async e => {
+  e.preventDefault();
+  const chapter = $("chapter").value.trim();
+  if (!chapter) { $("status").textContent = "Chapter/topic enter karo."; return; }
+
+  const prompt = `Create an original school exam-style practice paper. Do not claim these are leaked, official, or guaranteed exam questions.
+Class: ${$("className").value}
+Board/curriculum: ${$("board").value}
+Subject: ${$("subject").value}
+Chapter/topic: ${chapter}
+Question format: ${$("types").value}
+Difficulty: ${$("difficulty").value}
+Number of questions: ${$("count").value}
+Total marks target: ${$("marks").value || "Choose sensible marks"}
+Language: ${$("language").value}
+Answer key requested: ${$("answers").checked ? "Yes, include correct answers and brief explanations after a clearly marked ANSWER KEY section." : "No, questions only."}
+
+Requirements:
+1. Stay focused on the requested chapter and level.
+2. Use numbered questions, sensible mark allocations, and realistic exam wording.
+3. For MCQs include four options and one correct answer in the key.
+4. Include balanced difficulty and clear instructions.
+5. Avoid fabricated textbook quotations or unsupported syllabus claims.
+6. If the topic is ambiguous, state the assumption briefly.
+Return clean, readable plain text.`;
+
+  $("generate").disabled = true;
+  $("status").textContent = "Generating questions…";
+  $("results").innerHTML = "<p>NavAI is preparing your practice paper. Please wait.</p>";
+
+  try {
+    const candidates = [
+      {message:prompt},
+      {messages:[{role:"user",content:prompt}]},
+      {prompt:prompt}
+    ];
+    let output = "";
+    let lastError = "";
+
+    for (const payload of candidates) {
+      try {
+        const response = await fetch("/api/chat", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(payload)
+        });
+        const raw = await response.text();
+        let data;
+        try { data = JSON.parse(raw); } catch { data = raw; }
+        if (!response.ok) {
+          lastError = "API returned HTTP " + response.status;
+          continue;
+        }
+        output = parseAnswer(data);
+        if (output.trim()) break;
+        lastError = "API response mein answer nahi mila.";
+      } catch (err) {
+        lastError = err.message || "Network error";
+      }
+    }
+
+    if (!output.trim()) throw new Error(lastError || "AI response unavailable");
+    renderPaper(output);
+    $("status").textContent = "Practice paper ready. Answers ko verify kar lena.";
+  } catch (err) {
+    $("results").innerHTML = "<p>Question paper generate nahi ho saka.</p><p>Check that NavAI's /api/chat endpoint is available and that you are online. Details: "+escapeHTML(err.message)+"</p>";
+    $("status").textContent = "Generation failed.";
+  } finally {
+    $("generate").disabled = false;
+  }
+});
+
+$("toggleAnswers").addEventListener("click", () => {
+  const el = $("results").querySelector(".paper-text");
+  if (!el) return;
+  const marker = latestPaper.search(/ANSWER KEY|ANSWERS WITH EXPLANATIONS|ANSWER KEY AND EXPLANATIONS/i);
+  if (marker < 0) {
+    $("status").textContent = "Is paper mein separate answer key nahi mili.";
+    return;
+  }
+  answersVisible = !answersVisible;
+  const shown = answersVisible ? latestPaper : latestPaper.slice(0, marker);
+  el.textContent = shown;
+});
+$("print").addEventListener("click", () => window.print());
+$("copy").addEventListener("click", async () => {
+  if (!latestPaper) { $("status").textContent = "Pehle paper generate karo."; return; }
+  try {
+    await navigator.clipboard.writeText(latestPaper);
+    $("status").textContent = "Paper copied.";
+  } catch {
+    $("status").textContent = "Copy blocked by browser. Print / Save PDF use kar sakte ho.";
+  }
+});
+</script>
+</body>
+</html>
