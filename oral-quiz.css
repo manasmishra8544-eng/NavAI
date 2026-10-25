@@ -1,4 +1,4 @@
-﻿:root{color-scheme:dark;--pink:#f044ff;--cyan:#4ceaff;--purple:#9b4dff;--text:#fff8ff;--muted:#d4b9ed}
+:root{color-scheme:dark;--pink:#f044ff;--cyan:#4ceaff;--purple:#9b4dff;--text:#fff8ff;--muted:#d4b9ed}
 *{box-sizing:border-box}
 html{min-height:100%;background:#19002d}
 body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse at 50% 25%,#6100a6 0,transparent 46%),radial-gradient(ellipse at 0 75%,#390080 0,transparent 42%),linear-gradient(155deg,#180027,#35005f 52%,#160027);background-attachment:fixed}
@@ -54,7 +54,7 @@ h1 span{background:linear-gradient(95deg,#ff9bf8,#d6a4ff 48%,#6feeff);-webkit-ba
   --navai-mic-navy: #071127;
   --navai-mic-blue: #2859f5;
   --navai-mic-indigo: #5146e5;
-  --navai-mic-violet: #8057ff;
+  --navai-mic-violet: #3268f5;
   --navai-mic-glow: rgba(49, 104, 255, .48);
 }
 
@@ -80,7 +80,7 @@ h1 span{background:linear-gradient(95deg,#ff9bf8,#d6a4ff 48%,#6feeff);-webkit-ba
 /* Speak/listen button */
 :is(.tap-to-speak, .speak-button, .mic-label, .mic-cta,
     #tapToSpeak, #micStatusButton) {
-  background: linear-gradient(110deg, #2458ec, #5146e5 65%, #7651ed) !important;
+  background: linear-gradient(110deg, #2458ec, #5146e5 65%, #3268f5) !important;
   border-color: rgba(124, 151, 255, .8) !important;
   box-shadow: 0 0 24px rgba(54, 89, 255, .38) !important;
 }
@@ -95,7 +95,7 @@ h1 span{background:linear-gradient(95deg,#ff9bf8,#d6a4ff 48%,#6feeff);-webkit-ba
   --oq-border: rgba(103, 133, 255, .22);
   --oq-blue: #4f7cff;
   --oq-indigo: #5146e5;
-  --oq-purple: #8657ff;
+  --oq-purple: #3268f5;
   --oq-text: #f3f5ff;
   --oq-muted: #a7b4d3;
   --oq-glow: rgba(75, 91, 255, .3);
@@ -216,7 +216,7 @@ button:hover:not(:disabled), .button:hover, .btn:hover {
 
 :is(.waveform span, .audio-wave span, .sound-wave span,
     .equalizer span, .wave-bar) {
-  background: linear-gradient(180deg, #9b72ff, #4385ff) !important;
+  background: linear-gradient(180deg, #8bb4ff, #4385ff) !important;
 }
 
 /* Message bubbles */
@@ -246,3 +246,56 @@ hr, .divider, .separator {
 }
 
 /* NAVAI_ORAL_QUIZ_FULL_PURPLE_THEME_V2_END */
+
+/* NAVAI_ORAL_QUIZ_NO_PURPLE_BLUE_THEME_V5 */
+:root {
+  color-scheme: dark;
+  --oq-bg: #060b19;
+  --oq-surface: #0c1530;
+  --oq-card: #111d39;
+  --oq-border: rgba(91,130,255,.30);
+  --oq-blue: #3268f5;
+  --oq-blue-light: #8bb4ff;
+}
+html, body {
+  background: #060b19 !important;
+  color: #f3f5ff !important;
+}
+body {
+  background-image: radial-gradient(ellipse at 50% 0%,rgba(35,75,190,.24),transparent 56%),
+    linear-gradient(145deg,#080e20,#060b19 68%,#071126) !important;
+}
+:is(.card,.panel,.glass-panel,.quiz-card,.quiz-panel,.question-card,.question-panel,
+.answer-panel,.conversation,.chat-panel,.transcript,.history-panel,.result-panel,
+.settings-panel,.voice-panel,.control-panel) {
+  background: linear-gradient(145deg,#111d39,#091226) !important;
+  border-color: var(--oq-border) !important;
+  color: #f3f5ff !important;
+}
+:is(button,.button,.btn,[role="button"],.primary-button,.start-button,.send-button,
+.next-button,.submit-button,.speak-button,.tap-to-speak,#startButton,#sendButton,
+#nextButton,#tapToSpeak) {
+  background: linear-gradient(110deg,#2459ec,#3268f5 70%,#477cff) !important;
+  color: #fff !important;
+  border-color: rgba(112,153,255,.7) !important;
+}
+:is(.mic-orb,.voice-orb,.orb,.orb-core,.mic-button,.mic-visual,.listen-orb,
+.microphone,.microphone-orb,#micButton,#mic-orb,#voiceOrb,#microphone) {
+  background: radial-gradient(circle at 35% 25%,#8bb4ff,#3268f5 42%,#10245a 100%) !important;
+  color: #fff !important;
+  border-color: #78a2ff !important;
+  box-shadow: 0 0 20px rgba(50,104,245,.7),0 0 48px rgba(50,104,245,.36),
+    inset 0 0 22px rgba(139,180,255,.22) !important;
+}
+:is(.orb-ring,.mic-ring,.voice-ring,.orbital-ring,.mic-pulse,.pulse-ring,.ring,
+.mic-glow,.microphone-ring,.listening-ring) {
+  border-color: rgba(91,143,255,.85) !important;
+  box-shadow: 0 0 22px rgba(50,104,245,.32) !important;
+}
+:is(input,textarea,select,.transcript-box,.text-input,.answer-input) {
+  background: #080f22 !important;
+  color: #f3f5ff !important;
+  border-color: var(--oq-border) !important;
+}
+* { scrollbar-color: #3268f5 #080e20; }
+/* NAVAI_ORAL_QUIZ_NO_PURPLE_BLUE_THEME_V5_END */
