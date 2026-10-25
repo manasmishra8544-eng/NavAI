@@ -85,3 +85,164 @@ h1 span{background:linear-gradient(95deg,#ff9bf8,#d6a4ff 48%,#6feeff);-webkit-ba
   box-shadow: 0 0 24px rgba(54, 89, 255, .38) !important;
 }
 /* NAVAI_ORAL_QUIZ_MATCH_MAIN_BLUE_THEME_V1_END */
+
+
+/* NAVAI_ORAL_QUIZ_FULL_PURPLE_THEME_V2 */
+:root {
+  --oq-bg: #050a18;
+  --oq-panel: rgba(17, 29, 57, .88);
+  --oq-panel-light: rgba(25, 40, 78, .78);
+  --oq-border: rgba(103, 133, 255, .22);
+  --oq-blue: #4f7cff;
+  --oq-indigo: #5146e5;
+  --oq-purple: #8657ff;
+  --oq-text: #f3f5ff;
+  --oq-muted: #a7b4d3;
+  --oq-glow: rgba(75, 91, 255, .3);
+}
+
+html {
+  background: var(--oq-bg) !important;
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(43, 66, 153, .36), transparent 48%),
+    radial-gradient(ellipse at 85% 45%, rgba(92, 44, 183, .12), transparent 38%),
+    linear-gradient(145deg, #080e20 0%, #070b19 52%, #09071c 100%) !important;
+  color: var(--oq-text) !important;
+}
+
+/* Main layout and surrounding surfaces */
+:is(header, .header, .topbar, .top-bar, .navbar, .app-header) {
+  background: rgba(7, 13, 31, .82) !important;
+  border-color: var(--oq-border) !important;
+}
+
+:is(main, .app, .app-container, .main-container, .quiz-container,
+    .quiz-shell, .page-container, .content, .workspace) {
+  color: var(--oq-text);
+}
+
+:is(.panel, .card, .glass-panel, .quiz-panel, .conversation,
+    .chat-panel, .transcript, .question-panel, .settings-panel,
+    .voice-panel, .history-panel, .result-panel, .message-area) {
+  background: linear-gradient(145deg, var(--oq-panel), rgba(9, 16, 36, .94)) !important;
+  border: 1px solid var(--oq-border) !important;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, .18), inset 0 1px rgba(255,255,255,.025) !important;
+  color: var(--oq-text) !important;
+}
+
+/* All headings and readable copy */
+h1, h2, h3, h4, label,
+:is(.title, .subtitle, .question, .message, .status, .brand, .section-title) {
+  color: var(--oq-text);
+}
+
+p, small, :is(.muted, .hint, .description, .helper-text, .status-text) {
+  color: var(--oq-muted);
+}
+
+/* Inputs and transcript fields */
+input, textarea, select,
+:is(.transcript-box, .text-input, .answer-input) {
+  background: rgba(5, 11, 27, .92) !important;
+  color: var(--oq-text) !important;
+  border: 1px solid rgba(100, 128, 255, .3) !important;
+  border-radius: 12px;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  border-color: var(--oq-blue) !important;
+  box-shadow: 0 0 0 3px rgba(79, 124, 255, .14) !important;
+}
+
+/* Buttons and action controls */
+button, .button, .btn, [role="button"],
+:is(.action-button, .control-button, .secondary-button, .primary-button) {
+  border-color: rgba(106, 132, 255, .38);
+  transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+button:not(:disabled), .button, .btn, [role="button"] {
+  color: var(--oq-text);
+}
+
+:is(.primary-button, .btn-primary, .start-button, .send-button,
+    .next-button, .submit-button, .tap-to-speak, .speak-button,
+    #startButton, #sendButton, #nextButton, #tapToSpeak) {
+  background: linear-gradient(110deg, #2459ec 0%, #5146e5 58%, #8151ee 100%) !important;
+  border: 1px solid rgba(140, 158, 255, .62) !important;
+  color: #fff !important;
+  box-shadow: 0 7px 25px rgba(68, 77, 231, .24) !important;
+}
+
+:is(.secondary-button, .btn-secondary, .control-button, .icon-button) {
+  background: rgba(26, 40, 77, .78) !important;
+  color: #dfe6ff !important;
+  border-color: var(--oq-border) !important;
+}
+
+button:hover:not(:disabled), .button:hover, .btn:hover {
+  border-color: rgba(133, 151, 255, .8);
+  box-shadow: 0 0 20px rgba(76, 94, 255, .2);
+}
+
+/* Entire microphone orb, glow, rings and listening state */
+:is(.mic-orb, .voice-orb, .orb, .orb-core, .mic-button,
+    .mic-visual, .listen-orb, #micButton, #mic-orb, #voiceOrb) {
+  background: radial-gradient(circle at 35% 25%,
+    #687cff 0%, #394fe9 28%, #22217f 61%, #09152f 100%) !important;
+  border: 1px solid rgba(125, 150, 255, .92) !important;
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(48, 101, 255, .72),
+    0 0 55px rgba(82, 65, 245, .36),
+    inset 0 0 24px rgba(154, 164, 255, .22) !important;
+}
+
+:is(.orb-ring, .mic-ring, .voice-ring, .orbital-ring,
+    .mic-pulse, .pulse-ring, .ring, .mic-glow) {
+  border-color: rgba(104, 124, 255, .8) !important;
+  box-shadow: 0 0 25px rgba(73, 91, 255, .34) !important;
+}
+
+/* Status indicators and audio waveform */
+:is(.listening, .is-listening, .active, .waveform, .audio-wave,
+    .sound-wave, .equalizer, .voice-status, .listening-indicator) {
+  color: #a9b9ff;
+}
+
+:is(.waveform span, .audio-wave span, .sound-wave span,
+    .equalizer span, .wave-bar) {
+  background: linear-gradient(180deg, #9b72ff, #4385ff) !important;
+}
+
+/* Message bubbles */
+:is(.user-message, .message-user, .user-bubble) {
+  background: linear-gradient(130deg, rgba(43, 78, 175, .45), rgba(75, 51, 151, .4)) !important;
+  border-color: rgba(94, 124, 255, .3) !important;
+  color: #f4f6ff !important;
+}
+
+:is(.assistant-message, .bot-message, .message-assistant, .ai-bubble) {
+  background: rgba(19, 31, 60, .88) !important;
+  border-color: var(--oq-border) !important;
+  color: var(--oq-text) !important;
+}
+
+/* Links, separators and scrollbars */
+a {
+  color: #9db5ff;
+}
+
+hr, .divider, .separator {
+  border-color: var(--oq-border) !important;
+}
+
+* {
+  scrollbar-color: #354a91 #080e20;
+}
+
+/* NAVAI_ORAL_QUIZ_FULL_PURPLE_THEME_V2_END */
