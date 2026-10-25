@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1b">
+<title>NavAI Oral Quiz</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top left,#1c2b58,transparent 50%),radial-gradient(ellipse at bottom right,#321d55,transparent 45%),#080d1b;color:#edf1ff;font:16px/1.6 Segoe UI,Arial,sans-serif}.wrap{max-width:1000px;margin:auto;padding:24px 16px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center}.brand{font-size:21px;font-weight:800}.brand span{color:#94a9ff}a{color:#b9c8ff;text-decoration:none}.hero{text-align:center;padding:45px 0 30px}.hero h1{font-size:clamp(32px,6vw,52px);line-height:1.1;margin:12px 0}.muted{color:#a4b0d0}.grid{display:grid;grid-template-columns:1.3fr .7fr;gap:18px}.panel{background:#111a30e8;border:1px solid #899dff2c;border-radius:22px;padding:22px;box-shadow:0 20px 65px #0003}.panel h2{margin-top:0;font-size:18px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#aab7d7}.field input,.field select,textarea{width:100%;background:#0a1123;color:#f2f4ff;border:1px solid #899dff3b;border-radius:12px;padding:12px;font:inherit}.orb{width:76px;height:76px;border-radius:50%;margin:25px auto 12px;background:radial-gradient(circle at 30% 25%,white,#94a9ff 25%,#7756e8 60%,#292052);box-shadow:0 0 42px #8271ff55;animation:pulse 3s infinite}@keyframes pulse{50%{transform:scale(1.06)}}#status{color:#aab7d7;font-size:13px;min-height:24px}#question{font-size:24px;font-weight:700;margin:15px 0;line-height:1.4}button{background:#202c4d;color:white;border:1px solid #8196ff35;border-radius:12px;padding:11px 14px;font:inherit;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}.primary{background:linear-gradient(120deg,#4268e8,#8154d7);border:0;font-weight:700}.actions{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}textarea{min-height:90px;resize:vertical}.feedback{margin-top:15px;padding:14px;background:#0a1123;border:1px solid #899dff2c;border-radius:14px;white-space:pre-wrap}.hidden{display:none!important}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.stat{padding:12px;background:#0a1123;border:1px solid #899dff24;border-radius:13px}.stat strong{display:block;font-size:24px}.stat small{color:#9aa8c9}.score{font-size:38px;font-weight:800}.foot{text-align:center;color:#7382a7;font-size:12px;margin:25px}@media(max-width:700px){.grid{grid-template-columns:1fr}.fields{grid-template-columns:1fr 1fr}.hero{padding-top:30px}.panel{padding:17px}}@media(max-width:390px){.fields{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<header class="top"><div class="brand">✦ NavAI <span>ORAL QUIZ</span></div><a href="/">← Back to NavAI</a></header>
+<section class="hero"><div class="muted">SPEAK · LEARN · IMPROVE</div><h1>Your AI oral examiner.</h1><p class="muted">NavAI asks a question. You answer by voice or text. If you don't know, NavAI explains it simply and helps you learn.</p></section>
+<div class="grid"><main class="panel">
+<h2>Start your oral practice</h2>
+<div class="fields">
+<label class="field">Subject<select id="subject"><option>Science</option><option>Mathematics</option><option>Social Science</option><option>English</option><option>Hindi</option><option>Computer</option><option>General Knowledge</option></select></label>
+<label class="field">Class / Level<select id="level"><option>Class 9 CBSE</option><option>Class 8</option><option>Class 10 CBSE</option><option>Beginner</option><option>General</option></select></label>
+<label class="field">Chapter / Topic<input id="topic" placeholder="e.g. Motion, Atoms"></label>
+<label class="field">Language<select id="language"><option>Hinglish</option><option>Hindi</option><option>English</option></select></label>
+</div>
+<div class="orb"></div><div id="status" aria-live="polite">Ready when you are. Start your quiz.</div>
+<div id="question">Your first question will appear here.</div>
+<div class="actions"><button class="primary" id="start">▶ Start quiz</button><button id="repeat">🔊 Repeat question</button><button id="mic">🎙 Answer by voice</button><button id="unknown">I don't know</button></div>
+<textarea id="answer" placeholder="Or type your answer here…"></textarea>
+<div class="actions"><button class="primary" id="submit">Submit answer</button><button id="next" class="hidden">Next question →</button><button id="end">End quiz</button></div>
+<div id="feedback" class="feedback hidden" aria-live="polite"></div>
+</main><aside class="panel"><h2>Your progress</h2><div id="score" class="score">0%</div><div class="muted">Accuracy so far</div>
+<div class="stats"><div class="stat"><strong id="asked">0</strong><small>Questions</small></div><div class="stat"><strong id="correct">0</strong><small>Correct</small></div><div class="stat"><strong id="streak">0</strong><small>Streak</small></div></div>
+<div class="feedback"><strong>How it works</strong><p class="muted">Answer naturally. NavAI reviews your response, explains mistakes, and waits before moving to the next question. Use “I don't know” whenever you need help.</p></div>
+<p class="muted" style="font-size:12px">Voice recognition depends on browser support and microphone permission. Text answers are always available.</p>
+<button id="clear">Clear saved summary</button><p id="saved" class="muted" style="font-size:12px">Quiz summary is stored in this browser.</p>
+</aside></div><div class="foot">NavAI · Practice makes progress</div></div>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+let active=false,waiting=false,lastQuestion="",lastFeedback="",asked=0,correct=0,streak=0;
+const lang=()=> $('language').value;
+function status(s){$('status').textContent=s}
+function say(s){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang=lang()==='English'?'en-IN':'hi-IN';u.rate=.94;speechSynthesis.speak(u)}
+function render(){$('asked').textContent=asked;$('correct').textContent=correct;$('streak').textContent=streak;$('score').textContent=(asked?Math.round(correct/asked*100):0)+'%';$('next').classList.toggle('hidden',!waiting);$('submit').disabled=!active||waiting;$('unknown').disabled=!active||waiting}
+async function callAI(instruction){
+let subject=$('subject').value,level=$('level').value,topic=$('topic').value.trim()||'important basic concepts',language=lang();
+let message=`You are NavAI Oral Quiz, a patient and natural school teacher conducting a spoken oral quiz. Subject: ${subject}. Level: ${level}. Topic: ${topic}. Respond in ${language}. Keep language conversational, simple and concise for speech. Plain text only, no markdown, headings, bullets, asterisks or decorative symbols. Ask exactly one clear question at a time. When the student says they do not know, explain the correct answer simply, give an example if helpful, reassure them and then ask if they are ready for another question. When they answer, fairly evaluate the meaning, say correct/partly correct/incorrect, briefly explain, and do not ask another quiz question in the same reply; wait for the Next question button. ${instruction}`;
+let r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,history:[]})});
+let data=await r.json();if(!r.ok)throw Error(data.error||data.message||'NavAI API request failed');
+let out=String(data.response||data.answer||data.reply||'').trim();if(!out)throw Error('NavAI returned an empty answer');return out
+}
+async function start(){active=true;waiting=false;asked=correct=streak=0;lastQuestion="";lastFeedback="";$('feedback').classList.add('hidden');$('question').textContent='Preparing your first question…';render();status('NavAI is preparing a question…');try{lastQuestion=await callAI('The student has just started. Ask the first question now.');$('question').textContent=lastQuestion;status('Your turn. Speak or type your answer.');say(lastQuestion)}catch(e){active=false;status(e.message)}render()}
+async function submit(value){if(!active||waiting)return;let answer=(value===undefined?$('answer').value:value).trim();if(!answer){status('Please answer first, or choose I don’t know.');return}asked++;$('question').textContent='Reviewing your answer…';$('feedback').classList.add('hidden');render();status('NavAI is checking your answer…');try{let reply=await callAI(`Previous question: "${lastQuestion}". Student answer: "${answer}". Evaluate and explain this answer now. Do not ask the next quiz question yet. Start with a natural verdict.`);lastFeedback=reply;waiting=true;if(/\b(correct|exactly right|that's right|that is right|bilkul sahi|sahi jawab)\b/i.test(reply)&&!/\b(incorrect|not correct|not quite|partly correct|almost right|not entirely)\b/i.test(reply)){correct++;streak++}else streak=0;$('question').textContent='Answer reviewed';$('feedback').textContent=reply;$('feedback').classList.remove('hidden');$('answer').value='';status('Review complete. Continue when ready.');say(reply);try{localStorage.setItem('navai.oralQuiz.summary.v1',JSON.stringify({subject:$('subject').value,topic:$('topic').value,level:$('level').value,asked,correct,history:{question:lastQuestion,answer,feedback:reply}}));$('saved').textContent='Latest quiz summary saved in this browser.'}catch(e){}}catch(e){asked--;status(e.message);$('question').textContent=lastQuestion}render()}
+async function next(){if(!active)return;waiting=false;$('feedback').classList.add('hidden');$('question').textContent='Preparing next question…';render();try{lastQuestion=await callAI(`Previous question: "${lastQuestion}". Previous feedback: "${lastFeedback}". The student is ready to continue. Ask one new question on the same topic, preferably testing a different concept or revisiting a weak area.`);$('question').textContent=lastQuestion;status('Your turn. Speak or type your answer.');say(lastQuestion)}catch(e){waiting=true;status(e.message)}render()}
+$('start').onclick=start;$('submit').onclick=()=>submit();$('unknown').onclick=()=>submit("I don't know the answer. Please explain the correct answer simply.");$('next').onclick=next;$('repeat').onclick=()=>lastQuestion?say(lastQuestion):status('Start the quiz first.');
+$('end').onclick=()=>{active=false;waiting=false;if('speechSynthesis'in window)speechSynthesis.cancel();status(`Quiz ended. Accuracy: ${asked?Math.round(correct/asked*100):0}%.`);$('question').textContent='Quiz finished. Great effort!';render()};
+$('clear').onclick=()=>{localStorage.removeItem('navai.oralQuiz.summary.v1');$('saved').textContent='Saved summary cleared from this browser.'};
+$('mic').onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){status('This browser does not support voice recognition. Please type your answer.');return}const rec=new SR();rec.lang=lang()==='English'?'en-IN':'hi-IN';rec.interimResults=false;status('Listening… speak now.');rec.onresult=e=>{let text=e.results[0][0].transcript;$('answer').value=text;submit(text)};rec.onerror=e=>status('Microphone issue: '+e.error+'. Type your answer instead.');try{rec.start()}catch(e){status('Could not start microphone. Check browser permission.')}};
+render();
+})();
+</script></body></html>

@@ -899,7 +899,13 @@ def virtual_chemistry_lab():
         html_path.read_text(encoding="utf-8"),
         mimetype="text/html"
     )
+
+# NAVAI_ORAL_QUIZ_ROUTE_V1
+@app.route("/oral-quiz")
+def navai_oral_quiz_page():
+    oral_quiz_file = Path(__file__).resolve().parent / "oral-quiz.html"
+    return app.response_class(oral_quiz_file.read_text(encoding="utf-8-sig"), mimetype="text/html")
+# NAVAI_ORAL_QUIZ_ROUTE_V1_END
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
-
