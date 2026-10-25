@@ -384,3 +384,56 @@ body {
   scrollbar-color: #3268f5 #080e20;
 }
 /* NAVAI_ORAL_BLUE_ONLY_V6_END */
+
+/* NAVAI_FORCE_BLUE_START */
+:root {
+  color-scheme: dark !important;
+  --primary: #3268f5 !important;
+  --accent: #477cff !important;
+  --oq-blue: #3268f5 !important;
+  --oq-blue-light: #8bb4ff !important;
+}
+html, body {
+  background-color: #060b19 !important;
+  color: #f3f5ff !important;
+}
+body {
+  background-image: radial-gradient(ellipse at 50% 0%,rgba(35,75,190,.22),transparent 60%),linear-gradient(145deg,#080e20,#060b19 70%,#071126) !important;
+}
+h1, h2, h3, .eyebrow, .section-label, .brand-badge, .voice-badge {
+  color: #8bb4ff !important;
+}
+.gradient-text, .hero-title, .headline, .accent-text {
+  background-image: linear-gradient(100deg,#8bb4ff,#477cff,#3268f5) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+button, .button, .btn, [role="button"], .primary-button, .start-button, .send-button, .next-button, .submit-button {
+  background-color: #3268f5 !important;
+  background-image: linear-gradient(110deg,#2459ec,#3268f5,#477cff) !important;
+  color: #fff !important;
+  border-color: #477cff !important;
+}
+.card, .panel, .glass-panel, .quiz-card, .quiz-panel, .conversation, .chat-panel, .live-conversation {
+  background-color: #0c1530 !important;
+  border-color: rgba(91,130,255,.35) !important;
+}
+.mic-orb, .voice-orb, .orb, .orb-core, .mic-button, .microphone-orb, #micButton, #voiceOrb {
+  background-color: #3268f5 !important;
+  background-image: radial-gradient(circle at 35% 25%,#8bb4ff,#3268f5 48%,#10245a) !important;
+  border-color: #8bb4ff !important;
+  box-shadow: 0 0 22px rgba(50,104,245,.7),0 0 48px rgba(50,104,245,.35) !important;
+}
+.orb-ring, .mic-ring, .voice-ring, .pulse-ring, .mic-glow, .microphone-ring {
+  border-color: #477cff !important;
+  box-shadow: 0 0 22px rgba(50,104,245,.35) !important;
+}
+input, textarea, select {
+  background-color: #080f22 !important;
+  color: #f3f5ff !important;
+  border-color: rgba(91,130,255,.35) !important;
+}
+a { text-decoration-color: #477cff !important; }
+* { scrollbar-color: #3268f5 #080e20; }
+/* NAVAI_FORCE_BLUE_END */
