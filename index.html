@@ -54,7 +54,7 @@
                 </a>
 
                 <button class="icon-button sidebar-close" id="menuBtn"
-                        type="button" aria-label="Close menu">Ãƒâ€”</button>
+                        type="button" aria-label="Close menu">&#215;</button>
             </div>
 
             <button class="new-chat-button" id="newChatBtn" type="button">
@@ -371,7 +371,7 @@
                         <div class="preview-image-wrap">
                             <img id="imagePreview" src="" alt="Selected image preview">
                             <button class="remove-image-button" id="removeImageBtn"
-                                    type="button" aria-label="Remove image">Ãƒâ€”</button>
+                                    type="button" aria-label="Remove image">&#215;</button>
                         </div>
 
                         <div class="preview-file-info">
@@ -434,7 +434,7 @@
   wrap.id = "navai-more-wrap";
   wrap.style.cssText = "position:relative;display:inline-flex;align-items:center;flex-shrink:0;z-index:100000;margin-left:8px";
   wrap.innerHTML =
-    '<button id="navai-more-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navai-more-menu" style="width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(140,164,255,.27);border-radius:12px;background:linear-gradient(145deg,rgba(45,65,112,.7),rgba(15,24,45,.94));color:#eaf0ff;cursor:pointer;font:700 24px/1 system-ui;box-shadow:0 5px 20px rgba(0,0,0,.15)">Ã¢â€¹Â¯</button>' +
+    '<button id="navai-more-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navai-more-menu" style="width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(140,164,255,.27);border-radius:12px;background:linear-gradient(145deg,rgba(45,65,112,.7),rgba(15,24,45,.94));color:#eaf0ff;cursor:pointer;font:700 24px/1 system-ui;box-shadow:0 5px 20px rgba(0,0,0,.15)">&#8942;</button>' +
     '<nav id="navai-more-menu" aria-label="NavAI navigation" aria-hidden="true" style="position:absolute;left:0;top:calc(100% + 9px);width:245px;padding:9px;border:1px solid rgba(137,160,215,.25);border-radius:16px;background:rgba(9,16,33,.98);box-shadow:0 20px 55px rgba(0,0,0,.48);backdrop-filter:blur(22px);opacity:0;transform:translateY(-5px);pointer-events:none;transition:opacity .16s,transform .16s">' +
     '<div style="padding:8px 10px;color:#8f9fbe;font:600 10px system-ui;letter-spacing:1.4px">NAVAI WORKSPACE</div>' +
     (developer
@@ -477,7 +477,7 @@
     for(var k=0;k<all.length;k++){
       var node=all[k];
       if(!node.getClientRects().length || wrap.contains(node)) continue;
-      var text=(node.innerText||node.textContent||"").replace(/[âœ¨Ã¢â€¹Â¯]/g,"").trim();
+      var text=(node.innerText||node.textContent||"").replace(/[âœ¨&#8942;]/g,"").trim();
       if(/^navai$/i.test(text)){
         if(!sidebar || sidebar.contains(node) || developer){logo=node;break;}
       }
