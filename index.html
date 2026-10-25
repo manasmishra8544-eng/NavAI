@@ -75,11 +75,6 @@
                     </div>
                 </div>
             </div>
-
-            <a class="sidebar-action" href="/developer" style="display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-decoration:none;">
-                <span class="action-icon">&#10024;</span>
-                <span>Website Developer</span>
-            </a>
             <div class="sidebar-bottom">
                 <div class="local-note">
                     <span class="status-indicator"></span>
@@ -287,12 +282,6 @@
       <p>Ask questions, solve problems, explore ideas and get help with everyday tasks.</p>
       <div class="tool-bottom"><span>Start a conversation</span><span class="tool-arrow" aria-label="Open">↗</span></div>
     </a>
-    <a class="tool" href="/developer">
-      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <h2>Website Builder</h2>
-      <p>Turn your ideas into websites with help from your AI development assistant.</p>
-      <div class="tool-bottom"><span>Build a website</span><span class="tool-arrow" aria-label="Open">↗</span></div>
-    </a>
     <a class="tool" href="/classroom.html">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M19 15v2m-1 1h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
       <h2>NavAI Teacher</h2>
@@ -439,7 +428,7 @@
     '<div style="padding:8px 10px;color:#8f9fbe;font:600 10px system-ui;letter-spacing:1.4px">NAVAI WORKSPACE</div>' +
     (developer
       ? '<a href="/" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">&#8942;</span><span>Back to NavAI Chat<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Return to your conversations</small></span></a>'
-      : '<a href="/developer" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">âœ¨</span><span>Website Developer<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Create websites with AI</small></span></a>') +
+      : '' +
     '<a href="/exam-improver.html" class="nav-link">Exam Improver</a>
 </nav>';
 
@@ -573,8 +562,8 @@
         button.textContent = "âœ¨";
       }
 
-      button.setAttribute("aria-label", "Website Developer");
-      button.setAttribute("title", "Website Developer");
+      button.setAttribute("aria-label", "NavAI");
+      button.setAttribute("title", "NavAI");
       button.style.cursor = "pointer";
 
       if (button.getAttribute("data-navai-icon-only-developer") !== "1") {
@@ -582,7 +571,7 @@
         button.addEventListener("click", function (event) {
           event.preventDefault();
           event.stopImmediatePropagation();
-          window.location.href = "/developer";
+          window.location.href = "/";
         }, true);
       }
     }
@@ -594,7 +583,7 @@
 
       if (
         label.children.length !== 0 ||
-        (label.textContent || "").trim() !== "Website Developer"
+        (label.textContent || "").trim() !== "NavAI"
       ) continue;
 
       var item = label.closest("a, button, [role='button']");
@@ -614,9 +603,9 @@
 
         if (
           (/action|developer|sidebar|nav-item/i.test(cls) &&
-           text.indexOf("Website Developer") >= 0) ||
-          text === "âœ¨ Website Developer" ||
-          text === "âœ¨Website Developer"
+           false) ||
+          false ||
+          false
         ) {
           if (parent.style.display !== "none") {
             parent.style.setProperty("display", "none", "important");
