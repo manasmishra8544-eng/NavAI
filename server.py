@@ -749,6 +749,24 @@ def navai_oral_quiz_page():
     oral_quiz_file = Path(__file__).resolve().parent / "oral-quiz.html"
     return app.response_class(oral_quiz_file.read_text(encoding="utf-8-sig"), mimetype="text/html")
 # NAVAI_ORAL_QUIZ_ROUTE_V1_END
+
+@app.route("/oral-quiz")
+def oral_quiz_page():
+    from flask import send_from_directory
+    import os
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "oral-quiz.html")
+
+@app.route("/oral-quiz.css")
+def oral_quiz_css():
+    from flask import send_from_directory
+    import os
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "oral-quiz.css")
+
+@app.route("/oral-quiz.js")
+def oral_quiz_js():
+    from flask import send_from_directory
+    import os
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "oral-quiz.js")
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
