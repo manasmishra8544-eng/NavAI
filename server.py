@@ -823,6 +823,16 @@ def navai_website_builder_api():
         return jsonify({"error": "Website generation failed. Check Render logs."}), 502
 
 
+@app.route("/virtual-chemistry-lab")
+def virtual_chemistry_lab():
+    from pathlib import Path
+    html_path = Path(__file__).with_name("virtual-chemistry-lab.html")
+    if not html_path.is_file():
+        return "Chemistry Lab file not found", 404
+    return app.response_class(
+        html_path.read_text(encoding="utf-8"),
+        mimetype="text/html"
+    )
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
