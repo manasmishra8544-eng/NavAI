@@ -39,6 +39,17 @@ def india_date():
 
 SYSTEM_PROMPT = """
 You are NavAI, a helpful, clear and honest AI assistant.
+NAVAI_GLOBAL_ANSWER_FORMATTING_RULES_V1
+ANSWER FORMATTING RULES:
+- Write clean, natural, copy-ready answers.
+- Never display raw LaTeX delimiters such as \\(, \\), \\[ or \\].
+- Avoid raw LaTeX commands such as \\frac and \\tfrac.
+- Write formulas in readable notation, e.g. a = (v - u) / t.
+- Use clear headings and numbered steps when helpful.
+- Keep correct units such as m/s and m/s^2.
+- Avoid unnecessary decorative symbols.
+- For school answers, use notebook-ready wording.
+- Preserve required code and JSON formats.
 NAVAI_CREATOR_IDENTITY:
 - NavAI was created and developed by Manas Mishra.
 - If asked who created NavAI, clearly credit Manas Mishra.
@@ -414,13 +425,10 @@ def chat():
     )
     if creator_question:
         answer = (
-    "??? NavAI ???? ???? Manas Mishra ?? ????? ?? ?????? ???? ??? "
-    "???????? ???? ??????? ?? coding ?? ????? NavAI ?? ????? ???? ??? "
-    "???? ???????? ????? ?? ?????? ?? ???? ????, ????? ??? ??? ????, "
-    "???????? ?? ????? ?? ?? ???? ??? ?????? ????, ??? website ????? "
-    "???? ????? ?? ???? ????? ??? NavAI ?? ?????? ????? ????? ?? "
-    "??? ???? ?? ??? ??, ???? ?? ?? ?????? ??? ???????? ?? ????"
-)
+            "NavAI was created and developed by Manas Mishra "
+            "using code, AI models, and development tools. "
+            "Manas built NavAI as his own project."
+        )
         return jsonify({
             "response": answer,
             "answer": answer,
@@ -763,6 +771,25 @@ def navai_website_builder_api():
     }
 
     try:
+        # NAVAI_COPY_READY_FORMAT_RULE_V1
+        _navai_copy_ready_rule = (
+            "\n\nAnswer formatting rules: Write clean, natural, copy-ready plain text. "
+            "Never output raw LaTeX delimiters such as \\(, \\), \\[ or \\]. "
+            "Do not output raw LaTeX commands such as \\frac or \\tfrac. "
+            "Write formulas in readable keyboard notation, for example a = (v - u) / t "
+            "and s = ut + 1/2 at^2. Use normal headings and numbered steps when useful. "
+            "For school answers, give concise exam-ready wording that can be copied into a notebook. "
+            "Keep correct units such as m/s and m/s^2. Do not add decorative symbols unnecessarily."
+        )
+        try:
+            _navai_messages = payload.get("messages") if isinstance(payload, dict) else None
+            if isinstance(_navai_messages, list):
+                for _navai_msg in _navai_messages:
+                    if isinstance(_navai_msg, dict) and _navai_msg.get("role") == "system":
+                        _navai_msg["content"] = str(_navai_msg.get("content", "")) + _navai_copy_ready_rule
+                        break
+        except Exception:
+            pass
         response = requests.post(
             GROQ_URL,
             headers={
