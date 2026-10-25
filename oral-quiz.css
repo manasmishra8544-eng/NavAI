@@ -299,3 +299,88 @@ body {
 }
 * { scrollbar-color: #3268f5 #080e20; }
 /* NAVAI_ORAL_QUIZ_NO_PURPLE_BLUE_THEME_V5_END */
+
+/* NAVAI_ORAL_BLUE_ONLY_V6_START */
+:root {
+  color-scheme: dark;
+  --primary: #3268f5;
+  --primary-color: #3268f5;
+  --accent: #477cff;
+  --accent-color: #477cff;
+  --oq-blue: #3268f5;
+  --oq-blue-light: #8bb4ff;
+  --oq-bg: #060b19;
+  --oq-surface: #0c1530;
+  --oq-card: #111d39;
+  --oq-border: rgba(91,130,255,.30);
+}
+
+html, body {
+  color: #f3f5ff !important;
+  background-color: #060b19 !important;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(35,75,190,.24), transparent 56%),
+    linear-gradient(145deg,#080e20,#060b19 68%,#071126) !important;
+}
+
+body {
+  accent-color: #3268f5 !important;
+  scrollbar-color: #3268f5 #080e20 !important;
+}
+
+:is(h1,h2,h3,h4,.eyebrow,.subtitle,.label,.section-label,.brand-badge,.voice-badge) {
+  text-decoration-color: #3268f5 !important;
+}
+
+:is(.gradient-text,.hero-title,.headline,.accent-text,.eyebrow,.section-label) {
+  background-image: linear-gradient(100deg,#8bb4ff 0%,#477cff 55%,#3268f5 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+:is(.card,.panel,.glass-panel,.quiz-card,.quiz-panel,.question-card,.question-panel,.answer-panel,.conversation,.chat-panel,.transcript,.history-panel,.result-panel,.settings-panel,.voice-panel,.control-panel,.live-conversation) {
+  background-color: #0c1530 !important;
+  background-image: linear-gradient(145deg,#111d39,#091226) !important;
+  border-color: rgba(91,130,255,.30) !important;
+  color: #f3f5ff !important;
+}
+
+:is(button,.button,.btn,[role="button"],.primary-button,.start-button,.send-button,.next-button,.submit-button,.speak-button,.tap-to-speak,#startButton,#sendButton,#nextButton,#tapToSpeak) {
+  background-color: #3268f5 !important;
+  background-image: linear-gradient(110deg,#2459ec,#3268f5 70%,#477cff) !important;
+  color: #fff !important;
+  border-color: rgba(112,153,255,.7) !important;
+}
+
+:is(.mic-orb,.voice-orb,.orb,.orb-core,.mic-button,.mic-visual,.listen-orb,.microphone,.microphone-orb,#micButton,#mic-orb,#voiceOrb,#microphone) {
+  background-color: #3268f5 !important;
+  background-image: radial-gradient(circle at 35% 25%,#8bb4ff,#3268f5 48%,#10245a 100%) !important;
+  color: #fff !important;
+  border-color: #8bb4ff !important;
+  box-shadow: 0 0 20px rgba(50,104,245,.7),0 0 48px rgba(50,104,245,.36),inset 0 0 22px rgba(139,180,255,.22) !important;
+}
+
+:is(.orb-ring,.mic-ring,.voice-ring,.orbital-ring,.mic-pulse,.pulse-ring,.ring,.mic-glow,.microphone-ring,.listening-ring) {
+  border-color: rgba(91,143,255,.85) !important;
+  box-shadow: 0 0 22px rgba(50,104,245,.32) !important;
+}
+
+:is(.status-dot,.ready-dot,.success-dot,.listening-dot) {
+  background-color: #477cff !important;
+  box-shadow: 0 0 12px rgba(71,124,255,.7) !important;
+}
+
+:is(input,textarea,select,.transcript-box,.text-input,.answer-input) {
+  background-color: #080f22 !important;
+  color: #f3f5ff !important;
+  border-color: rgba(91,130,255,.30) !important;
+}
+
+:is(a,.link,.active,.selected,[aria-current="page"]) {
+  text-decoration-color: #477cff !important;
+}
+
+* {
+  scrollbar-color: #3268f5 #080e20;
+}
+/* NAVAI_ORAL_BLUE_ONLY_V6_END */
