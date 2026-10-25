@@ -1,26 +1,52 @@
-﻿<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NavAI Oral Quiz</title><link rel="stylesheet" href="/oral-quiz.css">
-</head><body>
-<header><a href="/">✦ NavAI</a><span>ORAL QUIZ</span><a href="/">Back to NavAI</a></header>
-<main>
-<section id="setup" class="panel">
-<p class="eyebrow">LEARN BY SPEAKING</p><h1>Your topic. Your voice.</h1>
-<p>NavAI questions poochega. Answer nahi pata? NavAI samjhayega.</p>
-<label>Subject<input id="subject" placeholder="Science, Maths, English..." required></label>
-<label>Class / level<input id="level" value="Class 9"></label>
-<label>Topic / chapter<input id="topic" placeholder="Atoms and Molecules" required></label>
-<label>Difficulty<select id="difficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></label>
-<label>Questions<select id="count"><option>5</option><option selected>10</option><option>15</option></select></label>
-<button id="start">Start Oral Quiz →</button></section>
-<section id="quiz" class="panel hidden">
-<div class="row"><span id="progress"></span><span id="score">Score: 0</span></div>
-<div class="bar"><div id="fill"></div></div><p class="eyebrow">NAVAI ASKS</p><h2 id="question"></h2>
-<div class="row"><button id="read" class="secondary">🔊 Read question</button><button id="mic" class="secondary">🎙 Speak answer</button><button id="mute" class="secondary">Mute</button></div>
-<textarea id="answer" placeholder="Type your answer here..."></textarea>
-<div class="row"><button id="unknown" class="secondary">Answer nahi pata</button><button id="submit">Submit answer</button></div>
-<div id="feedback" class="feedback hidden"></div><button id="next" class="hidden">Next question →</button>
-</section>
-<section id="results" class="panel hidden"><p class="eyebrow">QUIZ COMPLETED</p><h2>Your result</h2><h1 id="finalScore"></h1><div id="review"></div><button id="retry">Practise again</button><button id="new" class="secondary">New topic</button></section>
-<p id="status" role="status"></p></main><script src="/oral-quiz.js"></script></body></html>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#260044">
+<title>NavAI Voice Companion</title>
+<link rel="stylesheet" href="/oral-quiz.css">
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="NavAI home"><span class="brand-dot"></span> NavAI <span class="brand-tag">VOICE</span></a>
+    <span class="live-status" id="connection"><i></i> READY</span>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow"><span class="eyebrow-line"></span> YOUR VOICE COMPANION <span class="eyebrow-line"></span></div>
+    <h1>Just talk.<br><span>We'll learn together.</span></h1>
+    <p class="subtitle">No typing. No forms. Just your voice and NavAI.</p>
+
+    <button class="orb-button" id="mic" aria-label="Start voice conversation">
+      <span class="orb-halo halo-one"></span>
+      <span class="orb-halo halo-two"></span>
+      <span class="orb-core">
+        <svg class="microphone" viewBox="0 0 120 150" aria-hidden="true">
+          <rect x="42" y="8" width="36" height="76" rx="18" fill="none" stroke="currentColor" stroke-width="7"/>
+          <path d="M26 64v8a34 34 0 0 0 68 0v-8M60 106v24M42 130h36" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </button>
+    <div class="orb-caption" id="orbCaption">TAP TO START TALKING</div>
+    <p class="hint" id="hint">NavAI will listen, speak and guide you.</p>
+
+    <div class="conversation" aria-live="polite">
+      <div class="conversation-label"><span class="sound-bars"><i></i><i></i><i></i></span> LIVE CONVERSATION</div>
+      <div id="transcript" class="transcript">Hey! I'm NavAI. Tap the microphone and tell me what you'd like to learn today.</div>
+      <div id="reply" class="reply"></div>
+    </div>
+
+    <div class="controls">
+      <button id="repeat" class="control"><span>↻</span> Repeat</button>
+      <button id="unknown" class="control"><span>✦</span> Explain it</button>
+      <button id="pause" class="control"><span>Ⅱ</span> Pause</button>
+    </div>
+    <div class="footer-status" id="status">Ready when you are.</div>
+    <div class="privacy-note">Your microphone is controlled by your browser. You can stop the session anytime.</div>
+  </section>
+</main>
+<script src="/oral-quiz.js"></script>
+</body>
+</html>
