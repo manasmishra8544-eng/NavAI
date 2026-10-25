@@ -47,3 +47,41 @@ h1 span{background:linear-gradient(95deg,#ff9bf8,#d6a4ff 48%,#6feeff);-webkit-ba
 @keyframes listen{0%,100%{transform:scale(1);box-shadow:0 0 30px #ed69ff75,0 0 90px #a82cff69,inset 0 0 32px #ffd9ff70}50%{transform:scale(1.025);box-shadow:0 0 45px #ed69ffb0,0 0 115px #a82cff99,inset 0 0 42px #ffd9ff90}}
 @media(max-width:600px){.app{padding:19px 16px 28px}.hero{padding-top:40px}h1{letter-spacing:-1.5px}.subtitle{font-size:13px}.orb-button{width:min(68vw,290px);margin-top:15px}.conversation{padding:18px;border-radius:20px}.transcript{font-size:15px}.control{flex:1 1 28%;padding:10px 8px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+
+/* NAVAI_ORAL_QUIZ_MATCH_MAIN_BLUE_THEME_V1 */
+:root {
+  --navai-mic-navy: #071127;
+  --navai-mic-blue: #2859f5;
+  --navai-mic-indigo: #5146e5;
+  --navai-mic-violet: #8057ff;
+  --navai-mic-glow: rgba(49, 104, 255, .48);
+}
+
+/* Microphone orb and its glow */
+:is(.mic-orb, .voice-orb, .orb, .orb-core, .mic-button,
+    .mic-visual, .listen-orb, #micButton, #mic-orb, #voiceOrb) {
+  background: radial-gradient(circle at 35% 25%,
+    #526eff 0%, #304fe8 30%, #182b77 65%, #08142e 100%) !important;
+  border-color: rgba(91, 132, 255, .95) !important;
+  box-shadow:
+    0 0 18px rgba(47, 100, 255, .75),
+    0 0 42px rgba(57, 78, 245, .48),
+    inset 0 0 22px rgba(116, 145, 255, .28) !important;
+}
+
+/* Orb rings */
+:is(.orb-ring, .mic-ring, .voice-ring, .orbital-ring,
+    .mic-pulse, .pulse-ring, .ring, .mic-glow) {
+  border-color: rgba(73, 115, 255, .82) !important;
+  box-shadow: 0 0 22px rgba(48, 100, 255, .42) !important;
+}
+
+/* Speak/listen button */
+:is(.tap-to-speak, .speak-button, .mic-label, .mic-cta,
+    #tapToSpeak, #micStatusButton) {
+  background: linear-gradient(110deg, #2458ec, #5146e5 65%, #7651ed) !important;
+  border-color: rgba(124, 151, 255, .8) !important;
+  box-shadow: 0 0 24px rgba(54, 89, 255, .38) !important;
+}
+/* NAVAI_ORAL_QUIZ_MATCH_MAIN_BLUE_THEME_V1_END */
