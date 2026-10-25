@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06132b">
+<title>Exam Improver — NavAI</title>
+<style>
+:root{color-scheme:dark;--bg:#050d20;--panel:#0a1934;--line:#1d467d;--blue:#3185ff;--text:#eff6ff;--muted:#a6bfdf}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#15376a,transparent 42%),radial-gradient(ellipse at 100% 30%,#251d60,transparent 36%),var(--bg);font:15px/1.6 "Segoe UI",Arial,sans-serif;color:var(--text)}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 5%;border-bottom:1px solid var(--line);background:#061128cc}
+.brand{font-size:22px;font-weight:850}.brand span{color:#82aaff}
+a{color:#b9d7ff;text-decoration:none}
+main{max-width:1200px;margin:auto;padding:30px 18px}
+.hero{margin-bottom:22px}.eyebrow{font-size:11px;letter-spacing:2px;color:#55c8ff;font-weight:850}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:8px 0;letter-spacing:-1px}
+h1 em{font-style:normal;color:#8e9dff}
+p{color:var(--muted)}
+.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
+.panel{min-width:0;border:1px solid #1c477e;background:linear-gradient(145deg,#0c1d3bf5,#07152ff5);border-radius:19px;padding:20px;box-shadow:0 20px 60px #0003}
+h2{font-size:18px;margin:0 0 14px}
+label{display:block;color:#bed4f2;font-size:12px;margin:13px 0 6px}
+input,select,textarea{width:100%;background:#061229;color:var(--text);border:1px solid #244d80;border-radius:10px;padding:11px;font:inherit}
+textarea{min-height:110px;resize:vertical}
+button{border:1px solid #327aff;background:linear-gradient(120deg,#2378ff,#5549ed);color:white;font:inherit;font-weight:750;border-radius:11px;padding:12px 15px;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.secondary{background:#0a1d3a;border-color:#2b558a;color:#d5e8ff}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.row button{flex:1}
+.pill{display:inline-block;border:1px solid #28558c;background:#0a2446;border-radius:99px;padding:4px 10px;font-size:11px;color:#c5e4ff}
+.questionbox{border:1px solid #234e84;border-radius:15px;padding:20px;background:#07152c;min-height:200px}
+.qmeta{font-size:11px;letter-spacing:1.5px;color:#6bcfff;font-weight:850}
+#question{font-size:clamp(20px,2.6vw,28px);line-height:1.45;font-weight:750;margin:12px 0}
+#status{min-height:25px;color:#a9d2ff;font-size:13px;margin-top:12px;white-space:pre-wrap}
+.progress{height:6px;background:#142a49;border-radius:20px;overflow:hidden;margin:12px 0 20px}
+#progressBar{display:block;width:0;height:100%;background:linear-gradient(90deg,#3285ff,#50d5ff)}
+.feedback{margin-top:15px;border:1px solid #235184;border-radius:14px;padding:16px;background:#07152c}
+.score{font-size:26px;font-weight:850;color:#83bdff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
+.stat{padding:12px;background:#091a34;border:1px solid #204675;border-radius:11px}
+.stat strong{display:block;font-size:22px}.stat small{color:var(--muted)}
+.history{max-height:230px;overflow:auto}.history div{padding:10px 0;border-bottom:1px solid #1b3c66;font-size:12px}
+.small{font-size:12px;color:var(--muted)}
+footer{text-align:center;padding:25px;color:#7898c5;font-size:12px}
+@media(max-width:780px){.layout{grid-template-columns:1fr}header{padding:15px}.panel{padding:16px}}
+@media print{body{background:white;color:#111}header,.setup,.controls,footer{display:none}.panel,.questionbox,.feedback{background:white;color:#111;box-shadow:none}}
+</style>
+</head>
+<body>
+<header><div class="brand">NavAI <span>Exam Improver</span></div><a href="/">NavAI Home</a></header>
+<main>
+<section class="hero">
+<div class="eyebrow">YOUR PERSONAL EXAM PRACTICE STUDIO</div>
+<h1>Think clearly.<br><em>Answer confidently.</em></h1>
+<p>One question at a time. Listen, answer by voice or typing, get feedback and improve your exam skills.</p>
+</section>
+<div class="layout">
+<aside class="panel setup">
+<h2>Build your practice session</h2>
+<label for="className">Class</label>
+<select id="className"><option>Class 9</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select>
+<label for="board">Board</label>
+<select id="board"><option>CBSE</option><option>ICSE</option><option>State Board</option><option>Other</option></select>
+<label for="subject">Subject</label>
+<select id="subject"><option>Science</option><option>Mathematics</option><option>Social Science</option><option>English</option><option>Hindi</option><option>Computer</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select>
+<label for="topic">Chapter or topic</label>
+<input id="topic" placeholder="e.g. Atoms and Molecules">
+<div class="row">
+<div style="flex:1"><label for="difficulty">Difficulty</label><select id="difficulty"><option>Mixed</option><option>Easy</option><option>Moderate</option><option>Challenging</option></select></div>
+<div style="flex:1"><label for="total">Questions</label><select id="total"><option>5</option><option selected>10</option><option>15</option></select></div>
+</div>
+<label for="format">Question style</label>
+<select id="format"><option>Mixed exam-style</option><option>MCQ</option><option>Very short answer</option><option>Short answer</option><option>Long answer</option><option>Numerical</option><option>Case-based</option><option>Assertion and Reason</option></select>
+<label for="language">Language</label>
+<select id="language"><option>English</option><option>Hindi</option><option selected>Hinglish</option></select>
+<div class="row"><button id="start">Start practice →</button></div>
+<p class="small">Questions are practice material, not guaranteed predictions of actual exams.</p>
+</aside>
+
+<section class="panel">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+<h2>Live question room</h2><span class="pill" id="sessionPill">Not started</span>
+</div>
+<div class="progress"><span id="progressBar"></span></div>
+<div class="questionbox">
+<div class="qmeta" id="qmeta">READY WHEN YOU ARE</div>
+<div id="question">Choose your subject and topic to begin.</div>
+<p id="hint">NavAI will ask one question at a time.</p>
+</div>
+<div class="row controls">
+<button id="hear" class="secondary" disabled>🔊 Hear question</button>
+<button id="mic" disabled>🎙 Speak answer</button>
+<button id="stopMic" class="secondary" disabled>Stop listening</button>
+</div>
+<label for="answer">Your answer</label>
+<textarea id="answer" placeholder="Speak or type your answer here…" disabled></textarea>
+<div class="row controls">
+<button id="submit" disabled>Check my answer</button>
+<button id="next" class="secondary" disabled>Next question →</button>
+<button id="finish" class="secondary" disabled>Finish</button>
+<button id="print" class="secondary">Print / Save PDF</button>
+</div>
+<div id="status" role="status" aria-live="polite">Ready to begin.</div>
+<div id="feedback" class="feedback" hidden>
+<div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><h3>Answer feedback</h3><span class="score" id="score">—</span></div>
+<p id="feedbackText"></p>
+<h3>Ideal answer</h3><p id="ideal"></p>
+<div class="row"><button id="hearFeedback" class="secondary">🔊 Hear feedback</button></div>
+</div>
+<div class="stats">
+<div class="stat"><strong id="asked">0</strong><small>Checked</small></div>
+<div class="stat"><strong id="earned">0</strong><small>Strong answers</small></div>
+<div class="stat"><strong id="percent">0%</strong><small>Session score</small></div>
+</div>
+<div class="history" id="history"><p class="small">Your checked answers will appear here.</p></div>
+<div class="row"><button id="new" class="secondary">New session</button></div>
+<p class="small">Voice input requires browser microphone permission and a compatible browser. If voice is unavailable, typing still works.</p>
+</section>
+</div>
+</main>
+<footer>NavAI Exam Improver · Interactive exam practice · Check answers against your school textbook and syllabus</footer>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let questions=[],index=0,asked=0,strong=0,active=false,busy=false,rec=null,feedbackData=null,session=0,history=[];
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function setStatus(s){$('status').textContent=s;}
+function say(s){if(!('speechSynthesis'in window)){setStatus('Speech playback unsupported; read the question on screen.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang=$('language').value==='Hindi'?'hi-IN':'en-IN';u.rate=.94;speechSynthesis.speak(u);}
+function languagePrompt(){return $('language').value==='Hindi'?'Hindi':$('language').value==='Hinglish'?'simple Hinglish':'English';}
+function answerApiText(d){if(typeof d==='string')return d;if(!d||typeof d!=='object')return '';for(const k of ['reply','response','answer','output','text','content'])if(typeof d[k]==='string'&&d[k].trim())return d[k];if(typeof d.message==='string')return d.message;if(d.choices?.[0]?.message?.content)return d.choices[0].message.content;if(typeof d.result==='string')return d.result;return '';}
+async function askAI(prompt){
+ let last='NavAI API response mein answer nahi mila.';
+ for(const body of [{message:prompt},{messages:[{role:'user',content:prompt}]},{prompt}]){
+  try{
+   const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+   const raw=await r.text();let d;try{d=JSON.parse(raw)}catch{d=raw}
+   if(!r.ok){last='API error HTTP '+r.status;continue}
+   const t=answerApiText(d);if(t.trim())return t;last='API response mein answer nahi mila.';
+  }catch(e){last='Network error: '+e.message;}
+ }
+ throw new Error(last);
+}
+function setBusy(v){busy=v;$('start').disabled=v;$('submit').disabled=v||!active||!$('answer').value.trim();$('next').disabled=v||!active||!feedbackData;$('mic').disabled=v||!active||!SR;$('hear').disabled=v||!active;$('stopMic').disabled=!rec;$('finish').disabled=v||!active;}
+function stats(){$('asked').textContent=asked;$('earned').textContent=strong;$('percent').textContent=asked?Math.round(strong/asked*100)+'%':'0%';$('progressBar').style.width=(questions.length?Math.min(100,(index+(feedbackData?1:0))/questions.length*100):0)+'%';}
+function parseQuestions(t){
+ let lines=t.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),out=[];
+ for(let l of lines){let q=l.replace(/^(?:question\s*)?\d{1,2}[.)\-:]\s*/i,'').replace(/^[-•*]\s*/,'').trim();if(!q||/^(answer key|answers|instructions|here are|questions:)/i.test(q))continue;if(/^\d+[.)]/.test(l)||/^Q\d*[:.)]/i.test(l)||q.endsWith('?'))out.push(q)}
+ if(out.length<2)out=lines.filter(x=>x.length>12&&!/^(answer key|instructions|here are)/i.test(x)).map(x=>x.replace(/^\d+[.)-]\s*/,''));return [...new Set(out)].slice(0,Number($('total').value));
+}
+function showQuestion(){
+ feedbackData=null;$('feedback').hidden=true;$('qmeta').textContent='QUESTION '+(index+1)+' OF '+questions.length;$('question').textContent=questions[index];$('hint').textContent='Answer in your own words. You can speak or type.';$('answer').value='';$('answer').disabled=false;$('sessionPill').textContent='In progress';stats();setBusy(false);
+}
+async function start(){
+ const topic=$('topic').value.trim();if(!topic){setStatus('Chapter ya topic enter karo.');$('topic').focus();return}
+ const sid=++session;active=false;questions=[];index=asked=strong=0;history=[];$('history').innerHTML='<p class="small">Your checked answers will appear here.</p>';$('question').textContent='Preparing your questions…';$('qmeta').textContent='BUILDING YOUR SESSION';$('feedback').hidden=true;setBusy(true);setStatus('NavAI exam-style questions bana raha hai…');
+ try{
+  const prompt=`Create exactly ${$('total').value} distinct school exam-style questions. Class ${$('className').value}; board ${$('board').value}; subject ${$('subject').value}; topic ${topic}; difficulty ${$('difficulty').value}; format ${$('format').value}; language ${languagePrompt()}. Give ONLY one question per numbered line, no answers or introduction. Make questions clear, syllabus-appropriate, original and not claimed to be guaranteed exam questions.`;
+  const t=await askAI(prompt);if(sid!==session)return;questions=parseQuestions(t);if(!questions.length)throw new Error('Questions parse nahi hue. Dobara try karo.');
+  active=true;index=0;showQuestion();setStatus('Session ready. Question suno ya answer type karo.');say('Question one. '+questions[0]);
+ }catch(e){$('question').textContent='Session start nahi ho saka.';setStatus(e.message+' Ensure /api/chat is working.');active=false;}finally{setBusy(false);}
+}
+async function submit(){
+ const a=$('answer').value.trim();if(!active||!a||busy)return;
+ const q=questions[index];setBusy(true);setStatus('Answer check ho raha hai…');
+ try{
+  const prompt=`Act as a fair school exam tutor. Language: ${languagePrompt()}. Class ${$('className').value}, board ${$('board').value}, subject ${$('subject').value}, topic ${$('topic').value}. Question: ${q}. Student answer: ${a}. Grade fairly out of 5; do not reward irrelevant answers. Return exactly this format: SCORE: n/5\nFEEDBACK: explain what is correct and what to improve in 2-4 sentences\nIDEAL ANSWER: a concise correct school-level answer. Do not invent facts.`;
+  const t=await askAI(prompt);const m=t.match(/SCORE\s*:\s*(\d+(?:\.\d+)?)\s*\/\s*5/i);const s=m?Math.max(0,Math.min(5,Number(m[1]))):null;const f=(t.match(/FEEDBACK\s*:\s*([\s\S]*?)(?=IDEAL ANSWER\s*:|$)/i)||[])[1]?.trim()||t;const ideal=(t.match(/IDEAL ANSWER\s*:\s*([\s\S]*)/i)||[])[1]?.trim()||'Review the feedback above.';
+  asked++;if(s!==null&&s>=4)strong++;feedbackData={score:s,feedback:f,ideal};$('score').textContent=s===null?'Review':s+'/5';$('feedbackText').textContent=f;$('ideal').textContent=ideal;$('feedback').hidden=false;history.unshift({q,s,f});$('history').innerHTML=history.slice(0,8).map((h,i)=>'<div><b>Q'+(index+1-i)+': '+esc(h.q)+'</b><br>'+esc(h.s===null?'Feedback':h.s+'/5')+' — '+esc(h.f)+'</div>').join('');stats();setStatus('Feedback ready. Next question par ja sakte ho.');say((s===null?'Here is your feedback. ':'You scored '+s+' out of five. ')+f+'. Ideal answer: '+ideal);
+ }catch(e){setStatus('Answer check nahi ho saka: '+e.message);}finally{setBusy(false);}
+}
+function stopMic(){if(rec){try{rec.stop()}catch{}rec=null}$('mic').textContent='🎙 Speak answer';$('mic').classList.remove('listening');$('stopMic').disabled=true;}
+function startMic(){
+ if(!SR){setStatus('Is browser mein voice recognition available nahi. Type karke answer do, ya Chrome try karo.');return}
+ if(!active||busy)return;stopMic();rec=new SR();rec.lang=$('language').value==='Hindi'?'hi-IN':'en-IN';rec.continuous=false;rec.interimResults=true;let final='';
+ rec.onstart=()=>{$('mic').textContent='Listening…';$('mic').classList.add('listening');$('stopMic').disabled=false;setStatus('Listening… apna answer bolo.');};
+ rec.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){let x=e.results[i][0].transcript;if(e.results[i].isFinal)final+=x+' ';else interim+=x}$('answer').value=(final+interim).trim();$('submit').disabled=!$('answer').value.trim()};
+ rec.onerror=e=>setStatus('Voice input: '+e.error+'. Type answer bhi kar sakte ho.');
+ rec.onend=()=>{stopMic();if($('answer').value.trim())setStatus('Answer capture ho gaya. Check my answer dabao.')};
+ try{rec.start()}catch(e){setStatus('Microphone start nahi hua. Browser permission check karo.')}
+}
+function finish(){active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();$('sessionPill').textContent='Completed';$('question').textContent='Session complete! Feedback review karo aur apne weak topics par dobara practice karo.';$('qmeta').textContent='SESSION COMPLETE';$('answer').disabled=true;setBusy(false);$('progressBar').style.width='100%';setStatus('Session complete. Strong answers: '+strong+'/'+asked+'.');}
+function reset(){session++;active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();questions=[];index=asked=strong=0;feedbackData=null;history=[];$('question').textContent='Choose your subject and topic to begin.';$('qmeta').textContent='READY WHEN YOU ARE';$('hint').textContent='NavAI will ask one question at a time.';$('answer').value='';$('answer').disabled=true;$('feedback').hidden=true;$('history').innerHTML='<p class="small">Your checked answers will appear here.</p>';$('sessionPill').textContent='Not started';stats();setBusy(false);$('hear').disabled=$('mic').disabled=$('submit').disabled=$('next').disabled=$('finish').disabled=true;setStatus('Ready to begin.');}
+$('start').onclick=start;$('submit').onclick=submit;$('next').onclick=()=>{if(!feedbackData)return;if(index+1>=questions.length){finish();return}index++;showQuestion();say('Question '+(index+1)+'. '+questions[index]);};$('mic').onclick=startMic;$('stopMic').onclick=stopMic;$('hear').onclick=()=>say(questions[index]||'');$('hearFeedback').onclick=()=>{if(feedbackData)say(feedbackData.feedback+'. Ideal answer: '+feedbackData.ideal)};$('finish').onclick=finish;$('new').onclick=reset;$('print').onclick=()=>window.print();$('answer').oninput=()=>{$('submit').disabled=busy||!active||!$('answer').value.trim()};
+})();
+</script>
+</body>
+</html>
