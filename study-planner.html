@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d1b">
+<title>Study Planner | NavAI</title>
+<link rel="stylesheet" href="/study-planner.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="NavAI home">
+    <span class="brand-icon">N</span><span>NavAI <small>STUDENT OS</small></span>
+  </a>
+  <a class="back" href="/">← Back to NavAI</a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow"><span class="pulse"></span> YOUR PERSONAL STUDY SPACE</div>
+    <h1>Study smarter.<br><span>Achieve more.</span></h1>
+    <p>Your subjects, daily plan, syllabus and progress — all in one place.</p>
+    <div class="hero-stats">
+      <div><strong id="doneCount">0</strong><small>Tasks completed</small></div>
+      <div><strong id="taskCount">0</strong><small>Total tasks</small></div>
+      <div><strong id="progressPct">0%</strong><small>Overall progress</small></div>
+    </div>
+  </section>
+
+  <section class="section-head">
+    <div><span class="eyebrow">YOUR WORKSPACE</span><h2>Today's focus</h2></div>
+    <span class="date-pill" id="todayDate"></span>
+  </section>
+
+  <section class="layout">
+    <div class="panel main-panel">
+      <div class="panel-title"><div><span class="icon">✦</span><h3>Build your study plan</h3></div></div>
+      <form id="planForm" class="form-grid">
+        <label>Subject
+          <input id="subject" required maxlength="70" placeholder="e.g. Mathematics">
+        </label>
+        <label>Chapter or task
+          <input id="topic" required maxlength="120" placeholder="e.g. Linear Equations">
+        </label>
+        <label>Study date
+          <input id="studyDate" type="date" required>
+        </label>
+        <label>Duration
+          <select id="duration">
+            <option value="15">15 minutes</option>
+            <option value="25" selected>25 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="45">45 minutes</option>
+            <option value="60">60 minutes</option>
+            <option value="90">90 minutes</option>
+          </select>
+        </label>
+        <label>Priority
+          <select id="priority">
+            <option>Normal</option><option>High</option><option>Important</option>
+          </select>
+        </label>
+        <button class="primary" type="submit">＋ Add study task</button>
+      </form>
+
+      <div class="task-toolbar">
+        <h3>Your tasks</h3>
+        <select id="filter" aria-label="Filter tasks">
+          <option value="all">All tasks</option>
+          <option value="today">Today</option>
+          <option value="pending">Pending</option>
+          <option value="done">Completed</option>
+        </select>
+      </div>
+      <div id="taskList" class="task-list"></div>
+      <div id="emptyState" class="empty">
+        <span>✧</span><h3>Your next win starts here</h3>
+        <p>Add a subject and chapter above to create your first task.</p>
+      </div>
+    </div>
+
+    <aside class="side-column">
+      <section class="panel">
+        <span class="eyebrow">CONSISTENCY COUNTS</span>
+        <h3>Study progress</h3>
+        <div class="progress-ring" id="progressRing"><div><strong id="ringPct">0%</strong><small>completed</small></div></div>
+        <div class="mini-row"><span>Completed</span><strong id="sideDone">0</strong></div>
+        <div class="mini-row"><span>Still to do</span><strong id="sidePending">0</strong></div>
+      </section>
+
+      <section class="panel">
+        <span class="eyebrow">SYLLABUS TRACKER</span>
+        <h3>Track a chapter</h3>
+        <form id="syllabusForm">
+          <label>Subject<input id="syllabusSubject" required maxlength="70" placeholder="e.g. Science"></label>
+          <label>Chapter<input id="syllabusTopic" required maxlength="120" placeholder="e.g. Matter in Our Surroundings"></label>
+          <button class="secondary" type="submit">＋ Add chapter</button>
+        </form>
+        <div id="syllabusList" class="syllabus-list"></div>
+      </section>
+
+      <section class="tip-card">
+        <span>✦ A SMALL REMINDER</span>
+        <p>Consistency beats cramming. Focus on the next task, not the entire mountain.</p>
+      </section>
+    </aside>
+  </section>
+  <footer>NavAI Student OS · Your learning, your pace.</footer>
+</main>
+<script src="/study-planner.js"></script>
+</body>
+</html>
