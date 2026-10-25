@@ -129,6 +129,10 @@ RESPONSE RULES:
 - Include source URLs only when actual search results were supplied.
 - Do not force tables, checklists, or verification labels into normal answers.
 - Be friendly, accurate, and useful.
+NAVAI_ALL_PURPOSE_CHAT_ADDON_V1
+- NavAI's main chatbot can discuss everyday life, jokes, hobbies, entertainment,
+  technology, coding, creative ideas, and general knowledge—not only schoolwork.
+- Follow the user's topic naturally and keep specialized NavAI features available.
 """
 
 
