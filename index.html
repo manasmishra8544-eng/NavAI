@@ -195,6 +195,83 @@
 #navai-tool-dashboard .tool {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* NAVAI_UNIFIED_PREMIUM_HOME_V1 */
+#navai-tool-dashboard .home-wrap {
+  max-width: 1050px;
+}
+#navai-tool-dashboard .brand {
+  margin-bottom: 54px;
+}
+#navai-tool-dashboard .hero {
+  margin-bottom: 39px;
+}
+#navai-tool-dashboard .tools {
+  align-items: stretch;
+  grid-auto-rows: 1fr;
+  gap: 18px;
+}
+#navai-tool-dashboard .tool {
+  min-width: 0;
+  min-height: 258px;
+  height: 100%;
+  border-color: rgba(137, 160, 215, .19);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025),
+              0 12px 32px rgba(0,0,0,.09);
+}
+#navai-tool-dashboard .tool:hover {
+  transform: translateY(-4px);
+  border-color: rgba(145, 170, 255, .55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05),
+              0 18px 40px rgba(0,0,0,.2),
+              0 0 28px rgba(88, 119, 255, .07);
+}
+#navai-tool-dashboard .tool:nth-child(4) .tool-icon {
+  color: #a8bbff;
+  background: rgba(102,136,255,.12);
+}
+#navai-tool-dashboard .tool:nth-child(5) .tool-icon {
+  color: #f0b7ff;
+  border-color: rgba(217,142,255,.27);
+  background: rgba(190,115,255,.12);
+}
+#navai-tool-dashboard .tool:nth-child(6) .tool-icon {
+  color: #88e8d8;
+  border-color: rgba(76,219,192,.25);
+  background: rgba(76,219,192,.09);
+}
+#navai-tool-dashboard .tool h2 {
+  line-height: 1.35;
+}
+#navai-tool-dashboard .tool p {
+  flex: 0 0 auto;
+}
+#navai-tool-dashboard .tool-icon svg {
+  width: 27px;
+  height: 27px;
+}
+#navai-tool-dashboard .footer {
+  letter-spacing: 1.2px;
+  font-size: 10px;
+}
+@media (max-width: 720px) {
+  #navai-tool-dashboard .tools {
+    grid-auto-rows: auto;
+  }
+  #navai-tool-dashboard .tool {
+    min-height: 0;
+    height: auto;
+  }
+  #navai-tool-dashboard .hero h1 {
+    letter-spacing: -1.4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #navai-tool-dashboard .tool:hover {
+    transform: none;
+  }
+}
+/* NAVAI_UNIFIED_PREMIUM_HOME_V1_END */
 </style>
 <div class="home-wrap">
   <div class="brand"><div class="brand-icon">N</div><div class="brand-name">Nav<span>AI</span></div></div>
@@ -228,7 +305,12 @@
       <p>Get clean, notebook-ready answers from a question or photo.</p>
       <div class="tool-bottom"><span>Answer my homework</span><span class="tool-arrow" aria-hidden="true">↗</span></div>
     </a>
-<a href="/student-question-helper.html" class="tool">Student Question Helper</a>
+<a class="tool" href="/student-question-helper.html" id="navai-student-question-helper-card">
+      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-5 3v-3H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <h2>Student Question Helper</h2>
+      <p>Get help with school questions, understand difficult concepts and work through problems step by step.</p>
+      <div class="tool-bottom"><span>Explore questions</span><span class="tool-arrow" aria-hidden="true">↗</span></div>
+    </a>
 <a class="tool" href="/study-planner.html" id="navai-study-planner-card">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17M8 13h3M8 16h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
       <h2>Study Planner</h2>
@@ -239,7 +321,7 @@
 
 <!-- NAVAI_CHEMISTRY_TOOL_CARD_V1_END -->
   </div>
-  <div class="footer">NAVAI Â· YOUR IDEAS START HERE</div>
+  <div class="footer">NAVAI | YOUR IDEAS START HERE</div>
 </div>
 <script>
 (function(){
