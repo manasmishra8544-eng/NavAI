@@ -77,7 +77,7 @@
             </div>
 
             <a class="sidebar-action" href="/developer" style="display:flex;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-decoration:none;">
-                <span class="action-icon">âœ¦</span>
+                <span class="action-icon">✨</span>
                 <span>Website Developer</span>
             </a>
             <div class="sidebar-bottom">
@@ -205,35 +205,43 @@
   </div>
   <div class="tools">
     <a class="tool" href="#open-chat" data-open-chat>
-      <div class="tool-icon">âœ³</div>
+      <div class="tool-icon">✳</div>
       <h2>NavAI Chat</h2>
       <p>Ask questions, solve problems, explore ideas and get help with everyday tasks.</p>
-      <div class="tool-bottom"><span>Start a conversation</span><span class="tool-arrow">â†—</span></div>
+      <div class="tool-bottom"><span>Start a conversation</span><span class="tool-arrow">↗</span></div>
     </a>
     <a class="tool" href="/developer">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h2>Website Builder</h2>
       <p>Turn your ideas into websites with help from your AI development assistant.</p>
-      <div class="tool-bottom"><span>Build a website</span><span class="tool-arrow">â†—</span></div>
+      <div class="tool-bottom"><span>Build a website</span><span class="tool-arrow">↗</span></div>
     </a>
     <a class="tool" href="/classroom.html">
-      <div class="tool-icon">âœ§</div>
+      <div class="tool-icon">✧</div>
       <h2>NavAI Teacher</h2>
       <p>Understand difficult topics with step-by-step explanations and visual learning.</p>
-      <div class="tool-bottom"><span>Start learning</span><span class="tool-arrow">â†—</span></div>
+      <div class="tool-bottom"><span>Start learning</span><span class="tool-arrow">↗</span></div>
     </a>
     <a class="tool" href="/homework">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v14l-7-4-7 4V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 8h6M9 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
       <h2>Homework Helper</h2>
       <p>Get clean, notebook-ready answers from a question or photo.</p>
-      <div class="tool-bottom"><span>Answer my homework</span><span class="tool-arrow" aria-hidden="true">â†—</span></div>
+      <div class="tool-bottom"><span>Answer my homework</span><span class="tool-arrow" aria-hidden="true">↗</span></div>
     </a>
 <a class="tool" href="/study-planner.html" id="navai-study-planner-card">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17M8 13h3M8 16h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
       <h2>Study Planner</h2>
       <p>Plan your study sessions, track syllabus progress, manage tasks and build consistent study habits.</p>
-      <div class="tool-bottom"><span>Plan my studies</span><span class="tool-arrow" aria-hidden="true">â†—</span></div>
+      <div class="tool-bottom"><span>Plan my studies</span><span class="tool-arrow" aria-hidden="true">↗</span></div>
     </a>
+<!-- NAVAI_CHEMISTRY_TOOL_CARD_V1 -->
+<a class="tool" href="/virtual-chemistry-lab">
+  <div class="tool-icon">⚗️</div>
+  <h2>Virtual Chemistry Lab</h2>
+  <p>Explore supported chemical reactions with an interactive virtual laboratory.</p>
+  <div class="tool-bottom"><span>Open Chemistry Lab</span><span class="tool-arrow" aria-hidden="true">↗</span></div>
+</a>
+<!-- NAVAI_CHEMISTRY_TOOL_CARD_V1_END -->
   </div>
   <div class="footer">NAVAI Â· YOUR IDEAS START HERE</div>
 </div>
@@ -255,7 +263,7 @@
   var back=document.createElement('button');
   back.id='navai-dashboard-return';
   back.type='button';
-  back.textContent='â†';
+  back.textContent='←';
   back.setAttribute('aria-label','Dashboard');
   back.title='Dashboard';
   document.body.appendChild(back);
@@ -353,7 +361,7 @@
     '<div style="padding:8px 10px;color:#8f9fbe;font:600 10px system-ui;letter-spacing:1.4px">NAVAI WORKSPACE</div>' +
     (developer
       ? '<a href="/" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">Ã¢Å’â€š</span><span>Back to NavAI Chat<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Return to your conversations</small></span></a>'
-      : '<a href="/developer" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">âœ¦</span><span>Website Developer<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Create websites with AI</small></span></a>') +
+      : '<a href="/developer" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">✨</span><span>Website Developer<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Create websites with AI</small></span></a>') +
     '</nav>';
 
   var style = document.createElement("style");
@@ -390,7 +398,7 @@
     for(var k=0;k<all.length;k++){
       var node=all[k];
       if(!node.getClientRects().length || wrap.contains(node)) continue;
-      var text=(node.innerText||node.textContent||"").replace(/[âœ¦â‹¯]/g,"").trim();
+      var text=(node.innerText||node.textContent||"").replace(/[✨â‹¯]/g,"").trim();
       if(/^navai$/i.test(text)){
         if(!sidebar || sidebar.contains(node) || developer){logo=node;break;}
       }
@@ -482,8 +490,8 @@
     var button = document.getElementById("navai-more-button");
 
     if (button) {
-      if ((button.textContent || "").trim() !== "âœ¦") {
-        button.textContent = "âœ¦";
+      if ((button.textContent || "").trim() !== "✨") {
+        button.textContent = "✨";
       }
 
       button.setAttribute("aria-label", "Website Developer");
@@ -528,8 +536,8 @@
         if (
           (/action|developer|sidebar|nav-item/i.test(cls) &&
            text.indexOf("Website Developer") >= 0) ||
-          text === "âœ¦ Website Developer" ||
-          text === "âœ¦Website Developer"
+          text === "✨ Website Developer" ||
+          text === "✨Website Developer"
         ) {
           if (parent.style.display !== "none") {
             parent.style.setProperty("display", "none", "important");
