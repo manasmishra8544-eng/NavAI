@@ -120,6 +120,25 @@ footer{text-align:center;padding:25px;color:#7898c5;font-size:12px}
 </main>
 <footer>NavAI Exam Improver · Interactive exam practice · Check answers against your school textbook and syllabus</footer>
 <script>
+/* NAVAI_COPY_READY_FORMAT_V1 */
+function formatCopyReadyAnswer(value) {
+  let s = String(value ?? "");
+  s = s.replace(/\$\$([\s\S]*?)\$\$/g, "$1");
+  s = s.replace(/\\\[([\s\S]*?)\\\]/g, "$1");
+  s = s.replace(/\\\(([\s\S]*?)\\\)/g, "$1");
+  s = s.replace(/\\tfrac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
+  s = s.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
+  s = s.replace(/\\sqrt\s*\{([^{}]+)\}/g, "√($1)");
+  s = s.replace(/\\times\b/g, "×").replace(/\\cdot\b/g, "·");
+  s = s.replace(/\\div\b/g, "÷").replace(/\\pm\b/g, "±");
+  s = s.replace(/\\rightarrow\b|\\to\b/g, "→");
+  s = s.replace(/\\degree\b/g, "°").replace(/\\pi\b/g, "π");
+  s = s.replace(/\\text\s*\{([^{}]*)\}/g, "$1");
+  s = s.replace(/\\(?:mathrm|mathbf|textbf|textit)\s*\{([^{}]*)\}/g, "$1");
+  s = s.replace(/\\(?:,|;|:|!|quad|qquad)\b?/g, " ");
+  s = s.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n");
+  return s.trim();
+}
 (()=>{
 const $=id=>document.getElementById(id);
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -157,7 +176,7 @@ async function start(){
  try{
   const prompt=`Create exactly ${$('total').value} distinct school exam-style questions. Class ${$('className').value}; board ${$('board').value}; subject ${$('subject').value}; topic ${topic}; difficulty ${$('difficulty').value}; format ${$('format').value}; language ${languagePrompt()}. Give ONLY one question per numbered line, no answers or introduction. Make questions clear, syllabus-appropriate, original and not claimed to be guaranteed exam questions.`;
   const t=await askAI(prompt);if(sid!==session)return;questions=parseQuestions(t);if(!questions.length)throw new Error('Questions parse nahi hue. Dobara try karo.');
-  active=true;index=0;showQuestion();setStatus('Session ready. Question suno ya answer type karo.');say('Question one. '+questions[0]);
+  active=true;index=0;showQuestion();setStatus('Session ready. Question suno ya answer type karo.');say('Question one. '+formatCopyReadyAnswer(questions[0]));
  }catch(e){$('question').textContent='Session start nahi ho saka.';setStatus(e.message+' Ensure /api/chat is working.');active=false;}finally{setBusy(false);}
 }
 async function submit(){
@@ -181,7 +200,7 @@ function startMic(){
 }
 function finish(){active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();$('sessionPill').textContent='Completed';$('question').textContent='Session complete! Feedback review karo aur apne weak topics par dobara practice karo.';$('qmeta').textContent='SESSION COMPLETE';$('answer').disabled=true;setBusy(false);$('progressBar').style.width='100%';setStatus('Session complete. Strong answers: '+strong+'/'+asked+'.');}
 function reset(){session++;active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();questions=[];index=asked=strong=0;feedbackData=null;history=[];$('question').textContent='Choose your subject and topic to begin.';$('qmeta').textContent='READY WHEN YOU ARE';$('hint').textContent='NavAI will ask one question at a time.';$('answer').value='';$('answer').disabled=true;$('feedback').hidden=true;$('history').innerHTML='<p class="small">Your checked answers will appear here.</p>';$('sessionPill').textContent='Not started';stats();setBusy(false);$('hear').disabled=$('mic').disabled=$('submit').disabled=$('next').disabled=$('finish').disabled=true;setStatus('Ready to begin.');}
-$('start').onclick=start;$('submit').onclick=submit;$('next').onclick=()=>{if(!feedbackData)return;if(index+1>=questions.length){finish();return}index++;showQuestion();say('Question '+(index+1)+'. '+questions[index]);};$('mic').onclick=startMic;$('stopMic').onclick=stopMic;$('hear').onclick=()=>say(questions[index]||'');$('hearFeedback').onclick=()=>{if(feedbackData)say(feedbackData.feedback+'. Ideal answer: '+feedbackData.ideal)};$('finish').onclick=finish;$('new').onclick=reset;$('print').onclick=()=>window.print();$('answer').oninput=()=>{$('submit').disabled=busy||!active||!$('answer').value.trim()};
+$('start').onclick=start;$('submit').onclick=submit;$('next').onclick=()=>{if(!feedbackData)return;if(index+1>=questions.length){finish();return}index++;showQuestion();say('Question '+(index+1)+'. '+formatCopyReadyAnswer(questions[index]));};$('mic').onclick=startMic;$('stopMic').onclick=stopMic;$('hear').onclick=()=>say(questions[index]||'');$('hearFeedback').onclick=()=>{if(feedbackData)say(feedbackData.feedback+'. Ideal answer: '+feedbackData.ideal)};$('finish').onclick=finish;$('new').onclick=reset;$('print').onclick=()=>window.print();$('answer').oninput=()=>{$('submit').disabled=busy||!active||!$('answer').value.trim()};
 })();
 </script>
 </body>
