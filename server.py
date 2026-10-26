@@ -424,13 +424,6 @@ def static_files(filename):
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    api_key = os.environ.get("GROQ_API_KEY", "").strip()
-
-    if not api_key:
-        return jsonify({
-            "error": "GROQ_API_KEY is missing from the server environment."
-        }), 500
-
     data = request.get_json(silent=True) or {}
 
     user_message = (
@@ -453,25 +446,66 @@ def chat():
 
     user_message = user_message.strip()
 
-    # NAVAI_CREATOR_DIRECT_FIX
+    # NAVAI_CREATOR_PROFILE_V2
     creator_question = re.search(
-        r"\b(who\s+(made|created|built|developed)\s+you|"
+        r"(who\s+(made|created|built|developed)\s+you|"
         r"who\s+is\s+your\s+(creator|developer|maker)|"
         r"who\s+is\s+behind\s+you|"
-        r"tumhe?\s+kisne\s+(banaya|banaya\s+hai)|"
+        r"tumhe?\s+kisne\s+banaya|"
         r"tumhara\s+(creator|developer|maker)\s+kaun|"
         r"kisne\s+banaya\s+navai|"
-        r"manas\s+mishra\s+kaun\s+hai|"
-        r"how\s+were\s+you\s+(made|created|built|developed))\b",
-        user_message,
-        re.IGNORECASE
+        r"how\s+were\s+you\s+(made|created|built|developed))",
+        user_message, re.IGNORECASE
     )
-    if creator_question:
-        answer = (
-            "NavAI was created and developed by Manas Mishra "
-            "using code, AI models, and development tools. "
-            "It is his own project."
+
+    about_manas = re.search(
+        r"(manas\s+mishra|mere\s+baare\s+mein|mere\s+bare\s+mein|"
+        r"mere\s+baare\s+me|mere\s+bare\s+me|"
+        r"about\s+me|tell\s+me\s+about\s+myself|"
+        r"my\s+instagram|manas.*instagram|"
+        r"instagram.*manas|manas.*(kaun|who|kahan|where|kya\s+karta)|"
+        r"(who|where|what).*manas)",
+        user_message, re.IGNORECASE
+    )
+
+    if creator_question or about_manas:
+        social_question = re.search(
+            r"(instagram|insta|social\s+media|social\s+profile)",
+            user_message, re.IGNORECASE
         )
+        location_question = re.search(
+            r"(where|kahan|location|from\s+where|kahan\s+se)",
+            user_message, re.IGNORECASE
+        )
+
+        if social_question:
+            answer = (
+                "Manas Mishra's Instagram ID is @manasmishra_.x. "
+                "Profile: https://www.instagram.com/manasmishra_.x/"
+            )
+        elif location_question:
+            answer = (
+                "Manas Mishra is from Gonda, Uttar Pradesh, India."
+            )
+        elif creator_question and not about_manas:
+            answer = (
+                "NavAI was created and developed by Manas Mishra "
+                "using code, AI models, and development tools. "
+                "It is his own project."
+            )
+        else:
+            answer = (
+                "Manas Mishra is the creator and developer of NavAI. "
+                "He is 16 years old and studies in Class 9. "
+                "He is from Gonda, Uttar Pradesh, India, and is "
+                "interested in coding, artificial intelligence, and "
+                "website development. His project, NavAI, brings "
+                "together four tools: NavAI Chatbot, NavAI Teacher, "
+                "NavAI Homework Helper, and NavAI Website Creator. "
+                "He works on improving NavAI and building useful "
+                "AI-powered projects."
+            )
+
         return jsonify({
             "response": answer,
             "answer": answer,
@@ -480,6 +514,13 @@ def chat():
 
     if not user_message:
         return jsonify({"error": "Please enter a message."}), 400
+
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+
+    if not api_key:
+        return jsonify({
+            "error": "GROQ_API_KEY is missing from the server environment."
+        }), 500
 
     messages = [{
         "role": "system",
