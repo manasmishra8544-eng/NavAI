@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071126">
+  <title>NavAI Doubt Solver</title>
+  <link rel="stylesheet" href="doubt-solver.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-icon">N</span> NavAI <span class="brand-sub">/ Doubt Solver</span></a>
+    <a class="back-link" href="index.html">← Back to NavAI</a>
+  </header>
+
+  <main class="layout">
+    <section class="hero">
+      <div class="eyebrow"><span class="live-dot"></span> YOUR LEARNING SPACE</div>
+      <h1>Every doubt has a <span>solution.</span></h1>
+      <p>Ask anything you’re learning. Understand the steps, not just the final answer.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="form-row">
+        <label>SUBJECT
+          <select id="subject">
+            <option>General</option><option>Mathematics</option><option>Science</option>
+            <option>Physics</option><option>Chemistry</option><option>Biology</option>
+            <option>English</option><option>Social Science</option><option>Computer</option>
+            <option>Hindi</option>
+          </select>
+        </label>
+        <label>CLASS / LEVEL
+          <select id="level">
+            <option>Class 9</option><option>Class 6</option><option>Class 7</option>
+            <option>Class 8</option><option>Class 10</option><option>Class 11</option>
+            <option>Class 12</option><option>Beginner</option><option>Other</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="question-label" for="question">WHAT ARE YOU STUCK ON?</label>
+      <textarea id="question" rows="5" placeholder="Type your question here…&#10;&#10;Example: Why does a negative number multiplied by a negative number become positive?"></textarea>
+
+      <div class="suggestions">
+        <button class="suggestion" data-prompt="Explain this concept step by step in simple language: ">Explain a concept</button>
+        <button class="suggestion" data-prompt="Solve this question step by step and explain why each step works: ">Solve a question</button>
+        <button class="suggestion" data-prompt="Give me a simple example and then a short practice question about: ">Show an example</button>
+      </div>
+
+      <button id="solve" class="solve-button"><span>✦</span> Solve my doubt <span class="arrow">→</span></button>
+      <p class="privacy-note">Your saved history stays in this browser until you clear it.</p>
+    </section>
+
+    <section id="answer-panel" class="answer-panel" hidden>
+      <div class="answer-heading">
+        <div><div class="eyebrow">YOUR EXPLANATION</div><h2>Let’s understand it.</h2></div>
+        <div class="answer-actions">
+          <button id="copy" class="secondary-button">Copy answer</button>
+          <button id="save" class="secondary-button">Save doubt</button>
+        </div>
+      </div>
+      <div id="answer" class="answer-content"></div>
+    </section>
+
+    <section class="history-panel">
+      <div class="history-heading"><div><div class="eyebrow">YOUR WORKSPACE</div><h2>Recent doubts</h2></div><button id="clear-history" class="text-button">Clear history</button></div>
+      <div id="history" class="history-list"></div>
+    </section>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+  <script src="doubt-solver.js"></script>
+</body>
+</html>
