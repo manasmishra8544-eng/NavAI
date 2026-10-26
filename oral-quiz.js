@@ -37,7 +37,7 @@
 
   const history = [];
   const MAX_HISTORY = 16;
-  const PHRASE_WAIT = 450;
+  const PHRASE_WAIT = 650;
 
   function status(message) {
     if (ui.status) ui.status.textContent = message;
@@ -146,7 +146,7 @@
       lastQuestion = text;
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.82;
+      utterance.rate = 0.92;
       utterance.pitch = 1.03;
       utterance.volume = 1;
 
@@ -253,7 +253,7 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: buildPrompt(heard) + "\n\nVOICE SPEED RULE: Give a direct, concise spoken answer. For simple questions, answer in one sentence. Usually keep replies to 1–3 short sentences and under 35 words unless the student needs a detailed explanation. Avoid long introductions, repeating the question, unnecessary headings, and unnecessary follow-up questions. Reply in the student's language and script.",
+          message: buildPrompt(heard) + "\n\nVOICE SPEED RULE: Reply in the same language and script the student used. Give a natural, direct answer. For simple questions, use 1-2 short sentences, usually under 25 words. Avoid repeating the question, long introductions, and unnecessary follow-up questions. Explain more only when needed.",
           history: []
         })
       });
