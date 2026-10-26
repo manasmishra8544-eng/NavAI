@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080f24">
+<title>Handwritten Notes — NavAI</title>
+<link rel="stylesheet" href="handwritten-notes.css">
+</head>
+<body>
+<main class="app">
+  <header>
+    <a href="index.html" class="back">← NavAI</a>
+    <p class="eyebrow">STUDENT LEARNING TOOLS</p>
+    <h1>Handwritten Notes</h1>
+    <p class="sub">Turn any topic into a notebook-style study sheet.</p>
+  </header>
+
+  <section class="panel">
+    <label for="topic">What do you want to study?</label>
+    <input id="topic" maxlength="180"
+      placeholder="e.g. Photosynthesis, Motion, Democracy"
+      value="Photosynthesis">
+
+    <div class="fields">
+      <div>
+        <label for="grade">Class</label>
+        <select id="grade">
+          <option>6</option><option>7</option><option>8</option>
+          <option selected>9</option><option>10</option><option>11</option>
+          <option>12</option>
+        </select>
+      </div>
+      <div>
+        <label for="style">Style</label>
+        <select id="style">
+          <option value="blue">Blue-pen notebook</option>
+          <option value="colour">Colourful headings</option>
+          <option value="revision">Exam revision sheet</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="kind">Notes type</label>
+    <select id="kind">
+      <option value="detailed">Detailed notes</option>
+      <option value="quick">Quick revision</option>
+      <option value="definitions">Definitions and key points</option>
+    </select>
+
+    <button id="generate">Generate Notes Image</button>
+    <p id="status" role="status">Enter a topic to get started.</p>
+  </section>
+
+  <section class="preview">
+    <div class="preview-head">
+      <h2>Your notebook page</h2>
+      <button id="download" class="secondary" disabled>Download PNG</button>
+    </div>
+    <div class="paper-wrap">
+      <canvas id="paper" width="1000" height="1414"
+        aria-label="Generated handwritten-style study notes"></canvas>
+    </div>
+    <p class="hint">Review the content for accuracy before using it for exams.</p>
+  </section>
+</main>
+<script src="handwritten-notes.js"></script>
+</body>
+</html>
