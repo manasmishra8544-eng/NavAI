@@ -488,11 +488,25 @@ def chat():
                 "Manas Mishra is from Gonda, Uttar Pradesh, India."
             )
         elif creator_question and not about_manas:
-            answer = (
-                "NavAI was created and developed by Manas Mishra "
-                "using code, AI models, and development tools. "
-                "It is his own project."
-            )
+            hinglish_query = bool(re.search(
+                r"\b(tumhe|tumko|kisne|banaya|kaun|kya|hai|batao|"
+                r"bataiye|chahiye|baare|bare|janana|janna|bata)\b",
+                user_message, re.IGNORECASE
+            ))
+            if hinglish_query:
+                answer = (
+                    "NavAI ko Manas Mishra ne code, AI models aur "
+                    "development tools ka use karke banaya hai. "
+                    "Yeh unka apna project hai. Kya aap Manas Mishra "
+                    "ke baare mein kuch aur jaanna chahenge?"
+                )
+            else:
+                answer = (
+                    "NavAI was created and developed by Manas Mishra "
+                    "using code, AI models, and development tools. "
+                    "It is his own project. Would you like to know "
+                    "more about Manas Mishra?"
+                )
         else:
             answer = (
                 "Manas Mishra is the creator and developer of NavAI. "
@@ -503,7 +517,9 @@ def chat():
                 "together four tools: NavAI Chatbot, NavAI Teacher, "
                 "NavAI Homework Helper, and NavAI Website Creator. "
                 "He works on improving NavAI and building useful "
-                "AI-powered projects."
+                "AI-powered projects. His Instagram ID is "
+                "@manasmishra_.x. Profile: "
+                "https://www.instagram.com/manasmishra_.x/"
             )
 
         return jsonify({
