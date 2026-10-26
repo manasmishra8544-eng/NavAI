@@ -37,7 +37,7 @@
 
   const history = [];
   const MAX_HISTORY = 16;
-  const PHRASE_WAIT = 1800;
+  const PHRASE_WAIT = 450;
 
   function status(message) {
     if (ui.status) ui.status.textContent = message;
@@ -253,7 +253,7 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: buildPrompt(heard),
+          message: buildPrompt(heard) + "\n\nVOICE SPEED RULE: Give a direct, concise spoken answer. For simple questions, answer in one sentence. Usually keep replies to 1–3 short sentences and under 35 words unless the student needs a detailed explanation. Avoid long introductions, repeating the question, unnecessary headings, and unnecessary follow-up questions. Reply in the student's language and script.",
           history: []
         })
       });
@@ -508,7 +508,7 @@
 
       if (pendingFinal && active && shouldListen && !busy && !speaking) {
         clearTimeout(phraseTimer);
-        phraseTimer = setTimeout(flushPendingSpeech, 900);
+        phraseTimer = setTimeout(flushPendingSpeech, 250);
         return;
       }
 
