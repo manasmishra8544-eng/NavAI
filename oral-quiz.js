@@ -2,14 +2,22 @@
   "use strict";
 
   const $ = id => document.getElementById(id);
+
   const ui = {
-    mic: $("mic"), caption: $("orbCaption"), hint: $("hint"),
-    status: $("status"), connection: $("connection"),
-    transcript: $("transcript"), reply: $("reply"),
-    repeat: $("repeat"), unknown: $("unknown"), pause: $("pause")
+    mic: $("mic"),
+    caption: $("orbCaption"),
+    hint: $("hint"),
+    status: $("status"),
+    connection: $("connection"),
+    transcript: $("transcript"),
+    reply: $("reply"),
+    repeat: $("repeat"),
+    unknown: $("unknown"),
+    pause: $("pause")
   };
 
-  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const Recognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
 
   let recognizer = null;
   let active = false;
@@ -17,19 +25,19 @@
   let busy = false;
   let shouldListen = false;
   let recognitionRunning = false;
+  let examMode = false;
   let lastSpoken = "";
   let lastQuestion = "";
-  let restartTimer = null;
-  let phraseTimer = null;
   let pendingFinal = "";
   let lastHandledText = "";
   let lastHandledAt = 0;
+  let restartTimer = null;
+  let phraseTimer = null;
   let sessionToken = 0;
 
   const history = [];
   const MAX_HISTORY = 16;
-  const RESTART_DELAY = 250;
-  const PHRASE_WAIT = 1400;
+  const PHRASE_WAIT = 1200;
 
   function status(message) {
     if (ui.status) ui.status.textContent = message;
@@ -47,10 +55,17 @@
 
   function showAssistant(text) {
     if (ui.reply) ui.reply.textContent = text;
-    if (ui.transcript) ui.transcript.textContent = text;
   }
 
-  function clearListeningTimers() {
+  function normalize(text) {
+    return String(text || "")
+      .toLowerCase()
+      .replace(/[.,!?;:।]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function clearTimers() {
     clearTimeout(restartTimer);
     clearTimeout(phraseTimer);
     restartTimer = null;
@@ -68,80 +83,7 @@
     }
   }
 
-  function normalize(text) {
-    return String(text || "").toLowerCase()
-      .replace(/[.,!?;:।]/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  // Add a language selector without changing the existing HTML.
-  function addLanguageSelector() {
-    if (!ui.hint || $("oralQuizLanguage")) return;
-
-    const wrap = document.createElement("label");
-    wrap.style.cssText =
-      "display:flex;align-items:center;justify-content:center;gap:10px;" +
-      "flex-wrap:wrap;margin:12px auto 18px;color:inherit;font-size:14px;";
-
-    const label = document.createElement("span");
-    label.textContent = "Listening language";
-
-    const select = document.createElement("select");
-    select.id = "oralQuizLanguage";
-    select.setAttribute("aria-label", "Choose speech recognition language");
-    select.style.cssText =
-      "max-width:100%;padding:10px 12px;border-radius:12px;" +
-      "border:1px solid #52658a;background:#101b32;color:inherit;" +
-      "font:inherit;";
-
-    [
-      ["hi-IN", "Hindi / Hinglish"],
-      ["en-IN", "English (India)"],
-      ["en-US", "English (US)"]
-    ].forEach(([value, text]) => {
-      const option = document.createElement("option");
-      option.value = value;
-      option.textContent = text;
-      select.appendChild(option);
-    });
-
-    select.value = "hi-IN";
-    select.addEventListener("change", () => {
-      if (recognizer) recognizer.lang = select.value;
-      status("Listening language: " + select.options[select.selectedIndex].text);
-
-      if (active && shouldListen && !busy && !speaking) {
-        stopRecognition();
-        queueListen(350);
-      }
-    });
-
-    wrap.append(label, select);
-    ui.hint.insertAdjacentElement("afterend", wrap);
-  }
-
-  function listen() {
-    if (!active || !shouldListen || speaking || busy || !recognizer) return;
-    if (recognitionRunning) return;
-
-    try {
-      recognizer.lang = $("oralQuizLanguage")?.value || "hi-IN";
-      recognizer.start();
-      recognitionRunning = true;
-      ui.mic?.classList.add("listening");
-      caption("I'M LISTENING — SPEAK AT YOUR OWN PACE");
-      connection("LISTENING");
-      status("NavAI is listening. Take your time; you don't need to speak quickly.");
-    } catch (error) {
-      if (error.name !== "InvalidStateError") {
-        status("Couldn't start listening. Tap the microphone to try again.");
-      }
-      queueListen(700);
-    }
-  }
-
-  function queueListen(delay = RESTART_DELAY) {
+  function queueListen(delay = 300) {
     clearTimeout(restartTimer);
     restartTimer = setTimeout(() => {
       restartTimer = null;
@@ -149,27 +91,38 @@
     }, delay);
   }
 
-  function flushPendingSpeech() {
-    clearTimeout(phraseTimer);
-    phraseTimer = null;
+  function listen() {
+    if (!active || !shouldListen || speaking || busy || !recognizer) return;
+    if (recognitionRunning) return;
 
-    const heard = pendingFinal.trim();
-    pendingFinal = "";
+    try {
+      recognizer.start();
+    } catch (error) {
+      if (error.name !== "InvalidStateError") {
+        status("Mic start nahi hua. Microphone button dobara tap karo.");
+      }
+      queueListen(700);
+    }
+  }
 
-    if (!heard || !active || busy || speaking) return;
+  function chooseVoice(text) {
+    if (!("speechSynthesis" in window)) return null;
 
-    const key = normalize(heard);
-    const now = Date.now();
+    const voices = speechSynthesis.getVoices();
+    const devanagari = /[\u0900-\u097F]/.test(text);
 
-    // Avoid an accidental duplicate final result.
-    if (key && key === lastHandledText && now - lastHandledAt < 3500) {
-      queueListen();
-      return;
+    const preferredLanguages = devanagari
+      ? ["hi-IN", "hi"]
+      : ["en-IN", "en-GB", "en-US", "hi-IN"];
+
+    for (const lang of preferredLanguages) {
+      const voice = voices.find(v =>
+        v.lang.toLowerCase() === lang.toLowerCase()
+      );
+      if (voice) return voice;
     }
 
-    lastHandledText = key;
-    lastHandledAt = now;
-    handleSpeech(heard);
+    return voices.find(v => /^en/i.test(v.lang)) || voices[0] || null;
   }
 
   function speak(text) {
@@ -188,33 +141,34 @@
       ui.mic?.classList.add("speaking");
       caption("NAVAI IS SPEAKING");
       connection("SPEAKING");
+
       lastSpoken = text;
+      lastQuestion = text;
 
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 0.96;
-      utterance.pitch = 1.04;
+      utterance.pitch = 1.03;
       utterance.volume = 1;
 
-      const voices = speechSynthesis.getVoices();
-      const selectedLang = $("oralQuizLanguage")?.value || "hi-IN";
-      const preferred = voices.find(v =>
-        v.lang.toLowerCase() === selectedLang.toLowerCase()
-      ) || voices.find(v => /hi-IN/i.test(v.lang)) ||
-        voices.find(v => /en-IN/i.test(v.lang)) ||
-        voices.find(v => /en-US|en-GB/i.test(v.lang));
+      const voice = chooseVoice(text);
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang;
+      } else {
+        utterance.lang = "en-IN";
+      }
 
-      if (preferred) utterance.voice = preferred;
+      let finished = false;
 
-      let settled = false;
-      const finish = () => {
-        if (settled) return;
-        settled = true;
+      function finish() {
+        if (finished) return;
+        finished = true;
         speaking = false;
         ui.mic?.classList.remove("speaking");
 
         if (active && shouldListen && !busy) queueListen(350);
         resolve();
-      };
+      }
 
       utterance.onend = finish;
       utterance.onerror = finish;
@@ -229,29 +183,50 @@
 
   function getReply(data) {
     if (typeof data === "string") return data;
-    return data.reply || data.response || data.answer || data.content ||
-      data.message || data.text ||
-      data.choices?.[0]?.message?.content ||
-      data.result?.reply || data.result?.content || "";
+
+    return data?.reply ||
+      data?.response ||
+      data?.answer ||
+      data?.content ||
+      data?.message ||
+      data?.text ||
+      data?.choices?.[0]?.message?.content ||
+      data?.result?.reply ||
+      data?.result?.content ||
+      "";
   }
 
   function buildPrompt(heard) {
+    const modeInstructions = examMode
+      ? [
+          "CURRENT MODE: EXAM PREPARATION.",
+          "Act as a patient oral examiner and tutor.",
+          "Ask only ONE question at a time and wait for the student's answer.",
+          "When the student answers, judge it fairly, accept equivalent wording, and briefly explain mistakes.",
+          "Then ask the next question on the same topic unless they change topics.",
+          "If no subject or topic is known, ask which subject or topic they want to practise.",
+          "Do not invent a score. Give a score only when enough answers have actually been assessed."
+        ].join("\n")
+      : [
+          "CURRENT MODE: FRIEND CHAT.",
+          "Talk naturally like a helpful, friendly conversation partner.",
+          "Answer whatever the student asks: everyday questions, ideas, jokes, technology, schoolwork, explanations, or casual conversation.",
+          "Do NOT turn ordinary messages into quizzes.",
+          "Do NOT ask a study question just because the student mentions a subject.",
+          "Ask a follow-up only when it naturally helps the conversation.",
+          "If the student asks to learn something, explain it clearly with a simple example when useful."
+        ].join("\n");
+
     return [
-      "You are NavAI, a warm, natural, patient voice tutor for a school student.",
-      "Speak in simple Hindi, Hinglish or English, matching the student's language.",
-      "The student is speaking and cannot type. Never ask them to type.",
-      "Keep responses concise and natural for speech. Do not use markdown or stage directions.",
-      "If the student names a subject or chapter, acknowledge it and ask one oral question.",
-      "Ask exactly one question at a time and wait for the spoken answer.",
-      "Evaluate answers fairly, including equivalent wording. Explain mistakes simply and check understanding.",
-      "If the student says they do not know, explain the answer and ask one short check question.",
-      "If they ask to repeat, repeat the latest question in the same wording.",
-      "If they ask to explain, explain the current concept with a simple example.",
-      "If they say next, ask the next question on the same topic.",
-      "If the topic is unclear, ask which subject or chapter they want to study.",
-      "Conversation so far: " + JSON.stringify(history.slice(-MAX_HISTORY)),
-      "Student just said: " + heard,
-      "Respond only with the words you want to say aloud."
+      "You are NavAI, a friendly, respectful, natural voice conversation partner and study tutor.",
+      "LANGUAGE RULE: Reply in English when the student speaks English. If they speak Hinglish, reply in natural Roman-script Hinglish. Match the latest message. Do not add a language selector or ask the student to choose a language.",
+      "The student is speaking aloud, so keep replies easy to understand and natural to hear. Usually use a few sentences, but give more detail when the student asks for it.",
+      "Avoid Markdown, bullet symbols, stage directions, and robotic greetings. Do not claim you heard words that are not in the transcript.",
+      "Remember the conversation context below. Answer the latest message directly.",
+      modeInstructions,
+      "Conversation history: " + JSON.stringify(history.slice(-MAX_HISTORY)),
+      "Latest student message: " + heard,
+      "Return only the response to say aloud."
     ].join("\n\n");
   }
 
@@ -262,6 +237,7 @@
     clearTimeout(phraseTimer);
     pendingFinal = "";
     stopRecognition();
+
     ui.mic?.classList.remove("listening");
     caption("THINKING...");
     status("NavAI is thinking...");
@@ -289,19 +265,17 @@
       }
 
       if (!response.ok) {
-        throw new Error(
+        const errorMessage =
           typeof data === "object"
-            ? (data.error || data.message || "AI request failed")
-            : "AI request failed"
-        );
+            ? data.error || data.message || "AI request failed"
+            : "AI request failed";
+
+        throw new Error(errorMessage);
       }
 
-      const answer = getReply(data);
+      const answer = getReply(data).trim();
 
-      if (!answer || typeof answer !== "string") {
-        throw new Error("NavAI returned an empty response.");
-      }
-
+      if (!answer) throw new Error("NavAI returned an empty response.");
       if (token !== sessionToken || !active) return;
 
       history.push({ student: heard, tutor: answer });
@@ -309,42 +283,64 @@
         history.splice(0, history.length - MAX_HISTORY);
       }
 
-      lastQuestion = answer;
       showAssistant(answer);
-      status("Your turn. Speak naturally; slow speech is okay.");
+      status(examMode
+        ? "Exam mode: answer the next question when you're ready."
+        : "Your turn. Speak naturally whenever you're ready.");
+
       await speak(answer);
     } catch (error) {
       if (token !== sessionToken || !active) return;
 
-      const message = "Sorry, I couldn't connect just now. Please try saying that again.";
+      const message =
+        "Sorry, I couldn't connect right now. Please try again in a moment.";
+
       showAssistant(message);
       status("Connection problem: " + error.message);
       await speak(message);
     } finally {
       busy = false;
 
-      if (active && shouldListen && !speaking) {
-        queueListen(350);
-      }
+      if (active && shouldListen && !speaking) queueListen(350);
     }
   }
 
-  function commandFor(text) {
+  function detectCommand(text) {
     const t = normalize(text);
 
-    if (/^(repeat|repeat it|repeat please|say again|say that again|dobara|phir se|phir se bolo|repeat karo|question repeat karo)$/.test(t) ||
-        /\b(repeat the question|repeat question|question repeat|dobara bolo|phir se batao)\b/.test(t)) {
-      return "repeat";
+    if (
+      /\b(quiz me|take my test|start a quiz|start exam mode|exam preparation|oral test|test me)\b/.test(t) ||
+      /\b(mera test lo|mera quiz lo|quiz shuru karo|test shuru karo|exam ki tayari|exam ki taiyari|mujhe quiz karo)\b/.test(t)
+    ) return "exam";
+
+    if (
+      /\b(friend mode|normal chat|normal conversation|stop exam mode|exit exam|stop the quiz|quiz band karo|test band karo|normal baat karo|friend ki tarah baat karo)\b/.test(t)
+    ) return "friend";
+
+    if (
+      /^(repeat|repeat it|repeat please|say again|say that again|dobara|phir se|phir se bolo|repeat karo)$/.test(t) ||
+      /\b(repeat the question|repeat question|dobara bolo|phir se batao)\b/.test(t)
+    ) return "repeat";
+
+    if (
+      /\b(i don't know|i dont know|not sure|no idea|pata nahi|mujhe nahi pata|answer nahi pata|answer nahin pata)\b/.test(t)
+    ) return "unknown";
+
+    if (/^(next|next question|agla|agla question|aage|move on|skip)$/.test(t)) {
+      return "next";
     }
 
-    if (/\b(answer nahi pata|i don't know|dont know|not sure|no idea|pata nahi|mujhe nahi pata|answer nahin pata)\b/.test(t)) {
-      return "unknown";
+    if (/\b(explain|samjhao|samjha do|teach me|explain it)\b/.test(t)) {
+      return "explain";
     }
 
-    if (/^(next|next question|agla|agla question|aage|move on|skip)$/.test(t)) return "next";
-    if (/\b(explain|samjhao|samjha do|explain it|teach me)\b/.test(t)) return "explain";
-    if (/^(stop|stop now|band karo|bas karo|end session|quit|pause)$/.test(t)) return "stop";
-    if (/^(start|start again|resume|continue|shuru karo|chalo shuru)$/.test(t)) return "start";
+    if (/^(pause|stop listening|band karo|bas karo|end session|quit)$/.test(t)) {
+      return "stop";
+    }
+
+    if (/^(resume|continue listening|start again|shuru karo)$/.test(t)) {
+      return "start";
+    }
 
     return "";
   }
@@ -353,28 +349,54 @@
     const heard = text.trim();
     if (!heard || busy || speaking || !active) return;
 
-    ui.transcript.textContent = "You: " + heard;
-    ui.reply.textContent = "";
+    if (ui.transcript) ui.transcript.textContent = "You: " + heard;
+    showAssistant("");
 
-    const command = commandFor(heard);
+    const command = detectCommand(heard);
+
+    if (command === "exam") {
+      examMode = true;
+      await askAI(
+        "The student has explicitly requested exam preparation. Confirm briefly that exam mode is on, then ask which subject or topic to practise if it is not already clear."
+      );
+      return;
+    }
+
+    if (command === "friend") {
+      examMode = false;
+      await askAI(
+        "The student wants normal friend chat again. Confirm briefly that friend mode is on, then continue the conversation naturally."
+      );
+      return;
+    }
 
     if (command === "repeat") {
-      await speak(lastQuestion || "Pehle apna subject ya topic batao.");
+      await speak(lastQuestion || "Go ahead, tell me what you'd like to talk about.");
       return;
     }
 
     if (command === "unknown") {
-      await askAI("I do not know the answer to the current question. Explain it simply, then check my understanding.");
+      if (examMode) {
+        await askAI(
+          "The student does not know the answer. Explain the correct answer simply and kindly, then ask one short check question."
+        );
+      } else {
+        await askAI(heard);
+      }
       return;
     }
 
-    if (command === "next") {
-      await askAI("Ask the next oral question on the same topic. Ask only one question.");
+    if (command === "next" && examMode) {
+      await askAI(
+        "Ask the next oral exam question on the current topic. Ask only one question."
+      );
       return;
     }
 
-    if (command === "explain") {
-      await askAI("Explain the current concept simply with an easy example, then ask one short check question.");
+    if (command === "explain" && examMode) {
+      await askAI(
+        "Explain the current exam concept simply with an example, then ask one short check question."
+      );
       return;
     }
 
@@ -384,18 +406,45 @@
     }
 
     if (command === "start") {
-      await askAI("Let's continue our oral preparation. Ask the next question on the same topic.");
+      shouldListen = true;
+      status("I'm here. Go ahead and speak.");
+      if (!speaking && !busy) listen();
       return;
     }
 
     await askAI(heard);
   }
 
+  function flushPendingSpeech() {
+    clearTimeout(phraseTimer);
+    phraseTimer = null;
+
+    const heard = pendingFinal.trim();
+    pendingFinal = "";
+
+    if (!heard || !active || busy || speaking) return;
+
+    const key = normalize(heard);
+    const now = Date.now();
+
+    if (key && key === lastHandledText && now - lastHandledAt < 3000) {
+      queueListen();
+      return;
+    }
+
+    lastHandledText = key;
+    lastHandledAt = now;
+    handleSpeech(heard);
+  }
+
   function setupRecognition() {
     if (!Recognition) return false;
 
     recognizer = new Recognition();
-    recognizer.lang = "hi-IN";
+
+    // Browser speech recognition uses one locale at a time.
+    // The AI reply language follows the recognised transcript.
+    recognizer.lang = "en-IN";
     recognizer.continuous = true;
     recognizer.interimResults = true;
     recognizer.maxAlternatives = 3;
@@ -403,8 +452,9 @@
     recognizer.onstart = () => {
       recognitionRunning = true;
       ui.mic?.classList.add("listening");
-      caption("I'M LISTENING — TAKE YOUR TIME");
+      caption("I'M LISTENING — SPEAK NATURALLY");
       connection("LISTENING");
+      status("I'm listening. Take your time.");
     };
 
     recognizer.onresult = event => {
@@ -415,7 +465,6 @@
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
         const transcript = result[0]?.transcript?.trim();
-
         if (!transcript) continue;
 
         if (result.isFinal) {
@@ -425,14 +474,12 @@
         }
       }
 
-      // Show live transcription while the student is still speaking.
       if (interim && ui.transcript) {
-        ui.transcript.textContent = "You: " + (pendingFinal ? pendingFinal + " " : "") + interim;
+        ui.transcript.textContent =
+          "You: " + (pendingFinal ? pendingFinal + " " : "") + interim;
         caption("HEARING YOU...");
-        status("Speech detected. Keep speaking at your own pace.");
       }
 
-      // Wait briefly after final words so short pauses don't split a sentence.
       if (pendingFinal) {
         clearTimeout(phraseTimer);
         phraseTimer = setTimeout(flushPendingSpeech, PHRASE_WAIT);
@@ -440,16 +487,15 @@
     };
 
     recognizer.onerror = event => {
-      if (event.error === "not-allowed" || event.error === "service-not-allowed") {
-        status("Microphone permission is blocked. Allow microphone access in Chrome settings.");
+      if (event.error === "not-allowed" ||
+          event.error === "service-not-allowed") {
         shouldListen = false;
+        status("Allow microphone access in Chrome site settings.");
         caption("MICROPHONE PERMISSION NEEDED");
-      } else if (event.error === "no-speech") {
-        status("Still listening. Start speaking whenever you're ready.");
       } else if (event.error === "audio-capture") {
-        status("No microphone detected. Check your microphone connection.");
-      } else if (event.error !== "aborted") {
-        status("Voice input issue: " + event.error + ". Trying to recover...");
+        status("No microphone detected. Check your microphone.");
+      } else if (event.error !== "no-speech" && event.error !== "aborted") {
+        status("Voice input issue: " + event.error + ". Retrying...");
       }
     };
 
@@ -459,12 +505,12 @@
 
       if (pendingFinal && active && shouldListen && !busy && !speaking) {
         clearTimeout(phraseTimer);
-        phraseTimer = setTimeout(flushPendingSpeech, 350);
+        phraseTimer = setTimeout(flushPendingSpeech, 300);
         return;
       }
 
       if (active && shouldListen && !speaking && !busy) {
-        queueListen();
+        queueListen(350);
       }
     };
 
@@ -473,7 +519,7 @@
 
   async function startSession() {
     if (!Recognition) {
-      status("Voice recognition isn't supported here. Try the latest Google Chrome.");
+      status("Voice recognition isn't supported. Try current Google Chrome.");
       return;
     }
 
@@ -491,76 +537,107 @@
     pendingFinal = "";
     lastHandledText = "";
 
-    ui.pause.innerHTML = "<span>Ⅱ</span> Pause";
-    status("Voice session started.");
-    showAssistant("Hey! I'm NavAI. What subject or topic would you like to prepare today?");
-    await speak("Hey! I'm NavAI. What subject or topic would you like to prepare today?");
+    if (ui.pause) ui.pause.textContent = "Ⅱ Pause";
+
+    caption("LET'S TALK");
+    connection("READY");
+    status("Friend mode is on. Ask me anything.");
+
+    const greeting =
+      "Hey! I'm NavAI. We can talk about anything, or prepare for exams whenever you want.";
+
+    showAssistant(greeting);
+    await speak(greeting);
   }
 
-  async function stopSession(sayGoodbye) {
+  async function stopSession(sayPaused) {
     sessionToken++;
     active = false;
     shouldListen = false;
     busy = false;
     pendingFinal = "";
-    clearListeningTimers();
+
+    clearTimers();
     stopRecognition();
 
     if ("speechSynthesis" in window) speechSynthesis.cancel();
 
     speaking = false;
     recognitionRunning = false;
+
     ui.mic?.classList.remove("listening", "speaking");
     caption("TAP TO START TALKING");
     connection("READY");
     status("Session paused. Tap the microphone to continue.");
 
-    if (sayGoodbye) {
-      showAssistant("Session paused. Tap the microphone whenever you're ready to continue.");
+    if (ui.pause) ui.pause.textContent = "Ⅱ Pause";
+
+    if (sayPaused) {
+      showAssistant("Paused for now. Tap the microphone whenever you're ready.");
     }
   }
 
-  addLanguageSelector();
+  if (ui.mic) {
+    ui.mic.addEventListener("click", () => {
+      if (active) {
+        shouldListen = true;
+        if (!speaking && !busy) listen();
+        status("I'm here. Go ahead and speak.");
+      } else {
+        startSession();
+      }
+    });
+  }
 
-  ui.mic.addEventListener("click", () => {
-    if (active) {
-      shouldListen = true;
-      if (!speaking && !busy) listen();
-      status("I'm here. Go ahead and speak at your own pace.");
-    } else {
-      startSession();
-    }
-  });
+  if (ui.repeat) {
+    ui.repeat.addEventListener("click", async () => {
+      if (!active) {
+        await startSession();
+        return;
+      }
 
-  ui.repeat.addEventListener("click", async () => {
-    if (lastQuestion) await speak(lastQuestion);
-    else await speak("Tell me your topic first and we'll begin.");
-  });
+      await speak(lastQuestion || "Tell me anything you'd like to talk about.");
+    });
+  }
 
-  ui.unknown.addEventListener("click", () => {
-    if (!active) return startSession();
-    askAI("I do not know the answer to the current question. Explain the correct answer simply, then check my understanding.");
-  });
+  if (ui.unknown) {
+    ui.unknown.addEventListener("click", () => {
+      if (!active) {
+        startSession();
+      } else if (examMode) {
+        askAI(
+          "I do not know the answer to the current exam question. Explain it simply, then ask one short check question."
+        );
+      } else {
+        askAI("Please explain the last topic more simply.");
+      }
+    });
+  }
 
-  ui.pause.addEventListener("click", () => stopSession(true));
+  if (ui.pause) {
+    ui.pause.addEventListener("click", () => stopSession(true));
+  }
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && active) {
-      status("Keep this page open and visible for the most reliable voice listening.");
+      status("Keep this page open and visible for the best voice experience.");
     }
   });
 
   window.addEventListener("beforeunload", () => {
-    clearListeningTimers();
+    clearTimers();
     if ("speechSynthesis" in window) speechSynthesis.cancel();
+
     if (recognizer) {
-      try { recognizer.abort(); } catch (_) {}
+      try {
+        recognizer.abort();
+      } catch (_) {}
     }
   });
 
   if (!Recognition) {
-    status("For voice mode, open this page in a supported browser such as current Chrome.");
+    status("For voice mode, open this page in a supported browser such as Chrome.");
   } else {
-    status("Choose Hindi / Hinglish or English, then tap the microphone to begin.");
+    status("Tap the microphone to chat with NavAI.");
   }
 })();
