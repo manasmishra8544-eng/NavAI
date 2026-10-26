@@ -221,6 +221,37 @@ function cleanAssistantText(value) {
     text = text.replace(/^\s*\\---+\s*$/gm, "");
     return text.trim();
 }
+
+function linkifySafeUrls(html) {
+    const urlPattern = /https?:\/\/[^\s<>"']+/gi;
+    return html.replace(urlPattern, function (rawUrl) {
+        let url = rawUrl;
+        let trailing = "";
+
+        while (/[),.!?;:]$/.test(url)) {
+            trailing = url.slice(-1) + trailing;
+            url = url.slice(0, -1);
+        }
+
+        const safeUrl = url.replace(/&amp;/g, "&");
+        let parsed;
+        try {
+            parsed = new URL(safeUrl);
+        } catch {
+            return rawUrl;
+        }
+
+        if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+            return rawUrl;
+        }
+
+        const href = parsed.href.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+        const label = url;
+        return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' +
+            label + '</a>' + trailing;
+    });
+}
+
 function renderMarkdown(text) {
     let html = escapeHTML(text);
     const blocks = [];
@@ -266,6 +297,7 @@ function renderMarkdown(text) {
         html = html.split(block.token).join(block.value);
     });
 
+    html = linkifySafeUrls(html);
     return html;
 }
 
