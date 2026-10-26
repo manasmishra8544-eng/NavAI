@@ -37,7 +37,7 @@
 
   const history = [];
   const MAX_HISTORY = 16;
-  const PHRASE_WAIT = 650;
+  const PHRASE_WAIT = 1000;
 
   function status(message) {
     if (ui.status) ui.status.textContent = message;
@@ -60,7 +60,7 @@
   function normalize(text) {
     return String(text || "")
       .toLowerCase()
-      .replace(/[.,!?;:।]/g, " ")
+      .replace(/[.,!?;:à¥¤]/g, " ")
       .replace(/\s+/g, " ")
       .trim();
   }
@@ -166,7 +166,7 @@
         speaking = false;
         ui.mic?.classList.remove("speaking");
 
-        if (active && shouldListen && !busy) queueListen(350);
+        if (active && shouldListen && !busy) queueListen(600);
         resolve();
       }
 
@@ -305,7 +305,7 @@
     } finally {
       busy = false;
 
-      if (active && shouldListen && !speaking) queueListen(350);
+      if (active && shouldListen && !speaking) queueListen(600);
     }
   }
 
@@ -456,7 +456,7 @@
     recognizer.onstart = () => {
       recognitionRunning = true;
       ui.mic?.classList.add("listening");
-      caption("I'M LISTENING — SPEAK NATURALLY");
+      caption("I'M LISTENING â€” SPEAK NATURALLY");
       connection("LISTENING");
       status("I'm listening. Take your time.");
     };
@@ -514,7 +514,7 @@
       }
 
       if (active && shouldListen && !speaking && !busy) {
-        queueListen(350);
+        queueListen(600);
       }
     };
 
@@ -541,7 +541,7 @@
     pendingFinal = "";
     lastHandledText = "";
 
-    if (ui.pause) ui.pause.textContent = "Ⅱ Pause";
+    if (ui.pause) ui.pause.textContent = "â…¡ Pause";
 
     caption("LET'S TALK");
     connection("READY");
@@ -574,7 +574,7 @@
     connection("READY");
     status("Session paused. Tap the microphone to continue.");
 
-    if (ui.pause) ui.pause.textContent = "Ⅱ Pause";
+    if (ui.pause) ui.pause.textContent = "â…¡ Pause";
 
     if (sayPaused) {
       showAssistant("Paused for now. Tap the microphone whenever you're ready.");
