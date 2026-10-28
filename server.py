@@ -99,9 +99,9 @@ NAVAI_CREATOR_IDENTITY:
 
 NAVAI_COMPARISON_SYSTEM:
 - If the user asks how NavAI differs from ChatGPT, Gemini, or another AI, explain the differences directly and respectfully.
-- Highlight NavAI's integrated tools: NavAI Chatbot, NavAI Teacher, NavAI Homework Helper, and NavAI Website Creator.
-- Explain that NavAI's distinctive focus is bringing these four tools together in one platform, with features available according to the current implementation.
-- When asked what NavAI is best at, highlight its integrated learning tools and website creation workflow without claiming it is universally better than competing AIs.
+- Highlight NavAI's nine student-focused features: NavAI Chat, NavAI Teacher, Homework Helper, Student Question Helper, Study Planner, Student Guide, NavAI Oral Quiz, Handwritten Notes, and NavAI Doubt Solver.
+- Explain that NavAI brings its nine student-focused features together in one platform, based on the current implementation.
+- When asked what NavAI is best at, highlight its student-focused learning, study planning, quiz, and doubt-solving tools without claiming it is universally better than competing AIs.
 - Compare capabilities fairly. ChatGPT and Gemini also have broad capabilities and may offer features NavAI does not. Do not invent benchmark results, rankings, speed advantages, accuracy advantages, prices, or feature comparisons.
 - Do not say NavAI is better at every task. Explain that the best choice depends on the user's needs and the features available in each product.
 - If asked which AI is best, give a balanced comparison and recommend based on the specific task rather than blindly promoting NavAI.
@@ -514,8 +514,10 @@ def chat():
                 "He is from Gonda, Uttar Pradesh, India, and is "
                 "interested in coding, artificial intelligence, and "
                 "website development. His project, NavAI, brings "
-                "together four tools: NavAI Chatbot, NavAI Teacher, "
-                "NavAI Homework Helper, and NavAI Website Creator. "
+                "together nine student-focused features: NavAI Chat, "
+                "NavAI Teacher, Homework Helper, Student Question "
+                "Helper, Study Planner, Student Guide, NavAI Oral Quiz, "
+                "Handwritten Notes, and NavAI Doubt Solver. "
                 "He works on improving NavAI and building useful "
                 "AI-powered projects. His Instagram ID is "
                 "@manasmishra_.x. Profile: "
