@@ -37,7 +37,7 @@
     return language.value === "hi" ? "hi-IN" : language.value === "en" ? "en-IN" : "hi-IN";
   }
   function speak(text) {
-    if (!readReplies || !("speechSynthesis" in window)) return;
+    if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = speechLanguage();
@@ -118,7 +118,13 @@
       pending.querySelector("p").textContent = reply;
       lastReply = reply;
       messages.scrollTop = messages.scrollHeight;
-      speak(reply);
+      const readButton = document.createElement("button");
+      readButton.type = "button";
+      readButton.className = "reply-speak-btn";
+      readButton.textContent = "🔊 सुनें";
+      readButton.setAttribute("aria-label", "Student Guide ka jawab sunen");
+      readButton.addEventListener("click", () => speak(reply));
+      pending.appendChild(readButton);
       status.textContent = "Reply ready. You can type or tap the microphone again.";
     } catch (error) {
       pending.querySelector("p").textContent =
