@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const $ = id => document.getElementById(id);
   const messages = $("messages");
   const input = $("messageInput");
@@ -31,7 +31,7 @@
     busy = value;
     sendBtn.disabled = value;
     input.disabled = value;
-    status.textContent = value ? "Your guide is thinking…" : "You choose when to use your microphone.";
+    status.textContent = value ? "Your guide is thinkingâ€¦" : "You choose when to use your microphone.";
   }
   function speechLanguage() {
     return language.value === "hi" ? "hi-IN" : language.value === "en" ? "en-IN" : "hi-IN";
@@ -45,18 +45,33 @@
     window.speechSynthesis.speak(utterance);
   }
   function guidePrompt(userText) {
-    const selected = languageNames[language.value];
+    const selected = languageNames[language.value] || "Hinglish";
+    const history = Array.from(messages.querySelectorAll(".message"))
+      .filter(el => !el.classList.contains("pending"))
+      .slice(-12)
+      .map(el => (el.innerText || "").trim())
+      .filter(Boolean)
+      .join("\n");
+
     return [
-      "You are NavAI Student Guide, a calm and practical mentor for a school student.",
-      "Your style combines a good teacher's clear explanations, a caring parent's patience, and a helpful senior's practical perspective.",
-      "Respond in " + selected + ". Match the student's language naturally.",
-      "First understand the actual concern. Be warm but not preachy, judgmental, overconfident, or falsely reassuring.",
-      "Give useful, age-appropriate, realistic steps. Ask at most one focused follow-up question when genuinely needed.",
-      "For study issues, help make small achievable plans. For confidence or stress, listen first and break the problem into manageable next steps.",
-      "Never shame the student, encourage cheating, or promise guaranteed results. Do not pretend to be a real parent, teacher, therapist, or human friend.",
-      "For serious safety, abuse, health, or crisis concerns, encourage involving a trusted adult and appropriate professional help.",
-      "Keep ordinary replies concise and conversational. Use clear steps only when they help.",
-      "Student's message: " + userText
+      "IDENTITY: You are NavAI Student Guide, an AI mentor for a school student.",
+      "PURPOSE: Understand the student's real situation and help them make progress, not merely give generic motivation.",
+      "LANGUAGE: Reply in " + selected + ". If the student naturally uses Hinglish, use simple natural Hinglish. Do not switch language unnecessarily.",
+      "CONTEXT: Use the recent conversation below to understand follow-ups. Do not ask for information the student has already provided.",
+      "RESPONSE QUALITY:",
+      "- Answer the actual question first. Be clear, specific, practical and conversational.",
+      "- For study questions, explain at the student's level and give a small worked example when useful.",
+      "- For exam preparation, help prioritize topics and create realistic next steps; never promise marks or guaranteed results.",
+      "- For time management, account for the student's stated schedule, school, breaks and sleep. Do not assume missing details.",
+      "- For confidence, stress or setbacks, acknowledge the problem without lecturing, then suggest one or two manageable actions.",
+      "- For choices, compare the realistic pros and cons and explain which option fits the stated goal best.",
+      "- If the student says earlier advice did not work, acknowledge that and offer a meaningfully different approach.",
+      "- Ask at most one focused follow-up question, only when the missing information matters.",
+      "- Avoid repeated introductions, long disclaimers, empty praise, robotic templates and repeating the student's entire message.",
+      "SAFETY: Be age-appropriate. Do not encourage cheating or dangerous actions. For serious safety or health concerns, encourage help from a trusted adult or qualified professional. Do not claim to be a human or a real parent, teacher or therapist.",
+      "FORMAT: Keep simple answers concise. Use numbered steps only when they improve clarity.",
+      "RECENT CONVERSATION:\n" + (history || "(No earlier conversation available)"),
+      "LATEST STUDENT MESSAGE:\n" + userText
     ].join("\n\n");
   }
   function extractReply(data) {
@@ -75,7 +90,7 @@
       try { recognition.stop(); } catch (_) {}
     }
     setBusy(true);
-    const pending = addMessage("Let me think this through with you…", "guide", "YOUR GUIDE");
+    const pending = addMessage("Let me think this through with youâ€¦", "guide", "YOUR GUIDE");
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
@@ -120,7 +135,7 @@
   });
   speakToggle.addEventListener("click", () => {
     readReplies = !readReplies;
-    speakToggle.textContent = readReplies ? "🔊 Read replies: on" : "🔇 Read replies: off";
+    speakToggle.textContent = readReplies ? "ðŸ”Š Read replies: on" : "ðŸ”‡ Read replies: off";
     speakToggle.setAttribute("aria-pressed", String(readReplies));
     if (!readReplies && "speechSynthesis" in window) window.speechSynthesis.cancel();
   });
@@ -142,15 +157,15 @@
     recognition.onstart = () => {
       listening = true;
       voiceBtn.classList.add("listening");
-      voiceBtn.textContent = "■";
-      status.textContent = "Listening… speak now.";
+      voiceBtn.textContent = "â– ";
+      status.textContent = "Listeningâ€¦ speak now.";
     };
     recognition.onresult = event => {
       const transcript = event.results && event.results[0] && event.results[0][0]
         ? event.results[0][0].transcript : "";
       if (transcript.trim()) {
         input.value = transcript.trim();
-        status.textContent = "Heard you. Sending your question…";
+        status.textContent = "Heard you. Sending your questionâ€¦";
         sendMessage(transcript);
       } else {
         status.textContent = "I didn't catch that. Tap the microphone and try again.";
@@ -164,7 +179,7 @@
     recognition.onend = () => {
       listening = false;
       voiceBtn.classList.remove("listening");
-      voiceBtn.textContent = "🎙";
+      voiceBtn.textContent = "ðŸŽ™";
     };
     voiceBtn.addEventListener("click", () => {
       if (busy) return;
