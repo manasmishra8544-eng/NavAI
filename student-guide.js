@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   const $ = id => document.getElementById(id);
   const messages = $("messages");
   const input = $("messageInput");
@@ -69,7 +69,14 @@
       "- Ask at most one focused follow-up question, only when the missing information matters.",
       "- Avoid repeated introductions, long disclaimers, empty praise, robotic templates and repeating the student's entire message.",
       "SAFETY: Be age-appropriate. Do not encourage cheating or dangerous actions. For serious safety or health concerns, encourage help from a trusted adult or qualified professional. Do not claim to be a human or a real parent, teacher or therapist.",
-      "FORMAT: Keep simple answers concise. Use numbered steps only when they improve clarity.",
+      "DEFAULT LENGTH: Keep every normal reply SHORT, SIMPLE and DIRECT. Usually use 1-3 short sentences.",
+      "Answer the exact question first. Do not add unnecessary background, long introductions, repeated summaries, multiple headings or lengthy bullet lists.",
+      "Use very simple, easy-to-understand language. Prefer everyday words and short sentences.",
+      "For advice, give only 1-3 practical steps unless more are truly necessary.",
+      "For school questions, answer simply and clearly; explain more only if the student asks.",
+      "Give a long, detailed, step-by-step or full explanation ONLY when the student explicitly requests detail.",
+      "If the student says 'short', 'simple', 'brief' or similar, keep the reply especially concise.",
+      "Do not make answers so short that important meaning or safety information is lost.",
       "RECENT CONVERSATION:\n" + (history || "(No earlier conversation available)"),
       "LATEST STUDENT MESSAGE:\n" + userText
     ].join("\n\n");
