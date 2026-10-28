@@ -2,245 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#07111f">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071126">
 <title>Student Guide | NavAI</title>
-<style>
-:root{color-scheme:dark;--bg:#07111f;--panel:#101d31;--line:#263752;--text:#f1f5ff;--muted:#a9b7cf;--blue:#6da8ff;--purple:#a78bfa;--green:#67e8b2}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#172b4b 0,#07111f 55%);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);min-height:100vh}
-main{width:min(1080px,100%);margin:auto;padding:24px 18px 60px}
-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px}
-a{color:var(--blue);text-decoration:none}
-.brand{font-size:20px;font-weight:800;color:white}
-button,input,textarea,select{font:inherit}
-button{border:1px solid #3b5275;background:#1c3150;color:white;padding:11px 15px;border-radius:12px;cursor:pointer}
-button.primary{background:linear-gradient(120deg,#3978df,#7959d8);border:0;font-weight:700}
-button:hover{filter:brightness(1.1)}
-.hero,.panel{background:#101d31eF;border:1px solid var(--line);border-radius:20px;padding:22px;margin-bottom:16px}
-.hero{background:linear-gradient(125deg,#192f51,#181b3a);padding:28px}
-.eyebrow{color:#a8c8ff;font-size:12px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase}
-h1{font-size:clamp(30px,5vw,45px);margin:10px 0}
-h2{font-size:20px;margin:0 0 16px}
-p,.muted{color:var(--muted);line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.field{display:grid;gap:7px;margin-bottom:13px}
-label{font-size:13px;color:#c7d5eb}
-input,textarea,select{width:100%;padding:12px;border:1px solid #344763;border-radius:11px;background:#091526;color:white;min-width:0}
-textarea{min-height:76px;resize:vertical}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1}
-.list{display:grid;gap:9px}
-.item{display:flex;align-items:center;gap:10px;border:1px solid #2a3c56;background:#0b1728;padding:12px;border-radius:12px;overflow-wrap:anywhere}
-.item input[type=checkbox]{width:18px;flex:0 0 18px;accent-color:#7aaaff}
-.item span{flex:1}
-.item.done span{text-decoration:line-through;color:#8b9ab1}
-.item button{padding:6px 10px}
-.statgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
-.stat{background:#0a1728;border:1px solid #2a3b55;border-radius:13px;padding:13px}
-.stat strong{display:block;font-size:23px;margin-bottom:4px}
-.stat small{color:var(--muted)}
-.progress{height:8px;background:#28364d;border-radius:20px;overflow:hidden;margin-top:10px}
-.progress div{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#a78bfa)}
-#message{min-height:24px;color:var(--green)}
-footer{text-align:center;color:#8798b3;font-size:12px;margin-top:25px}
-@media(max-width:680px){.grid{grid-template-columns:1fr}.hero,.panel{padding:17px}main{padding:15px 12px 40px}.statgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:10px}.stat strong{font-size:20px}}
-</style>
+<link rel="stylesheet" href="student-guide.css">
 </head>
 <body>
-<main>
-<nav><a class="brand" href="/">✦ NavAI</a><a href="/">← Back to NavAI</a></nav>
-<section class="hero">
-<div class="eyebrow">Your personal study workspace</div>
-<h1>Study smarter, one day at a time.</h1>
-<p>Organise homework, plan exam preparation, set goals and build a realistic daily routine that fits your available time.</p>
-<div class="statgrid">
-<div class="stat"><strong id="taskCount">0</strong><small>Tasks remaining</small></div>
-<div class="stat"><strong id="examCount">0</strong><small>Upcoming exams</small></div>
-<div class="stat"><strong id="doneCount">0%</strong><small>Tasks completed</small></div>
-</div>
-<div class="progress"><div id="progressBar"></div></div>
-<p id="message" aria-live="polite"></p>
-</section>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="NavAI home"><span class="brand-mark">N</span><span>NavAI <small>STUDENT GUIDE</small></span></a>
+  <a class="back" href="/">← All features</a>
+</header>
+<main class="layout">
+  <section class="intro">
+    <div class="eyebrow"><span class="pulse"></span> YOUR PERSONAL GUIDE</div>
+    <h1>You don't have to figure <span>everything out alone.</span></h1>
+    <p>Talk things through with a calm, practical guide that helps you think clearly, make a plan and take your next step.</p>
+    <div class="mentor-tags"><span>Teacher's clarity</span><span>Parent-like support</span><span>Senior's practical advice</span></div>
+  </section>
 
-<div class="grid">
-<section class="panel">
-<h2>📚 Homework and tasks</h2>
-<form id="taskForm">
-<div class="field"><label for="taskName">What do you need to do?</label><input id="taskName" maxlength="140" required placeholder="e.g. Revise Election notes"></div>
-<div class="row">
-<div class="field"><label for="taskSubject">Subject</label><input id="taskSubject" maxlength="50" placeholder="e.g. SST"></div>
-<div class="field"><label for="taskMinutes">Time (minutes)</label><input id="taskMinutes" type="number" min="5" max="300" value="30" required></div>
-</div>
-<button class="primary" type="submit">+ Add task</button>
-</form>
-<div id="taskList" class="list" style="margin-top:15px"></div>
-</section>
-
-<section class="panel">
-<h2>🗓️ Exam planner</h2>
-<form id="examForm">
-<div class="field"><label for="examName">Exam or chapter</label><input id="examName" maxlength="100" required placeholder="e.g. Mathematics Olympiad"></div>
-<div class="row">
-<div class="field"><label for="examDate">Date</label><input id="examDate" type="date" required></div>
-<div class="field"><label for="examSubject">Subject</label><input id="examSubject" maxlength="50" placeholder="Mathematics"></div>
-</div>
-<button class="primary" type="submit">+ Add exam</button>
-</form>
-<div id="examList" class="list" style="margin-top:15px"></div>
-</section>
-
-<section class="panel">
-<h2>🎯 Personal study goals</h2>
-<form id="goalForm">
-<div class="field"><label for="goalName">Your goal</label><input id="goalName" maxlength="120" required placeholder="e.g. Finish two chapters"></div>
-<button class="primary" type="submit">+ Set goal</button>
-</form>
-<div id="goalList" class="list" style="margin-top:15px"></div>
-</section>
-
-<section class="panel">
-<h2>⚡ Build today's routine</h2>
-<p>Enter the time you can genuinely study. The planner schedules your unfinished tasks with short breaks.</p>
-<form id="routineForm">
-<div class="row">
-<div class="field"><label for="studyStart">Start time</label><input id="studyStart" type="time" value="17:00" required></div>
-<div class="field"><label for="availableMinutes">Available minutes</label><input id="availableMinutes" type="number" min="15" max="600" value="120" required></div>
-</div>
-<div class="field"><label for="breakMinutes">Break after each study block</label><select id="breakMinutes"><option value="5">5 minutes</option><option value="10" selected>10 minutes</option><option value="15">15 minutes</option></select></div>
-<button class="primary" type="submit">Generate my routine</button>
-</form>
-<div id="routineList" class="list" style="margin-top:15px"></div>
-</section>
-</div>
-<footer>Your study data is saved in this browser on this device. It is not synced across devices.</footer>
+  <section class="chat-card" aria-label="Student Guide chat">
+    <div class="chat-head">
+      <div class="avatar">N</div>
+      <div class="head-copy"><strong>Your Student Guide</strong><small><span class="online"></span> Here to help you think it through</small></div>
+      <label class="language"><span>Language</span><select id="language"><option value="hinglish">Hinglish</option><option value="en">English</option><option value="hi">Hindi</option></select></label>
+    </div>
+    <div id="messages" class="messages" aria-live="polite">
+      <div class="message guide"><span class="speaker">YOUR GUIDE</span><p>Hey! Batao, aaj kis cheez mein help chahiye? Studies, exam stress, routine, confidence, school problem ya future planning—hum ek-ek step karke samjhenge.</p></div>
+    </div>
+    <div class="quick-prompts" id="quickPrompts">
+      <button type="button" data-prompt="Help me make a realistic study plan for my exams.">📚 Study plan</button>
+      <button type="button" data-prompt="I keep procrastinating. Help me understand why and start small.">🎯 Stop procrastinating</button>
+      <button type="button" data-prompt="I feel stressed about school. Help me think it through.">💭 School stress</button>
+      <button type="button" data-prompt="Help me explore my strengths and possible career paths.">🧭 Career direction</button>
+    </div>
+    <div class="composer">
+      <textarea id="messageInput" rows="1" maxlength="4000" placeholder="Type what’s on your mind…" aria-label="Your message"></textarea>
+      <button id="voiceBtn" class="voice-btn" type="button" title="Speak your message" aria-label="Speak your message">🎙</button>
+      <button id="sendBtn" class="send-btn" type="button" aria-label="Send message">➤</button>
+    </div>
+    <div class="chat-foot"><span id="status">Your microphone starts only when you tap it.</span><button id="speakToggle" type="button" aria-pressed="true">🔊 Read replies: on</button></div>
+  </section>
+  <p class="note">Your guide can help you explore options, but important health, safety or family concerns should also involve a trusted adult. You choose what to share.</p>
 </main>
-<script>
-(function(){
-"use strict";
-const KEY="navai.studentGuide.v1";
-const $=id=>document.getElementById(id);
-const today=()=>new Date().toISOString().slice(0,10);
-let state={tasks:[],exams:[],goals:[],routine:[]};
-try{
- const saved=JSON.parse(localStorage.getItem(KEY)||"null");
- if(saved&&typeof saved==="object"){
-  state.tasks=Array.isArray(saved.tasks)?saved.tasks:[];
-  state.exams=Array.isArray(saved.exams)?saved.exams:[];
-  state.goals=Array.isArray(saved.goals)?saved.goals:[];
-  state.routine=Array.isArray(saved.routine)?saved.routine:[];
- }
-}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(state));$("message").textContent="Saved on this device ✓";}catch(e){$("message").textContent="Browser storage unavailable. Your current session may not persist.";}}
-function node(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;}
-function safeDate(value){const d=new Date(value+"T00:00:00");return Number.isNaN(d.getTime())?null:d;}
-function prettyDate(value){const d=safeDate(value);return d?d.toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"}):value;}
-function renderTasks(){
- const list=$("taskList");list.replaceChildren();
- state.tasks.forEach((t,i)=>{
-  const row=node("div",undefined,"item"+(t.done?" done":""));
-  const check=node("input");check.type="checkbox";check.checked=!!t.done;check.setAttribute("aria-label","Mark "+t.name+" complete");
-  check.addEventListener("change",()=>{t.done=check.checked;save();render();});
-  row.append(check);
-  const label=node("span",t.name+(t.subject?" · "+t.subject:"")+" · "+t.minutes+" min");
-  row.append(label);
-  const del=node("button","×");del.type="button";del.setAttribute("aria-label","Delete "+t.name);
-  del.addEventListener("click",()=>{state.tasks.splice(i,1);save();render();});
-  row.append(del);list.append(row);
- });
- if(!state.tasks.length)list.append(node("p","No tasks yet. Add your first task above.","muted"));
-}
-function renderExams(){
- const list=$("examList");list.replaceChildren();
- state.exams.sort((a,b)=>a.date.localeCompare(b.date)).forEach((e,i)=>{
-  const row=node("div",undefined,"item");
-  const d=safeDate(e.date);const diff=d?Math.ceil((d-new Date(today()+"T00:00:00"))/86400000):null;
-  const days=diff===null?"":diff<0?" · date passed":diff===0?" · today":" · "+diff+" day(s) left";
-  row.append(node("span",e.name+(e.subject?" · "+e.subject:"")+" · "+prettyDate(e.date)+days));
-  const del=node("button","×");del.type="button";del.setAttribute("aria-label","Delete "+e.name);
-  del.addEventListener("click",()=>{state.exams.splice(i,1);save();render();});
-  row.append(del);list.append(row);
- });
- if(!state.exams.length)list.append(node("p","Add your next exam to keep it in view.","muted"));
-}
-function renderGoals(){
- const list=$("goalList");list.replaceChildren();
- state.goals.forEach((g,i)=>{
-  const row=node("div",undefined,"item"+(g.done?" done":""));
-  const c=node("input");c.type="checkbox";c.checked=!!g.done;c.setAttribute("aria-label","Complete goal "+g.name);
-  c.addEventListener("change",()=>{g.done=c.checked;save();render();});
-  row.append(c,node("span",g.name));
-  const del=node("button","×");del.type="button";del.setAttribute("aria-label","Delete goal "+g.name);
-  del.addEventListener("click",()=>{state.goals.splice(i,1);save();render();});
-  row.append(del);list.append(row);
- });
- if(!state.goals.length)list.append(node("p","Choose one achievable goal to start with.","muted"));
-}
-function renderRoutine(){
- const list=$("routineList");list.replaceChildren();
- state.routine.forEach(r=>{
-  const row=node("div",undefined,"item");
-  row.append(node("span",r.start+"–"+r.end+" · "+r.title));
-  list.append(row);
- });
- if(!state.routine.length)list.append(node("p","Your routine will appear here.","muted"));
-}
-function render(){
- renderTasks();renderExams();renderGoals();renderRoutine();
- const open=state.tasks.filter(t=>!t.done).length;
- const completed=state.tasks.filter(t=>t.done).length;
- const total=state.tasks.length;
- $("taskCount").textContent=open;
- $("examCount").textContent=state.exams.filter(e=>e.date>=today()).length;
- const percent=total?Math.round(completed/total*100):0;
- $("doneCount").textContent=percent+"%";
- $("progressBar").style.width=percent+"%";
-}
-$("taskForm").addEventListener("submit",e=>{
- e.preventDefault();
- const name=$("taskName").value.trim();const minutes=Number($("taskMinutes").value);
- if(!name||!Number.isFinite(minutes)||minutes<5||minutes>300)return;
- state.tasks.push({name,subject:$("taskSubject").value.trim(),minutes,done:false});
- e.target.reset();$("taskMinutes").value=30;save();render();
-});
-$("examForm").addEventListener("submit",e=>{
- e.preventDefault();
- const name=$("examName").value.trim(),date=$("examDate").value;
- if(!name||!safeDate(date))return;
- state.exams.push({name,date,subject:$("examSubject").value.trim()});
- e.target.reset();save();render();
-});
-$("goalForm").addEventListener("submit",e=>{
- e.preventDefault();const name=$("goalName").value.trim();if(!name)return;
- state.goals.push({name,done:false});e.target.reset();save();render();
-});
-function timeLabel(total){const h=Math.floor(total/60)%24,m=total%60;return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");}
-$("routineForm").addEventListener("submit",e=>{
- e.preventDefault();
- const start=$("studyStart").value.split(":").map(Number);
- let available=Number($("availableMinutes").value),breakM=Number($("breakMinutes").value);
- if(start.length!==2||!Number.isFinite(available)||available<15||available>600)return;
- let clock=start[0]*60+start[1];const finish=clock+available;
- let remaining=state.tasks.filter(t=>!t.done).map(t=>({name:t.name,minutes:Number(t.minutes)||25}));
- const routine=[];
- while(remaining.length&&clock<finish){
-  const task=remaining[0],room=finish-clock;
-  if(room<15)break;
-  const duration=Math.min(task.minutes,45,room);
-  routine.push({start:timeLabel(clock),end:timeLabel(clock+duration),title:task.name});
-  clock+=duration;task.minutes-=duration;
-  if(task.minutes<=0)remaining.shift();
-  if(remaining.length&&clock<finish){
-   const pause=Math.min(breakM,finish-clock);
-   if(pause>0){routine.push({start:timeLabel(clock),end:timeLabel(clock+pause),title:"Short break"});clock+=pause;}
-  }
- }
- if(!routine.length)routine.push({start:timeLabel(clock),end:timeLabel(Math.min(clock+25,finish)),title:"Start with your most important subject"});
- state.routine=routine;save();render();
-});
-$("examDate").min=today();
-render();
-})();
-</script>
+<script src="student-guide.js"></script>
 </body>
 </html>
