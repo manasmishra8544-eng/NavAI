@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#06132d">
-<title>Student Question Helper — NavAI</title>
+<title>Student Question Helper Ã¢â‚¬â€ NavAI</title>
 <style>
 :root{color-scheme:dark;--bg:#041027;--panel:#081a38;--line:#174b89;--blue:#2780ff;--text:#edf5ff;--muted:#a7c5ed}
 *{box-sizing:border-box}
@@ -44,7 +44,7 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
 </head>
 <body>
 <header>
-  <div class="brand">NavAI <span>Student Question Helper</span></div>
+  <div class="brand">NavAI <span>Exam Predictor</span></div>
   <a href="/">Back to NavAI</a>
 </header>
 <main>
@@ -81,7 +81,7 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
 <option>Numerical problems</option><option>Assertion and Reason</option>
 </select>
 <label for="difficulty">Difficulty</label>
-<select id="difficulty"><option>Mixed</option><option>Easy</option><option>Moderate</option><option>Challenging</option></select>
+<select id="difficulty"><option>Exam Focus â€” High Priority</option><option>Easy Revision</option><option>Moderate</option><option>Hard Practice</option><option>Very Tough</option><option>Mixed</option></select>
 <label for="count">Number of questions</label>
 <select id="count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
 <label for="marks">Total marks (optional)</label>
@@ -107,7 +107,7 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
 </section>
 </div>
 </main>
-<footer>NavAI Student Question Helper · Educational practice tool · Verify syllabus and marking scheme with your school</footer>
+<footer>NavAI Student Question Helper Ã‚Â· Educational practice tool Ã‚Â· Verify syllabus and marking scheme with your school</footer>
 <script>
 const $ = id => document.getElementById(id);
 let latestPaper = "";
@@ -140,7 +140,7 @@ $("builder").addEventListener("submit", async e => {
   const chapter = $("chapter").value.trim();
   if (!chapter) { $("status").textContent = "Chapter/topic enter karo."; return; }
 
-  const prompt = `Create an original school exam-style practice paper. Do not claim these are leaked, official, or guaranteed exam questions.
+  const prompt = `Create an original, syllabus-aligned exam-priority practice paper. Never claim questions are leaked, official, or guaranteed to appear. Label each question HIGH, MEDIUM, or LOW priority, and explain briefly why it deserves that priority. Base priority on syllabus relevance, commonly tested concepts, and any past-paper evidence supplied; do not invent past-paper evidence. If no past papers are supplied, clearly say priority is an educational estimate.
 Class: ${$("className").value}
 Board/curriculum: ${$("board").value}
 Subject: ${$("subject").value}
@@ -162,7 +162,7 @@ Requirements:
 Return clean, readable plain text.`;
 
   $("generate").disabled = true;
-  $("status").textContent = "Generating questions…";
+  $("status").textContent = "Generating questionsÃ¢â‚¬Â¦";
   $("results").innerHTML = "<p>NavAI is preparing your practice paper. Please wait.</p>";
 
   try {
@@ -230,5 +230,6 @@ $("copy").addEventListener("click", async () => {
   }
 });
 </script>
+<script src="/math-renderer.js"></script>
 </body>
 </html>

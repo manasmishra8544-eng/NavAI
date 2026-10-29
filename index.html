@@ -312,11 +312,11 @@
       <p>Get help with school questions, understand difficult concepts and work through problems step by step.</p>
       <div class="tool-bottom"><span>Explore questions</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
     </a>
-<a class="tool" href="/study-planner.html" id="navai-study-planner-card">
-      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17M8 13h3M8 16h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-      <h2>Study Planner</h2>
-      <p>Plan your study sessions, track syllabus progress, manage tasks and build consistent study habits.</p>
-      <div class="tool-bottom"><span>Plan my studies</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
+<a class="tool" href="/student-question-helper.html" id="navai-study-planner-card">
+      <div class="tool-icon"><span aria-hidden="true">ðŸŽ¯</span></div>
+      <h2>NavAI Exam Predictor</h2>
+      <p>Build exam-focused question papers with priority levels, tough practice and answer explanations.</p>
+      <div class="tool-bottom"><span>Predict &amp; practise</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
     </a>
 <a id="navai-student-guide-card" class="tool" href="student-guide.html">
   <div class="tool-icon"><span aria-hidden="true">&#127891;</span></div>
@@ -505,7 +505,7 @@
     for(var k=0;k<all.length;k++){
       var node=all[k];
       if(!node.getClientRects().length || wrap.contains(node)) continue;
-      var text=(node.innerText||node.textContent||"").replace(/[Ã¢Å“Â¨&#8942;]/g,"").trim();
+      var text=(node.innerText||node.textContent||"").replace(/[ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨&#8942;]/g,"").trim();
       if(/^navai$/i.test(text)){
         if(!sidebar || sidebar.contains(node) || developer){logo=node;break;}
       }
@@ -597,8 +597,8 @@
     var button = document.getElementById("navai-more-button");
 
     if (button) {
-      if ((button.textContent || "").trim() !== "Ã¢Å“Â¨") {
-        button.textContent = "Ã¢Å“Â¨";
+      if ((button.textContent || "").trim() !== "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨") {
+        button.textContent = "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨";
       }
 
       button.setAttribute("aria-label", "NavAI");
@@ -679,5 +679,6 @@
 <!-- NAVAI_ORAL_QUIZ_ENTRY_V1_END -->
 <!-- navai-handwritten-notes-integration -->
 <script src="handwritten-notes-integration.js"></script>
+<script src="/math-renderer.js"></script>
 </body>
 </html>
