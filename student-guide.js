@@ -31,7 +31,7 @@
     busy = value;
     sendBtn.disabled = value;
     input.disabled = value;
-    status.textContent = value ? "Your guide is thinkingâ€¦" : "You choose when to use your microphone.";
+    status.textContent = value ? "Your guide is thinking…" : "You choose when to use your microphone.";
   }
   function speechLanguage() {
     return language.value === "hi" ? "hi-IN" : language.value === "en" ? "en-IN" : "hi-IN";
@@ -97,7 +97,7 @@
       try { recognition.stop(); } catch (_) {}
     }
     setBusy(true);
-    const pending = addMessage("Let me think this through with youâ€¦", "guide", "YOUR GUIDE");
+    const pending = addMessage("Let me think this through with you…", "guide", "YOUR GUIDE");
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
@@ -148,7 +148,7 @@
   });
   speakToggle.addEventListener("click", () => {
     readReplies = !readReplies;
-    speakToggle.textContent = readReplies ? "ðŸ”Š Read replies: on" : "ðŸ”‡ Read replies: off";
+    speakToggle.textContent = readReplies ? "🔊 Read replies: on" : "🔇 Read replies: off";
     speakToggle.setAttribute("aria-pressed", String(readReplies));
     if (!readReplies && "speechSynthesis" in window) window.speechSynthesis.cancel();
   });
@@ -170,15 +170,15 @@
     recognition.onstart = () => {
       listening = true;
       voiceBtn.classList.add("listening");
-      voiceBtn.textContent = "â– ";
-      status.textContent = "Listeningâ€¦ speak now.";
+      voiceBtn.textContent = "🎙️";
+      status.textContent = "Listening… speak now.";
     };
     recognition.onresult = event => {
       const transcript = event.results && event.results[0] && event.results[0][0]
         ? event.results[0][0].transcript : "";
       if (transcript.trim()) {
         input.value = transcript.trim();
-        status.textContent = "Heard you. Sending your questionâ€¦";
+        status.textContent = "Heard you. Sending your question…";
         sendMessage(transcript);
       } else {
         status.textContent = "I didn't catch that. Tap the microphone and try again.";
@@ -192,7 +192,7 @@
     recognition.onend = () => {
       listening = false;
       voiceBtn.classList.remove("listening");
-      voiceBtn.textContent = "ðŸŽ™";
+      voiceBtn.textContent = "🎤";
     };
     voiceBtn.addEventListener("click", () => {
       if (busy) return;

@@ -37,7 +37,7 @@
 
   const history = [];
   const MAX_HISTORY = 16;
-  const PHRASE_WAIT = 1000;
+  const PHRASE_WAIT = 450;
 
   function status(message) {
     if (ui.status) ui.status.textContent = message;
@@ -101,7 +101,7 @@
       if (error.name !== "InvalidStateError") {
         status("Mic start nahi hua. Microphone button dobara tap karo.");
       }
-      queueListen(700);
+      queueListen(400);
     }
   }
 
@@ -166,7 +166,7 @@
         speaking = false;
         ui.mic?.classList.remove("speaking");
 
-        if (active && shouldListen && !busy) queueListen(600);
+        if (active && shouldListen && !busy) queueListen(250);
         resolve();
       }
 
@@ -305,7 +305,7 @@
     } finally {
       busy = false;
 
-      if (active && shouldListen && !speaking) queueListen(600);
+      if (active && shouldListen && !speaking) queueListen(250);
     }
   }
 
@@ -456,7 +456,7 @@
     recognizer.onstart = () => {
       recognitionRunning = true;
       ui.mic?.classList.add("listening");
-      caption("I'M LISTENING â€” SPEAK NATURALLY");
+      caption("I'M LISTENING — SPEAK NATURALLY");
       connection("LISTENING");
       status("I'm listening. Take your time.");
     };
@@ -514,7 +514,7 @@
       }
 
       if (active && shouldListen && !speaking && !busy) {
-        queueListen(600);
+        queueListen(250);
       }
     };
 

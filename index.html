@@ -313,7 +313,7 @@
       <div class="tool-bottom"><span>Explore questions</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
     </a>
 <a class="tool" href="/student-question-helper.html" id="navai-study-planner-card">
-      <div class="tool-icon"><span aria-hidden="true">ðŸŽ¯</span></div>
+      <div class="tool-icon"><span aria-hidden="true">🎯</span></div>
       <h2>NavAI Exam Predictor</h2>
       <p>Build exam-focused question papers with priority levels, tough practice and answer explanations.</p>
       <div class="tool-bottom"><span>Predict &amp; practise</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
@@ -505,7 +505,7 @@
     for(var k=0;k<all.length;k++){
       var node=all[k];
       if(!node.getClientRects().length || wrap.contains(node)) continue;
-      var text=(node.innerText||node.textContent||"").replace(/[ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨&#8942;]/g,"").trim();
+      var text=(node.innerText||node.textContent||"").replace(/[?&#8942;]/g,"").trim();
       if(/^navai$/i.test(text)){
         if(!sidebar || sidebar.contains(node) || developer){logo=node;break;}
       }
@@ -597,8 +597,8 @@
     var button = document.getElementById("navai-more-button");
 
     if (button) {
-      if ((button.textContent || "").trim() !== "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨") {
-        button.textContent = "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨";
+      if ((button.textContent || "").trim() !== "?") {
+        button.textContent = "ÃƒÆ’Ã‚Â¢Ãƒ…Ã¢â‚¬Å“Ãƒâ€šÃ‚Â¨";
       }
 
       button.setAttribute("aria-label", "NavAI");

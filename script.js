@@ -67,7 +67,7 @@ function makeId() {
 
 function makeTitle(text) {
     text = String(text || "Image question").trim().replace(/\s+/g, " ");
-    return text.length > 42 ? text.slice(0, 42) + "Ã¢â‚¬Â¦" : text;
+    return text.length > 42 ? text.slice(0, 42) + "?" : text;
 }
 
 function getActiveChat() {
@@ -414,7 +414,7 @@ async function copyText(text) {
     if (!success) throw new Error("Copy failed");
 }
 
-/* SEND MESSAGE Ã¢â‚¬â€ supports response, answer, or reply */
+/* SEND MESSAGE */
 
 chatForm.addEventListener("submit", async event => {
     event.preventDefault();
@@ -602,7 +602,7 @@ imageInput.addEventListener("change", async () => {
     attachBtn.disabled = true;
 
     try {
-        showToast("Preparing imageÃ¢â‚¬Â¦");
+        showToast("Preparing image?");
         currentImage = await compressImage(file);
         currentImageName = file.name;
         imagePreview.src = currentImage;
