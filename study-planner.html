@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#080d1b">
 <title>Study Planner | NavAI</title>
 <link rel="stylesheet" href="/study-planner.css">
+<link rel="stylesheet" href="/static/pearl-aurora.css">
 </head>
 <body>
 <header class="topbar">
@@ -19,7 +20,7 @@
   <section class="hero">
     <div class="eyebrow"><span class="pulse"></span> YOUR PERSONAL STUDY SPACE</div>
     <h1>Study smarter.<br><span>Achieve more.</span></h1>
-    <p>Your subjects, daily plan, syllabus and progress — all in one place.</p>
+    <p>Your subjects, daily plan, syllabus and progress â€” all in one place.</p>
     <div class="hero-stats">
       <div><strong id="doneCount">0</strong><small>Tasks completed</small></div>
       <div><strong id="taskCount">0</strong><small>Total tasks</small></div>
@@ -34,7 +35,7 @@
 
   <section class="layout">
     <div class="panel main-panel">
-      <div class="panel-title"><div><span class="icon">âœ¦</span><h3>Build your study plan</h3></div></div>
+      <div class="panel-title"><div><span class="icon">Ã¢Å“Â¦</span><h3>Build your study plan</h3></div></div>
       <form id="planForm" class="form-grid">
         <label>Subject
           <input id="subject" required maxlength="70" placeholder="e.g. Mathematics">
@@ -60,7 +61,7 @@
             <option>Normal</option><option>High</option><option>Important</option>
           </select>
         </label>
-        <button class="primary" type="submit">ï¼‹ Add study task</button>
+        <button class="primary" type="submit">Ã¯Â¼â€¹ Add study task</button>
       </form>
 
       <div class="task-toolbar">
@@ -74,7 +75,7 @@
       </div>
       <div id="taskList" class="task-list"></div>
       <div id="emptyState" class="empty">
-        <span>âœ§</span><h3>Your next win starts here</h3>
+        <span>Ã¢Å“Â§</span><h3>Your next win starts here</h3>
         <p>Add a subject and chapter above to create your first task.</p>
       </div>
     </div>
@@ -94,13 +95,13 @@
         <form id="syllabusForm">
           <label>Subject<input id="syllabusSubject" required maxlength="70" placeholder="e.g. Science"></label>
           <label>Chapter<input id="syllabusTopic" required maxlength="120" placeholder="e.g. Matter in Our Surroundings"></label>
-          <button class="secondary" type="submit">ï¼‹ Add chapter</button>
+          <button class="secondary" type="submit">Ã¯Â¼â€¹ Add chapter</button>
         </form>
         <div id="syllabusList" class="syllabus-list"></div>
       </section>
 
       <section class="tip-card">
-        <span>âœ¦ A SMALL REMINDER</span>
+        <span>Ã¢Å“Â¦ A SMALL REMINDER</span>
         <p>Consistency beats cramming. Focus on the next task, not the entire mountain.</p>
       </section>
     </aside>

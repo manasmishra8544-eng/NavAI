@@ -1,0 +1,83 @@
+﻿:root {
+  color-scheme: light;
+  --pa-bg: #E9E8E2;
+  --pa-surface: #F5F1E8;
+  --pa-card: #F0EEE8;
+  --pa-teal: #AFCFC4;
+  --pa-teal-deep: #344F49;
+  --pa-lavender: #DAD8EA;
+  --pa-beige: #E8D8CC;
+  --pa-text: #34434A;
+  --pa-muted: #78817E;
+  --pa-border: rgba(52,79,73,.12);
+  --pa-shadow: 0 8px 28px rgba(54,68,61,.07);
+}
+
+html {
+  background: var(--pa-bg) !important;
+}
+
+body {
+  background: linear-gradient(135deg,#E9E8E2,#E4E9E4 55%,#E9E4ED) !important;
+  color: var(--pa-text) !important;
+}
+
+body, button, input, textarea, select {
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+aside, .sidebar, #sidebar, .app-sidebar,
+.nav-sidebar, .side-bar {
+  background: #E3E7DF !important;
+  color: var(--pa-text) !important;
+  border-color: var(--pa-border) !important;
+}
+
+main, .main-content, .content-area,
+.dashboard, .workspace {
+  background: transparent !important;
+  color: var(--pa-text) !important;
+}
+
+.card, .tool-card, .feature-card, .dashboard-card,
+.panel, .widget, .modal-content {
+  background: var(--pa-surface) !important;
+  color: var(--pa-text) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--pa-shadow) !important;
+}
+
+button, .btn, .primary-btn, .action-button {
+  border-radius: 12px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+button:hover, .btn:hover, .primary-btn:hover {
+  box-shadow: 0 5px 16px rgba(52,79,73,.12);
+}
+
+input, textarea, select {
+  background: #F8F6F0 !important;
+  color: var(--pa-text) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 12px !important;
+}
+
+a {
+  color: #527D72;
+}
+
+h1, h2, h3, h4 {
+  color: #344F49;
+}
+
+* {
+  scrollbar-color: #B7C9BF transparent;
+}
+
+@media (max-width: 768px) {
+  .card, .tool-card, .feature-card {
+    border-radius: 15px !important;
+  }
+}

@@ -45,6 +45,7 @@ footer{text-align:center;padding:25px;color:#7898c5;font-size:12px}
 @media(max-width:780px){.layout{grid-template-columns:1fr}header{padding:15px}.panel{padding:16px}}
 @media print{body{background:white;color:#111}header,.setup,.controls,footer{display:none}.panel,.questionbox,.feedback{background:white;color:#111;box-shadow:none}}
 </style>
+<link rel="stylesheet" href="/static/pearl-aurora.css">
 </head>
 <body>
 <header><div class="brand">NavAI <span>Exam Improver</span></div><a href="/">NavAI Home</a></header>
@@ -73,7 +74,7 @@ footer{text-align:center;padding:25px;color:#7898c5;font-size:12px}
 <select id="format"><option>Mixed exam-style</option><option>MCQ</option><option>Very short answer</option><option>Short answer</option><option>Long answer</option><option>Numerical</option><option>Case-based</option><option>Assertion and Reason</option></select>
 <label for="language">Language</label>
 <select id="language"><option>English</option><option>Hindi</option><option selected>Hinglish</option></select>
-<div class="row"><button id="start">Start practice â†’</button></div>
+<div class="row"><button id="start">Start practice Ã¢â€ â€™</button></div>
 <p class="small">Questions are practice material, not guaranteed predictions of actual exams.</p>
 </aside>
 
@@ -96,7 +97,7 @@ footer{text-align:center;padding:25px;color:#7898c5;font-size:12px}
 <textarea id="answer" placeholder="Speak or type your answer here?" disabled></textarea>
 <div class="row controls">
 <button id="submit" disabled>Check my answer</button>
-<button id="next" class="secondary" disabled>Next question â†’</button>
+<button id="next" class="secondary" disabled>Next question Ã¢â€ â€™</button>
 <button id="finish" class="secondary" disabled>Finish</button>
 <button id="print" class="secondary">Print / Save PDF</button>
 </div>
@@ -128,11 +129,11 @@ function formatCopyReadyAnswer(value) {
   s = s.replace(/\\\(([\s\S]*?)\\\)/g, "$1");
   s = s.replace(/\\tfrac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
   s = s.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
-  s = s.replace(/\\sqrt\s*\{([^{}]+)\}/g, "âˆš($1)");
+  s = s.replace(/\\sqrt\s*\{([^{}]+)\}/g, "Ã¢Ë†Å¡($1)");
   s = s.replace(/\\times\b/g, "?").replace(/\\cdot\b/g, "?");
   s = s.replace(/\\div\b/g, "?").replace(/\\pm\b/g, "?");
-  s = s.replace(/\\rightarrow\b|\\to\b/g, "â†’");
-  s = s.replace(/\\degree\b/g, "Â°").replace(/\\pi\b/g, "Ï€");
+  s = s.replace(/\\rightarrow\b|\\to\b/g, "Ã¢â€ â€™");
+  s = s.replace(/\\degree\b/g, "Ã‚Â°").replace(/\\pi\b/g, "Ãâ‚¬");
   s = s.replace(/\\text\s*\{([^{}]*)\}/g, "$1");
   s = s.replace(/\\(?:mathrm|mathbf|textbf|textit)\s*\{([^{}]*)\}/g, "$1");
   s = s.replace(/\\(?:,|;|:|!|quad|qquad)\b?/g, " ");
