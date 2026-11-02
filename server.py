@@ -1,4 +1,4 @@
-
+﻿
 import os
 import base64
 import re
@@ -131,7 +131,7 @@ RESPONSE RULES:
 - Be friendly, accurate, and useful.
 NAVAI_ALL_PURPOSE_CHAT_ADDON_V1
 - NavAI's main chatbot can discuss everyday life, jokes, hobbies, entertainment,
-  technology, coding, creative ideas, and general knowledge—not only schoolwork.
+  technology, coding, creative ideas, and general knowledgeâ€”not only schoolwork.
 - Follow the user's topic naturally and keep specialized NavAI features available.
 """
 
@@ -407,6 +407,296 @@ def homework_solve():
     except Exception as exc:
         print("Homework error:", type(exc).__name__)
         return jsonify({"error": "Something went wrong while generating the answer."}), 500
+
+
+
+
+@app.route("/api/timetable/generate", methods=["POST"])
+def generate_timetable():
+    import json
+
+    data = request.get_json(silent=True) or {}
+    routine = {}
+
+    for name in ("school", "coaching", "gym", "library"):
+        value = data.get(name) or {}
+        if not isinstance(value, dict):
+            return jsonify({"error": "Invalid timing information."}), 400
+
+        start = str(value.get("start", "")).strip()
+        end = str(value.get("end", "")).strip()
+
+        if bool(start) != bool(end):
+            return jsonify({"error": "Please enter both start and end times for " + name}), 400
+
+        if start and (
+            not re.fullmatch(r"\d{2}:\d{2}", start)
+            or not re.fullmatch(r"\d{2}:\d{2}", end)
+            or start >= end
+        ):
+            return jsonify({"error": "Please check the " + name + " timing."}), 400
+
+        routine[name] = {"start": start, "end": end}
+
+    student_class = str(data.get("studentClass", "Student")).strip()[:50]
+    goal = str(data.get("goal", "Balanced study and revision")).strip()[:180]
+
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    fallback_activities = [
+        ("Homework", "Complete pending school assignments."),
+        ("Mathematics", "Practise concepts and solve questions."),
+        ("Science", "Study one topic and revise key points."),
+        ("English", "Reading, grammar or writing practice."),
+        ("Social Studies", "Revise one chapter or make notes."),
+        ("Revision", "Review what you studied today."),
+        ("Break", "Take a proper rest away from studies.")
+    ]
+
+    def make_fallback():
+        result_days = []
+        for index, day in enumerate(days):
+            activities = fallback_activities[index:] + fallback_activities[:index]
+            items = []
+            for activity, notes in activities:
+                items.append({
+                    "start": "Flexible",
+                    "end": "Flexible",
+                    "activity": activity,
+                    "notes": notes + " Fit this around your fixed routine."
+                })
+            result_days.append({"day": day, "items": items})
+
+        return {
+            "summary": "Your weekly study plan for " + (student_class or "student") +
+                       ". Goal: " + (goal or "Balanced study") +
+                       ". Flexible sessions are arranged around your fixed commitments.",
+            "days": result_days
+        }
+
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if not api_key:
+        result = make_fallback()
+        result["summary"] = "AI is not configured right now. Here is your flexible weekly timetable."
+        return jsonify(result)
+
+    prompt = (
+        "Create a practical weekly timetable for a student. Return ONLY valid JSON. "
+        "Required format: {\"summary\":\"short summary\",\"days\":["
+        "{\"day\":\"Monday\",\"items\":[{\"start\":\"04:00 PM\","
+        "\"end\":\"04:30 PM\",\"activity\":\"Study\","
+        "\"notes\":\"Details\"}]}]}. "
+        "Include all seven days Monday through Sunday. "
+        "Use 12-hour time labels. Respect all supplied fixed commitments. "
+        "Never schedule activities over school, coaching, gym or library. "
+        "Do not invent the user's actual wake-up or bedtime. "
+        "Include homework, subject rotation, revision, breaks and rest. "
+        "Keep it balanced and age-appropriate. "
+        "\nClass: " + (student_class or "Not provided") +
+        "\nGoal: " + (goal or "Balanced study") +
+        "\nFixed commitments: " + json.dumps(routine)
+    )
+
+    try:
+        response = requests.post(
+            GROQ_URL,
+            headers={
+                "Authorization": "Bearer " + api_key,
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": TEXT_MODEL,
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are NavAI, a student timetable planner. Return only valid JSON."
+                    },
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0.3,
+                "max_completion_tokens": 3500
+            },
+            timeout=60
+        )
+
+        response.raise_for_status()
+        payload = response.json()
+        message = payload["choices"][0]["message"]
+        content = message.get("content") or ""
+
+        if isinstance(content, list):
+            content = "".join(
+                part.get("text", "") if isinstance(part, dict) else str(part)
+                for part in content
+            )
+
+        content = re.sub(r"```(?:json)?|```", "", str(content), flags=re.I).strip()
+
+        result = None
+        decoder = json.JSONDecoder()
+
+        for position, character in enumerate(content):
+            if character == "{":
+                try:
+                    candidate, _ = decoder.raw_decode(content[position:])
+                    if isinstance(candidate, dict) and isinstance(candidate.get("days"), list):
+                        result = candidate
+                        break
+                except ValueError:
+                    continue
+
+        if result and len(result["days"]) >= 7:
+            return jsonify(result)
+
+    except Exception as exc:
+        print("Timetable AI fallback:", type(exc).__name__, str(exc)[:300])
+
+    result = make_fallback()
+    result["summary"] = (
+        "Your flexible weekly timetable is ready. AI was temporarily unavailable, "
+        "so you received a backup plan. Arrange flexible sessions around your fixed timings."
+    )
+    return jsonify(result)
+
+
+
+
+# NAVAI_SAATHI_API_V1
+@app.route("/saathi")
+def saathi_home():
+    return send_from_directory(BASE_DIR / "saathi", "index.html")
+
+
+@app.route("/api/saathi/chat", methods=["POST"])
+def saathi_chat():
+    data = request.get_json(silent=True) or {}
+
+    message = data.get("message", "")
+    if not isinstance(message, str):
+        return jsonify({"error": "Please enter a valid message."}), 400
+
+    message = message.strip()
+    if not message:
+        return jsonify({"error": "Please enter a message."}), 400
+
+    if len(message) > 12000:
+        return jsonify({"error": "Message is too long."}), 400
+
+    api_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if not api_key:
+        return jsonify({"error": "GROQ_API_KEY is missing from the server environment."}), 500
+
+    context = data.get("context")
+    if not isinstance(context, dict):
+        context = {}
+
+    try:
+        context_text = json.dumps(context, ensure_ascii=False)[:10000]
+    except (TypeError, ValueError):
+        context_text = "{}"
+
+    mode = data.get("mode", "companion")
+    mode_instructions = {
+        "companion": "Be a supportive, balanced everyday life companion.",
+        "care": "Use a gentle, caring and considerate guidance style.",
+        "teacher": "Explain concepts patiently and clearly, like a helpful tutor.",
+        "mentor": "Offer practical guidance, thoughtful questions and realistic next steps.",
+        "friend": "Use a friendly, relaxed and respectful conversational tone.",
+        "manager": "Help organise tasks, priorities, routines and plans efficiently."
+    }
+    mode_instruction = mode_instructions.get(
+        mode, mode_instructions["companion"]
+    )
+
+    messages = [{
+        "role": "system",
+        "content": (
+            "You are NavAI Saathi, an AI life companion powered by NavAI. "
+            "Help students, parents, professionals, business owners and "
+            "other people with everyday planning, learning, organisation "
+            "and thoughtful guidance. "
+            + mode_instruction
+            + "\nUse the following user-provided context only when relevant. "
+            "Do not assume missing details or invent personal facts:\n"
+            + context_text
+            + "\nBe honest about your capabilities. You are an AI, not a "
+            "real parent, teacher, human friend, doctor or romantic partner. "
+            "Never claim that you sent notifications, performed actions "
+            "outside this chat, or will proactively work while offline. "
+            "Give practical, safe and respectful advice. Match the user's "
+            "language and communication style."
+        )
+    }]
+
+    history = data.get("history", [])
+    if isinstance(history, list):
+        for item in history[-8:]:
+            if not isinstance(item, dict):
+                continue
+
+            role = item.get("role")
+            content = item.get("content", item.get("text", ""))
+
+            if role not in ("user", "assistant"):
+                continue
+            if not isinstance(content, str) or not content.strip():
+                continue
+            if role == "user" and content.strip() == message:
+                continue
+
+            messages.append({
+                "role": role,
+                "content": content.strip()[:12000]
+            })
+
+    messages.append({"role": "user", "content": message})
+
+    try:
+        response = requests.post(
+            GROQ_URL,
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": TEXT_MODEL,
+                "messages": messages,
+                "max_completion_tokens": 1400
+            },
+            timeout=90
+        )
+
+        if response.status_code != 200:
+            print("Saathi Groq API error:", response.status_code, response.text[:500])
+            if response.status_code == 429:
+                return jsonify({"error": "AI service is busy. Please try again."}), 502
+            return jsonify({"error": "NavAI could not generate a response right now."}), 502
+
+        result = response.json()
+        choices = result.get("choices", [])
+        answer = choices[0].get("message", {}).get("content", "") if choices else ""
+
+        if not isinstance(answer, str) or not answer.strip():
+            return jsonify({"error": "AI returned an empty response."}), 502
+
+        answer = clean_plain_text_response(answer)
+        return jsonify({
+            "reply": answer,
+            "response": answer,
+            "answer": answer
+        })
+
+    except requests.Timeout:
+        return jsonify({"error": "NavAI took too long to respond. Please try again."}), 504
+    except requests.RequestException as exc:
+        print("Saathi connection error:", str(exc))
+        return jsonify({"error": "Could not connect to the NavAI service."}), 502
+    except Exception as exc:
+        import traceback
+        print("Saathi error:", repr(exc))
+        traceback.print_exc()
+        return jsonify({"error": "Something went wrong while generating the response."}), 500
+
 
 
 @app.route("/<path:filename>")

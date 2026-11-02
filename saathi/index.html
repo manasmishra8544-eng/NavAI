@@ -1,0 +1,197 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f4fc">
+  <title>NavAI Saathi â€” Your Personal Companion</title>
+  <link rel="stylesheet" href="/saathi/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">âœ¦</div>
+        <div><strong>NavAI</strong><span>SAATHI</span></div>
+      </div>
+
+      <button class="new-chat" id="newChat">ï¼‹ New conversation</button>
+
+      <p class="side-label">YOUR SPACE</p>
+      <button class="nav-item active" data-view="home">âŒ‚ <span>Home</span></button>
+      <button class="nav-item" data-view="chat">â—‰ <span>Conversations</span></button>
+      <button class="nav-item" data-view="tasks">â˜· <span>My tasks</span></button>
+      <button class="nav-item" data-view="routine">â—· <span>Daily routine</span></button>
+      <button class="nav-item" data-view="memory">â™¡ <span>My profile</span></button>
+
+      <p class="side-label">YOUR COMPANION</p>
+      <div class="modes">
+        <button class="mode active" data-mode="companion">âœ¦ <span>Saathi</span></button>
+        <button class="mode" data-mode="care">â™¡ <span>Caring guide</span></button>
+        <button class="mode" data-mode="teacher">â–¤ <span>Teacher</span></button>
+        <button class="mode" data-mode="mentor">â—‡ <span>Mentor</span></button>
+        <button class="mode" data-mode="friend">â˜» <span>Friend</span></button>
+        <button class="mode" data-mode="manager">â—· <span>Life manager</span></button>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-mini">
+          <div class="avatar" id="miniAvatar">U</div>
+          <div><strong id="miniName">Your profile</strong><small>Personal space</small></div>
+          <button id="openProfile" title="Profile">âš™</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="menuToggle">â˜°</button>
+        <div class="breadcrumb">NavAI <span>/</span> <strong id="pageName">Home</strong></div>
+        <div class="top-actions">
+          <span class="online-dot"></span><span class="online-text">Companion ready</span>
+          <button class="icon-btn" id="settingsBtn" title="Settings">âš™</button>
+        </div>
+      </header>
+
+      <section class="content" id="homeView">
+        <div class="welcome">
+          <div>
+            <span class="eyebrow">YOUR PERSONAL AI COMPANION</span>
+            <h1 id="greeting">Hello, there. <span>âœ¦</span></h1>
+            <p>One companion. Many roles. Here whenever you need guidance.</p>
+          </div>
+          <div class="date-chip" id="todayDate"></div>
+        </div>
+
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="hero-tag">âœ¦ YOUR SAATHI IS HERE</span>
+            <h2>A little guidance.<br>A lot of understanding.</h2>
+            <p>Talk about your day, plan your goals, learn something new, or simply have a conversation.</p>
+            <button class="primary-btn" id="startChat">Start a conversation <span>â†’</span></button>
+          </div>
+          <div class="orb-scene">
+            <div class="orb-ring ring-one"></div>
+            <div class="orb-ring ring-two"></div>
+            <div class="orb">âœ¦</div>
+            <span class="orb-caption">NAVAI SAATHI</span>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div><span class="eyebrow">CHOOSE YOUR EXPERIENCE</span><h2>How can I support you?</h2></div>
+        </div>
+
+        <div class="mode-grid">
+          <button class="mode-card" data-mode="care"><span class="card-icon pink">â™¡</span><strong>Caring guide</strong><small>Wellbeing, habits & encouragement</small><span class="card-arrow">â†—</span></button>
+          <button class="mode-card" data-mode="teacher"><span class="card-icon blue">â–¤</span><strong>Teacher</strong><small>Learning, knowledge & skills</small><span class="card-arrow">â†—</span></button>
+          <button class="mode-card" data-mode="mentor"><span class="card-icon purple">â—‡</span><strong>Mentor</strong><small>Career, decisions & ambitions</small><span class="card-arrow">â†—</span></button>
+          <button class="mode-card" data-mode="friend"><span class="card-icon orange">â˜»</span><strong>Best friend</strong><small>Conversations, ideas & fun</small><span class="card-arrow">â†—</span></button>
+          <button class="mode-card" data-mode="manager"><span class="card-icon green">â—·</span><strong>Life manager</strong><small>Tasks, schedule & planning</small><span class="card-arrow">â†—</span></button>
+          <button class="mode-card" data-mode="companion"><span class="card-icon violet">âœ¦</span><strong>All-in-one Saathi</strong><small>Personalised everyday guidance</small><span class="card-arrow">â†—</span></button>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="panel">
+            <div class="panel-heading"><div><span class="eyebrow">YOUR DAY</span><h3>Today's tasks</h3></div><button id="viewTasks">View all â†’</button></div>
+            <div id="taskPreview" class="task-preview"><p class="empty">Your day starts with one small step.</p></div>
+            <button class="add-task" id="addTask">ï¼‹ Add a task</button>
+          </div>
+          <div class="panel">
+            <div class="panel-heading"><div><span class="eyebrow">YOUR COMPANION</span><h3>Daily check-in</h3></div><span class="heart">â™¡</span></div>
+            <p class="checkin-text">How are you feeling today?</p>
+            <div class="mood-list">
+              <button data-mood="Great">ðŸ˜Š<small>Great</small></button>
+              <button data-mood="Good">ðŸ™‚<small>Good</small></button>
+              <button data-mood="Okay">ðŸ˜<small>Okay</small></button>
+              <button data-mood="Low">ðŸ˜”<small>Low</small></button>
+            </div>
+            <p class="mood-result" id="moodResult"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content hidden" id="chatView">
+        <div class="chat-header">
+          <div class="chat-avatar">âœ¦</div>
+          <div><h2 id="chatModeName">NavAI Saathi</h2><small>Here to listen and help</small></div>
+          <button class="icon-btn" id="clearChat">â†º</button>
+        </div>
+        <div class="chat-messages" id="messages">
+          <div class="message assistant"><div class="bubble">Hello! I'm your NavAI Saathi. What's on your mind today?</div></div>
+        </div>
+        <div class="suggestions" id="suggestions">
+          <button>Help me plan my day</button>
+          <button>I want to learn something</button>
+          <button>Let's talk</button>
+        </div>
+        <form class="composer" id="chatForm">
+          <textarea id="chatInput" placeholder="Talk to your Saathi..." rows="1"></textarea>
+          <button type="button" class="icon-btn" id="voiceBtn" title="Voice input">ðŸŽ™</button>
+          <button type="submit" class="send-btn" id="sendBtn">â†‘</button>
+        </form>
+        <p class="privacy-note">AI can make mistakes. For important decisions, use your own judgement.</p>
+      </section>
+
+      <section class="content hidden" id="tasksView">
+        <div class="page-title"><span class="eyebrow">STAY ON TRACK</span><h1>My tasks</h1><p>Small steps make meaningful progress.</p></div>
+        <div class="panel">
+          <form id="taskForm" class="task-form"><input id="taskInput" placeholder="What would you like to do?" required><input id="taskTime" type="time"><button class="primary-btn">Add task +</button></form>
+          <div id="allTasks"></div>
+        </div>
+      </section>
+
+      <section class="content hidden" id="routineView">
+        <div class="page-title"><span class="eyebrow">YOUR EVERYDAY LIFE</span><h1>Daily routine</h1><p>Build a routine that works for your life.</p></div>
+        <div class="panel">
+          <form id="routineForm" class="routine-form">
+            <input id="routineTitle" placeholder="Activity (e.g. Morning walk)" required>
+            <input id="routineTime" type="time" required>
+            <select id="routineRepeat"><option value="daily">Every day</option><option value="weekdays">Weekdays</option></select>
+            <button class="primary-btn">Add routine +</button>
+          </form>
+          <div id="routineList"></div>
+        </div>
+      </section>
+
+      <section class="content hidden" id="memoryView">
+        <div class="page-title"><span class="eyebrow">GET TO KNOW YOU</span><h1>Your personal profile</h1><p>Your companion can use these details to give more relevant guidance.</p></div>
+        <div class="panel profile-panel">
+          <form id="profileForm">
+            <div class="profile-fields">
+              <label>Full name<input id="profileName" placeholder="Your name"></label>
+              <label>Age<input id="profileAge" type="number" min="1" max="120" placeholder="Your age"></label>
+              <label>Occupation<input id="profileOccupation" placeholder="Student, professional, business owner..."></label>
+              <label>Interests<input id="profileInterests" placeholder="Technology, music, reading..."></label>
+              <label>Daily schedule<textarea id="profileSchedule" placeholder="Tell us about your daily routine"></textarea></label>
+              <label>Goals<textarea id="profileGoals" placeholder="What would you like to achieve?"></textarea></label>
+              <label>Food preferences<input id="profileFood" placeholder="Optional"></label>
+              <label>How should Saathi talk to you?<select id="profileTone"><option value="warm and friendly">Warm and friendly</option><option value="professional and direct">Professional and direct</option><option value="simple and encouraging">Simple and encouraging</option></select></label>
+            </div>
+            <button class="primary-btn">Save my profile</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="content hidden" id="settingsView">
+        <div class="page-title"><span class="eyebrow">PERSONALISE YOUR EXPERIENCE</span><h1>Settings</h1></div>
+        <div class="panel settings-panel">
+          <label><span><strong>Voice responses</strong><small>Speak replies aloud</small></span><input type="checkbox" id="voiceReplies"></label>
+          <label><span><strong>Daily notifications</strong><small>Allow scheduled reminder alerts</small></span><input type="checkbox" id="notifications"></label>
+          <label><span><strong>Automatic check-in</strong><small>Enable your daily check-in schedule</small></span><input type="checkbox" id="autoCheckin"></label>
+          <label><span><strong>Quiet hours</strong><small>Don't send reminders during these hours</small></span><span><input type="time" id="quietStart" value="22:00"> â€“ <input type="time" id="quietEnd" value="07:00"></span></label>
+          <button class="primary-btn" id="saveSettings">Save settings</button>
+          <button class="secondary-btn" id="enableNotifications">Enable browser notifications</button>
+        </div>
+      </section>
+
+      <footer>âœ¦ NavAI Saathi <span>Made to support your everyday life.</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="/saathi/script.js"></script>
+</body>
+</html>
