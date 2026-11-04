@@ -149,3 +149,18 @@ hr {
     box-shadow: 0 17px 42px rgba(73,66,130,.13) !important;
   }
 }
+/* NAVAI-DASHBOARD-ONLY-FIX */
+/* Keep the chatbot conversation hidden until the user opens it */
+#conversation.hidden,
+section.conversation.hidden {
+    display: none !important;
+}
+
+/* Dashboard background only */
+#navai-tool-dashboard {
+    background-color: var(--pa-bg, #f0eff9);
+}
+
+#navai-tool-dashboard .home-wrap {
+    background: transparent;
+}
