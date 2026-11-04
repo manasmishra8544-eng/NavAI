@@ -1,0 +1,1120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0d12">
+
+    <title>NavAI</title>
+
+    <meta name="description" content="NavAI is a personal AI assistant created by Manas Mishra. Ask questions, write code, learn new skills, and explore ideas with NavAI.">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://navai.co.in/">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css">
+
+    <meta name="google-site-verification" content="9ID4jWGnCCwx4jLA2jaDbkg-bAOh1kgm7u-5nDRNEuU">
+
+    <meta property="og:site_name" content="NavAI">
+    <meta property="og:title" content="NavAI">
+    <meta property="og:description" content="Explore NavAI, ask questions, write code, and discover new ideas.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://navai.co.in/">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="NavAI">
+    <meta name="twitter:description" content="Explore NavAI and discover new ideas.">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "NavAI",
+        "alternateName": "NavAI",
+        "url": "https://navai.co.in/"
+    }
+    </script>
+<link rel="stylesheet" href="/navai-shared-theme.css">
+<meta name="google-site-verification" content="AuU3aN9I3ycCl9QKE2ILxUnIoJ9dT4qmw-MSfQY9DCc" />
+
+<style id="navai-mobile-hide-descriptions">
+@media (max-width: 720px) {
+  #navai-tool-dashboard .tools .tool p {
+    display: none !important;
+  }
+}
+
+/* NAVAI HOMEPAGE REAL LAYOUT FIX */
+#navai-tool-dashboard .home-wrap {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+#navai-tool-dashboard .tools {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-items: stretch;
+}
+#navai-tool-dashboard .tool {
+    min-width: 0;
+    height: auto;
+    min-height: 245px;
+}
+@media (max-width: 900px) {
+    #navai-tool-dashboard .tools {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+@media (max-width: 560px) {
+    #navai-tool-dashboard {
+        padding: 22px 14px 40px;
+    }
+    #navai-tool-dashboard .tools {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+    #navai-tool-dashboard .tool {
+        min-height: 205px;
+    }
+}
+</style>
+<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
+
+<style id="navai-transparent-glass">
+
+/* TRANSPARENT NEBULA GLASS FEATURE CARDS */
+
+#navai-tool-dashboard .tools {
+    isolation: isolate !important;
+    position: relative !important;
+}
+
+/* Real transparent glass surface */
+#navai-tool-dashboard .tool {
+    position: relative !important;
+    isolation: isolate !important;
+    overflow: hidden !important;
+    background: rgba(20, 23, 43, 0.43) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(145%) !important;
+    backdrop-filter: blur(16px) saturate(145%) !important;
+    border: 1px solid rgba(190, 177, 255, 0.48) !important;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.12),
+        inset 0 -1px 1px rgba(120,160,255,.07),
+        0 8px 32px rgba(0,0,0,.24) !important;
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease !important;
+}
+
+/* Soft light passing through the glass */
+#navai-tool-dashboard .tool::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: .75;
+    background:
+        radial-gradient(
+            circle at 12% 0%,
+            rgba(191, 117, 255, .19),
+            transparent 48%
+        ),
+        radial-gradient(
+            circle at 100% 100%,
+            rgba(65, 175, 255, .13),
+            transparent 48%
+        );
+}
+
+/* Purple glass */
+#navai-tool-dashboard .tool:nth-child(3n+1) {
+    background: rgba(48, 26, 67, .39) !important;
+    border-color: rgba(205, 139, 255, .65) !important;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.13),
+        0 0 18px rgba(179, 91, 255, .09),
+        0 10px 32px rgba(0,0,0,.22) !important;
+}
+
+/* Blue glass */
+#navai-tool-dashboard .tool:nth-child(3n+2) {
+    background: rgba(25, 39, 75, .39) !important;
+    border-color: rgba(135, 166, 255, .68) !important;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.13),
+        0 0 18px rgba(83, 139, 255, .10),
+        0 10px 32px rgba(0,0,0,.22) !important;
+}
+
+/* Cyan glass */
+#navai-tool-dashboard .tool:nth-child(3n) {
+    background: rgba(16, 48, 57, .39) !important;
+    border-color: rgba(101, 225, 229, .65) !important;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.13),
+        0 0 18px rgba(67, 220, 225, .10),
+        0 10px 32px rgba(0,0,0,.22) !important;
+}
+
+/* Elegant hover glow */
+#navai-tool-dashboard .tool:hover {
+    transform: translateY(-5px) !important;
+    background: rgba(38, 40, 69, .60) !important;
+    border-color: rgba(220, 207, 255, .95) !important;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.20),
+        0 0 28px rgba(146, 114, 255, .20),
+        0 18px 40px rgba(0,0,0,.30) !important;
+}
+
+/* Keep content crisp above glass */
+#navai-tool-dashboard .tool > * {
+    position: relative;
+    z-index: 1;
+}
+
+#navai-tool-dashboard .tool h2 {
+    color: #ffffff !important;
+}
+
+#navai-tool-dashboard .tool p {
+    color: rgba(235, 237, 255, .82) !important;
+}
+
+#navai-tool-dashboard .tool-bottom {
+    text-shadow: 0 0 12px currentColor;
+}
+
+/* Refined icon glass */
+#navai-tool-dashboard .tool-icon {
+    background: rgba(153, 125, 255, .12) !important;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    #navai-tool-dashboard .tool {
+        transition: none !important;
+    }
+}
+
+</style>
+<link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
+<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
+<link rel="stylesheet" href="/static/pearl-aurora.css">
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <a href="/" class="brand" id="homeBtn">
+                    <div class="brand-icon">
+                        <img src="/navai-icon.png" alt="NavAI">
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">NavAI</span>
+                    </div>
+                </a>
+
+                <button class="icon-button sidebar-close" id="menuBtn"
+                        type="button" aria-label="Close menu">&#215;</button>
+            </div>
+
+            <button class="new-chat-button" id="newChatBtn" type="button">
+                <span class="new-chat-icon">+</span>
+                <span>New chat</span>
+                <span class="shortcut">Ctrl K</span>
+            </button>
+
+            <a href="/oral-quiz" id="navai-oral-quiz-link" style="display:flex;align-items:center;gap:12px;padding:12px 10px;margin:5px 0;border-radius:11px;color:inherit;text-decoration:none;font:500 14px Segoe UI,Arial,sans-serif"><span aria-hidden="true">&#127897;</span><span>Oral Quiz</span></a>
+<div class="sidebar-section">
+                <div class="section-heading">
+                    <span>YOUR CHATS</span>
+                    <span class="section-dot"></span>
+                </div>
+
+                <div class="chat-history" id="chatHistory">
+                    <div class="history-empty">
+                        Your conversations will appear here.
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-bottom">
+                <div class="local-note">
+                    <span class="status-indicator"></span>
+                    <div>
+                        <strong>NavAI</strong>
+                        <p>AI-powered conversations</p>
+                    </div>
+                </div>
+
+                <button class="sidebar-action" id="themeBtn" type="button">
+                    <span class="action-icon" id="themeIcon">&#9728;</span>
+                    <span id="themeLabel">Switch appearance</span>
+                </button>
+
+                <button class="sidebar-action" id="historyBtn" type="button">
+                    <span class="action-icon">&#8943;</span>
+                    <span>Chat history</span>
+                </button>
+
+                <div class="sidebar-signature">Manas Mishra</div>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="icon-button mobile-menu" id="mobileMenuBtn"
+                            type="button" aria-label="Open menu">&#9776;</button>
+
+                    <div class="page-title">
+                        <span class="online-dot"></span>
+                        <span>NavAI</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="welcome-screen" id="welcomeScreen">
+                <div class="welcome-content">
+                    <div class="navai-orb" aria-hidden="true">
+                        <span></span>
+                    </div>
+
+                    <div class="eyebrow">
+                        <span class="eyebrow-line"></span>
+                        NavAI
+                        <span class="eyebrow-line"></span>
+                    </div>
+
+                    <h1>Welcome Back <span>NavAI!</span></h1>
+
+                    <p class="welcome-description navai-reference-subtitle">
+                        What would you like help with today?
+                    </p>
+
+                    <div class="navai-reference-prompts">
+                        <button type="button" data-prompt="Help me write code for a project">&#8984;&nbsp; Coding</button>
+                        <button type="button" data-prompt="Help me learn a new skill step by step">&#9749;&nbsp; Learning</button>
+                        <button type="button" data-prompt="Help me understand a health topic safely">&#9825;&nbsp; Health</button>
+                        <button type="button" data-prompt="Help me plan a trip">&#9831;&nbsp; Trips</button>
+                        <button type="button" data-prompt="Help me troubleshoot a technical problem">&#128295;&nbsp; Troubleshoot</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="navai-tool-dashboard">
+<style id="navai-final-reference-design">
+/* NAVAI FINAL REFERENCE DESIGN */
+#navai-tool-dashboard {
+    position:fixed !important;
+    inset:0 !important;
+    z-index:999999 !important;
+    width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    padding:28px 24px 32px !important;
+    box-sizing:border-box !important;
+    color:#f5f3ff !important;
+    background:
+      radial-gradient(ellipse at 12% 50%,rgba(117,62,164,.19),transparent 34%),
+      radial-gradient(ellipse at 88% 35%,rgba(27,119,164,.20),transparent 35%),
+      radial-gradient(ellipse at 50% 110%,rgba(66,47,125,.15),transparent 45%),
+      #080a12 !important;
+    font-family:inherit !important;
+}
+#navai-tool-dashboard * {box-sizing:border-box}
+#navai-tool-dashboard .home-wrap {
+    width:100% !important;
+    max-width:930px !important;
+    margin:auto !important;
+}
+#navai-tool-dashboard .brand {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:12px !important;
+    margin:0 0 55px !important;
+}
+#navai-tool-dashboard .brand-icon {
+    width:42px !important;
+    height:42px !important;
+    border-radius:14px !important;
+    display:grid !important;
+    place-items:center !important;
+    border:1px solid #c1a2ff80 !important;
+    color:#d9c5ff !important;
+    background:linear-gradient(145deg,#292044,#111827) !important;
+    box-shadow:0 0 30px #9270ff30 !important;
+}
+#navai-tool-dashboard .brand-name {
+    font-size:22px !important;
+    font-weight:750 !important;
+    color:#f5f1ff !important;
+}
+#navai-tool-dashboard .brand-name span {
+    background:linear-gradient(90deg,#a9c5ff,#d6aaff) !important;
+    color:transparent !important;
+    background-clip:text !important;
+    -webkit-background-clip:text !important;
+}
+#navai-tool-dashboard .hero {
+    text-align:center !important;
+    margin:0 auto 37px !important;
+}
+#navai-tool-dashboard .eyebrow {
+    text-align:center !important;
+    color:#b8a8e9 !important;
+    font-size:10px !important;
+    font-weight:750 !important;
+    letter-spacing:4px !important;
+    margin-bottom:17px !important;
+}
+#navai-tool-dashboard .hero h1 {
+    color:#f1f1ff !important;
+    font-size:clamp(35px,5.1vw,53px) !important;
+    line-height:1.15 !important;
+    letter-spacing:-2px !important;
+    font-weight:780 !important;
+    margin:0 auto 17px !important;
+}
+#navai-tool-dashboard .hero h1 span {
+    background:linear-gradient(95deg,#a9d8ff,#bca3ff,#dfa9f4) !important;
+    color:transparent !important;
+    background-clip:text !important;
+    -webkit-background-clip:text !important;
+}
+#navai-tool-dashboard .hero p {
+    color:#aeb1c4 !important;
+    font-size:14px !important;
+    line-height:1.8 !important;
+}
+#navai-tool-dashboard .tools {
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:16px !important;
+    width:100% !important;
+    align-items:stretch !important;
+}
+#navai-tool-dashboard .tool {
+    display:flex !important;
+    flex-direction:column !important;
+    position:relative !important;
+    min-width:0 !important;
+    min-height:236px !important;
+    height:auto !important;
+    padding:21px 20px 19px !important;
+    border:1px solid #9299c344 !important;
+    border-radius:19px !important;
+    text-decoration:none !important;
+    color:#f5f3ff !important;
+    background:linear-gradient(145deg,#202035d9,#111925ed) !important;
+    box-shadow:inset 0 1px 0 #ffffff0b,0 12px 35px #0004 !important;
+    backdrop-filter:blur(15px) !important;
+    transition:transform .2s,border-color .2s,box-shadow .2s !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+1) {
+    border-color:#c18cff66 !important;
+    background:linear-gradient(145deg,#291d39e8,#141522ed) !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+2) {
+    border-color:#92aaff66 !important;
+    background:linear-gradient(145deg,#20243fe8,#121827ed) !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n) {
+    border-color:#75dce066 !important;
+    background:linear-gradient(145deg,#172d37e8,#111b24ed) !important;
+}
+#navai-tool-dashboard .tool:hover {
+    transform:translateY(-4px) !important;
+    border-color:#d0c0ff !important;
+    box-shadow:0 18px 42px #0006,0 0 25px #9273ff20 !important;
+}
+#navai-tool-dashboard .tool-icon {
+    width:49px !important;
+    height:49px !important;
+    flex:0 0 49px !important;
+    display:grid !important;
+    place-items:center !important;
+    margin:0 0 21px !important;
+    border-radius:15px !important;
+    border:1px solid #c18cff70 !important;
+    color:#d5adff !important;
+    background:#a779ff18 !important;
+    font-size:23px !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+2) .tool-icon {
+    color:#b5c8ff !important;
+    border-color:#91aaff70 !important;
+    background:#8caaff18 !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n) .tool-icon {
+    color:#8ce9e6 !important;
+    border-color:#65d8d270 !important;
+    background:#65d8d218 !important;
+}
+#navai-tool-dashboard .tool-icon svg {
+    width:29px !important;
+    height:29px !important;
+}
+#navai-tool-dashboard .tool h2 {
+    color:#f5f2ff !important;
+    font-size:16px !important;
+    line-height:1.4 !important;
+    font-weight:720 !important;
+    margin:0 0 9px !important;
+}
+#navai-tool-dashboard .tool p {
+    color:#b7b8c9 !important;
+    font-size:12px !important;
+    line-height:1.75 !important;
+    margin:0 0 20px !important;
+}
+#navai-tool-dashboard .tool-bottom {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:8px !important;
+    margin-top:auto !important;
+    color:#d6b9ff !important;
+    font-size:11px !important;
+    font-weight:650 !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+2) .tool-bottom {
+    color:#bdcaff !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n) .tool-bottom {
+    color:#9ce9e4 !important;
+}
+#navai-tool-dashboard .tool-arrow {font-size:20px !important}
+#navai-tool-dashboard .footer {
+    color:#777b94 !important;
+    text-align:center !important;
+    font-size:10px !important;
+    letter-spacing:2px !important;
+    margin-top:27px !important;
+}
+
+/* Sign-in must remain a small floating button */
+#navai-tool-dashboard #navai-auth-trigger,
+#navai-tool-dashboard .navai-sidebar-auth-trigger {
+    position:fixed !important;
+    top:12px !important;
+    right:19px !important;
+    left:auto !important;
+    bottom:auto !important;
+    display:inline-flex !important;
+    width:auto !important;
+    min-width:82px !important;
+    max-width:125px !important;
+    height:38px !important;
+    min-height:38px !important;
+    padding:0 17px !important;
+    align-items:center !important;
+    justify-content:center !important;
+    border:1px solid #b6a7d580 !important;
+    border-radius:24px !important;
+    background:linear-gradient(145deg,#292b3b,#111522) !important;
+    color:#fff !important;
+    font-size:12px !important;
+    white-space:nowrap !important;
+    z-index:1000005 !important;
+}
+
+/* Hide original app chrome only while dashboard is open */
+body.navai-dashboard-active .sidebar,
+body.navai-dashboard-active .topbar,
+body.navai-dashboard-active .welcome-screen,
+body.navai-dashboard-active .composer-area,
+body.navai-dashboard-active #conversation {
+    display:none !important;
+}
+body.navai-dashboard-active {
+    overflow:hidden !important;
+    background:#080a12 !important;
+}
+#navai-dashboard-return {
+    position:fixed !important;
+    top:15px !important;
+    left:15px !important;
+    z-index:1000006 !important;
+    width:38px !important;
+    height:38px !important;
+    border:1px solid #b6a7d580 !important;
+    border-radius:12px !important;
+    background:#171526 !important;
+    color:white !important;
+    cursor:pointer !important;
+}
+@media(max-width:720px) {
+    #navai-tool-dashboard {
+        align-items:flex-start !important;
+        padding:22px 15px !important;
+    }
+    #navai-tool-dashboard .brand {margin-bottom:36px !important}
+    #navai-tool-dashboard .hero {margin-bottom:27px !important}
+    #navai-tool-dashboard .tools {
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:12px !important;
+    }
+    #navai-tool-dashboard .tool {
+        min-height:215px !important;
+        padding:17px !important;
+    }
+}
+@media(max-width:480px) {
+    #navai-tool-dashboard .tools {
+        grid-template-columns:1fr !important;
+    }
+    #navai-tool-dashboard .tool {min-height:190px !important}
+}
+@media(prefers-reduced-motion:reduce) {
+    #navai-tool-dashboard .tool {transition:none !important}
+}
+</style>
+
+
+
+<div class="home-wrap">
+  <div class="brand"><div class="brand-icon">N</div><div class="brand-name">Nav<span>AI</span></div></div>
+  <div class="hero">
+    <div class="eyebrow">Your AI workspace</div>
+    <h1>One place. <span>More possibilities.</span></h1>
+    <p>What would you like to create, discover, or learn today?</p>
+  </div>
+  <div class="tools">
+    <a class="tool" href="/" data-open-chat>
+      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1M12 8l1.3 2.7L16 12l-2.7 1.3L12 16l-1.3-2.7L8 12l2.7-1.3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>NavAI Chat</h2>
+      <p>Ask questions, solve problems, explore ideas and get help with everyday tasks.</p>
+      <div class="tool-bottom"><span>Start a conversation</span><span class="tool-arrow" aria-label="Open">&#8599;</span></div>
+    </a>
+    <a class="tool" href="classroom.html">
+      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M19 15v2m-1 1h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <h2>NavAI Teacher</h2>
+      <p>Understand difficult topics with step-by-step explanations and visual learning.</p>
+      <div class="tool-bottom"><span>Start learning</span><span class="tool-arrow" aria-label="Open">&#8599;</span></div>
+    </a>
+    <a class="tool" href="homework.html">
+      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v14l-7-4-7 4V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 8h6M9 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <h2>Homework Helper</h2>
+      <p>Get clean, notebook-ready answers from a question or photo.</p>
+      <div class="tool-bottom"><span>Answer my homework</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
+    </a>
+<a class="tool" href="student-question-helper.html" id="navai-student-question-helper-card">
+      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-5 3v-3H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <h2>Student Question Helper</h2>
+      <p>Get help with school questions, understand difficult concepts and work through problems step by step.</p>
+      <div class="tool-bottom"><span>Explore questions</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
+    </a>
+<a class="tool" href="/exam-improver.html" id="navai-exam-predictor-card">
+      <div class="tool-icon"><span aria-hidden="true">âœ¦</span></div>
+      <h2>NavAI Exam Predictor</h2>
+      <p>Build exam-focused question papers with priority levels, tough practice and answer explanations.</p>
+      <div class="tool-bottom"><span>Predict &amp; practise</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
+    </a>
+<a class="tool" href="/time-table-maker.html" id="navai-time-table-card">
+  <div class="tool-icon"><span aria-hidden="true">&#128197;</span></div>
+  <h2>Time Table Maker</h2>
+  <p>Create a practical daily schedule around school, study, coaching, gym and your goals.</p>
+  <div class="tool-bottom"><span>Create my timetable</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+
+<a class="tool" href="/study-planner.html" id="navai-study-planner-card">
+  <div class="tool-icon"><span aria-hidden="true">&#128218;</span></div>
+  <h2>Study Planner</h2>
+  <p>Organise subjects, study sessions, tasks and revision in one place.</p>
+  <div class="tool-bottom"><span>Plan my studies</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+<a id="navai-student-guide-card" class="tool" href="student-guide.html">
+  <div class="tool-icon"><span aria-hidden="true">&#127891;</span></div>
+  <h2>Student Guide</h2>
+  <p>Get guidance for study plans, homework, exams and goals.</p>
+  <div class="tool-bottom"><span>Open Guide</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+
+<a class="tool" href="/oral-quiz" id="navai-oral-quiz-home-card">
+  <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+  <h2>NavAI Oral Quiz</h2>
+  <p>Practise by speaking naturally. Answer questions aloud, get feedback and learn hands-free.</p>
+  <div class="tool-bottom"><span>Start speaking</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+<!-- NAVAI_CHEMISTRY_TOOL_CARD_V1 -->
+
+<!-- NAVAI_HANDWRITTEN_NOTES_CARD_V1 -->
+<a class="tool" href="/handwritten-notes.html" id="navai-handwritten-notes-card">
+  <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14.8 6.2l3 3M4 20h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+  <h2>Handwritten Notes</h2>
+  <p>Turn a study topic into notebook-style notes and save them as an image.</p>
+  <div class="tool-bottom"><span>Create my notes</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+<!-- NAVAI_HANDWRITTEN_NOTES_CARD_V1_END -->
+<a class="tool navai-doubt-solver-card tool" href="/doubt-solver.html" aria-label="Open NavAI Doubt Solver">
+  <div class="tool-icon"><span aria-hidden="true">&#128172;</span></div>
+  <h2>NavAI Doubt Solver</h2>
+  <p>Get clear, step-by-step explanations for your doubts.</p>
+  <div class="tool-bottom"><span>Solve my doubt</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+<!-- NAVAI_CHEMISTRY_TOOL_CARD_V1_END -->
+  </div>
+  <div class="footer">NAVAI | YOUR IDEAS START HERE</div>
+</div>
+<script>
+(function () {
+    const home = document.getElementById("navai-tool-dashboard");
+    if (!home || home.dataset.integratedReady === "1") return;
+
+    home.dataset.integratedReady = "1";
+
+    const body = document.body;
+    const back = document.createElement("button");
+
+    back.id = "navai-dashboard-return";
+    back.type = "button";
+    back.textContent = "â†";
+    back.setAttribute("aria-label", "Return to dashboard");
+    back.title = "Return to dashboard";
+    document.body.appendChild(back);
+
+    const authObserver = new MutationObserver(function () {
+        const auth = document.getElementById("navai-auth-trigger");
+
+        if (auth && auth.parentElement !== document.body) {
+            document.body.appendChild(auth);
+        }
+    });
+
+    authObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    function showDashboard() {
+        body.classList.add("navai-dashboard-active");
+        home.style.display = "flex";
+        back.style.display = "none";
+    }
+
+    function showChat() {
+        body.classList.remove("navai-dashboard-active");
+        home.style.display = "none";
+        back.style.display = "flex";
+
+        const input = document.getElementById("messageInput");
+        if (input) {
+            input.focus();
+        }
+    }
+
+    const chatCard = home.querySelector('[data-open-chat]');
+
+    if (chatCard) {
+        chatCard.addEventListener("click", function (event) {
+            event.preventDefault();
+            showChat();
+        });
+    }
+
+    back.addEventListener("click", showDashboard);
+
+    showDashboard();
+})();
+</script>
+</section>
+
+            <section class="conversation hidden" id="conversation">
+                <div class="messages" id="messages"></div>
+                <div class="conversation-end" id="conversationEnd"></div>
+            </section>
+
+            <footer class="composer-area">
+                <div class="composer-wrap">
+                    <div class="attachment-preview hidden" id="imagePreviewContainer">
+                        <div class="preview-image-wrap">
+                            <img id="imagePreview" src="" alt="Selected image preview">
+                            <button class="remove-image-button" id="removeImageBtn"
+                                    type="button" aria-label="Remove image">&#215;</button>
+                        </div>
+
+                        <div class="preview-file-info">
+                            <strong>Image attached</strong>
+                            <span id="imageFileName">Ready to send</span>
+                        </div>
+                    </div>
+
+                    <form class="composer" id="chatForm">
+                        <input type="file" id="imageInput"
+                               accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+
+                        <button class="attach-button" id="attachBtn" type="button"
+                                aria-label="Attach an image" title="Attach an image">
+                            <span>+</span>
+                        </button>
+
+                        <div class="composer-input-area">
+                            <textarea id="messageInput" name="message" rows="1"
+                                      placeholder="Message NavAI..."
+                                      aria-label="Message NavAI"></textarea>
+
+                            <div class="composer-hint">
+                                <span class="hint-key">&#8629;</span>
+                                <span>to send</span>
+                                <span class="hint-separator">&#183;</span>
+                                <span>Shift + Enter for a new line</span>
+                            </div>
+                        </div>
+
+                        <button class="send-button" id="sendBtn" type="submit"
+                                aria-label="Send message" title="Send message">
+                            <span class="send-arrow">&#8593;</span>
+                        </button>
+                    </form>
+
+                    <p class="composer-disclaimer">
+                        NavAI can make mistakes. Check important information.
+                    </p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/script.js"></script>
+    <script src="/voice-system.js"></script>
+    <script src="/image-generator.js"></script>
+    <script src="/sidebar-enhancement.js"></script>
+
+
+
+<script id="navai-three-dot-script">
+(function(){
+  if(document.getElementById("navai-three-dot-script-loaded")) return;
+  var oldWrap = document.getElementById("navai-more-wrap");
+  if(oldWrap) oldWrap.remove();
+
+  var developer = /\/developer\/?$/.test(location.pathname);
+  var wrap = document.createElement("div");
+  wrap.id = "navai-more-wrap";
+  wrap.style.cssText = "position:relative;display:inline-flex;align-items:center;flex-shrink:0;z-index:100000;margin-left:8px";
+  wrap.innerHTML =
+    '<button id="navai-more-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navai-more-menu" style="width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(140,164,255,.27);border-radius:12px;background:linear-gradient(145deg,rgba(45,65,112,.7),rgba(15,24,45,.94));color:#eaf0ff;cursor:pointer;font:700 24px/1 system-ui;box-shadow:0 5px 20px rgba(0,0,0,.15)">&#8942;</button>' +
+    '<nav id="navai-more-menu" aria-label="NavAI navigation" aria-hidden="true" style="position:absolute;left:0;top:calc(100% + 9px);width:245px;padding:9px;border:1px solid rgba(137,160,215,.25);border-radius:16px;background:rgba(9,16,33,.98);box-shadow:0 20px 55px rgba(0,0,0,.48);backdrop-filter:blur(22px);opacity:0;transform:translateY(-5px);pointer-events:none;transition:opacity .16s,transform .16s">' +
+    '<div style="padding:8px 10px;color:#8f9fbe;font:600 10px system-ui;letter-spacing:1.4px">NAVAI WORKSPACE</div>' +
+    (developer
+      ? '<a href="/" style="display:flex;gap:12px;align-items:center;padding:12px 10px;border-radius:11px;color:#edf2ff;text-decoration:none;font:600 13px system-ui"><span style="font-size:20px;color:#aebfff">&#8942;</span><span>Back to NavAI Chat<small style="display:block;color:#95a4c2;font-weight:400;margin-top:3px">Return to your conversations</small></span></a>'
+      : '' +
+    '<a href="/exam-improver.html" class="nav-link">Exam Improver</a>
+</nav>';
+
+  var style = document.createElement("style");
+  style.id = "navai-three-dot-polish";
+  style.textContent =
+    '#navai-more-button:hover{border-color:rgba(153,176,255,.7)!important;background:linear-gradient(145deg,rgba(69,95,163,.8),rgba(24,35,64,.98))!important;transform:translateY(-1px)}' +
+    '#navai-more-menu.navai-open{opacity:1!important;transform:translateY(0)!important;pointer-events:auto!important}' +
+    '#navai-more-menu a:hover{background:rgba(103,130,224,.17)!important}' +
+    '#navai-more-button:focus-visible{outline:2px solid #8ba4ff;outline-offset:3px}';
+  document.head.appendChild(style);
+
+  var sidebar = document.querySelector('aside,[class*="sidebar" i],[id*="sidebar" i]');
+  var selectors = [
+    '[class*="brand" i]','[class*="logo" i]','[id*="logo" i]',
+    '[class*="sidebar-header" i]','[class*="header-brand" i]'
+  ];
+  var logo = null;
+
+  // Prefer an identifiable brand/logo inside the sidebar.
+  for(var i=0;i<selectors.length && !logo;i++){
+    var list = document.querySelectorAll(selectors[i]);
+    for(var j=0;j<list.length;j++){
+      var el=list[j];
+      if(!el.getClientRects().length || wrap.contains(el)) continue;
+      if(sidebar && !sidebar.contains(el) && !developer) continue;
+      var t=(el.innerText||el.textContent||"").trim();
+      if(/navai/i.test(t) && t.length<100){logo=el;break;}
+    }
+  }
+
+  // Fallback: find a visible element whose text is exactly NavAI.
+  if(!logo){
+    var all=document.querySelectorAll("a,div,span,button,h1,h2");
+    for(var k=0;k<all.length;k++){
+      var node=all[k];
+      if(!node.getClientRects().length || wrap.contains(node)) continue;
+      var text=(node.innerText||node.textContent||"").replace(/[ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ã¢â‚¬Â¦ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨&#8942;]/g,"").trim();
+      if(/^navai$/i.test(text)){
+        if(!sidebar || sidebar.contains(node) || developer){logo=node;break;}
+      }
+    }
+  }
+
+  if(logo && logo.parentElement){
+    var parent=logo.parentElement;
+    parent.insertBefore(wrap,logo.nextSibling);
+    // Keep the logo and menu on the same line where possible.
+    var display=getComputedStyle(parent).display;
+    if(display==="flex" || display==="inline-flex"){
+      parent.style.alignItems="center";
+      parent.style.flexWrap="nowrap";
+    }
+  } else if(sidebar && !developer){
+    sidebar.insertBefore(wrap,sidebar.firstChild);
+    wrap.style.margin="10px 12px";
+  } else {
+    var header=document.querySelector("header");
+    if(header) header.insertBefore(wrap,header.firstChild);
+    else document.body.insertBefore(wrap,document.body.firstChild);
+  }
+
+  var button=document.getElementById("navai-more-button");
+  var menu=document.getElementById("navai-more-menu");
+
+  function close(){
+    menu.classList.remove("navai-open");
+    menu.setAttribute("aria-hidden","true");
+    button.setAttribute("aria-expanded","false");
+  }
+  button.addEventListener("click",function(e){
+    e.stopPropagation();
+    var opening=!menu.classList.contains("navai-open");
+    menu.classList.toggle("navai-open",opening);
+    menu.setAttribute("aria-hidden",String(!opening));
+    button.setAttribute("aria-expanded",String(opening));
+  });
+  document.addEventListener("click",function(e){if(!wrap.contains(e.target))close();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
+
+  var marker=document.createElement("meta");
+  marker.id="navai-three-dot-script-loaded";
+  document.head.appendChild(marker);
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/auth-config.js"></script>
+<script src="/auth-ui.js"></script>
+<script id="NAVAI_AUTH_AUTO_RECOVERY">
+(function () {
+  function recoverAuth() {
+    if (document.getElementById("navai-auth-trigger")) return;
+
+    function reloadAuth() {
+      var old = document.querySelector('script[src="/auth-ui.js"]');
+      if (old) old.remove();
+
+      var script = document.createElement("script");
+      script.src = "/auth-ui.js?v=" + Date.now();
+      document.body.appendChild(script);
+    }
+
+    if (window.supabase) {
+      reloadAuth();
+      return;
+    }
+
+    var cdn = document.createElement("script");
+    cdn.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js";
+    cdn.onload = reloadAuth;
+    cdn.onerror = function () {
+      console.error("NavAI sign-in recovery: Supabase library failed to load.");
+    };
+    document.head.appendChild(cdn);
+  }
+
+  setTimeout(recoverAuth, 1200);
+})();
+</script>
+<script src="/auth-cloud-sync.js"></script>
+<!-- NAVAI ICON-ONLY DEVELOPER FIX -->
+<script>
+(function () {
+  "use strict";
+
+  function applyNavAIIconOnlyDeveloper() {
+    var button = document.getElementById("navai-more-button");
+
+    if (button) {
+      if ((button.textContent || "").trim() !== "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ã¢â‚¬Â¦ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨") {
+        button.textContent = "ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ã¢â‚¬Â¦ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨";
+      }
+
+      button.setAttribute("aria-label", "NavAI");
+      button.setAttribute("title", "NavAI");
+      button.style.cursor = "pointer";
+
+      if (button.getAttribute("data-navai-icon-only-developer") !== "1") {
+        button.setAttribute("data-navai-icon-only-developer", "1");
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          window.location.href = "/";
+        }, true);
+      }
+    }
+
+    var labels = document.querySelectorAll("body *");
+
+    for (var i = 0; i < labels.length; i++) {
+      var label = labels[i];
+
+      if (
+        label.children.length !== 0 ||
+        (label.textContent || "").trim() !== "NavAI"
+      ) continue;
+
+      var item = label.closest("a, button, [role='button']");
+
+      if (item && item.id !== "navai-more-button") {
+        if (item.style.display !== "none") {
+          item.style.setProperty("display", "none", "important");
+        }
+        continue;
+      }
+
+      var parent = label.parentElement;
+
+      for (var depth = 0; parent && depth < 4; depth++, parent = parent.parentElement) {
+        var cls = typeof parent.className === "string" ? parent.className : "";
+        var text = (parent.textContent || "").replace(/\s+/g, " ").trim();
+
+        if (
+          (/action|developer|sidebar|nav-item/i.test(cls) &&
+           false) ||
+          false ||
+          false
+        ) {
+          if (parent.style.display !== "none") {
+            parent.style.setProperty("display", "none", "important");
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyNavAIIconOnlyDeveloper);
+  } else {
+    applyNavAIIconOnlyDeveloper();
+  }
+
+  var watcher = new MutationObserver(function () {
+    applyNavAIIconOnlyDeveloper();
+  });
+
+  watcher.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+})();
+</script>
+<!-- NAVAI_CHEMISTRY_LAB_ENTRY_V1 -->
+
+<!-- NAVAI_CHEMISTRY_LAB_ENTRY_V1_END -->
+<!-- NAVAI_ORAL_QUIZ_ENTRY_V1 -->
+<a href="/oral-quiz" style="position:fixed;right:20px;bottom:20px;z-index:9999;padding:12px 17px;border:1px solid #a0b4ff55;border-radius:15px;background:linear-gradient(120deg,#345fe0,#8053d5);color:#fff;text-decoration:none;font:700 14px Segoe UI,Arial,sans-serif;box-shadow:0 8px 30px #0005">&#127897; Oral Quiz</a>
+<!-- NAVAI_ORAL_QUIZ_ENTRY_V1_END -->
+<!-- navai-handwritten-notes-integration -->
+<script src="handwritten-notes-integration.js"></script>
+<script src="/math-renderer.js"></script>
+<script id="navai-reference-state">
+(function(){
+  var home=document.getElementById('navai-tool-dashboard');
+  var back=document.getElementById('navai-dashboard-return');
+  if(!home || home.dataset.referenceState)return;
+  home.dataset.referenceState='1';
+
+  function dashboard(){
+    document.body.classList.add('navai-dashboard-active');
+    home.style.display='flex';
+    if(back) back.style.display='none';
+  }
+
+  function chat(){
+    document.body.classList.remove('navai-dashboard-active');
+    home.style.display='none';
+    if(back) back.style.display='block';
+  }
+
+  var chatCard=home.querySelector('[data-open-chat]');
+  if(chatCard) chatCard.addEventListener('click',chat);
+
+  if(back) back.addEventListener('click',dashboard);
+
+  dashboard();
+})();
+</script>
+
+<style id="NAVAI_GLASS_FINAL_V2">
+/* TRUE TRANSPARENT NEBULA GLASS */
+#navai-tool-dashboard .tool {
+    background: rgba(18, 20, 39, 0.30) !important;
+    background-image: none !important;
+    backdrop-filter: blur(7px) saturate(155%) !important;
+    -webkit-backdrop-filter: blur(7px) saturate(155%) !important;
+    border: 1px solid rgba(190, 172, 255, 0.65) !important;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.15),
+        0 8px 30px rgba(0,0,0,.18),
+        0 0 18px rgba(142,110,255,.12) !important;
+    overflow: hidden !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+1) {
+    background: rgba(75, 35, 94, .27) !important;
+    border-color: rgba(207, 133, 255, .78) !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+2) {
+    background: rgba(32, 53, 105, .27) !important;
+    border-color: rgba(133, 165, 255, .78) !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n) {
+    background: rgba(20, 78, 87, .27) !important;
+    border-color: rgba(99, 226, 230, .78) !important;
+}
+#navai-tool-dashboard .tool::before {
+    background: linear-gradient(
+        125deg,
+        rgba(255,255,255,.10),
+        transparent 42%,
+        rgba(115,155,255,.07)
+    ) !important;
+    pointer-events: none !important;
+}
+#navai-tool-dashboard .tool:hover {
+    background: rgba(54, 53, 91, .48) !important;
+    border-color: rgba(225, 213, 255, .95) !important;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.2),
+        0 0 28px rgba(151,119,255,.25),
+        0 15px 38px rgba(0,0,0,.28) !important;
+    transform: translateY(-5px) !important;
+}
+#navai-tool-dashboard .tool h2 {
+    color: #fff !important;
+}
+#navai-tool-dashboard .tool p {
+    color: rgba(239,241,255,.86) !important;
+}
+</style>
+
+</body>
+</html>
+
+
+
+
+
+
+

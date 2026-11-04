@@ -1,0 +1,194 @@
+﻿/* NAVAI CHATBOT — PEARL LAVENDER FINAL THEME */
+:root {
+    --navai-pearl-bg: #f5f1fa;
+    --navai-pearl-panel: #fffaff;
+    --navai-pearl-soft: #eee6f7;
+    --navai-pearl-border: #e3d7ef;
+    --navai-pearl-text: #30283d;
+    --navai-pearl-muted: #81758f;
+    --navai-pearl-purple: #9270b8;
+    --navai-pearl-purple-dark: #76569e;
+    --navai-pearl-peach: #f4c9b7;
+}
+
+/* Main chatbot surfaces */
+.chat-container,
+.chat-main,
+.welcome-screen {
+    background: var(--navai-pearl-bg) !important;
+    color: var(--navai-pearl-text) !important;
+}
+
+/* Sidebar */
+.sidebar {
+    background: linear-gradient(180deg, #fffaff 0%, #f4edf9 100%) !important;
+    border-right: 1px solid var(--navai-pearl-border) !important;
+    color: var(--navai-pearl-text) !important;
+    box-shadow: 5px 0 24px rgba(91, 65, 115, .045) !important;
+}
+
+.sidebar *,
+.sidebar-section,
+.sidebar-top,
+.sidebar-bottom {
+    color: var(--navai-pearl-text);
+}
+
+.section-heading {
+    color: #9889a6 !important;
+}
+
+.sidebar-action,
+.new-chat-button,
+.icon-button {
+    color: #574866 !important;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+.sidebar-action:hover,
+.new-chat-button:hover,
+.icon-button:hover {
+    background: #eee5f6 !important;
+    color: var(--navai-pearl-purple-dark) !important;
+    border-color: #dfd0ed !important;
+}
+
+.sidebar-signature {
+    color: var(--navai-pearl-muted) !important;
+    border-top-color: var(--navai-pearl-border) !important;
+}
+
+/* Top bar */
+.topbar {
+    background: rgba(255, 250, 255, .94) !important;
+    border-bottom: 1px solid var(--navai-pearl-border) !important;
+    box-shadow: 0 3px 18px rgba(91, 65, 115, .035) !important;
+    color: var(--navai-pearl-text) !important;
+}
+
+/* Welcome area */
+.welcome-screen {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(220, 197, 239, .32), transparent 55%),
+        linear-gradient(180deg, #faf6fd 0%, #f5f1fa 100%) !important;
+}
+
+.welcome-screen h1,
+.welcome-screen h2,
+.welcome-screen h3,
+.welcome h1,
+.welcome h2 {
+    color: #40334f !important;
+}
+
+.welcome-screen p,
+.welcome p {
+    color: #81758f !important;
+}
+
+/* Chat messages */
+.message-bubble {
+    color: #40364d !important;
+}
+
+.message-row.user .message-bubble {
+    background: linear-gradient(135deg, #eee4f8, #f9e9e3) !important;
+    color: #44364f !important;
+    border: 1px solid #e3d4ed !important;
+    box-shadow: 0 5px 18px rgba(105, 77, 130, .07) !important;
+}
+
+.message-row.assistant .message-bubble {
+    background: transparent !important;
+    color: #40364d !important;
+}
+
+.message-bubble a {
+    color: #8060a6 !important;
+}
+
+.message-bubble pre,
+.message-bubble code {
+    background: #eee8f4 !important;
+    color: #493b56 !important;
+    border-color: #dfd3e9 !important;
+}
+
+/* Chat input */
+.composer-area {
+    background: linear-gradient(180deg, rgba(245,241,250,0), #f5f1fa 35%) !important;
+}
+
+.composer {
+    background: rgba(255, 251, 255, .98) !important;
+    border: 1px solid #dfd2eb !important;
+    border-radius: 23px !important;
+    box-shadow: 0 9px 30px rgba(91, 65, 115, .09) !important;
+}
+
+.composer:focus-within {
+    border-color: #b99bd5 !important;
+    box-shadow: 0 0 0 3px rgba(166, 130, 198, .13),
+                0 9px 30px rgba(91, 65, 115, .08) !important;
+}
+
+.composer textarea {
+    color: #40364d !important;
+    background: transparent !important;
+}
+
+.composer textarea::placeholder {
+    color: #a397af !important;
+}
+
+.composer-hint,
+.composer-disclaimer {
+    color: #93869f !important;
+}
+
+/* Menus and popups */
+.navai-tools-menu,
+.navai-plus-menu {
+    background: #fffaff !important;
+    color: #40364d !important;
+    border: 1px solid #e2d6ed !important;
+    box-shadow: 0 14px 38px rgba(77, 53, 99, .13) !important;
+}
+
+.navai-plus-menu-item {
+    color: #51435f !important;
+}
+
+.navai-plus-menu-item:hover {
+    background: #f0e8f7 !important;
+    color: #76569e !important;
+}
+
+.navai-mode-notice {
+    background: #f1e9f7 !important;
+    color: #76569e !important;
+    border-color: #e1d4ed !important;
+}
+
+/* Buttons and accents */
+button,
+.new-chat-button {
+    accent-color: #9270b8;
+}
+
+.topbar button,
+.composer button {
+    color: #76569e;
+}
+
+.composer button:hover {
+    background: #eee4f6 !important;
+}
+
+/* Scrollbars */
+.chat-container *,
+.sidebar * {
+    scrollbar-color: #d8c8e5 transparent;
+}
+

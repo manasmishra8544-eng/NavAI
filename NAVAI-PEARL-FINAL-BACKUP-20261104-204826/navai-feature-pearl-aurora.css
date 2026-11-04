@@ -1,0 +1,149 @@
+/* NavAI Pearl Aurora — shared feature-page theme
+   Dashboard index.html is intentionally excluded. Functional scripts are untouched. */
+:root {
+  color-scheme: light !important;
+  --bg: #f6f1ff !important;
+  --panel: rgba(255,255,255,.88) !important;
+  --line: #e8dcf7 !important;
+  --border: #e8dcf7 !important;
+  --muted: #817391 !important;
+  --text: #302344 !important;
+  --blue: #9660d9 !important;
+  --blue-bright: #a56be8 !important;
+  --blue-soft: rgba(157,102,220,.12) !important;
+  --purple: #9660d9 !important;
+  --violet: #9660d9 !important;
+  --cyan: #c18be9 !important;
+  --mint: #c18be9 !important;
+  --green: #8c70c9 !important;
+  --pink: #c18be9 !important;
+  --primary: #9660d9 !important;
+  --accent: #ff852d !important;
+  --shadow: 0 14px 38px rgba(104,75,143,.10) !important;
+}
+html {
+  color-scheme: light !important;
+  min-height: 100%;
+  background: #f6f1ff !important;
+}
+body {
+  color: #302344 !important;
+  background:
+    radial-gradient(ellipse at 8% 8%, rgba(218,195,255,.48), transparent 38%),
+    radial-gradient(ellipse at 92% 15%, rgba(255,220,202,.42), transparent 35%),
+    linear-gradient(135deg,#fbf8ff 0%,#f2eaff 55%,#fff5ef 100%) !important;
+  background-attachment: fixed !important;
+}
+h1,h2,h3,h4,h5,h6,
+.brand,.brand b,.brand small,
+label,.section-title,.panel-title,.question-label,
+.answer-heading,.result-head,.head-copy,
+.stat strong,.score,.qmeta {
+  color: #302344 !important;
+}
+p,.sub,.hint,.small,.muted,.brand-sub,.live,.live-status,
+.eyebrow,.eyebrow-line,.privacy-note,.footnote,
+.intro p,.hero p,.status,.pill,.back,.back-link {
+  color: #827391 !important;
+}
+a { color: #8955c7 !important; }
+a:hover { color: #7040ad !important; }
+.topbar,.top,.header,.app-header,.navigation,
+nav,header:not(.navai-robot-head) {
+  background: rgba(255,255,255,.78) !important;
+  border-color: #eadff5 !important;
+  color: #302344 !important;
+  box-shadow: 0 5px 24px rgba(104,75,143,.045) !important;
+  backdrop-filter: blur(16px);
+}
+.brand-icon,.brand-mark {
+  background: linear-gradient(145deg,#bd8cff,#8150d5) !important;
+  color: #fff !important;
+  box-shadow: 0 7px 20px rgba(132,82,203,.18) !important;
+}
+.brand-dot {
+  background: linear-gradient(135deg,#bd8cff,#8150d5) !important;
+  box-shadow: 0 0 16px rgba(153,99,216,.22) !important;
+}
+.back,.back-link,.pill,.tag,.date-pill,.brand-tag {
+  background: #f7f0ff !important;
+  border-color: #e7d8f7 !important;
+  color: #7950a7 !important;
+}
+.panel,.workspace,.answer-panel,.chat-card,.questionbox,
+.question-box,.feedback,.stat,.history,.history-panel,
+.paper-wrap,.control,.result,.setup,.upload,.preview,
+.chat-head,.messages,.task-list,.side-column,
+.section-card,.tool-card,.result-card,.schedule,
+.form-panel,.main-panel,.mini-row,.question-card {
+  background: rgba(255,255,255,.88) !important;
+  color: #302344 !important;
+  border-color: #e9def5 !important;
+  box-shadow: 0 12px 32px rgba(104,75,143,.075) !important;
+}
+input,select,textarea,
+input[type="text"],input[type="number"],input[type="email"],
+input[type="password"],input[type="time"],input[type="date"] {
+  color: #302344 !important;
+  background: #fff !important;
+  border-color: #e3d6f0 !important;
+  caret-color: #9660d9 !important;
+}
+input::placeholder,textarea::placeholder {
+  color: #a497b2 !important;
+  opacity: 1 !important;
+}
+input:focus,select:focus,textarea:focus,
+button:focus-visible,a:focus-visible {
+  outline-color: #b58be5 !important;
+  border-color: #b58be5 !important;
+  box-shadow: 0 0 0 3px rgba(181,139,229,.15) !important;
+}
+button,.primary,.solve-button,.send-btn,.voice-btn,
+.action-primary,.submit-btn,.generate-btn {
+  color: #fff !important;
+  background: linear-gradient(105deg,#ff9a3d,#ff741e) !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 20px rgba(255,130,43,.17) !important;
+}
+button:hover,.primary:hover,.solve-button:hover,
+.send-btn:hover,.action-primary:hover,.submit-btn:hover,
+.generate-btn:hover {
+  filter: brightness(1.035) !important;
+}
+button.secondary,.secondary,.secondary-button,
+.action-secondary,.remove,.icon-btn,.control button {
+  color: #7950a7 !important;
+  background: #f4ebff !important;
+  border: 1px solid #e5d6f5 !important;
+  box-shadow: none !important;
+}
+button:disabled { opacity: .55 !important; }
+.progress,.progress-bar,.progress-fill {
+  background-color: #eadff7 !important;
+}
+.progress > span,.progress-bar > span,.progress-fill {
+  background: linear-gradient(90deg,#b98be9,#8f61ce) !important;
+}
+hr,.divider { border-color: #eadff5 !important; }
+table th { background: #f4edfc !important; color: #49345f !important; }
+table td,table th { border-color: #eadff5 !important; }
+pre,code,.code-block {
+  background: #f6f0fb !important;
+  color: #49345f !important;
+  border-color: #e8dcf4 !important;
+}
+::selection { background: #e4d2fa !important; color: #302344 !important; }
+/* Preserve the oral-quiz robot/orb artwork while removing its neon blue palette. */
+.navai-oral-robot-showcase .navai-robot-halo,
+.navai-oral-robot-showcase .navai-orbital {
+  border-color: rgba(174,130,218,.28) !important;
+}
+.navai-robot-art,.navai-robot-head,.navai-robot-face {
+  --cyan: #c18be9 !important;
+}
+/* Preserve hidden states and interactive state visibility. */
+[hidden],.hidden,[aria-hidden="true"] { display: none !important; }
+@media (max-width: 640px) {
+  body { background-attachment: scroll !important; }
+}

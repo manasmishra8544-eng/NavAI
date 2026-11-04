@@ -1,0 +1,229 @@
+﻿:root {
+  color-scheme: dark;
+  --bg: #090b10;
+  --surface: #10151e;
+  --surface-2: #151c27;
+  --surface-3: #1b2533;
+  --border: #293445;
+  --text: #edf2fa;
+  --muted: #9ba9bd;
+  --accent: #78aaff;
+  --accent-hover: #9bc1ff;
+  --radius: 16px;
+}
+
+html, body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  min-height: 100%;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse at 50% -25%, rgba(67,105,165,.13), transparent 55%) !important;
+}
+
+/* Main application structure */
+.app-shell, .main-area, main, .page, .workspace {
+  background-color: transparent !important;
+  color: var(--text) !important;
+}
+
+/* Sidebar */
+.sidebar, #sidebar, aside.sidebar {
+  background: #0d1119 !important;
+  color: var(--text) !important;
+  border-right: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+
+.sidebar-top .brand-icon {
+  display: none !important;
+}
+
+.sidebar-top .brand {
+  gap: 0 !important;
+}
+
+.sidebar a, .sidebar button {
+  border-radius: 11px !important;
+  transition: background .18s ease, color .18s ease;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+  background: #1a2331 !important;
+  color: #fff !important;
+}
+
+/* Header */
+.topbar, header.topbar, .navbar {
+  background: #0d1119 !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 5px 20px rgba(0,0,0,.16) !important;
+}
+
+/* Panels and cards */
+.card, .tool-card, .feature-card, .panel, .widget,
+.stat-card, .dashboard-card, .workspace-card,
+.question-card, .quiz-card, .result-card,
+.history-card, .editor-panel, .preview-panel {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: 0 9px 28px rgba(0,0,0,.16) !important;
+}
+
+.card:hover, .tool-card:hover, .feature-card:hover {
+  border-color: #405675 !important;
+  transform: translateY(-2px);
+}
+
+/* Dashboard */
+#navai-tool-dashboard {
+  background:
+    radial-gradient(ellipse at 50% 0%, #172337 0%, #0b0f16 48%, #090b10 100%) !important;
+  color: var(--text) !important;
+}
+
+#navai-tool-dashboard .tool {
+  background: linear-gradient(145deg,#171f2c,#10151e) !important;
+  color: var(--text) !important;
+  border: 1px solid #303e52 !important;
+  border-radius: 19px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.22) !important;
+}
+
+#navai-tool-dashboard .tool:hover {
+  background: #1b293b !important;
+  border-color: #6689b9 !important;
+}
+
+#navai-tool-dashboard .tool p,
+#navai-tool-dashboard .hero p {
+  color: var(--muted) !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  letter-spacing: -.025em;
+}
+
+p, .subtitle, .description, .muted, .hint {
+  color: var(--muted);
+}
+
+/* Inputs */
+input, textarea, select {
+  background: #0b1018 !important;
+  color: var(--text) !important;
+  border: 1px solid #303c4e !important;
+  border-radius: 11px !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #78899e !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(120,170,255,.12) !important;
+  outline: none !important;
+}
+
+/* Buttons */
+button, .btn, .button, [role="button"] {
+  border-radius: 11px !important;
+  transition: background .18s ease, border-color .18s ease;
+}
+
+button:not(.primary):not(.btn-primary),
+.btn:not(.primary):not(.btn-primary) {
+  background: #1a2230 !important;
+  color: var(--text) !important;
+  border: 1px solid #354358 !important;
+}
+
+button.primary, .primary-button, .btn-primary,
+button[type="submit"] {
+  background: #326fbd !important;
+  color: #fff !important;
+  border: 1px solid #477fca !important;
+}
+
+button:hover, .btn:hover {
+  filter: brightness(1.12);
+}
+
+/* Chat */
+.composer-area, .chat-input-area, .chat-composer,
+.composer, .input-area, .prompt-box {
+  background: #10151e !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 17px !important;
+}
+
+.assistant-message, .message-bubble.assistant {
+  background: #151c27 !important;
+  color: var(--text) !important;
+}
+
+.user-message, .message-bubble.user {
+  background: #1b2b42 !important;
+  color: #e5efff !important;
+}
+
+/* Tables */
+table, td, th {
+  border-color: var(--border) !important;
+}
+
+th {
+  background: #192231 !important;
+  color: #dce8f8 !important;
+}
+
+td {
+  background: #10151e !important;
+  color: var(--text) !important;
+}
+
+/* Keep handwritten note paper readable */
+.paper, .note-paper, .paper-sheet, .page-sheet {
+  background: #fff !important;
+  color: #202a36 !important;
+}
+
+/* Dialogs */
+.modal, .dialog, [role="dialog"],
+.dropdown-menu, .popover {
+  background: #141b26 !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: #40516b #0b0f16;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #0b0f16; }
+::-webkit-scrollbar-thumb {
+  background: #40516b;
+  border-radius: 20px;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .sidebar, #sidebar {
+    background: #0d1119 !important;
+  }
+  .card, .tool-card, .feature-card {
+    border-radius: 14px !important;
+  }
+}

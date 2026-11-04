@@ -1,0 +1,23 @@
+/* NavAI unified lavender interface layer — preserves layout and behaviour */
+:root{color-scheme:light!important;--nv-bg:#f7f3ff;--nv-surface:#fff;--nv-soft:#f1eaff;--nv-soft2:#f8f4ff;--nv-purple:#7652b8;--nv-purple-dark:#56358f;--nv-orange:#f29a52;--nv-text:#342b45;--nv-muted:#81758f;--nv-border:#e6dcf3;--nv-shadow:0 12px 32px rgba(103,72,150,.10)}
+html,body{background:linear-gradient(135deg,#fbf8ff 0%,#f3edff 55%,#fff7f0 100%)!important;color:var(--nv-text)!important;color-scheme:light!important}
+body{background-color:#f7f3ff!important}
+/* panels, cards, workspaces, output/result areas */
+.panel,.card,.chat-card,.chat-container,.workspace,.answer-panel,.result,.result-panel,.output,.output-panel,.preview,.paper-wrap,.questionbox,.messages,.message,.chat-history,.composer,.form-panel,.main-panel,.setup,.question-panel,.answer-box,.response,.response-box,.content-card,.tool-card,.section-card{background:#fff!important;color:var(--nv-text)!important;border-color:var(--nv-border)!important;box-shadow:var(--nv-shadow)!important}
+/* all text entry and selection surfaces */
+input,textarea,select,[contenteditable="true"],.input,.textarea,.editor,.prompt-input,.chat-input,.search-input{background:#fbf9ff!important;color:#342b45!important;border:1px solid #dfd2f0!important;caret-color:#7652b8!important;box-shadow:inset 0 1px 2px rgba(100,70,140,.04)!important}
+input::placeholder,textarea::placeholder,[contenteditable="true"]:empty:before{color:#a397b2!important;opacity:1!important}
+input:focus,textarea:focus,select:focus,[contenteditable="true"]:focus{outline:3px solid rgba(145,108,202,.16)!important;border-color:#a98bd2!important}
+/* chat bubbles and generated answers */
+.message,.message.assistant,.message.bot,.assistant-message,.bot-message,.ai-message,.guide-message,.answer-content,.result-content,.response-content,.paper-text{background:#f5efff!important;color:#3e3154!important;border-color:#e5d9f4!important}
+.message.user,.user-message,.message.user-message{background:#fff0e4!important;color:#573b2b!important;border-color:#f5d9c3!important}
+/* buttons and interactive accents */
+button,.primary,.solve-button,.send-button,.action-button,[type="submit"]{background:linear-gradient(135deg,#f4a15c,#ed8747)!important;color:#fff!important;border-color:#ed984f!important}
+.secondary,.icon-button,.back,.back-link,.navai-dashboard-back{background:#f1eaff!important;color:#68499d!important;border-color:#e0d3f1!important}
+a{color:#7954b4}
+.brand,.brand-name,.hero h1,h1,h2,h3,.eyebrow,.section-title{color:#68479e}
+.tag,.pill,.badge,.chip,.suggestion{background:#f1eaff!important;color:#7652a9!important;border-color:#e3d7f2!important}
+hr{border-color:#e7def1!important}
+/* ensure legacy dark/blue surfaces do not bleed through */
+[style*="background:#000"],[style*="background: #000"],[style*="background-color: rgb(0"],[style*="background:#0"],[style*="background: #0"]{background:#fff!important;color:#342b45!important}
+@media(prefers-color-scheme:dark){html,body{color-scheme:light!important;background:#f7f3ff!important;color:#342b45!important}}

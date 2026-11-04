@@ -1,0 +1,172 @@
+﻿/* NAVAI PEARL LAVENDER - GLOBAL THEME */
+:root {
+    color-scheme: light !important;
+    --navai-bg: #f6f2ff;
+    --navai-surface: #ffffff;
+    --navai-surface-2: #f0eaff;
+    --navai-border: #e5dcf5;
+    --navai-text: #302944;
+    --navai-muted: #817990;
+    --navai-purple: #8060d8;
+    --navai-purple-dark: #6849bd;
+    --navai-orange: #f39a55;
+}
+
+html {
+    background: #f6f2ff !important;
+    color-scheme: light !important;
+}
+
+body {
+    background: #f6f2ff !important;
+    background-image:
+        radial-gradient(ellipse at 10% 0%, #e9ddff 0%, transparent 42%),
+        radial-gradient(ellipse at 90% 5%, #fff0e2 0%, transparent 35%) !important;
+    color: #302944 !important;
+    color-scheme: light !important;
+}
+
+header, nav, aside, .sidebar, .app-sidebar, .navbar,
+.topbar, .top-bar, .app-header, .toolbar {
+    background: rgba(255,255,255,.96) !important;
+    color: #302944 !important;
+    border-color: #e5dcf5 !important;
+    box-shadow: 0 5px 22px rgba(85,60,140,.07) !important;
+}
+
+main, .main, .main-content, .content, .content-area,
+.workspace, .dashboard, .dashboard-content, .page-content {
+    color: #302944 !important;
+}
+
+.card, .panel, .tool, .tool-card, .feature-card,
+.feature, .chat-card, .chat-container, .settings-card,
+.stat-card, .widget, .modal-content, .result-card,
+.question-card, .answer-card, .planner-card,
+.task-card, .note-card, .quiz-card, .lesson-card,
+#navai-tool-dashboard .tool {
+    background: #ffffff !important;
+    color: #302944 !important;
+    border-color: #e7def5 !important;
+    box-shadow: 0 9px 28px rgba(85,60,140,.09) !important;
+}
+
+h1, h2, h3, h4, h5, h6, p, label, li,
+.card-title, .tool-title, .feature-title {
+    color: #302944 !important;
+}
+
+.subtitle, .description, .helper-text, .hint,
+.muted, .muted-text, .secondary-text {
+    color: #817990 !important;
+}
+
+input, textarea, select, .input, .textarea,
+.search-input, .chat-input, .composer input,
+.composer textarea, [contenteditable="true"] {
+    background: #ffffff !important;
+    color: #302944 !important;
+    border: 1px solid #ded4f1 !important;
+    box-shadow: none !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #9b93a8 !important;
+    opacity: 1 !important;
+}
+
+button, .btn, .primary-btn, .send-btn,
+.submit-btn, .action-btn {
+    background: #8060d8 !important;
+    color: #ffffff !important;
+    border-color: #8060d8 !important;
+}
+
+.secondary-btn, .btn-secondary, .voice-btn,
+.icon-btn, button.secondary {
+    background: #f0eaff !important;
+    color: #6849bd !important;
+    border-color: #e2d8f5 !important;
+}
+
+.upgrade-btn, .orange-btn, .cta-button {
+    background: #f39a55 !important;
+    color: #ffffff !important;
+}
+
+a {
+    color: #7655cb !important;
+}
+
+hr, .divider {
+    border-color: #e7def5 !important;
+}
+
+table, th, td {
+    color: #302944 !important;
+    border-color: #e7def5 !important;
+}
+
+th {
+    background: #f0eaff !important;
+}
+
+pre, code, .code-block, .terminal {
+    background: #f2edfa !important;
+    color: #39304f !important;
+    border-color: #e5dcf5 !important;
+}
+
+.message.user, .user-message, .chat-message.user {
+    background: #eee7ff !important;
+    color: #3c2d65 !important;
+    border-color: #dfd2ff !important;
+}
+
+.message.assistant, .assistant-message,
+.chat-message.assistant, .bot-message {
+    background: #ffffff !important;
+    color: #302944 !important;
+    border-color: #e7def5 !important;
+}
+
+.chat-card, .messages, .chat-messages,
+.chat-window, .conversation, .chat-history {
+    background: #faf8ff !important;
+    color: #302944 !important;
+    border-color: #e7def5 !important;
+}
+
+.composer, .chat-composer, .input-area,
+.message-input-area {
+    background: #ffffff !important;
+    color: #302944 !important;
+    border-color: #e7def5 !important;
+}
+
+.badge, .chip, .tag, .pill {
+    background: #f0eaff !important;
+    color: #6849bd !important;
+    border-color: #e2d8f5 !important;
+}
+
+.progress, .progress-track {
+    background: #eee8f8 !important;
+}
+
+.progress-bar, .progress-fill {
+    background: #9677e8 !important;
+}
+
+:focus-visible {
+    outline: 2px solid #a58be9 !important;
+    outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+    html, body {
+        color-scheme: light !important;
+        background: #f6f2ff !important;
+        color: #302944 !important;
+    }
+}

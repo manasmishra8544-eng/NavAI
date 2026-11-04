@@ -1,0 +1,162 @@
+/* NavAI Feature Studio — page-aware visual refresh. No application logic changed. */
+:root{color-scheme:light;--studio-bg:#edf6ff;--studio-ink:#173b5b;--studio-muted:#66839d;--studio-line:#d7e8f7;--studio-blue:#247fca;--studio-blue-deep:#155b98;--studio-card:#fff;--studio-soft:#f5faff;--studio-shadow:0 18px 48px rgba(31,91,143,.10);--studio-radius:22px}
+html{min-height:100%;background:var(--studio-bg)!important;scroll-behavior:smooth}
+body{min-height:100vh!important;color:var(--studio-ink)!important;background:radial-gradient(ellipse at 8% 0%,rgba(161,211,250,.32),transparent 34%),radial-gradient(ellipse at 94% 10%,rgba(197,226,250,.48),transparent 32%),linear-gradient(145deg,#f7fbff 0%,#edf6ff 52%,#f7fbff 100%)!important;font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif!important}
+body *{box-sizing:border-box}
+body h1,body h2,body h3,body h4{color:#173f62!important;letter-spacing:-.035em}
+body p{color:#637f98}
+body label{color:#315674!important;font-weight:650}
+body input,body textarea,body select{background:#fbfdff!important;color:#193d5c!important;border:1px solid #d4e5f4!important;border-radius:13px!important;box-shadow:inset 0 1px 2px rgba(25,70,110,.025);min-height:44px}
+body textarea{min-height:112px;line-height:1.65}
+body input:focus,body textarea:focus,body select:focus{outline:none!important;border-color:#73b5e8!important;box-shadow:0 0 0 4px rgba(54,143,211,.13)!important}
+body input::placeholder,body textarea::placeholder{color:#91a9bd!important}
+body button{font:inherit;cursor:pointer;border-radius:13px!important;transition:transform .18s ease,box-shadow .18s ease,background .18s ease!important}
+body button:not(:disabled):hover{transform:translateY(-1px)}
+body button:disabled{opacity:.52;cursor:not-allowed}
+body a{transition:color .18s ease}
+/* Shared product header */
+.topbar,.top,header.topbar{background:rgba(255,255,255,.86)!important;border-bottom:1px solid var(--studio-line)!important;box-shadow:0 5px 24px rgba(37,94,139,.045)!important;backdrop-filter:blur(18px)}
+.brand,.brand span,.brand b,.brand small{color:#1d5787!important}
+.brand-icon,.brand-mark{background:linear-gradient(145deg,#d9efff,#a9d7f8)!important;color:#17649f!important;border:1px solid #b9ddf6!important;box-shadow:0 5px 15px rgba(44,128,190,.12)!important}
+.back,.back-link{color:#267bb8!important;font-weight:650}
+/* Premium buttons */
+.primary,.solve-button,.ask-row button,.follow-row button,.action-primary,.send-btn,#generate,#teachBtn,#solve,#start{background:linear-gradient(120deg,#2d91d7,#1768ad)!important;color:#fff!important;border:1px solid #247dc0!important;box-shadow:0 9px 22px rgba(37,126,193,.2)!important;padding:12px 19px!important}
+.secondary,.icon-btn,.control,.voice-btn,.suggestions button,.suggestion{background:#f0f7fe!important;color:#28618e!important;border:1px solid #d4e7f7!important}
+.secondary:hover,.suggestions button:hover,.suggestion:hover,.control:hover{background:#e3f2ff!important;border-color:#b9d9f2!important}
+/* Shared surfaces */
+.panel,.workspace,.answer-panel,.history-panel,.ask-panel,.board-section,.followup,.chat-card,.preview,.result,.questionbox,.tip-card,.navai-auth-card{background:rgba(255,255,255,.94)!important;color:var(--studio-ink)!important;border:1px solid var(--studio-line)!important;border-radius:var(--studio-radius)!important;box-shadow:var(--studio-shadow)!important;backdrop-filter:blur(12px)}
+.eyebrow{color:#3483b8!important;letter-spacing:.15em!important;font-weight:800!important}
+/* HOME / MAIN CHAT */
+#navai-tool-dashboard{background:transparent!important;color:var(--studio-ink)!important}
+#navai-tool-dashboard .home-wrap{max-width:1240px!important}
+#navai-tool-dashboard .hero h1{color:#174a76!important}
+#navai-tool-dashboard .hero h1 span{color:#2988ca!important}
+#navai-tool-dashboard .tool{background:linear-gradient(155deg,#fff,#f5faff)!important;border:1px solid #d8e9f7!important;border-radius:22px!important;box-shadow:0 12px 34px rgba(35,94,143,.09)!important;padding:25px!important}
+#navai-tool-dashboard .tool:hover{transform:translateY(-4px)!important;box-shadow:0 20px 42px rgba(35,94,143,.15)!important;border-color:#acd4f2!important}
+#navai-tool-dashboard .tool-icon{background:linear-gradient(145deg,#e5f4ff,#cde8fc)!important;color:#237bb9!important;border:1px solid #d0e8f8!important;border-radius:17px!important}
+#navai-tool-dashboard .tool h2{color:#194c73!important}
+#navai-tool-dashboard .tool p{color:#6b849b!important}
+#navai-tool-dashboard .tool-bottom{color:#2679b5!important}
+/* Teacher: real lesson studio */
+body:has(#lessonForm) .layout{max-width:1120px!important;margin:0 auto!important;padding:34px 24px 60px!important;display:grid!important;gap:22px!important}
+body:has(#lessonForm) .welcome{display:grid!important;grid-template-columns:minmax(190px,.72fr) minmax(0,1.5fr)!important;align-items:center!important;gap:34px!important;padding:30px!important;border:1px solid #d9eafa!important;border-radius:26px!important;background:linear-gradient(120deg,rgba(255,255,255,.96),rgba(235,247,255,.94))!important;box-shadow:var(--studio-shadow)!important}
+body:has(#lessonForm) .welcome-copy h1{font-size:clamp(34px,4.5vw,54px)!important;line-height:1.08!important}
+body:has(#lessonForm) .welcome-copy h1 span{color:#2787c9!important}
+body:has(#lessonForm) .mascot-wrap{filter:drop-shadow(0 15px 20px rgba(48,125,180,.13))}
+body:has(#lessonForm) .ask-panel,body:has(#lessonForm) .board-section,body:has(#lessonForm) .followup{padding:25px!important}
+body:has(#lessonForm) .ask-row{gap:12px!important}
+body:has(#lessonForm) .ask-row input{min-width:0!important}
+body:has(#lessonForm) .options-row{gap:16px!important}
+body:has(#lessonForm) .board{background:linear-gradient(180deg,#fbfdff,#f1f8ff)!important;border:1px solid #d9eafa!important;border-radius:18px!important;min-height:280px!important}
+body:has(#lessonForm) .status{background:#edf7ff!important;border:1px solid #d7eafa!important;color:#386889!important;border-radius:12px!important;padding:12px 15px!important}
+body:has(#lessonForm) footer{color:#7891a7!important;text-align:center;padding:22px}
+/* Homework: focused worksheet workspace */
+body:has(#question#question) .wrap,body:has(#photo) .wrap{max-width:920px!important;margin:0 auto!important;padding:34px 22px 60px!important}
+body:has(#photo) .intro{padding:24px 4px 18px!important}
+body:has(#photo) .intro h1{font-size:clamp(36px,5vw,54px)!important}
+body:has(#photo) .intro h1 span{color:#2a88c8!important}
+body:has(#photo) .panel{padding:26px!important;margin:18px 0!important}
+body:has(#photo) .panel>label{display:block!important;margin:13px 0 7px!important}
+body:has(#photo) .upload{background:#f1f8ff!important;border:1px dashed #a9cfea!important;border-radius:16px!important;padding:16px!important}
+body:has(#photo) #preview{max-width:100%!important;border-radius:15px!important;border:1px solid var(--studio-line)!important;margin-top:14px}
+body:has(#photo) #answer{white-space:pre-wrap!important;background:#f8fbff!important;color:#234762!important;border:1px solid #dfebf6!important;border-radius:15px!important;padding:20px!important;font:inherit!important;line-height:1.75!important}
+body:has(#photo) .result-head{gap:16px!important;align-items:center!important}
+/* Oral quiz: voice interaction stage */
+body:has(.navai-oral-robot-showcase) .app{max-width:1120px!important;margin:0 auto!important;padding:0 22px 60px!important}
+body:has(.navai-oral-robot-showcase) .navai-oral-robot-showcase{background:linear-gradient(115deg,#e0f2ff,#f7fbff 65%,#dcefff)!important;border:1px solid #d0e7f8!important;border-radius:28px!important;box-shadow:var(--studio-shadow)!important;color:#194b70!important;margin:26px 0 34px!important;overflow:hidden!important}
+body:has(.navai-oral-robot-showcase) .navai-robot-copy h1{color:#174b75!important}
+body:has(.navai-oral-robot-showcase) .navai-robot-copy p{color:#62819a!important}
+body:has(.navai-oral-robot-showcase) .navai-robot-head,body:has(.navai-oral-robot-showcase) .navai-robot-body{filter:drop-shadow(0 12px 18px rgba(40,111,165,.15))}
+body:has(.navai-oral-robot-showcase) .hero{max-width:760px!important;margin:0 auto!important;text-align:center!important;padding:8px 20px 22px!important}
+body:has(.navai-oral-robot-showcase) .hero h1{font-size:clamp(34px,5vw,52px)!important;color:#174b75!important}
+body:has(.navai-oral-robot-showcase) .hero h1 span{color:#2586c9!important}
+body:has(.navai-oral-robot-showcase) .orb-button{background:linear-gradient(145deg,#d8efff,#a9d9fa)!important;box-shadow:0 0 0 12px rgba(94,169,222,.12),0 18px 42px rgba(34,121,184,.2)!important;border:1px solid #b4daf4!important}
+body:has(.navai-oral-robot-showcase) .orb-core{color:#1769a8!important}
+body:has(.navai-oral-robot-showcase) .conversation{max-width:760px!important;margin:24px auto!important;background:#fff!important;border:1px solid var(--studio-line)!important;border-radius:22px!important;box-shadow:var(--studio-shadow)!important;padding:22px!important;color:var(--studio-ink)!important}
+body:has(.navai-oral-robot-showcase) .transcript,body:has(.navai-oral-robot-showcase) .reply{background:#f2f8fe!important;color:#284e6d!important;border:1px solid #e0edf8!important;border-radius:15px!important;padding:16px!important;line-height:1.7!important}
+body:has(.navai-oral-robot-showcase) .controls{display:flex!important;justify-content:center!important;gap:10px!important;flex-wrap:wrap!important}
+/* Student guide: mentor chat */
+body:has(#quickPrompts) .layout{max-width:1080px!important;margin:0 auto!important;padding:34px 22px 60px!important;display:grid!important;grid-template-columns:minmax(250px,.8fr) minmax(0,1.2fr)!important;gap:25px!important;align-items:start!important}
+body:has(#quickPrompts) .intro{padding:28px 12px!important}
+body:has(#quickPrompts) .intro h1{font-size:clamp(34px,4vw,48px)!important;line-height:1.12!important}
+body:has(#quickPrompts) .intro h1 span{color:#2785c5!important}
+body:has(#quickPrompts) .mentor-tags span{background:#e7f4ff!important;color:#34729e!important;border:1px solid #d4e9f8!important;border-radius:30px!important;padding:8px 12px!important}
+body:has(#quickPrompts) .chat-card{overflow:hidden!important;padding:0!important}
+body:has(#quickPrompts) .chat-head{background:linear-gradient(110deg,#f0f8ff,#fff)!important;border-bottom:1px solid var(--studio-line)!important;padding:18px!important}
+body:has(#quickPrompts) .messages{background:#f8fbff!important;padding:20px!important;min-height:280px!important}
+body:has(#quickPrompts) .message{background:#fff!important;color:#315570!important;border:1px solid #deebf6!important;border-radius:16px!important;padding:14px 16px!important;box-shadow:0 5px 15px rgba(37,95,143,.045)!important}
+body:has(#quickPrompts) .message.user{background:#e5f3ff!important;margin-left:auto!important}
+body:has(#quickPrompts) .quick-prompts{padding:14px 18px!important;background:#fff!important}
+body:has(#quickPrompts) .composer{background:#fff!important;border-top:1px solid var(--studio-line)!important;padding:14px!important}
+body:has(#quickPrompts) .note{grid-column:1/-1!important;color:#718aa0!important}
+/* Handwritten notes: paper-making studio */
+body:has(#paper) .app{max-width:1080px!important;margin:0 auto!important;padding:32px 22px 60px!important;display:grid!important;grid-template-columns:minmax(280px,.8fr) minmax(0,1.2fr)!important;gap:22px!important;align-items:start!important}
+body:has(#paper) .app>header{grid-column:1/-1!important;background:linear-gradient(110deg,#e4f3ff,#fff)!important;border:1px solid #d8eafa!important;border-radius:24px!important;padding:25px 28px!important;margin:0!important}
+body:has(#paper) .app>header h1{font-size:clamp(34px,4vw,48px)!important}
+body:has(#paper) .panel,body:has(#paper) .preview{padding:24px!important;margin:0!important}
+body:has(#paper) .fields{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important}
+body:has(#paper) .paper-wrap{background:#eaf3fb!important;border:1px solid #d7e8f6!important;border-radius:18px!important;padding:14px!important;overflow:auto!important}
+body:has(#paper) canvas{display:block!important;max-width:100%!important;height:auto!important;background:#fff!important;border-radius:5px!important;box-shadow:0 12px 28px rgba(35,75,110,.16)!important}
+/* Study planner: dashboard */
+body:has(#planForm) .wrap{max-width:1160px!important;margin:0 auto!important;padding:30px 22px 60px!important}
+body:has(#planForm) .hero{background:linear-gradient(115deg,#e0f2ff,#f9fcff 70%)!important;border:1px solid #d5e9f8!important;border-radius:26px!important;padding:28px!important;box-shadow:var(--studio-shadow)!important}
+body:has(#planForm) .hero h1{font-size:clamp(36px,4.5vw,52px)!important}
+body:has(#planForm) .hero h1 span{color:#2586c9!important}
+body:has(#planForm) .hero-stats>div{background:rgba(255,255,255,.8)!important;border:1px solid #d7eafa!important;border-radius:16px!important;padding:14px 18px!important}
+body:has(#planForm) .section-head{margin:28px 0 14px!important}
+body:has(#planForm) .layout{display:grid!important;grid-template-columns:minmax(0,1.55fr) minmax(260px,.8fr)!important;gap:20px!important}
+body:has(#planForm) .panel{padding:23px!important}
+body:has(#planForm) .form-grid{gap:15px!important}
+body:has(#planForm) .task-toolbar{border-top:1px solid #e5eff8!important;margin-top:24px!important;padding-top:18px!important}
+body:has(#planForm) .task-list>*,body:has(#planForm) .syllabus-list>*{background:#f6faff!important;border:1px solid #dfedf8!important;border-radius:14px!important;padding:13px!important;margin:9px 0!important}
+body:has(#planForm) .progress-ring{filter:drop-shadow(0 8px 12px rgba(38,125,185,.12))}
+body:has(#planForm) .tip-card{background:linear-gradient(120deg,#e2f2ff,#f5faff)!important;border:1px solid #d5e9f8!important;border-radius:18px!important;padding:18px!important}
+/* Doubt solver: focused question and answer */
+body:has(#answer-panel) .layout{max-width:1000px!important;margin:0 auto!important;padding:34px 22px 60px!important}
+body:has(#answer-panel) .hero{padding:18px 0 22px!important}
+body:has(#answer-panel) .hero h1{font-size:clamp(36px,5vw,54px)!important}
+body:has(#answer-panel) .hero h1 span{color:#2787c8!important}
+body:has(#answer-panel) .workspace,body:has(#answer-panel) .answer-panel,body:has(#answer-panel) .history-panel{padding:25px!important;margin:17px 0!important}
+body:has(#answer-panel) .form-row{gap:16px!important}
+body:has(#answer-panel) .suggestions{display:flex!important;gap:9px!important;flex-wrap:wrap!important;margin:14px 0 18px!important}
+body:has(#answer-panel) .answer-content{background:#f7fbff!important;border:1px solid #e0edf8!important;border-radius:16px!important;padding:20px!important;color:#234864!important;line-height:1.75!important}
+body:has(#answer-panel) .history-item{background:#f7fbff!important;border:1px solid #e0edf8!important;border-radius:14px!important;padding:14px!important;margin:9px 0!important}
+/* Exam improver: exam practice room */
+body:has(#sessionPill) .layout{max-width:1120px!important;margin:0 auto!important;padding:32px 22px 60px!important;display:grid!important;grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr)!important;gap:20px!important;align-items:start!important}
+body:has(#sessionPill) .hero{grid-column:1/-1!important;background:linear-gradient(110deg,#e4f3ff,#fff)!important;border:1px solid #d8eafa!important;border-radius:24px!important;padding:24px!important}
+body:has(#sessionPill) .hero h1{font-size:clamp(34px,4vw,48px)!important}
+body:has(#sessionPill) .hero h1 span{color:#2586c9!important}
+body:has(#sessionPill) .panel{padding:22px!important}
+body:has(#sessionPill) .questionbox{background:#f5faff!important;border:1px solid #dcebf7!important;border-radius:17px!important;padding:22px!important;min-height:180px!important;color:#244d6d!important;line-height:1.7!important}
+body:has(#sessionPill) .progress{background:#e4eff8!important;border-radius:20px!important;overflow:hidden!important}
+body:has(#sessionPill) .progress span{background:linear-gradient(90deg,#69b5e8,#247fc3)!important}
+body:has(#sessionPill) .stats .stat{background:#f4f9ff!important;border:1px solid #dcebf7!important;border-radius:14px!important;padding:13px!important}
+body:has(#sessionPill) .feedback{background:#f4f9ff!important;border:1px solid #dcebf7!important;border-radius:16px!important;padding:18px!important;margin-top:16px!important}
+/* Question paper builder */
+body:has(#builder) main{max-width:1160px!important;margin:0 auto!important;padding:30px 22px 60px!important}
+body:has(#builder) .hero{background:linear-gradient(110deg,#e3f2ff,#fff)!important;border:1px solid #d7eafa!important;border-radius:25px!important;padding:26px!important;margin-bottom:22px!important}
+body:has(#builder) .hero h1{font-size:clamp(35px,4vw,50px)!important}
+body:has(#builder) .layout{display:grid!important;grid-template-columns:minmax(290px,.85fr) minmax(0,1.15fr)!important;gap:20px!important;align-items:start!important}
+body:has(#builder) .panel{padding:23px!important}
+body:has(#builder) .form-panel form{display:grid!important;gap:9px!important}
+body:has(#builder) #results{background:#f7fbff!important;border:1px solid #e0edf8!important;border-radius:16px!important;padding:18px!important;min-height:240px!important;color:#244b69!important;line-height:1.7!important}
+body:has(#builder) .tag{background:#e6f3ff!important;color:#2878b1!important;border:1px solid #d1e7f7!important;border-radius:30px!important;padding:7px 11px!important}
+/* Timetable: schedule builder */
+body:has(#schoolStart) .wrap{max-width:1050px!important;margin:0 auto!important;padding:30px 22px 60px!important}
+body:has(#schoolStart) .hero{padding:20px 4px 24px!important}
+body:has(#schoolStart) .hero h1{font-size:clamp(36px,4.5vw,54px)!important}
+body:has(#schoolStart) .hero h1 span{color:#2585c8!important}
+body:has(#schoolStart) .panel,body:has(#schoolStart) .result{padding:26px!important;margin:16px 0!important}
+body:has(#schoolStart) .fields{display:grid!important;grid-template-columns:1fr 1fr!important;gap:17px!important}
+body:has(#schoolStart) .field{background:#f7fbff!important;border:1px solid #e0edf8!important;border-radius:15px!important;padding:14px!important}
+body:has(#schoolStart) .time-pair{display:flex!important;align-items:center!important;gap:9px!important}
+body:has(#schoolStart) .time-pair input{min-width:0!important;width:100%!important}
+body:has(#schoolStart) .schedule{display:grid!important;gap:12px!important}
+body:has(#schoolStart) .day{background:#f6faff!important;border:1px solid #deebf7!important;border-radius:17px!important;padding:17px!important}
+body:has(#schoolStart) .slot{background:#fff!important;border:1px solid #e2edf7!important;border-radius:12px!important;padding:12px!important;margin:8px 0!important}
+body:has(#schoolStart) .tt-stat{background:#f4f9ff!important;border:1px solid #dcebf7!important;border-radius:14px!important;padding:13px!important}
+/* Footer / mobile responsiveness */
+body footer{color:#7891a7!important;text-align:center;padding:22px!important}
+@media(max-width:850px){body:has(#quickPrompts) .layout,body:has(#paper) .app,body:has(#sessionPill) .layout,body:has(#builder) .layout,body:has(#planForm) .layout{grid-template-columns:1fr!important}body:has(#lessonForm) .welcome{grid-template-columns:1fr!important;text-align:center!important}body:has(#lessonForm) .mascot-wrap{margin:auto!important}body:has(#paper) .app>header{grid-column:auto!important}}
+@media(max-width:600px){body:has(#lessonForm) .layout,body:has(#photo) .wrap,body:has(#quickPrompts) .layout,body:has(#paper) .app,body:has(#planForm) .wrap,body:has(#answer-panel) .layout,body:has(#sessionPill) .layout,body:has(#builder) main,body:has(#schoolStart) .wrap{padding:18px 13px 42px!important}body:has(#lessonForm) .welcome,body:has(#photo) .panel,body:has(#paper) .panel,body:has(#paper) .preview,body:has(#planForm) .panel,body:has(#answer-panel) .workspace,body:has(#answer-panel) .answer-panel,body:has(#answer-panel) .history-panel,body:has(#sessionPill) .panel,body:has(#builder) .panel,body:has(#schoolStart) .panel{padding:18px!important;border-radius:18px!important}body:has(#paper) .fields,body:has(#schoolStart) .fields{grid-template-columns:1fr!important}body:has(.navai-oral-robot-showcase) .app{padding:0 13px 40px!important}body:has(.navai-oral-robot-showcase) .navai-oral-robot-showcase{border-radius:20px!important}body:has(.navai-oral-robot-showcase) .conversation{padding:15px!important}body:has(#photo) .actions{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}

@@ -1,0 +1,284 @@
+﻿/* NAVAI PEARL AURORA — FEATURE THEME */
+:root {
+    color-scheme: light !important;
+    --na-bg: #f6f1ff;
+    --na-surface: #fffaff;
+    --na-surface-2: #f0eaff;
+    --na-primary: #8660c9;
+    --na-primary-dark: #6946a8;
+    --na-accent: #efa98e;
+    --na-text: #453653;
+    --na-muted: #82758e;
+    --na-border: #e7dcef;
+    --na-shadow: 0 12px 35px rgba(115, 82, 153, .10);
+}
+
+/* Page background */
+html {
+    background: #f6f1ff !important;
+    color-scheme: light !important;
+}
+
+body {
+    background:
+        radial-gradient(ellipse at 10% 0%, rgba(220, 202, 255, .55), transparent 42%),
+        radial-gradient(ellipse at 95% 12%, rgba(255, 220, 207, .45), transparent 38%),
+        linear-gradient(135deg, #faf7ff 0%, #f3edff 52%, #fff5f0 100%) !important;
+    background-attachment: fixed !important;
+    color: var(--na-text) !important;
+    font-family: Inter, "Segoe UI", Arial, sans-serif !important;
+}
+
+/* Main text */
+body, body p, body label, body li, body span,
+body h1, body h2, body h3, body h4, body h5, body h6,
+body strong, body small {
+    color: var(--na-text);
+}
+
+body p, body small, body .subtitle, body .description,
+body .muted, body .hint, body .helper-text {
+    color: var(--na-muted) !important;
+}
+
+/* Main surfaces and common panels */
+body main,
+body header,
+body nav,
+body aside,
+body section,
+body article,
+body .container,
+body .wrapper,
+body .main-content,
+body .content,
+body .content-area,
+body .workspace,
+body .sidebar,
+body .topbar,
+body .navbar,
+body .header,
+body .panel,
+body .card,
+body .tool-card,
+body .feature-card,
+body .chat-container,
+body .chat-box,
+body .chat-area,
+body .message-area,
+body .result,
+body .result-box,
+body .output,
+body .output-box,
+body .form-container,
+body .settings-panel,
+body .modal-content,
+body .popup,
+body .dropdown-menu {
+    border-color: var(--na-border) !important;
+}
+
+/* Cards */
+body .card,
+body .tool-card,
+body .feature-card,
+body .panel,
+body .result-box,
+body .output-box,
+body .chat-container,
+body .chat-box,
+body .form-container,
+body .settings-panel,
+body .modal-content,
+body .popup {
+    background: rgba(255, 251, 255, .92) !important;
+    color: var(--na-text) !important;
+    border: 1px solid var(--na-border) !important;
+    border-radius: 20px !important;
+    box-shadow: var(--na-shadow) !important;
+}
+
+/* Headers and navigation */
+body header,
+body .topbar,
+body .navbar,
+body .header,
+body nav,
+body aside,
+body .sidebar {
+    background: rgba(255, 250, 255, .94) !important;
+    color: var(--na-text) !important;
+    border-color: var(--na-border) !important;
+    backdrop-filter: blur(16px);
+}
+
+/* Buttons */
+body button,
+body .btn,
+body input[type="button"],
+body input[type="submit"],
+body a.button,
+body .primary-btn,
+body .action-btn {
+    background: linear-gradient(135deg, #9875d5, #7955b8) !important;
+    color: #ffffff !important;
+    border: 1px solid #8967c3 !important;
+    border-radius: 13px !important;
+    box-shadow: 0 6px 16px rgba(126, 88, 181, .17) !important;
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease !important;
+}
+
+body button:hover,
+body .btn:hover,
+body input[type="button"]:hover,
+body input[type="submit"]:hover,
+body a.button:hover {
+    filter: brightness(1.06) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 9px 20px rgba(126, 88, 181, .22) !important;
+}
+
+/* Secondary actions */
+body .secondary,
+body .secondary-btn,
+body .outline-btn,
+body button.secondary,
+body button[aria-label*="Close"] {
+    background: #f2eaff !important;
+    color: #704da7 !important;
+    border: 1px solid #dfd0f2 !important;
+}
+
+/* Inputs */
+body input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+body textarea,
+body select {
+    background: #fffaff !important;
+    color: #49395a !important;
+    border: 1px solid #dfd2ed !important;
+    border-radius: 12px !important;
+    box-shadow: inset 0 1px 3px rgba(90, 60, 120, .035) !important;
+    outline-color: #a98bd9 !important;
+}
+
+body input::placeholder,
+body textarea::placeholder {
+    color: #a99bb5 !important;
+    opacity: 1 !important;
+}
+
+body input:focus,
+body textarea:focus,
+body select:focus {
+    border-color: #a88bd6 !important;
+    box-shadow: 0 0 0 3px rgba(168, 139, 214, .15) !important;
+}
+
+/* Dropdowns and menus */
+body select,
+body option,
+body .dropdown,
+body .dropdown-menu,
+body .menu,
+body .context-menu {
+    background-color: #fffaff !important;
+    color: var(--na-text) !important;
+}
+
+/* Links and icons */
+body a {
+    color: #7956b2;
+}
+
+body a:hover {
+    color: #a16fbd;
+}
+
+body svg {
+    color: inherit;
+}
+
+/* Chat bubbles and messages */
+body .user-message,
+body .message.user,
+body .chat-message.user {
+    background: #eee5ff !important;
+    color: #49375d !important;
+    border-color: #dfd1f4 !important;
+}
+
+body .ai-message,
+body .message.ai,
+body .assistant-message,
+body .chat-message.assistant {
+    background: #fffaff !important;
+    color: #49375d !important;
+    border-color: #eadff0 !important;
+}
+
+/* Tables */
+body table,
+body th,
+body td {
+    border-color: var(--na-border) !important;
+    color: var(--na-text) !important;
+}
+
+body th {
+    background: #f0e9fb !important;
+}
+
+body tr:nth-child(even) {
+    background: rgba(244, 237, 252, .55) !important;
+}
+
+/* Tags, badges and chips */
+body .badge,
+body .tag,
+body .chip,
+body .pill,
+body .status {
+    background: #f0e8fb !important;
+    color: #7656a5 !important;
+    border-color: #e1d4f0 !important;
+}
+
+/* Progress bars */
+body progress,
+body .progress,
+body .progress-bar {
+    accent-color: #9875d5 !important;
+}
+
+body ::selection {
+    background: #dfd0fa !important;
+    color: #49375d !important;
+}
+
+/* Scrollbar */
+body * {
+    scrollbar-color: #c8b4e5 #f5effa;
+}
+
+body *::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+body *::-webkit-scrollbar-track {
+    background: #f5effa;
+}
+
+body *::-webkit-scrollbar-thumb {
+    background: #c8b4e5;
+    border-radius: 20px;
+}
+
+/* Preserve readable disabled states */
+body button:disabled,
+body input:disabled,
+body textarea:disabled,
+body select:disabled {
+    opacity: .58 !important;
+    cursor: not-allowed !important;
+}

@@ -414,7 +414,7 @@ async function copyText(text) {
     if (!success) throw new Error("Copy failed");
 }
 
-/* SEND MESSAGE */
+/* SEND MESSAGE Ã¢â‚¬â€ supports response, answer, or reply */
 
 chatForm.addEventListener("submit", async event => {
     event.preventDefault();

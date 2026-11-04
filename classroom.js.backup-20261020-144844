@@ -1,0 +1,93 @@
+const $ = id => document.getElementById(id);
+const topicInput = $("topic"), board = $("board"), statusBox = $("status");
+let lesson = null, activeStep = 0, history = [], busy = false;
+const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const textOf = value => typeof value === "string" ? value : "";
+
+function parseLesson(raw, question) {
+  let data;
+  try {
+    const cleaned = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim();
+    data = JSON.parse(cleaned);
+  } catch {
+    data = {title: question, intro: raw, steps: [{heading:"Explanation", explanation:raw}], takeaway:"Ask a follow-up if you want another example."};
+  }
+  if (!data || typeof data !== "object") data = {};
+  if (!Array.isArray(data.steps) || !data.steps.length) data.steps = [{heading:"Explanation", explanation:textOf(data.intro) || raw}];
+  data.title = textOf(data.title) || question;
+  data.intro = textOf(data.intro);
+  data.steps = data.steps.slice(0,8).map((s,i)=>({
+    heading:textOf(s.heading)||`Step ${i+1}`,
+    explanation:textOf(s.explanation)||textOf(s.content)||"",
+    equation:textOf(s.equation)
+  }));
+  data.takeaway = textOf(data.takeaway);
+  data.visuals = Array.isArray(data.visuals) ? data.visuals.filter(v=>typeof v==="string").slice(0,5) : [];
+  return data;
+}
+function setStatus(message, mode="") { statusBox.textContent=message; statusBox.className="status"+(mode?" "+mode:""); }
+function setBusy(value) {
+  busy=value; $("teachBtn").disabled=value;
+  $("teachBtn").innerHTML=value?"<span>Preparing lesson?</span>":"<span>Teach me</span><span>?</span>";
+}
+function stopVoice() { if ("speechSynthesis" in window) speechSynthesis.cancel(); }
+function renderLesson() {
+  if (!lesson) return;
+  const steps=lesson.steps;
+  activeStep=Math.max(0,Math.min(activeStep,steps.length-1));
+  const stepCards=steps.map((s,i)=>`<article class="lesson-step ${i===activeStep?"active":""}" data-step="${i}">
+    <div class="step-number">${i+1}</div><div class="step-copy"><h4>${escapeHtml(s.heading)}</h4>
+    <p>${escapeHtml(s.explanation)}</p>${s.equation?`<div class="equation">${escapeHtml(s.equation)}</div>`:""}</div></article>`).join("");
+  const concepts=(lesson.visuals.length?lesson.visuals:steps.map(s=>s.heading)).slice(0,5);
+  board.innerHTML=`<div class="lesson-heading"><div><h3>${escapeHtml(lesson.title)}</h3><p>${escapeHtml(lesson.intro)}</p></div><span class="lesson-chip">PICO'S BOARD</span></div>
+  <div class="lesson-grid"><div class="steps-list">${stepCards}</div>
+  <aside class="visual-card"><h4>? Concept map</h4><div class="concept-list">${concepts.map((c,i)=>`<div class="concept"><span>${["?","?","?","?","?"][i]}</span>${escapeHtml(c)}</div>`).join("")}</div>
+  <div class="takeaway"><b>REMEMBER THIS</b><p>${escapeHtml(lesson.takeaway||"Understand the idea first, then practise with an example.")}</p></div></aside></div>`;
+  $("stepCounter").textContent=`Step ${activeStep+1} of ${steps.length}`;
+  $("prevBtn").disabled=activeStep===0; $("nextBtn").disabled=activeStep===steps.length-1;
+  $("lessonActions").hidden=false;
+  board.querySelectorAll("[data-step]").forEach(el=>el.addEventListener("click",()=>{activeStep=Number(el.dataset.step);renderLesson();}));
+}
+async function teach(question, isFollowup=false) {
+  if (busy) return;
+  question=question.trim();
+  if (!question) return;
+  stopVoice(); setBusy(true); setStatus("Pico is preparing your explanation? this may take a moment.","loading");
+  try {
+    const prior=history.slice(-6);
+    const response=await fetch("/api/classroom/explain",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      question,level:$("level").value,language:$("language").value,history:prior
+    })});
+    const result=await response.json();
+    if(!response.ok) throw new Error(result.error||"Could not create the lesson.");
+    const raw=textOf(result.lesson);
+    if(!raw) throw new Error("The AI returned an empty lesson. Please try again.");
+    lesson=parseLesson(raw,question); activeStep=0; renderLesson();
+    history.push({role:"user",content:question},{role:"assistant",content:raw});
+    history=history.slice(-8);
+    setStatus(isFollowup?"Follow-up explained. Keep asking if anything is unclear.":"Lesson ready! Use the arrows to explore each step.","");
+    if(isFollowup) $("followInput").value="";
+  } catch(error) {
+    setStatus(error.message||"Something went wrong. Please try again.","error");
+  } finally {setBusy(false);}
+}
+$("lessonForm").addEventListener("submit",e=>{e.preventDefault();history=[];teach(topicInput.value);});
+$("followForm").addEventListener("submit",e=>{e.preventDefault();if(!lesson){setStatus("Start by choosing a topic above first.");return;}teach($("followInput").value,true);});
+document.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>{topicInput.value=b.dataset.topic;topicInput.focus();}));
+$("prevBtn").addEventListener("click",()=>{if(activeStep>0){activeStep--;renderLesson();}});
+$("nextBtn").addEventListener("click",()=>{if(lesson&&activeStep<lesson.steps.length-1){activeStep++;renderLesson();}});
+$("speakBtn").addEventListener("click",()=>{
+  if(!lesson){return;}
+  if(!("speechSynthesis" in window)){setStatus("Voice playback is not supported by this browser.","error");return;}
+  stopVoice();
+  const text=[lesson.title,lesson.intro,...lesson.steps.map((s,i)=>`Step ${i+1}. ${s.heading}. ${s.explanation}. ${s.equation||""}`),`Remember: ${lesson.takeaway||""}`].filter(Boolean).join(". ");
+  const utterance=new SpeechSynthesisUtterance(text);
+  const lang=$("language").value;
+  utterance.lang=lang.includes("Hindi")?"hi-IN":lang.includes("Hinglish")?"hi-IN":"en-IN";
+  utterance.rate=0.94;
+  utterance.onerror=()=>setStatus("Voice playback stopped or is unavailable.");
+  speechSynthesis.speak(utterance);
+});
+$("pauseBtn").addEventListener("click",()=>{if("speechSynthesis" in window){if(speechSynthesis.paused)speechSynthesis.resume();else speechSynthesis.pause();}});
+$("stopBtn").addEventListener("click",stopVoice);
+window.addEventListener("beforeunload",stopVoice);

@@ -1,0 +1,49 @@
+:root{color-scheme:dark;--bg:#060c1b;--panel:#0d172d;--line:#243450;--muted:#9aaac5;--text:#edf3ff;--blue:#7195ff;--purple:#b28aff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1a2b58 0,transparent 50%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,select,textarea{font:inherit}
+button,a,select{ -webkit-tap-highlight-color:transparent}
+.topbar{height:72px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;background:#071126b8}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-weight:750;font-size:19px}
+.brand-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#568bff,#a06cff);color:white}
+.brand-sub{font-size:13px;color:var(--muted);font-weight:500}
+.back-link{color:#d2dcf1;text-decoration:none;font-size:13px}
+.back-link:hover{color:white}
+.layout{width:min(850px,92%);margin:0 auto;padding:55px 0 80px}
+.hero{text-align:center;margin-bottom:32px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:#94b2ff;font-weight:800;margin-bottom:13px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#6df0c1;margin-right:7px;box-shadow:0 0 12px #6df0c188}
+h1{font-size:clamp(32px,5vw,49px);letter-spacing:-1.8px;margin:0;line-height:1.15}
+h1 span{background:linear-gradient(90deg,#7aa8ff,#c49aff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero p{color:var(--muted);line-height:1.7;font-size:14px;margin:16px auto 0;max-width:570px}
+.workspace,.answer-panel,.history-panel{border:1px solid var(--line);background:linear-gradient(145deg,#101c34f2,#0a1326f5);border-radius:20px;padding:25px;box-shadow:0 20px 70px #0002;margin-bottom:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:24px}
+label{display:block;color:#aebed8;font-size:10px;letter-spacing:1.5px;font-weight:800}
+select,textarea{display:block;width:100%;margin-top:10px;border:1px solid #2a3b5b;border-radius:12px;background:#080f20;color:var(--text);padding:13px;outline:none;letter-spacing:0;font-size:14px}
+select:focus,textarea:focus{border-color:#7899ff;box-shadow:0 0 0 3px #7899ff19}
+.question-label{margin-bottom:10px}
+textarea{resize:vertical;line-height:1.65;min-height:125px}
+textarea::placeholder{color:#71819c}
+.suggestions{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0 20px}
+.suggestion,.secondary-button{border:1px solid #2c3d5c;border-radius:999px;padding:9px 12px;background:#121e35;color:#c7d5ef;font-size:12px;cursor:pointer}
+.suggestion:hover,.secondary-button:hover{border-color:#7999ff;color:white}
+.solve-button{width:100%;border:0;border-radius:12px;padding:15px;background:linear-gradient(100deg,#427cff,#8760ec);color:white;font-weight:750;cursor:pointer;box-shadow:0 8px 25px #5d70ff26}
+.solve-button:hover{filter:brightness(1.09)}
+.solve-button:disabled{opacity:.6;cursor:wait}
+.solve-button .arrow{float:right}
+.privacy-note{text-align:center;color:#71819b;font-size:11px;margin:14px 0 0}
+.answer-panel[hidden]{display:none}
+.answer-heading,.history-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}
+h2{font-size:21px;letter-spacing:-.5px;margin:0}
+.answer-actions{display:flex;gap:7px;flex-wrap:wrap}
+.answer-content{font-size:14px;line-height:1.85;color:#dce6f8;overflow-wrap:anywhere;white-space:pre-wrap}
+.history-list{display:grid;gap:9px}
+.history-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid #23334f;border-radius:12px;background:#0a1326}
+.history-question{font-size:13px;color:#e0e9f9;overflow-wrap:anywhere}
+.history-meta{font-size:10px;color:var(--muted);margin-top:6px}
+.history-open{background:transparent;border:1px solid #304364;border-radius:8px;color:#c6d7ff;padding:7px 10px;cursor:pointer;flex-shrink:0}
+.empty-history{font-size:13px;color:#8798b5;padding:8px 0}
+.text-button{border:0;background:transparent;color:#a8baff;cursor:pointer;font-size:12px}
+.status{min-height:20px;color:#b9caff;text-align:center;font-size:12px}
+.navai-doubt-solver-card{display:block;text-decoration:none;color:inherit}
+@media(max-width:600px){.topbar{padding:0 4%;height:62px}.brand{font-size:16px;gap:7px}.brand-sub{font-size:11px}.layout{padding-top:35px}.workspace,.answer-panel,.history-panel{padding:18px;border-radius:16px}.form-row{grid-template-columns:1fr}.answer-heading,.history-heading{align-items:flex-start;flex-direction:column}.answer-actions{width:100%}.suggestion{font-size:11px}}

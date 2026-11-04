@@ -1,0 +1,95 @@
+/* NavAI unified Lavender + Peach feature theme. Loaded last on every feature page. */
+:root {
+  color-scheme: light;
+  --nv-bg: #f5efff;
+  --nv-surface: rgba(255,255,255,.88);
+  --nv-surface-strong: #fffdfd;
+  --nv-text: #211936;
+  --nv-muted: #766b8b;
+  --nv-purple: #9850ed;
+  --nv-purple-soft: #f1e7ff;
+  --nv-orange: #ff861f;
+  --nv-orange-dark: #ed7410;
+  --nv-border: #e7d9fa;
+  --nv-shadow: 0 12px 34px rgba(111,75,159,.10);
+}
+html, body {
+  background: linear-gradient(125deg,#eee2ff 0%,#f8f3ff 46%,#fff0e9 100%) !important;
+  color: var(--nv-text) !important;
+}
+body { min-height:100vh; background-attachment:fixed !important; }
+body::before, body::after { opacity:.12 !important; }
+header, .top, .topbar, .app header, .app .topbar, .app-header, .navbar {
+  background: rgba(255,255,255,.78) !important;
+  color:var(--nv-text) !important;
+  border-color:var(--nv-border) !important;
+  box-shadow:0 5px 22px rgba(111,75,159,.07) !important;
+  backdrop-filter:blur(16px);
+}
+.brand, .brand b, .brand span, .brand small, .brand-sub, .brand-tag,
+.back, .back-link, .topbar a, header a { color:var(--nv-text) !important; }
+.brand-icon, .brand-mark, .avatar, .icon, .lesson-chip, .tag, .pill,
+.mini-tags span, .mentor-tags span, .language, .control span {
+  background:#f1e7ff !important; color:#8c43df !important; border-color:#e3d0fa !important;
+}
+h1,h2,h3,h4,h5,h6,.hero-title,.title,.section-title,.welcome-copy h1,
+.intro h1,.hero h1,.eyebrow,.question-label,.board-top h2 {
+  color:var(--nv-text) !important;
+}
+h1 span,h1 em,.gradient-text,.accent-text,.intro h1 span,.hero h1 span,
+.welcome-copy h1 span { color:#9850ed !important; background:none !important; -webkit-text-fill-color:#9850ed !important; }
+p,small,label,.hint,.note,.muted,.description,.subtitle,.hero p,
+.intro p,.welcome-copy>p,.step-copy p,.history-meta,.task-meta,
+.chat-foot,.privacy-note,.free-note,.footer-status { color:var(--nv-muted) !important; }
+.panel,.workspace,.answer-panel,.history-panel,.chat-card,.ask-panel,.board-section,
+.followup,.conversation,.transcript,.controls,.control,.result,.questionbox,
+.feedback,.stats,.stat,.history,.question,.answer,.preview,.preview-head,
+.paper-wrap,.tip-card,.task,.chapter,.empty-board,.visual-card,.lesson-step,
+.messages,.composer,.suggestions,.suggestion,.form-panel,.history-item,
+.layout .panel,.side-column .panel,.chat-head,.message,.progress-card {
+  background:var(--nv-surface) !important;
+  color:var(--nv-text) !important;
+  border-color:var(--nv-border) !important;
+  box-shadow:var(--nv-shadow) !important;
+}
+.message.user,.message.user p,.message-row.user .message-bubble,
+.user-message,.user-bubble { background:#f0e5ff !important; color:var(--nv-text) !important; border-color:#dfc8fa !important; }
+input,textarea,select,.composer textarea,.language select {
+  background:#fff !important; color:var(--nv-text) !important;
+  border:1px solid #dfd0f3 !important; box-shadow:none !important;
+}
+input::placeholder,textarea::placeholder { color:#a398b4 !important; }
+input:focus,textarea:focus,select:focus {
+  outline:none !important; border-color:#b77af4 !important;
+  box-shadow:0 0 0 3px rgba(152,80,237,.13) !important;
+}
+button,.button,.btn,a.button,[role="button"],.primary,.primary-button,
+.solve-button,.send-btn,.ask-row button,.actions button:first-child,
+.row button:first-child,.orb-button {
+  background:linear-gradient(135deg,#ff9b35,#ff7917) !important;
+  color:#fff !important; border:1px solid #ff8a24 !important;
+  box-shadow:0 7px 17px rgba(255,132,31,.20) !important;
+}
+button:hover,.button:hover,.btn:hover,.primary:hover,.solve-button:hover,
+.send-btn:hover { background:linear-gradient(135deg,#ffad54,#f47712) !important; }
+button:disabled { opacity:.55 !important; }
+.secondary,.secondary-button,.back,.back-link,.icon-btn,.text-button,
+.quick-prompts button,.suggestions button,.chat-foot button {
+  background:#f2e9ff !important; color:#8141c9 !important;
+  border:1px solid #e2d0f7 !important; box-shadow:none !important;
+}
+a { color:#8b45d5 !important; }
+hr,.divider,.separator { border-color:#e7d9fa !important; }
+.status,.status.loading,.live,.online,.pulse { color:#8c4bd5 !important; }
+.status.error { color:#c34c63 !important; }
+.progress,.progress-track,.task-progress { background:#eee4f8 !important; }
+.progress-bar,.progress-fill { background:linear-gradient(90deg,#a66af0,#ff9a3c) !important; }
+/* Remove legacy blue glows, borders and shadows from decorative elements. */
+.pulse,.live-dot,.board-dot,.online-dot,.status-indicator { background:#b779ed !important; box-shadow:0 0 0 4px rgba(183,121,237,.13) !important; }
+.orb-button,.orb-core,.orb-halo,.mic-orb,.voice-orb,.microphone-orb,
+#micButton,#mic-orb,#voiceOrb,#microphone { background:radial-gradient(circle at 35% 30%,#fff1df,#d8b5ff 62%,#a66be8) !important; border-color:#c99bed !important; box-shadow:0 12px 34px rgba(152,80,237,.20) !important; }
+.orb-ring,.mic-ring,.voice-ring,.orbital-ring,.mic-pulse,.pulse-ring,.ring,.mic-glow { border-color:rgba(160,95,220,.38) !important; }
+.sound-bars i,.wave-bar,.waveform span,.audio-wave span,.sound-wave span,.equalizer span { background:#a66be8 !important; }
+/* Preserve canvas and generated note previews while removing blue UI chrome. */
+canvas { border-color:#e7d9fa !important; }
+@media(max-width:760px) { body { background-attachment:scroll !important; } }

@@ -1,0 +1,234 @@
+
+(() => {
+  if (window.__navAIVoiceInstalled) return;
+  window.__navAIVoiceInstalled = true;
+
+  function init() {
+    const form = document.getElementById("chatForm");
+    const plus = document.getElementById("attachBtn");
+    const input = document.getElementById("messageInput");
+    const imageInput = document.getElementById("imageInput");
+
+    if (!form || !plus || !input || !imageInput) return;
+
+    // Remove any old floating voice panel
+    document.getElementById("navai-voice-panel")?.remove();
+
+    const style = document.createElement("style");
+    style.textContent = `
+      #navai-voice-panel {
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 12px);
+        z-index: 10000;
+        width: 250px;
+        max-width: calc(100vw - 40px);
+        display: none;
+        flex-direction: column;
+        gap: 7px;
+        padding: 12px;
+        border: 1px solid rgba(105,130,255,.45);
+        border-radius: 16px;
+        background: #10172b;
+        color: #fff;
+        box-shadow: 0 12px 35px #0008;
+        font: 14px/1.4 system-ui, sans-serif;
+      }
+      #navai-voice-panel.open { display: flex; }
+      #navai-voice-panel button,
+      #navai-voice-panel select {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #35466e;
+        border-radius: 10px;
+        background: #1b2745;
+        color: #fff;
+        text-align: left;
+        font: inherit;
+        cursor: pointer;
+      }
+      #navai-voice-panel button:hover {
+        background: #293d69;
+      }
+      #navai-voice-panel .voice-title {
+        padding: 2px 4px 7px;
+        font-weight: 700;
+        color: #b9c9ff;
+      }
+      #navai-voice-panel #navai-voice-status {
+        color: #bdcaff;
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+      #chatForm { position: relative; }
+    `;
+    document.head.appendChild(style);
+
+    const panel = document.createElement("div");
+    panel.id = "navai-voice-panel";
+    panel.innerHTML = `
+      <div class="voice-title">NavAI Tools</div>
+      <button type="button" id="navai-image">＋ Attach image</button>
+      <button type="button" id="navai-mic">🎙️ Speak to type</button>
+      <button type="button" id="navai-read">🔊 Read answer aloud</button>
+      <button type="button" id="navai-stop">⏹ Stop voice</button>
+      <label for="navai-voice-language">Voice language</label>
+      <select id="navai-voice-language">
+        <option value="hi-IN">Hindi</option>
+        <option value="en-IN">English (India)</option>
+        <option value="en-US">English (US)</option>
+      </select>
+      <div id="navai-voice-status" role="status">Voice ready</div>
+    `;
+    form.appendChild(panel);
+
+    const mic = panel.querySelector("#navai-mic");
+    const read = panel.querySelector("#navai-read");
+    const stop = panel.querySelector("#navai-stop");
+    const language = panel.querySelector("#navai-voice-language");
+    const status = panel.querySelector("#navai-voice-status");
+
+    const setStatus = message => {
+      status.textContent = message;
+    };
+
+    // The + button opens this menu instead of immediately opening files.
+    plus.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      panel.classList.toggle("open");
+    }, true);
+
+    panel.querySelector("#navai-image").addEventListener("click", () => {
+      panel.classList.remove("open");
+      imageInput.click();
+    });
+
+    // Close the menu when clicking outside it.
+    document.addEventListener("click", event => {
+      if (!panel.contains(event.target) && !plus.contains(event.target)) {
+        panel.classList.remove("open");
+      }
+    });
+
+    const Recognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let listening = false;
+
+    mic.addEventListener("click", () => {
+      if (!Recognition) {
+        setStatus("Voice input is not supported. Try updated Chrome or Edge.");
+        return;
+      }
+
+      if (listening && recognition) {
+        recognition.stop();
+        return;
+      }
+
+      try {
+        recognition = new Recognition();
+        recognition.lang = language.value;
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onstart = () => {
+          listening = true;
+          mic.textContent = "⏹️ Stop listening";
+          setStatus("Listening... Speak now.");
+        };
+
+        recognition.onresult = event => {
+          const transcript = [...event.results]
+            .map(result => result[0].transcript)
+            .join(" ").trim();
+
+          if (transcript) {
+            const setter = Object.getOwnPropertyDescriptor(
+              HTMLTextAreaElement.prototype, "value"
+            ).set;
+
+            setter.call(input, transcript);
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.focus();
+            setStatus("Text added. Check it, then press Send.");
+          } else {
+            setStatus("No speech detected. Try again.");
+          }
+        };
+
+        recognition.onerror = event => {
+          const messages = {
+            "not-allowed": "Allow microphone permission in your browser.",
+            "no-speech": "No speech detected. Try again.",
+            "network": "Network issue during speech recognition."
+          };
+          setStatus(messages[event.error] || `Voice error: ${event.error}`);
+        };
+
+        recognition.onend = () => {
+          listening = false;
+          mic.textContent = "🎙️ Speak to type";
+        };
+
+        recognition.start();
+      } catch {
+        listening = false;
+        setStatus("Could not start microphone. Try again.");
+      }
+    });
+
+    read.addEventListener("click", () => {
+      if (!("speechSynthesis" in window)) {
+        setStatus("Voice playback is not supported in this browser.");
+        return;
+      }
+
+      const selected = window.getSelection()?.toString().trim();
+      const answers = [
+        ...document.querySelectorAll(
+          "#messages .message-row.assistant .message-bubble"
+        )
+      ];
+      const answer = selected ||
+        (answers.length ? answers[answers.length - 1].innerText.trim() : "");
+
+      if (!answer) {
+        setStatus("Ask NavAI a question first, then try Read answer.");
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const speech = new SpeechSynthesisUtterance(answer.slice(0, 8000));
+      speech.lang = language.value;
+
+      const prefix = language.value.split("-")[0].toLowerCase();
+      const voices = window.speechSynthesis.getVoices();
+      const matchingVoice = voices.find(
+        voice => voice.lang.toLowerCase().startsWith(prefix)
+      );
+      if (matchingVoice) speech.voice = matchingVoice;
+
+      speech.onstart = () => setStatus("Reading NavAI's answer...");
+      speech.onend = () => setStatus("Finished reading.");
+      speech.onerror = () => setStatus("Could not play the voice.");
+
+      window.speechSynthesis.speak(speech);
+    });
+
+    stop.addEventListener("click", () => {
+      if (recognition && listening) recognition.stop();
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      setStatus("Voice stopped.");
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+})();

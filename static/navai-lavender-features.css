@@ -1,0 +1,258 @@
+/* NavAI unified Lavender + Peach feature theme. Loaded last on every feature page. */
+:root {
+  color-scheme: light;
+  --nv-bg: #f5efff;
+  --nv-surface: rgba(255,255,255,.88);
+  --nv-surface-strong: #fffdfd;
+  --nv-text: #211936;
+  --nv-muted: #766b8b;
+  --nv-purple: #9850ed;
+  --nv-purple-soft: #f1e7ff;
+  --nv-orange: #ff861f;
+  --nv-orange-dark: #ed7410;
+  --nv-border: #e7d9fa;
+  --nv-shadow: 0 12px 34px rgba(111,75,159,.10);
+}
+html, body {
+  background: linear-gradient(125deg,#eee2ff 0%,#f8f3ff 46%,#fff0e9 100%) !important;
+  color: var(--nv-text) !important;
+}
+body { min-height:100vh; background-attachment:fixed !important; }
+body::before, body::after { opacity:.12 !important; }
+header, .top, .topbar, .app header, .app .topbar, .app-header, .navbar {
+  background: rgba(255,255,255,.78) !important;
+  color:var(--nv-text) !important;
+  border-color:var(--nv-border) !important;
+  box-shadow:0 5px 22px rgba(111,75,159,.07) !important;
+  backdrop-filter:blur(16px);
+}
+.brand, .brand b, .brand span, .brand small, .brand-sub, .brand-tag,
+.back, .back-link, .topbar a, header a { color:var(--nv-text) !important; }
+.brand-icon, .brand-mark, .avatar, .icon, .lesson-chip, .tag, .pill,
+.mini-tags span, .mentor-tags span, .language, .control span {
+  background:#f1e7ff !important; color:#8c43df !important; border-color:#e3d0fa !important;
+}
+h1,h2,h3,h4,h5,h6,.hero-title,.title,.section-title,.welcome-copy h1,
+.intro h1,.hero h1,.eyebrow,.question-label,.board-top h2 {
+  color:var(--nv-text) !important;
+}
+h1 span,h1 em,.gradient-text,.accent-text,.intro h1 span,.hero h1 span,
+.welcome-copy h1 span { color:#9850ed !important; background:none !important; -webkit-text-fill-color:#9850ed !important; }
+p,small,label,.hint,.note,.muted,.description,.subtitle,.hero p,
+.intro p,.welcome-copy>p,.step-copy p,.history-meta,.task-meta,
+.chat-foot,.privacy-note,.free-note,.footer-status { color:var(--nv-muted) !important; }
+.panel,.workspace,.answer-panel,.history-panel,.chat-card,.ask-panel,.board-section,
+.followup,.conversation,.transcript,.controls,.control,.result,.questionbox,
+.feedback,.stats,.stat,.history,.question,.answer,.preview,.preview-head,
+.paper-wrap,.tip-card,.task,.chapter,.empty-board,.visual-card,.lesson-step,
+.messages,.composer,.suggestions,.suggestion,.form-panel,.history-item,
+.layout .panel,.side-column .panel,.chat-head,.message,.progress-card {
+  background:var(--nv-surface) !important;
+  color:var(--nv-text) !important;
+  border-color:var(--nv-border) !important;
+  box-shadow:var(--nv-shadow) !important;
+}
+.message.user,.message.user p,.message-row.user .message-bubble,
+.user-message,.user-bubble { background:#f0e5ff !important; color:var(--nv-text) !important; border-color:#dfc8fa !important; }
+input,textarea,select,.composer textarea,.language select {
+  background:#fff !important; color:var(--nv-text) !important;
+  border:1px solid #dfd0f3 !important; box-shadow:none !important;
+}
+input::placeholder,textarea::placeholder { color:#a398b4 !important; }
+input:focus,textarea:focus,select:focus {
+  outline:none !important; border-color:#b77af4 !important;
+  box-shadow:0 0 0 3px rgba(152,80,237,.13) !important;
+}
+button,.button,.btn,a.button,[role="button"],.primary,.primary-button,
+.solve-button,.send-btn,.ask-row button,.actions button:first-child,
+.row button:first-child,.orb-button {
+  background:linear-gradient(135deg,#ff9b35,#ff7917) !important;
+  color:#fff !important; border:1px solid #ff8a24 !important;
+  box-shadow:0 7px 17px rgba(255,132,31,.20) !important;
+}
+button:hover,.button:hover,.btn:hover,.primary:hover,.solve-button:hover,
+.send-btn:hover { background:linear-gradient(135deg,#ffad54,#f47712) !important; }
+button:disabled { opacity:.55 !important; }
+.secondary,.secondary-button,.back,.back-link,.icon-btn,.text-button,
+.quick-prompts button,.suggestions button,.chat-foot button {
+  background:#f2e9ff !important; color:#8141c9 !important;
+  border:1px solid #e2d0f7 !important; box-shadow:none !important;
+}
+a { color:#8b45d5 !important; }
+hr,.divider,.separator { border-color:#e7d9fa !important; }
+.status,.status.loading,.live,.online,.pulse { color:#8c4bd5 !important; }
+.status.error { color:#c34c63 !important; }
+.progress,.progress-track,.task-progress { background:#eee4f8 !important; }
+.progress-bar,.progress-fill { background:linear-gradient(90deg,#a66af0,#ff9a3c) !important; }
+/* Remove legacy blue glows, borders and shadows from decorative elements. */
+.pulse,.live-dot,.board-dot,.online-dot,.status-indicator { background:#b779ed !important; box-shadow:0 0 0 4px rgba(183,121,237,.13) !important; }
+.orb-button,.orb-core,.orb-halo,.mic-orb,.voice-orb,.microphone-orb,
+#micButton,#mic-orb,#voiceOrb,#microphone { background:radial-gradient(circle at 35% 30%,#fff1df,#d8b5ff 62%,#a66be8) !important; border-color:#c99bed !important; box-shadow:0 12px 34px rgba(152,80,237,.20) !important; }
+.orb-ring,.mic-ring,.voice-ring,.orbital-ring,.mic-pulse,.pulse-ring,.ring,.mic-glow { border-color:rgba(160,95,220,.38) !important; }
+.sound-bars i,.wave-bar,.waveform span,.audio-wave span,.sound-wave span,.equalizer span { background:#a66be8 !important; }
+/* Preserve canvas and generated note previews while removing blue UI chrome. */
+canvas { border-color:#e7d9fa !important; }
+@media(max-width:760px) { body { background-attachment:scroll !important; } }
+
+/* =========================================================
+   NAVAI PEARL LAVENDER GLOBAL PALETTE
+   Visual-only overrides. Existing layout and JS untouched.
+   ========================================================= */
+:root {
+  color-scheme: light;
+  --navai-bg: #f6f2fb;
+  --navai-surface: #fff;
+  --navai-surface-soft: #f0e9f8;
+  --navai-border: #e3d8ef;
+  --navai-text: #342b40;
+  --navai-muted: #82778f;
+  --navai-purple: #8060b5;
+  --navai-purple-dark: #684991;
+  --navai-orange: #ed955b;
+}
+
+/* Page canvas and major structural regions */
+html, body {
+  background-color: var(--navai-bg) !important;
+  color: var(--navai-text) !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(218,202,239,.28), transparent 40%),
+    radial-gradient(ellipse at 92% 100%, rgba(255,225,203,.18), transparent 36%) !important;
+}
+main, [role="main"], .main, .main-content, .main-area,
+.content, .content-area, .page-content, .app-content,
+.workspace, .dashboard, .chat-area, .chat-container,
+.conversation, .welcome-screen {
+  color: var(--navai-text) !important;
+}
+header, .header, .topbar, .navbar, .nav-bar, .top-nav,
+.app-header, .page-header {
+  background: rgba(250,247,255,.96) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 3px 18px rgba(75,55,99,.045) !important;
+}
+
+/* Sidebars and navigation */
+aside, .sidebar, .side-bar, .app-sidebar, .left-sidebar,
+.navigation, .side-nav, .sidenav {
+  background: linear-gradient(160deg,#fcfaff 0%,#f2ecf9 100%) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 6px 0 24px rgba(75,55,99,.055) !important;
+}
+.sidebar *, .side-bar *, .app-sidebar *, .left-sidebar *,
+.navigation *, .side-nav *, .sidenav * {
+  text-shadow: none !important;
+}
+.sidebar a, .sidebar button, .side-nav a, .navigation a,
+.sidebar .active, .nav-link.active, .menu-item.active {
+  color: var(--navai-text) !important;
+}
+.sidebar .active, .nav-link.active, .menu-item.active,
+.sidebar a:hover, .sidebar button:hover, .nav-link:hover,
+.menu-item:hover {
+  background-color: #eae1f4 !important;
+  border-color: #ddcfed !important;
+}
+
+/* Cards, panels, tools, result boxes */
+.card, .panel, .widget, .tool-card, .feature-card,
+.result, .result-box, .output, .output-box, .response,
+.response-box, .answer-box, .question-card, .content-card,
+.modal-content, .dialog-content, .settings-panel,
+.history-panel, .profile-card {
+  background-color: var(--navai-surface) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 7px 24px rgba(75,55,99,.055) !important;
+}
+
+/* Inputs, editors, search and chat composer */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select, .input, .search-box, .search-input,
+.prompt-input, .chat-input, .message-input,
+.composer, .input-container, .composer-container {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: #ded1ed !important;
+  caret-color: var(--navai-purple) !important;
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #a196ad !important;
+  opacity: 1 !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #a98acb !important;
+  outline-color: rgba(128,96,181,.18) !important;
+}
+
+/* Buttons: purple primary, orange call-to-action */
+button, .button, .btn, .action-button {
+  border-color: #ddcfed;
+}
+button.primary, .btn-primary, .primary-button,
+.send-button, #sendButton, .new-chat-button {
+  background: var(--navai-purple) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+button.primary:hover, .btn-primary:hover, .primary-button:hover,
+.send-button:hover, #sendButton:hover, .new-chat-button:hover {
+  background: var(--navai-purple-dark) !important;
+}
+button.orange, .btn-orange, .cta-button, .upgrade-button,
+.publish-button, .generate-button {
+  background: var(--navai-orange) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Typography, links and icon accents */
+h1, h2, h3, h4, h5, h6, p, label, li,
+.message, .message-content, .assistant-message,
+.user-message, .markdown-body {
+  text-shadow: none !important;
+}
+a, .link, .accent, .icon-accent {
+  color: var(--navai-purple-dark);
+}
+small, .muted, .subtitle, .description, .helper-text,
+.hint, .secondary-text {
+  color: var(--navai-muted);
+}
+
+/* Common dark/blue surfaces in chatbot and feature tools */
+.chat-message.assistant, .assistant-message,
+.message.assistant, .ai-response, .ai-result,
+.output-panel, .result-panel, .explanation-panel,
+.code-output, .preview-panel, .editor-panel,
+.quiz-panel, .question-panel, .notes-panel,
+.planner-panel, .timetable-panel, .teacher-panel {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+}
+.user-message, .message.user, .chat-message.user {
+  background-color: #eee6f7 !important;
+  color: var(--navai-text) !important;
+  border-color: #dfd2ed !important;
+}
+pre, .code-block {
+  background-color: #f0ebf6 !important;
+  color: #40334f !important;
+  border-color: var(--navai-border) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: #d6c7e7 #f5f0fa;
+}
+::-webkit-scrollbar-track { background: #f5f0fa; }
+::-webkit-scrollbar-thumb {
+  background: #d6c7e7;
+  border-radius: 10px;
+}

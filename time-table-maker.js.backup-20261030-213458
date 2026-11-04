@@ -1,0 +1,254 @@
+﻿const $ = id => document.getElementById(id);
+
+const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+function collectDetails() {
+  const details = {
+    school: {start:$("schoolStart").value,end:$("schoolEnd").value},
+    coaching: {start:$("coachingStart").value,end:$("coachingEnd").value},
+    gym: {start:$("gymStart").value,end:$("gymEnd").value},
+    library: {start:$("libraryStart").value,end:$("libraryEnd").value},
+    studentClass:$("studentClass").value.trim(),
+    goal:$("goal").value.trim()
+  };
+
+  for (const [name,range] of Object.entries(details)) {
+    if (range && typeof range === "object") {
+      if (!!range.start !== !!range.end)
+        throw new Error("Enter both start and end times for " + name + ".");
+      if (range.start && range.end && toMinutes(range.end) <= toMinutes(range.start))
+        throw new Error("Check the " + name + " timing.");
+    }
+  }
+  return details;
+}
+
+function toMinutes(value) {
+  const [h,m] = value.split(":").map(Number);
+  return h*60+m;
+}
+
+function showTime(value) {
+  const h = Math.floor(value/60);
+  const m = value%60;
+  const suffix = h >= 12 ? "PM" : "AM";
+  return `${h%12 || 12}:${String(m).padStart(2,"0")} ${suffix}`;
+}
+
+function duration(start,end) {
+  return toMinutes(end)-toMinutes(start);
+}
+
+function hoursLabel(minutes) {
+  const h = Math.floor(minutes/60);
+  const m = minutes%60;
+  return `${h} hr${h===1?"":"s"}${m ? " "+m+" min" : ""}`;
+}
+
+function overlaps(a,b) {
+  return a.start < b.end && b.start < a.end;
+}
+
+function buildPlan(details) {
+  const result = [];
+  let weeklyMinutes = 0;
+
+  const studySlots = [
+    [6*60, 6*60+45],
+    [15*60, 16*60],
+    [16*60+30, 17*60+30],
+    [18*60, 19*60],
+    [20*60, 20*60+45]
+  ];
+
+  DAYS.forEach((day,index) => {
+    const events = [];
+
+    function add(start,end,activity,kind,notes="") {
+      if (!start || !end) return;
+      const a = toMinutes(start);
+      const b = toMinutes(end);
+      if (b <= a) return;
+      events.push({start:a,end:b,activity,kind,notes});
+    }
+
+    // School: Monday to Saturday only.
+    if (index !== 6 && details.school.start) {
+      add(details.school.start,details.school.end,"School","fixed",
+          "Your school hours.");
+    }
+
+    ["coaching","gym","library"].forEach(key => {
+      if (details[key].start) {
+        add(details[key].start,details[key].end,
+          key.charAt(0).toUpperCase()+key.slice(1),
+          key==="library" ? "library" : "fixed",
+          key==="library"
+            ? "Library study time. Included in your total study hours."
+            : "Your fixed commitment.");
+      }
+    });
+
+    // Add only study sessions that do not overlap fixed commitments.
+    studySlots.forEach(([start,end]) => {
+      const candidate = {start,end};
+      if (!events.some(event => overlaps(candidate,event))) {
+        events.push({
+          start,end,
+          activity:"Self-study",
+          kind:"study",
+          notes:"Focused study time. Choose your own subject."
+        });
+      }
+    });
+
+    // Add short breaks where they fit.
+    [[14*60+45,15*60],[17*60+30,18*60],[19*60,19*60+30]]
+      .forEach(([start,end]) => {
+        const candidate = {start,end};
+        if (!events.some(event => overlaps(candidate,event))) {
+          events.push({
+            start,end,
+            activity:"Break / refreshment",
+            kind:"break",
+            notes:"Relax, have a snack or take a short walk."
+          });
+        }
+      });
+
+    events.sort((a,b)=>a.start-b.start);
+
+    const selfStudyMinutes = events
+      .filter(e=>e.kind==="study")
+      .reduce((sum,e)=>sum+e.end-e.start,0);
+
+    const libraryMinutes = events
+      .filter(e=>e.kind==="library")
+      .reduce((sum,e)=>sum+e.end-e.start,0);
+
+    const totalStudy = selfStudyMinutes+libraryMinutes;
+    weeklyMinutes += totalStudy;
+
+    result.push({
+      day,
+      items:events.map(e=>({
+        start:showTime(e.start),
+        end:showTime(e.end),
+        activity:e.activity,
+        notes:e.notes
+      })),
+      selfStudyMinutes,
+      libraryMinutes,
+      totalStudy
+    });
+  });
+
+  return {
+    summary:"Your routine-based weekly plan. Goal: "+
+      (details.goal || "Balanced daily routine")+
+      ". No subjects have been assigned; choose what you want to study.",
+    days:result,
+    weeklyMinutes
+  };
+}
+
+function renderPlan(data) {
+  const root=$("schedule");
+  root.replaceChildren();
+
+  let stats=$("studyHoursSummary");
+  if (!stats) {
+    stats=document.createElement("div");
+    stats.id="studyHoursSummary";
+    stats.className="study-hours-summary";
+    root.parentNode.insertBefore(stats,root);
+  }
+
+  const totalSelf=data.days.reduce((s,d)=>s+d.selfStudyMinutes,0);
+  const totalLibrary=data.days.reduce((s,d)=>s+d.libraryMinutes,0);
+
+  stats.replaceChildren();
+
+  const heading=document.createElement("h3");
+  heading.textContent="Your study hours";
+  stats.appendChild(heading);
+
+  const weekly=document.createElement("p");
+  weekly.textContent="Weekly total: "+hoursLabel(data.weeklyMinutes);
+  stats.appendChild(weekly);
+
+  const breakdown=document.createElement("p");
+  breakdown.textContent="Self-study: "+hoursLabel(totalSelf)+
+    " | Library: "+hoursLabel(totalLibrary);
+  stats.appendChild(breakdown);
+
+  const note=document.createElement("p");
+  note.textContent="Library hours are included in your study total. School, coaching and gym are not counted as self-study.";
+  stats.appendChild(note);
+
+  $("summary").textContent=data.summary;
+
+  data.days.forEach(day=>{
+    const section=document.createElement("section");
+    section.className="day";
+
+    const heading=document.createElement("h3");
+    heading.textContent=day.day+" — "+hoursLabel(day.totalStudy)+" study";
+    section.appendChild(heading);
+
+    day.items.forEach(item=>{
+      const row=document.createElement("div");
+      row.className="slot";
+
+      const time=document.createElement("div");
+      time.className="slot-time";
+      time.textContent=item.start+" – "+item.end;
+
+      const content=document.createElement("div");
+      const name=document.createElement("div");
+      name.className="slot-name";
+      name.textContent=item.activity;
+
+      const note=document.createElement("div");
+      note.className="slot-note";
+      note.textContent=item.notes;
+
+      content.append(name,note);
+      row.append(time,content);
+      section.appendChild(row);
+    });
+
+    const breakdown=document.createElement("p");
+    breakdown.className="slot-note";
+    breakdown.textContent=
+      "Self-study: "+hoursLabel(day.selfStudyMinutes)+
+      " | Library: "+hoursLabel(day.libraryMinutes);
+    section.appendChild(breakdown);
+
+    root.appendChild(section);
+  });
+
+  $("result").hidden=false;
+  $("result").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function generate() {
+  const button=$("generate");
+  button.disabled=true;
+
+  try {
+    const details=collectDetails();
+    const plan=buildPlan(details);
+    renderPlan(plan);
+    $("status").textContent="Your timetable and study-hour report are ready!";
+  } catch(error) {
+    $("status").textContent=error.message;
+  } finally {
+    button.disabled=false;
+  }
+}
+
+$("generate").addEventListener("click",generate);
+$("regenerate").addEventListener("click",generate);
+$("print").addEventListener("click",()=>window.print());
+$("edit").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));

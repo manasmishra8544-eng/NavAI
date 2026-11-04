@@ -1,0 +1,138 @@
+/* NAVAI OBSIDIAN — unified black theme across feature pages */
+:root {
+  color-scheme: dark !important;
+  --nv-bg: #08090d;
+  --nv-bg-soft: #0d1017;
+  --nv-panel: #11151d;
+  --nv-panel-2: #151b25;
+  --nv-panel-3: #1b2330;
+  --nv-border: #283241;
+  --nv-text: #edf2f8;
+  --nv-muted: #9aa8b8;
+  --nv-accent: #8ab4ff;
+  --nv-accent-strong: #5d94f5;
+  --nv-shadow: 0 14px 40px rgba(0,0,0,.34);
+}
+html, body {
+  background: var(--nv-bg) !important;
+  color: var(--nv-text) !important;
+  color-scheme: dark !important;
+  min-height: 100%;
+}
+body {
+  background-image: radial-gradient(ellipse at 50% -20%, rgba(67,94,137,.16), transparent 55%) !important;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif !important;
+}
+/* Text */
+body, body :where(p, span, label, li, dt, dd, small, strong, em, b, i, h1, h2, h3, h4, h5, h6, a) {
+  color: var(--nv-text);
+}
+body :where(.muted, .subtitle, .description, .hint, .helper-text, .text-muted, small) {
+  color: var(--nv-muted) !important;
+}
+/* Main app surfaces */
+:where(.app-shell, .main-area, .main-content, .content-area, main, .page, .page-content, .workspace, .app-container, .container, .tool-container, .dashboard, .dashboard-content, .welcome-screen, .welcome-content) {
+  background-color: transparent !important;
+  color: var(--nv-text) !important;
+}
+:where(aside, .sidebar, #sidebar, .app-sidebar, nav, .topbar, .navbar, header, .header, .toolbar, .bottom-nav) {
+  background: rgba(12,15,21,.97) !important;
+  color: var(--nv-text) !important;
+  border-color: var(--nv-border) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,.22) !important;
+}
+/* All common cards / workspaces / sections */
+:where(.card, .tool-card, .feature-card, .app-card, .dashboard-card, .panel, .widget, .stat-card, .workspace-card, .tool-panel, .content-card, .section-card, .question-card, .quiz-card, .result-card, .history-card, .chat-panel, .chat-container, .editor-panel, .preview-panel, .notes-panel, .board, .classroom-board, .modal, .dialog, [role="dialog"]) {
+  background: var(--nv-panel) !important;
+  color: var(--nv-text) !important;
+  border: 1px solid var(--nv-border) !important;
+  box-shadow: var(--nv-shadow) !important;
+}
+:where(.card, .tool-card, .feature-card, .app-card, .dashboard-card, .panel, .widget, .stat-card, .workspace-card, .tool-panel, .content-card, .section-card, .question-card, .quiz-card, .result-card, .history-card) :where(h1,h2,h3,h4,h5,h6,p,span,label,small,strong) {
+  color: var(--nv-text) !important;
+}
+/* Explicitly neutralize common light backgrounds on nested blocks */
+:where(.card, .tool-card, .feature-card, .app-card, .dashboard-card, .panel, .widget, .stat-card, .workspace-card, .tool-panel, .content-card, .section-card, .question-card, .quiz-card, .result-card, .history-card) :where(.inner, .body, .content, .header, .footer, .section, .item, .row, .tile) {
+  background-color: transparent !important;
+}
+/* Interactive elements */
+button, .btn, .button, [role="button"], input, textarea, select, option {
+  color: var(--nv-text) !important;
+  border-color: var(--nv-border) !important;
+}
+input, textarea, select {
+  background: #0b0f16 !important;
+  border: 1px solid #303b4b !important;
+  border-radius: 11px !important;
+}
+input::placeholder, textarea::placeholder { color: #77879a !important; }
+input:focus, textarea:focus, select:focus {
+  border-color: var(--nv-accent-strong) !important;
+  box-shadow: 0 0 0 3px rgba(93,148,245,.15) !important;
+  outline: none !important;
+}
+button, .btn, .button, [role="button"] {
+  background-color: #1a2230 !important;
+  border: 1px solid #344154 !important;
+  border-radius: 11px !important;
+}
+button:hover, .btn:hover, .button:hover, [role="button"]:hover {
+  background-color: #242f40 !important;
+  border-color: #526783 !important;
+}
+:where(.primary, .primary-button, .btn-primary, .send-button, .submit-button, button[type="submit"]) {
+  background: linear-gradient(135deg,#376fc4,#28549a) !important;
+  color: #fff !important;
+  border-color: #477bc8 !important;
+}
+/* Chat messages and composer */
+:where(.composer-area, .chat-input-area, .chat-composer, .input-area, .message-input, .prompt-box) {
+  background: #10151e !important;
+  color: var(--nv-text) !important;
+  border: 1px solid var(--nv-border) !important;
+}
+:where(.message-bubble, .message, .chat-message, .assistant-message, .user-message) {
+  color: var(--nv-text) !important;
+  border-color: var(--nv-border) !important;
+}
+:where(.assistant-message, .message-bubble.assistant, .message.assistant) { background: #141a24 !important; }
+:where(.user-message, .message-bubble.user, .message.user) { background: #1a2b43 !important; }
+/* Dashboard and feature-specific roots */
+#navai-tool-dashboard, #classroom, #homework, #oralQuiz, #studentGuide, #handwrittenNotes, #studyPlanner, #doubtSolver, #examImprover, #timeTableMaker {
+  background: var(--nv-bg) !important;
+  color: var(--nv-text) !important;
+}
+#navai-tool-dashboard :where(.tool, .tool-card, .feature, .feature-card, .card) {
+  background: var(--nv-panel) !important;
+  color: var(--nv-text) !important;
+  border-color: var(--nv-border) !important;
+}
+/* Tables, separators, code and popovers */
+table, thead, tbody, tr, td, th { border-color: var(--nv-border) !important; }
+th { background: #171f2b !important; color: #dce8f7 !important; }
+td { background: #10151d !important; color: var(--nv-text) !important; }
+hr, .divider, .separator { border-color: var(--nv-border) !important; }
+pre, code, .code-block { background: #090c12 !important; color: #d8e5f5 !important; border-color: var(--nv-border) !important; }
+:where(.dropdown-menu, .dropdown, .popover, .tooltip, .menu, .context-menu) {
+  background: #141a24 !important;
+  color: var(--nv-text) !important;
+  border: 1px solid var(--nv-border) !important;
+}
+a { color: #9bc2ff !important; }
+a:hover { color: #c1d9ff !important; }
+/* Icons retain contrast */
+svg, svg :where(path, circle, line, rect, polyline, polygon) { stroke: currentColor; }
+/* Scrollbar */
+* { scrollbar-color: #39485e #0b0e14; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: #0b0e14; }
+::-webkit-scrollbar-thumb { background: #39485e; border-radius: 20px; }
+/* Mobile */
+@media (max-width: 768px) {
+  body { background: #08090d !important; }
+  :where(.sidebar, #sidebar, .app-sidebar) { background: #0d1119 !important; }
+  :where(.card, .tool-card, .feature-card, .panel, .workspace-card) { border-radius: 15px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

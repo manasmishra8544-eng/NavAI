@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d1b">
+<title>Time Table Maker | NavAI</title>
+<link rel="stylesheet" href="/time-table-maker.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><span class="brand-icon">N</span><span>NavAI <small>STUDENT OS</small></span></a>
+  <a class="back" href="/">← Dashboard</a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">✦ YOUR AI SCHEDULE ARCHITECT</div>
+    <h1>Your time.<br><span>Your success.</span></h1>
+    <p>Tell NavAI about your routine. It will build a balanced timetable around your day.</p>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <div><span class="eyebrow">YOUR ROUTINE</span><h2>When are you busy?</h2></div>
+      <span class="optional">Timings are optional</span>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <label>🏫 School timing</label>
+        <div class="time-pair"><input id="schoolStart" type="time" aria-label="School start"><span>to</span><input id="schoolEnd" type="time" aria-label="School end"></div>
+      </div>
+      <div class="field">
+        <label>📚 Coaching timing</label>
+        <div class="time-pair"><input id="coachingStart" type="time" aria-label="Coaching start"><span>to</span><input id="coachingEnd" type="time" aria-label="Coaching end"></div>
+      </div>
+      <div class="field">
+        <label>💪 Gym timing</label>
+        <div class="time-pair"><input id="gymStart" type="time" aria-label="Gym start"><span>to</span><input id="gymEnd" type="time" aria-label="Gym end"></div>
+      </div>
+      <div class="field">
+        <label>📖 Library timing</label>
+        <div class="time-pair"><input id="libraryStart" type="time" aria-label="Library start"><span>to</span><input id="libraryEnd" type="time" aria-label="Library end"></div>
+      </div>
+      <div class="field">
+        <label>🎓 Your class</label>
+        <input id="studentClass" type="text" maxlength="50" placeholder="e.g. Class 9, CBSE">
+      </div>
+      <div class="field">
+        <label>🎯 Your goal</label>
+        <input id="goal" type="text" maxlength="180" placeholder="e.g. Score 95%, improve Maths">
+      </div>
+    </div>
+    <p class="hint">You can leave any field blank. Enter only the timings and details that apply to you.</p>
+    <button id="generate" class="primary">✦ Generate my AI timetable <span>→</span></button>
+    <p id="status" class="status" role="status"></p>
+  </section>
+
+  <section id="result" class="result" hidden>
+    <div class="result-head">
+      <div><span class="eyebrow">YOUR PERSONAL PLAN</span><h2>Your timetable</h2><p id="summary"></p></div>
+      <button id="regenerate" class="secondary">↻ Regenerate</button>
+    </div>
+    <div id="schedule" class="schedule"></div>
+    <div class="result-actions">
+      <button id="print" class="secondary">Print / Save PDF</button>
+      <button id="edit" class="secondary">Edit details</button>
+    </div>
+    <p class="footnote">Your timetable is a suggested plan. Adjust it whenever your routine changes.</p>
+  </section>
+  <footer>NavAI · Plan smarter, live better.</footer>
+</main>
+<script src="/time-table-maker.js"></script>
+</body>
+</html>

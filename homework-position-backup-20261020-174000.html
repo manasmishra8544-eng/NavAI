@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d1b">
+<title>NavAI Homework Helper</title>
+<link rel="stylesheet" href="/homework.css">
+<style id="navai-back-button-style">
+.navai-dashboard-back{
+position:fixed;top:14px;left:14px;z-index:1000002;
+width:40px;height:40px;display:grid;place-items:center;
+border:1px solid rgba(145,170,255,.35);border-radius:12px;
+background:rgba(10,18,36,.94);color:#eef2ff;text-decoration:none;
+font:24px/1 Arial,sans-serif;box-shadow:0 6px 24px #0003;
+backdrop-filter:blur(14px);transition:background .18s,border-color .18s
+}
+.navai-dashboard-back:hover{background:#1b2b4b;border-color:#91aaff}
+.navai-dashboard-back:focus-visible{outline:2px solid #91aaff;outline-offset:3px}
+body{padding-top:0}
+</style>
+<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
+<link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
+<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
+<link rel="stylesheet" href="/static/pearl-aurora.css">
+</head>
+<body>
+<a id="navai-dashboard-back" class="navai-dashboard-back" href="/" aria-label="Back to NavAI dashboard" title="Back to dashboard">&#8592;</a>
+
+<header class="top">
+  <a class="brand" href="/">? <span>NavAI</span></a>
+  <span class="pill">HOMEWORK HELPER</span>
+</header>
+<main class="wrap">
+  <section class="intro">
+    <div class="eyebrow">YOUR NOTEBOOK-READY ANSWER</div>
+    <h1>Homework, <span>made simpler.</span></h1>
+    <p>Enter a question or upload its photo. Get a clear, well-formatted answer you can understand and write in your notebook.</p>
+  </section>
+
+  <section class="panel">
+    <label for="subject">Subject</label>
+    <select id="subject">
+      <option>Mathematics</option><option>Science</option><option>English</option>
+      <option>Hindi</option><option>Social Science</option><option>Computer</option>
+      <option>Other</option>
+    </select>
+    <label for="style">Answer style</label>
+    <select id="style">
+      <option value="notebook">Notebook-ready answer</option>
+      <option value="short">Short and direct</option>
+      <option value="detailed">Detailed answer with steps</option>
+    </select>
+    <label for="question">Your question</label>
+    <textarea id="question" maxlength="5000" placeholder="Type or paste your homework question here..."></textarea>
+    <div class="upload">
+      <input id="photo" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+      <button id="uploadBtn" class="secondary" type="button">? Upload question photo</button>
+      <span id="fileName">No photo selected</span>
+      <button id="removePhoto" class="remove" type="button" hidden>Remove</button>
+    </div>
+    <img id="preview" alt="Question preview" hidden>
+    <div class="actions">
+      <span class="hint">Check the result before copying it into your notebook.</span>
+      <button id="solve" class="primary" type="button">Solve homework <span>?</span></button>
+    </div>
+    <p id="status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="result" class="panel result" hidden>
+    <div class="result-head">
+      <div><div class="eyebrow">YOUR ANSWER</div><h2 id="answerTitle">Notebook-ready answer</h2></div>
+      <button id="copy" class="secondary" type="button">Copy answer</button>
+    </div>
+    <pre id="answer"></pre>
+    <p class="hint">AI can make mistakes. Verify calculations, facts and textbook-specific wording.</p>
+  </section>
+
+  <section class="panel history-panel">
+    <div class="result-head">
+      <div><div class="eyebrow">YOUR SAVED WORK</div><h2>Homework History</h2><p id="historyCount" class="hint">0 saved answers</p></div>
+      <button id="clearHistory" class="remove" type="button">Clear history</button>
+    </div>
+    <div id="historyList"></div>
+  </section>
+  <footer>NavAI ? Learn it, understand it, write it.</footer>
+</main>
+<script src="/homework.js"></script>
+</body>
+</html>
+
+
+
+
+

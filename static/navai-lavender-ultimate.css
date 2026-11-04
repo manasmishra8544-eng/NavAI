@@ -1,0 +1,143 @@
+﻿/* NAVAI PREMIUM LAVENDER AURA — GLOBAL FEATURE THEME */
+
+:root {
+    color-scheme: light !important;
+    --nv-bg: #F7F2FC;
+    --nv-surface: #FFFFFF;
+    --nv-surface-2: #F0E8F7;
+    --nv-border: #E8DCEF;
+    --nv-text: #49365E;
+    --nv-muted: #897A9B;
+    --nv-accent: #9873C8;
+    --nv-accent-dark: #7953AC;
+    --nv-accent-soft: #EDE2F6;
+    --nv-highlight: #DCCFC1;
+}
+
+html {
+    color-scheme: light !important;
+    background: #F7F2FC !important;
+}
+
+body {
+    background:
+      radial-gradient(ellipse at 8% 0%, #EEE2F8 0%, transparent 42%),
+      radial-gradient(ellipse at 95% 10%, #F8EDE8 0%, transparent 36%),
+      linear-gradient(135deg, #FBF8FD, #F4EDF8 55%, #FBF7F5) !important;
+    color: var(--nv-text) !important;
+    font-family: Inter, "Segoe UI", system-ui, sans-serif !important;
+    min-height: 100vh;
+}
+
+.app-shell, .app-container, .main-layout,
+.main-area, .main-content, .content-area,
+.workspace, main, .dashboard, .page-content {
+    background-color: transparent !important;
+    color: var(--nv-text) !important;
+}
+
+.sidebar, #sidebar, .app-sidebar,
+.nav-sidebar, aside.sidebar {
+    background: rgba(245,239,250,.97) !important;
+    color: var(--nv-text) !important;
+    border-color: var(--nv-border) !important;
+    box-shadow: 5px 0 25px rgba(100,70,130,.06) !important;
+}
+
+.topbar, .top-bar, .app-header,
+header, .toolbar, .navbar {
+    background: rgba(255,255,255,.94) !important;
+    color: var(--nv-text) !important;
+    border-color: var(--nv-border) !important;
+    box-shadow: 0 5px 22px rgba(100,70,130,.05) !important;
+}
+
+.card, .panel, .tool-card, .feature-card,
+.dashboard-card, .section-card, .stat-card,
+.content-card, .settings-card, .result-card,
+.chat-card, .task-card, .note-card, .quiz-card,
+.lesson-card, .planner-card, .widget,
+.modal-content, .dropdown-menu {
+    background: #FFFFFF !important;
+    color: var(--nv-text) !important;
+    border: 1px solid var(--nv-border) !important;
+    box-shadow: 0 9px 28px rgba(100,70,130,.075) !important;
+    border-radius: 16px;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, label, li, strong, .page-title,
+.card-title, .feature-title, .tool-title {
+    color: var(--nv-text);
+}
+
+small, .muted, .subtitle, .description,
+.helper-text, .hint, .secondary-text {
+    color: var(--nv-muted);
+}
+
+input, textarea, select,
+.search-input, .chat-input,
+.composer input, .composer textarea,
+[contenteditable="true"] {
+    background: #FFFFFF !important;
+    color: var(--nv-text) !important;
+    border: 1px solid #E5D9EE !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #A394B0 !important;
+}
+
+button, .btn, .primary-btn,
+.submit-btn, .send-btn, .action-btn,
+button.primary {
+    background: #9873C8 !important;
+    color: #FFFFFF !important;
+    border-color: #9873C8 !important;
+}
+
+button.secondary, .secondary-btn,
+.btn-secondary, .icon-btn, .voice-btn {
+    background: #F0E8F7 !important;
+    color: #7953AC !important;
+    border-color: #E8DCEF !important;
+}
+
+a {
+    color: #7953AC;
+}
+
+.sidebar a, .sidebar button,
+#sidebar a, #sidebar button {
+    border-radius: 11px;
+}
+
+.sidebar .active, .sidebar a.active,
+#sidebar .active {
+    background: #E9DDF3 !important;
+    color: #68488F !important;
+}
+
+hr, .divider, .border-bottom {
+    border-color: var(--nv-border) !important;
+}
+
+::selection {
+    background: #E5D5F2;
+    color: #49365E;
+}
+
+*:focus-visible {
+    outline-color: #9873C8 !important;
+}
+
+@media (max-width: 768px) {
+    .card, .panel, .tool-card, .feature-card {
+        border-radius: 14px !important;
+    }
+}
+
+/* END NAVAI PREMIUM LAVENDER AURA */

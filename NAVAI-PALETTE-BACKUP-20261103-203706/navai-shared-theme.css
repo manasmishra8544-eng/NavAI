@@ -1,0 +1,48 @@
+/* NAVAI_SHARED_THEME_V1 */
+:root {
+    color-scheme: dark;
+    --navai-bg: #060b18;
+    --navai-surface: #0b1428;
+    --navai-surface-2: #101d36;
+    --navai-border: rgba(148, 177, 230, .18);
+    --navai-text: #eef4ff;
+    --navai-muted: #9baecb;
+    --navai-blue: #528bff;
+    --navai-purple: #9871ff;
+}
+
+html {
+    background: var(--navai-bg);
+}
+
+body {
+    color: var(--navai-text);
+    background-color: var(--navai-bg);
+}
+
+button, input, textarea, select {
+    font: inherit;
+}
+
+button {
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+input, textarea, select {
+    color: var(--navai-text);
+}
+
+:focus-visible {
+    outline: 2px solid var(--navai-blue);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+/* NAVAI_SHARED_THEME_V1_END */

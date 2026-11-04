@@ -1,0 +1,794 @@
+/* ==================================================
+   NAVAI FEATURE STUDIO — MIDNIGHT NEBULA GLASS
+   Visual-only stylesheet. Existing application logic
+   and feature-specific layouts remain untouched.
+   ================================================== */
+
+:root {
+  color-scheme: dark;
+  --nf-bg: #080b14;
+  --nf-bg2: #0d1220;
+  --nf-panel: rgba(20, 27, 44, .70);
+  --nf-panel2: rgba(25, 32, 52, .58);
+  --nf-line: rgba(154, 169, 224, .22);
+  --nf-text: #f0f2ff;
+  --nf-muted: #aab3ca;
+  --nf-purple: #c49aff;
+  --nf-blue: #91b5ff;
+  --nf-cyan: #79e5e6;
+  --nf-shadow: 0 18px 55px rgba(0,0,0,.28);
+}
+
+html {
+  min-height: 100%;
+  background: var(--nf-bg) !important;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh !important;
+  color: var(--nf-text) !important;
+  background:
+    radial-gradient(ellipse at 8% 12%, rgba(121,72,190,.18), transparent 34%),
+    radial-gradient(ellipse at 92% 15%, rgba(32,132,180,.17), transparent 35%),
+    radial-gradient(ellipse at 50% 100%, rgba(69,65,151,.12), transparent 42%),
+    linear-gradient(145deg,#080b14,#0a1020 55%,#080b14) !important;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif !important;
+}
+
+body * { box-sizing: border-box; }
+
+body h1, body h2, body h3, body h4 {
+  color: var(--nf-text) !important;
+  letter-spacing: -.035em;
+}
+
+body p, body .subtitle, body .sub, body .hint,
+body .privacy-note, body .small, body .footnote {
+  color: var(--nf-muted) !important;
+}
+
+body label, body .eyebrow, body .section-title {
+  color: #b9c7ec !important;
+}
+
+body a { color: var(--nf-blue); }
+
+body input,
+body textarea,
+body select {
+  color: #f4f5ff !important;
+  background: rgba(9,14,27,.78) !important;
+  border: 1px solid rgba(144,164,218,.28) !important;
+  border-radius: 13px !important;
+  min-height: 44px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.16) !important;
+}
+
+body textarea {
+  min-height: 112px;
+  line-height: 1.65;
+}
+
+body input::placeholder,
+body textarea::placeholder {
+  color: #77849f !important;
+}
+
+body input:focus,
+body textarea:focus,
+body select:focus {
+  outline: none !important;
+  border-color: #a58cff !important;
+  box-shadow: 0 0 0 4px rgba(151,119,255,.14) !important;
+}
+
+body button {
+  font: inherit;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease,
+              border-color .18s ease, background .18s ease !important;
+}
+
+body button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+body button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.topbar, .top, header.topbar {
+  color: var(--nf-text) !important;
+  background: rgba(10,15,27,.76) !important;
+  border-bottom: 1px solid var(--nf-line) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,.15) !important;
+  backdrop-filter: blur(20px) saturate(145%) !important;
+}
+
+.brand, .brand span, .brand b, .brand small,
+.brand-name, .brand-tag {
+  color: #f0f1ff !important;
+}
+
+.brand-icon, .brand-mark {
+  color: #d6c0ff !important;
+  background: linear-gradient(145deg,rgba(148,103,255,.23),rgba(40,125,180,.18)) !important;
+  border: 1px solid rgba(183,155,255,.42) !important;
+  box-shadow: 0 0 24px rgba(133,105,255,.12) !important;
+}
+
+.back, .back-link {
+  color: #b7caff !important;
+}
+
+.eyebrow {
+  color: #b9a5f2 !important;
+  letter-spacing: .15em !important;
+  font-weight: 800 !important;
+}
+
+.panel, .workspace, .answer-panel, .history-panel,
+.ask-panel, .board-section, .followup, .chat-card,
+.preview, .result, .questionbox, .tip-card,
+.navai-auth-card, .welcome, .hero, .chat-head {
+  color: var(--nf-text) !important;
+  background: linear-gradient(145deg,
+    rgba(26,34,55,.78),rgba(13,20,35,.76)) !important;
+  border: 1px solid var(--nf-line) !important;
+  border-radius: 21px !important;
+  box-shadow: var(--nf-shadow) !important;
+  backdrop-filter: blur(18px) saturate(135%) !important;
+}
+
+.primary, .solve-button, .ask-row button,
+.follow-row button, .action-primary, .send-btn,
+#generate, #teachBtn, #solve, #start,
+#submit, #next {
+  color: #fff !important;
+  background: linear-gradient(115deg,#8058dc,#426fd4 58%,#258ca9) !important;
+  border: 1px solid rgba(190,170,255,.42) !important;
+  border-radius: 13px !important;
+  box-shadow: 0 9px 24px rgba(83,87,190,.23) !important;
+  padding: 12px 19px !important;
+}
+
+.secondary, .icon-btn, .control, .voice-btn,
+.suggestions button, .suggestion, .secondary-button {
+  color: #d3dcff !important;
+  background: rgba(37,46,70,.68) !important;
+  border: 1px solid rgba(148,168,221,.27) !important;
+  border-radius: 12px !important;
+}
+
+.secondary:hover, .suggestions button:hover,
+.suggestion:hover, .control:hover {
+  background: rgba(77,72,125,.58) !important;
+  border-color: rgba(186,164,255,.58) !important;
+}
+
+.status, .pill, .date-pill, .tag, .live-status,
+.live-dot, .mini-tags span, .mentor-tags span {
+  color: #c5d9ff !important;
+  background: rgba(65,91,145,.20) !important;
+  border: 1px solid rgba(135,166,230,.25) !important;
+  border-radius: 30px !important;
+}
+
+/* TEACHER */
+body:has(#lessonForm) .layout {
+  max-width: 1120px !important;
+  margin: 0 auto !important;
+  padding: 34px 24px 60px !important;
+  display: grid !important;
+  gap: 22px !important;
+}
+body:has(#lessonForm) .welcome {
+  display: grid !important;
+  grid-template-columns: minmax(190px,.72fr) minmax(0,1.5fr) !important;
+  align-items: center !important;
+  gap: 30px !important;
+  padding: 30px !important;
+}
+body:has(#lessonForm) .welcome-copy h1 {
+  font-size: clamp(34px,4.5vw,54px) !important;
+  line-height: 1.08 !important;
+}
+body:has(#lessonForm) .welcome-copy h1 span { color: var(--nf-purple) !important; }
+body:has(#lessonForm) .ask-panel,
+body:has(#lessonForm) .board-section,
+body:has(#lessonForm) .followup { padding: 25px !important; }
+body:has(#lessonForm) .board {
+  color: var(--nf-text) !important;
+  background: rgba(8,14,26,.78) !important;
+  border: 1px solid rgba(128,160,222,.27) !important;
+  border-radius: 18px !important;
+  min-height: 280px !important;
+}
+body:has(#lessonForm) .empty-board,
+body:has(#lessonForm) .board-doodle { color: #8293b7 !important; }
+
+/* HOMEWORK */
+body:has(#photo) .wrap {
+  max-width: 920px !important;
+  margin: 0 auto !important;
+  padding: 34px 22px 60px !important;
+}
+body:has(#photo) .intro { padding: 24px 4px 18px !important; }
+body:has(#photo) .intro h1 { font-size: clamp(36px,5vw,54px) !important; }
+body:has(#photo) .intro h1 span { color: var(--nf-purple) !important; }
+body:has(#photo) .panel { padding: 24px !important; margin: 16px 0 !important; }
+body:has(#photo) .upload {
+  background: rgba(10,16,30,.55) !important;
+  border: 1px dashed rgba(156,177,233,.42) !important;
+  border-radius: 16px !important;
+}
+body:has(#photo) .result-head { border-bottom: 1px solid var(--nf-line) !important; }
+body:has(#photo) #answer {
+  color: #e7eaff !important;
+  line-height: 1.8 !important;
+}
+
+/* DOUBT SOLVER */
+body:has(#answer-panel) .layout {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  padding: 34px 22px 60px !important;
+}
+body:has(#answer-panel) .hero { padding: 22px 0 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+body:has(#answer-panel) .hero h1 { font-size: clamp(36px,5vw,54px) !important; }
+body:has(#answer-panel) .hero h1 span { color: var(--nf-purple) !important; }
+body:has(#answer-panel) .workspace,
+body:has(#answer-panel) .answer-panel,
+body:has(#answer-panel) .history-panel {
+  padding: 25px !important; margin: 17px 0 !important;
+}
+body:has(#answer-panel) .suggestions { display:flex !important; gap:9px !important; flex-wrap:wrap !important; margin:14px 0 18px !important; }
+body:has(#answer-panel) .answer-content {
+  color: #e5eaff !important;
+  background: rgba(8,14,27,.72) !important;
+  border: 1px solid var(--nf-line) !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  line-height: 1.8 !important;
+}
+body:has(#answer-panel) .history-item {
+  background: rgba(31,42,65,.55) !important;
+  border: 1px solid var(--nf-line) !important;
+  border-radius: 14px !important;
+  padding: 14px !important;
+  margin: 9px 0 !important;
+}
+
+/* ORAL QUIZ */
+body:has(.navai-oral-robot-showcase) .app {
+  max-width: 1050px !important;
+  margin: 0 auto !important;
+  padding: 25px 22px 50px !important;
+}
+body:has(.navai-oral-robot-showcase) .navai-oral-robot-showcase {
+  color: var(--nf-text) !important;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(105,89,190,.20),transparent 55%),
+    linear-gradient(145deg,rgba(26,35,58,.78),rgba(11,18,32,.84)) !important;
+  border: 1px solid rgba(161,150,235,.28) !important;
+  border-radius: 24px !important;
+  box-shadow: var(--nf-shadow) !important;
+}
+body:has(.navai-oral-robot-showcase) .hero {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body:has(.navai-oral-robot-showcase) .conversation {
+  color: var(--nf-text) !important;
+  background: rgba(8,14,26,.68) !important;
+  border: 1px solid var(--nf-line) !important;
+  border-radius: 18px !important;
+  padding: 20px !important;
+}
+body:has(.navai-oral-robot-showcase) .transcript,
+body:has(.navai-oral-robot-showcase) .reply {
+  color: #e5eaff !important;
+  background: rgba(34,44,70,.52) !important;
+  border: 1px solid rgba(150,170,225,.20) !important;
+  border-radius: 15px !important;
+  padding: 15px !important;
+}
+body:has(.navai-oral-robot-showcase) .orb-button {
+  box-shadow: 0 0 35px rgba(133,105,255,.25) !important;
+}
+
+/* HANDWRITTEN NOTES */
+body:has(#paper) .app {
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  padding: 32px 22px 60px !important;
+  display: grid !important;
+  grid-template-columns: minmax(280px,.8fr) minmax(0,1.2fr) !important;
+  gap: 22px !important;
+  align-items: start !important;
+}
+body:has(#paper) .app>header {
+  grid-column: 1/-1 !important;
+  color: var(--nf-text) !important;
+  background: linear-gradient(110deg,rgba(41,36,74,.78),rgba(16,31,49,.78)) !important;
+  border: 1px solid var(--nf-line) !important;
+  border-radius: 24px !important;
+  padding: 25px 28px !important;
+}
+body:has(#paper) .panel,
+body:has(#paper) .preview { padding: 24px !important; margin: 0 !important; }
+body:has(#paper) .fields { display:grid !important; grid-template-columns:1fr 1fr !important; gap:14px !important; }
+body:has(#paper) .paper-wrap {
+  background: rgba(8,14,26,.75) !important;
+  border: 1px solid var(--nf-line) !important;
+  border-radius: 18px !important;
+  padding: 14px !important;
+  overflow: auto !important;
+}
+/* Keep generated notebook paper white for readability */
+body:has(#paper) canvas {
+  display:block !important;
+  max-width:100% !important;
+  height:auto !important;
+  background:#fff !important;
+  border-radius:5px !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.35) !important;
+}
+
+/* STUDENT GUIDE */
+body:has(#quickPrompts) .layout {
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  padding: 30px 22px 55px !important;
+}
+body:has(#quickPrompts) .intro { color: var(--nf-text) !important; }
+body:has(#quickPrompts) .chat-card {
+  overflow: hidden !important;
+  border-radius: 22px !important;
+}
+body:has(#quickPrompts) .chat-head,
+body:has(#quickPrompts) .composer {
+  background: rgba(10,16,29,.82) !important;
+  border-color: var(--nf-line) !important;
+}
+body:has(#quickPrompts) .messages {
+  color: var(--nf-text) !important;
+  background: rgba(7,12,23,.54) !important;
+  min-height: 300px !important;
+}
+body:has(#quickPrompts) .message {
+  color: #e8ecff !important;
+  background: rgba(45,54,83,.65) !important;
+  border: 1px solid rgba(152,169,225,.22) !important;
+  border-radius: 16px !important;
+  padding: 14px 16px !important;
+}
+body:has(#quickPrompts) .quick-prompts {
+  background: rgba(14,20,35,.72) !important;
+  padding: 14px 18px !important;
+}
+body:has(#quickPrompts) .quick-prompts button {
+  color: #c9d7ff !important;
+  background: rgba(43,54,84,.68) !important;
+  border: 1px solid var(--nf-line) !important;
+}
+body:has(#quickPrompts) .note { color: #8d9bb9 !important; }
+
+/* STUDY PLANNER */
+body:has(#planForm) .wrap {
+  max-width: 1160px !important;
+  margin: 0 auto !important;
+  padding: 30px 22px 60px !important;
+}
+body:has(#planForm) .hero {
+  background:
+    radial-gradient(circle at 90% 0%,rgba(76,122,200,.20),transparent 40%),
+    linear-gradient(115deg,rgba(42,38,75,.78),rgba(16,31,49,.78)) !important;
+  border: 1px solid var(--nf-line) !important;
+  border-radius: 26px !important;
+  padding: 28px !important;
+}
+body:has(#planForm) .hero h1 { font-size:clamp(36px,4.5vw,52px) !important; }
+body:has(#planForm) .hero h1 span { color:var(--nf-purple) !important; }
+body:has(#planForm) .hero-stats>div {
+  color:var(--nf-text) !important;
+  background:rgba(9,16,31,.60) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:16px !important;
+  padding:14px 18px !important;
+}
+body:has(#planForm) .layout {
+  display:grid !important;
+  grid-template-columns:minmax(0,1.55fr) minmax(260px,.8fr) !important;
+  gap:20px !important;
+}
+body:has(#planForm) .panel { padding:23px !important; }
+body:has(#planForm) .task-toolbar {
+  border-top:1px solid var(--nf-line) !important;
+  margin-top:24px !important;
+  padding-top:18px !important;
+}
+body:has(#planForm) .task-list>*,
+body:has(#planForm) .syllabus-list>* {
+  color:var(--nf-text) !important;
+  background:rgba(35,45,70,.55) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:14px !important;
+  padding:13px !important;
+  margin:9px 0 !important;
+}
+body:has(#planForm) .tip-card {
+  background:linear-gradient(120deg,rgba(57,47,91,.65),rgba(20,39,58,.65)) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:18px !important;
+  padding:18px !important;
+}
+
+/* EXAM IMPROVER */
+body:has(#sessionPill) .layout {
+  max-width:1120px !important;
+  margin:0 auto !important;
+  padding:32px 22px 60px !important;
+  display:grid !important;
+  grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr) !important;
+  gap:20px !important;
+  align-items:start !important;
+}
+body:has(#sessionPill) .hero {
+  grid-column:1/-1 !important;
+  background:linear-gradient(110deg,rgba(42,38,75,.78),rgba(16,31,49,.78)) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:24px !important;
+  padding:24px !important;
+}
+body:has(#sessionPill) .hero h1 { font-size:clamp(34px,4vw,48px) !important; }
+body:has(#sessionPill) .hero h1 span { color:var(--nf-purple) !important; }
+body:has(#sessionPill) .panel { padding:22px !important; }
+body:has(#sessionPill) .questionbox {
+  background:rgba(8,14,27,.72) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:17px !important;
+  padding:22px !important;
+  min-height:180px !important;
+  color:#edf0ff !important;
+  line-height:1.75 !important;
+}
+body:has(#sessionPill) .progress {
+  background:#202b43 !important;
+  border-radius:20px !important;
+  overflow:hidden !important;
+}
+body:has(#sessionPill) .progress span {
+  background:linear-gradient(90deg,#a477ff,#559dff,#51d6d5) !important;
+}
+body:has(#sessionPill) .stats .stat,
+body:has(#sessionPill) .feedback {
+  background:rgba(35,45,70,.58) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:15px !important;
+  padding:14px !important;
+}
+body:has(#sessionPill) .feedback { margin-top:16px !important; }
+
+/* STUDENT QUESTION HELPER */
+body:has(#builder) main {
+  max-width:1160px !important;
+  margin:0 auto !important;
+  padding:30px 22px 60px !important;
+}
+body:has(#builder) .hero {
+  background:linear-gradient(110deg,rgba(42,38,75,.78),rgba(16,31,49,.78)) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:25px !important;
+  padding:26px !important;
+  margin-bottom:22px !important;
+}
+body:has(#builder) .hero h1 { font-size:clamp(35px,4vw,50px) !important; }
+body:has(#builder) .hero h1 span { color:var(--nf-purple) !important; }
+body:has(#builder) .layout {
+  display:grid !important;
+  grid-template-columns:minmax(290px,.85fr) minmax(0,1.15fr) !important;
+  gap:20px !important;
+  align-items:start !important;
+}
+body:has(#builder) .panel { padding:23px !important; }
+body:has(#builder) #results {
+  color:#e9edff !important;
+  background:rgba(8,14,27,.72) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:16px !important;
+  padding:18px !important;
+  min-height:240px !important;
+  line-height:1.75 !important;
+}
+body:has(#builder) .tag {
+  background:rgba(123,100,190,.22) !important;
+  color:#d7c8ff !important;
+  border:1px solid rgba(178,151,244,.28) !important;
+}
+
+/* TIMETABLE MAKER */
+body:has(#schoolStart) .wrap {
+  max-width:1050px !important;
+  margin:0 auto !important;
+  padding:30px 22px 60px !important;
+}
+body:has(#schoolStart) .hero { padding:20px 4px 24px !important; background:transparent !important; border:0 !important; box-shadow:none !important; }
+body:has(#schoolStart) .hero h1 { font-size:clamp(36px,4.5vw,54px) !important; }
+body:has(#schoolStart) .hero h1 span { color:var(--nf-purple) !important; }
+body:has(#schoolStart) .panel,
+body:has(#schoolStart) .result { padding:26px !important; margin:16px 0 !important; }
+body:has(#schoolStart) .fields {
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:17px !important;
+}
+body:has(#schoolStart) .field {
+  background:rgba(34,44,68,.48) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:15px !important;
+  padding:14px !important;
+}
+body:has(#schoolStart) .time-pair {
+  display:flex !important;
+  align-items:center !important;
+  gap:9px !important;
+}
+body:has(#schoolStart) .time-pair input { min-width:0 !important; width:100% !important; }
+body:has(#schoolStart) .schedule { display:grid !important; gap:12px !important; }
+body:has(#schoolStart) .day {
+  background:rgba(34,44,68,.50) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:17px !important;
+  padding:17px !important;
+}
+body:has(#schoolStart) .slot {
+  background:rgba(9,16,30,.62) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:12px !important;
+  padding:12px !important;
+  margin:8px 0 !important;
+}
+body:has(#schoolStart) .tt-stat {
+  background:rgba(35,45,70,.58) !important;
+  border:1px solid var(--nf-line) !important;
+  border-radius:14px !important;
+  padding:13px !important;
+}
+
+/* RESPONSIVE */
+@media(max-width:850px) {
+  body:has(#quickPrompts) .layout,
+  body:has(#paper) .app,
+  body:has(#sessionPill) .layout,
+  body:has(#builder) .layout,
+  body:has(#planForm) .layout {
+    grid-template-columns:1fr !important;
+  }
+  body:has(#lessonForm) .welcome {
+    grid-template-columns:1fr !important;
+    text-align:center !important;
+  }
+  body:has(#lessonForm) .mascot-wrap { margin:auto !important; }
+  body:has(#paper) .app>header { grid-column:auto !important; }
+}
+
+@media(max-width:600px) {
+  body:has(#lessonForm) .layout,
+  body:has(#photo) .wrap,
+  body:has(#quickPrompts) .layout,
+  body:has(#paper) .app,
+  body:has(#planForm) .wrap,
+  body:has(#answer-panel) .layout,
+  body:has(#sessionPill) .layout,
+  body:has(#builder) main,
+  body:has(#schoolStart) .wrap {
+    padding:18px 13px 42px !important;
+  }
+  body:has(#lessonForm) .welcome,
+  body:has(#photo) .panel,
+  body:has(#paper) .panel,
+  body:has(#paper) .preview,
+  body:has(#planForm) .panel,
+  body:has(#answer-panel) .workspace,
+  body:has(#answer-panel) .answer-panel,
+  body:has(#answer-panel) .history-panel,
+  body:has(#sessionPill) .panel,
+  body:has(#builder) .panel,
+  body:has(#schoolStart) .panel {
+    padding:18px !important;
+    border-radius:18px !important;
+  }
+  body:has(#paper) .fields,
+  body:has(#schoolStart) .fields {
+    grid-template-columns:1fr !important;
+  }
+  body:has(.navai-oral-robot-showcase) .app {
+    padding:0 13px 40px !important;
+  }
+  body:has(.navai-oral-robot-showcase) .navai-oral-robot-showcase {
+    border-radius:20px !important;
+  }
+  body:has(.navai-oral-robot-showcase) .conversation {
+    padding:15px !important;
+  }
+  body:has(#photo) .actions {
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:10px !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    scroll-behavior:auto !important;
+    transition:none !important;
+    animation:none !important;
+  }
+}
+/* =========================================================
+   NAVAI PEARL LAVENDER GLOBAL PALETTE
+   Visual-only overrides. Existing layout and JS untouched.
+   ========================================================= */
+:root {
+  color-scheme: light;
+  --navai-bg: #f6f2fb;
+  --navai-surface: #fff;
+  --navai-surface-soft: #f0e9f8;
+  --navai-border: #e3d8ef;
+  --navai-text: #342b40;
+  --navai-muted: #82778f;
+  --navai-purple: #8060b5;
+  --navai-purple-dark: #684991;
+  --navai-orange: #ed955b;
+}
+
+/* Page canvas and major structural regions */
+html, body {
+  background-color: var(--navai-bg) !important;
+  color: var(--navai-text) !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(218,202,239,.28), transparent 40%),
+    radial-gradient(ellipse at 92% 100%, rgba(255,225,203,.18), transparent 36%) !important;
+}
+main, [role="main"], .main, .main-content, .main-area,
+.content, .content-area, .page-content, .app-content,
+.workspace, .dashboard, .chat-area, .chat-container,
+.conversation, .welcome-screen {
+  color: var(--navai-text) !important;
+}
+header, .header, .topbar, .navbar, .nav-bar, .top-nav,
+.app-header, .page-header {
+  background: rgba(250,247,255,.96) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 3px 18px rgba(75,55,99,.045) !important;
+}
+
+/* Sidebars and navigation */
+aside, .sidebar, .side-bar, .app-sidebar, .left-sidebar,
+.navigation, .side-nav, .sidenav {
+  background: linear-gradient(160deg,#fcfaff 0%,#f2ecf9 100%) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 6px 0 24px rgba(75,55,99,.055) !important;
+}
+.sidebar *, .side-bar *, .app-sidebar *, .left-sidebar *,
+.navigation *, .side-nav *, .sidenav * {
+  text-shadow: none !important;
+}
+.sidebar a, .sidebar button, .side-nav a, .navigation a,
+.sidebar .active, .nav-link.active, .menu-item.active {
+  color: var(--navai-text) !important;
+}
+.sidebar .active, .nav-link.active, .menu-item.active,
+.sidebar a:hover, .sidebar button:hover, .nav-link:hover,
+.menu-item:hover {
+  background-color: #eae1f4 !important;
+  border-color: #ddcfed !important;
+}
+
+/* Cards, panels, tools, result boxes */
+.card, .panel, .widget, .tool-card, .feature-card,
+.result, .result-box, .output, .output-box, .response,
+.response-box, .answer-box, .question-card, .content-card,
+.modal-content, .dialog-content, .settings-panel,
+.history-panel, .profile-card {
+  background-color: var(--navai-surface) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 7px 24px rgba(75,55,99,.055) !important;
+}
+
+/* Inputs, editors, search and chat composer */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select, .input, .search-box, .search-input,
+.prompt-input, .chat-input, .message-input,
+.composer, .input-container, .composer-container {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: #ded1ed !important;
+  caret-color: var(--navai-purple) !important;
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #a196ad !important;
+  opacity: 1 !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #a98acb !important;
+  outline-color: rgba(128,96,181,.18) !important;
+}
+
+/* Buttons: purple primary, orange call-to-action */
+button, .button, .btn, .action-button {
+  border-color: #ddcfed;
+}
+button.primary, .btn-primary, .primary-button,
+.send-button, #sendButton, .new-chat-button {
+  background: var(--navai-purple) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+button.primary:hover, .btn-primary:hover, .primary-button:hover,
+.send-button:hover, #sendButton:hover, .new-chat-button:hover {
+  background: var(--navai-purple-dark) !important;
+}
+button.orange, .btn-orange, .cta-button, .upgrade-button,
+.publish-button, .generate-button {
+  background: var(--navai-orange) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Typography, links and icon accents */
+h1, h2, h3, h4, h5, h6, p, label, li,
+.message, .message-content, .assistant-message,
+.user-message, .markdown-body {
+  text-shadow: none !important;
+}
+a, .link, .accent, .icon-accent {
+  color: var(--navai-purple-dark);
+}
+small, .muted, .subtitle, .description, .helper-text,
+.hint, .secondary-text {
+  color: var(--navai-muted);
+}
+
+/* Common dark/blue surfaces in chatbot and feature tools */
+.chat-message.assistant, .assistant-message,
+.message.assistant, .ai-response, .ai-result,
+.output-panel, .result-panel, .explanation-panel,
+.code-output, .preview-panel, .editor-panel,
+.quiz-panel, .question-panel, .notes-panel,
+.planner-panel, .timetable-panel, .teacher-panel {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+}
+.user-message, .message.user, .chat-message.user {
+  background-color: #eee6f7 !important;
+  color: var(--navai-text) !important;
+  border-color: #dfd2ed !important;
+}
+pre, .code-block {
+  background-color: #f0ebf6 !important;
+  color: #40334f !important;
+  border-color: var(--navai-border) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: #d6c7e7 #f5f0fa;
+}
+::-webkit-scrollbar-track { background: #f5f0fa; }
+::-webkit-scrollbar-thumb {
+  background: #d6c7e7;
+  border-radius: 10px;
+}

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1b">
+<title>NavAI Teacher ? Learn Visually</title>
+<link rel="stylesheet" href="/classroom.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Back to NavAI">
+    <span class="brand-icon">N</span><span>NavAI <b>Teacher</b></span>
+  </a>
+  <span class="live"><i></i> AI TEACHER</span>
+  <a class="back" href="/">? Main NavAI</a>
+</header>
+
+<main class="layout">
+  <section class="welcome">
+    <div class="mascot-wrap" aria-label="Pico, your friendly robot teacher">
+      <div class="spark s1">?</div><div class="spark s2">?</div>
+      <div class="pico">
+        <div class="antenna"><i></i></div>
+        <div class="ear ear-left"></div><div class="ear ear-right"></div>
+        <div class="face">
+          <div class="eye eye-left"><i></i></div>
+          <div class="eye eye-right"><i></i></div>
+          <div class="cheek cheek-left"></div><div class="cheek cheek-right"></div>
+          <div class="smile"></div>
+        </div>
+        <div class="collar"></div>
+        <div class="body"><span>?</span></div>
+      </div>
+      <span class="mascot-name">PICO</span>
+    </div>
+    <div class="welcome-copy">
+      <p class="eyebrow">YOUR PERSONAL AI TEACHER</p>
+      <h1>Big questions.<br><span>Clear explanations.</span></h1>
+      <p>Meet your AI teacher! Ask any topic and watch your lesson come to life on the board, one step at a time.</p>
+      <div class="mini-tags"><span>? Visual learning</span><span>? Audio lessons</span><span>? Follow-up questions</span></div>
+    </div>
+  </section>
+
+  <section class="ask-panel">
+    <form id="lessonForm">
+      <label for="topic">WHAT DO YOU WANT TO LEARN?</label>
+      <div class="ask-row">
+        <input id="topic" maxlength="1200" placeholder="e.g. Explain photosynthesis simply..." autocomplete="off" required>
+        <button id="teachBtn" type="submit"><span>Teach me</span><span>?</span></button>
+      </div>
+      <div class="options-row">
+        <label class="select-label">Level
+          <select id="level">
+            <option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option>
+            <option>Class 9</option><option>Class 6</option><option>Class 7</option>
+            <option>Class 8</option><option>Class 10</option><option>Beginner</option>
+            <option>Advanced</option><option>Class 11</option><option>Class 12</option>
+          </select>
+        </label>
+        <label class="select-label">Language
+          <select id="language"><option value="simple Hinglish">Hinglish</option><option value="simple English">English</option><option value="simple Hindi">Hindi</option></select>
+        </label>
+        <span class="free-note">? Uses your existing NavAI AI connection</span>
+      </div>
+    </form>
+    <div class="suggestions">
+      <span>TRY A TOPIC</span>
+      <button type="button" data-topic="Explain photosynthesis with a simple diagram">?? Photosynthesis</button>
+      <button type="button" data-topic="Explain Newton's laws of motion with examples">?? Newton's laws</button>
+      <button type="button" data-topic="Explain atoms and molecules simply">? Atoms</button>
+      <button type="button" data-topic="Explain linear equations step by step">?? Linear equations</button>
+    </div>
+  </section>
+
+  <section class="board-section">
+    <div class="board-top">
+      <div><p class="eyebrow">THE LEARNING SPACE</p><h2>Today's lesson <span class="board-dot"></span></h2></div>
+      <div class="board-controls">
+        <button id="prevBtn" class="icon-btn" disabled aria-label="Previous step">?</button>
+        <span id="stepCounter">Ready when you are</span>
+        <button id="nextBtn" class="icon-btn" disabled aria-label="Next step">?</button>
+      </div>
+    </div>
+    <div id="status" class="status" role="status">Choose a topic above and let Pico teach you.</div>
+    <div id="board" class="board">
+      <div class="empty-board">
+        <div class="board-doodle">? <span>?</span> ?</div>
+        <div class="empty-orb">?</div>
+        <h3>Your digital board is ready.</h3>
+        <p>Your lesson, examples and visual explanations will appear here.</p>
+      </div>
+    </div>
+    <div id="lessonActions" class="lesson-actions" hidden>
+      <button id="speakBtn" class="action-primary">? Listen to lesson</button>
+      <button id="pauseBtn" class="action-secondary">? Pause voice</button>
+      <button id="stopBtn" class="action-secondary">? Stop</button>
+    </div>
+  </section>
+
+  <section class="followup">
+    <div class="followup-icon">?</div>
+    <div class="followup-content">
+      <h3>Still curious?</h3><p>Ask Pico a follow-up question about your lesson.</p>
+      <form id="followForm" class="follow-row">
+        <input id="followInput" maxlength="1200" placeholder="Why does this happen? Give me another example..." required>
+        <button type="submit" aria-label="Ask follow-up">Send ?</button>
+      </form>
+    </div>
+  </section>
+  <footer>Made for curious minds ? NavAI Teacher <span>Learn at your own pace ?</span></footer>
+</main>
+<script src="/classroom.js"></script>
+ <script src="/classroom-diagrams.js"></script>
+</body>
+</html>

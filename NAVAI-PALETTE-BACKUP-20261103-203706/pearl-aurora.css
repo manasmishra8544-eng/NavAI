@@ -1,0 +1,275 @@
+﻿:root {
+  color-scheme: light;
+  --bg: #eaf5ff;
+  --bg-2: #deefff;
+  --surface: #f8fcff;
+  --panel: #f4faff;
+  --panel-hover: #e1f1ff;
+  --sidebar: #d9edff;
+  --border: #c5e0f5;
+  --text: #193b56;
+  --muted: #64829a;
+  --blue: #398fc9;
+  --blue-bright: #1879bd;
+  --blue-soft: #d9edff;
+  --green: #268b9c;
+  --pa-bg: #eaf5ff;
+  --pa-surface: #f8fcff;
+  --pa-card: #f4faff;
+  --pa-text: #193b56;
+  --pa-muted: #64829a;
+  --pa-border: #c5e0f5;
+  --pa-green: #176da8;
+  --pa-shadow: 0 12px 35px rgba(49, 117, 165, .10);
+}
+
+html, body {
+  background: #eaf5ff !important;
+  color: #193b56 !important;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 12% 5%, #d3ebff 0%, transparent 42%),
+    radial-gradient(ellipse at 90% 90%, #e2eaff 0%, transparent 40%),
+    linear-gradient(135deg, #edf7ff, #e5f2ff 55%, #edf4ff) !important;
+  color: #193b56 !important;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.app-shell, .main-area {
+  background: transparent !important;
+  color: #193b56 !important;
+}
+
+.sidebar, #sidebar, .app-sidebar, .nav-sidebar {
+  background: linear-gradient(180deg, #d9edff, #e5f2ff) !important;
+  color: #193b56 !important;
+  border-color: #c5e0f5 !important;
+  box-shadow: 5px 0 25px rgba(49, 117, 165, .07) !important;
+}
+
+.sidebar *, .topbar *, .welcome-screen * {
+  --text: #193b56;
+}
+
+.topbar {
+  background: rgba(240, 248, 255, .88) !important;
+  color: #193b56 !important;
+  border-color: #c5e0f5 !important;
+  backdrop-filter: blur(18px);
+}
+
+.welcome-screen, .welcome-content {
+  color: #193b56 !important;
+}
+
+.welcome-content h1, .page-title, .brand-name {
+  color: #193b56 !important;
+}
+
+.welcome-content h1 span,
+.brand-name span {
+  color: #2789c8 !important;
+}
+
+.welcome-description, .section-heading, .local-note {
+  color: #64829a !important;
+}
+
+.navai-reference-prompts button,
+.suggestion-card, .history-item {
+  background: #f5faff !important;
+  color: #315b78 !important;
+  border: 1px solid #c9e2f5 !important;
+}
+
+.navai-reference-prompts button:hover,
+.suggestion-card:hover, .history-item:hover {
+  background: #e1f1ff !important;
+  border-color: #8fc5eb !important;
+}
+
+.card, .tool-card, .feature-card, .dashboard-card,
+.tool-box, .section-card, .stat-card, .content-card,
+.chat-card, .settings-card, .result-card, .history-card,
+.panel, .modal-content, .dropdown-menu {
+  background: #f7fbff !important;
+  color: #193b56 !important;
+  border: 1px solid #c9e2f5 !important;
+  box-shadow: 0 10px 30px rgba(49, 117, 165, .09) !important;
+}
+
+button, .btn, input, textarea, select {
+  font-family: inherit;
+}
+
+button:not(.icon-button):not(.ghost):not(.menu-btn),
+.btn-primary, .primary-btn, .action-button,
+button[type="submit"] {
+  background: linear-gradient(135deg, #2688c5, #176da8) !important;
+  color: #ffffff !important;
+  border-color: #2688c5 !important;
+  box-shadow: 0 5px 15px rgba(38, 136, 197, .15);
+}
+
+button:hover, .btn:hover {
+  filter: brightness(1.05);
+}
+
+.icon-button, .ghost, .menu-btn, .sidebar-action {
+  background: #e4f2ff !important;
+  color: #28668f !important;
+  border-color: #c5e0f5 !important;
+}
+
+input, textarea, select,
+[contenteditable="true"] {
+  background: #f8fcff !important;
+  color: #193b56 !important;
+  border: 1px solid #bfdcf1 !important;
+  border-radius: 12px;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #8aa5b9 !important;
+}
+
+.composer-area {
+  background: linear-gradient(to top, #eaf5ff 72%, transparent) !important;
+}
+
+.message-bubble {
+  color: #193b56 !important;
+}
+
+.message-bubble pre, .message-bubble code {
+  background: #dceeff !important;
+  color: #214c6a !important;
+}
+
+.user-message, .message.user .message-bubble {
+  background: #d9edff !important;
+  color: #193b56 !important;
+  border: 1px solid #b9dcf5 !important;
+}
+
+.assistant-message, .message.assistant .message-bubble {
+  background: #f7fbff !important;
+  color: #193b56 !important;
+  border: 1px solid #d1e5f5 !important;
+}
+
+table, th, td {
+  color: #193b56 !important;
+  border-color: #c5e0f5 !important;
+}
+
+th {
+  background: #dceeff !important;
+}
+
+hr, .divider {
+  border-color: #c5e0f5 !important;
+}
+
+/* Dashboard ke hardcoded dark colours ka replacement */
+#navai-tool-dashboard {
+  background:
+    radial-gradient(ellipse at 50% 0%, #d2eaff 0%, #e7f4ff 48%, #edf6ff 100%) !important;
+  color: #193b56 !important;
+}
+
+#navai-tool-dashboard .brand-name,
+#navai-tool-dashboard .hero h1,
+#navai-tool-dashboard .tool h2 {
+  color: #193b56 !important;
+}
+
+#navai-tool-dashboard .brand-name span,
+#navai-tool-dashboard .hero h1 span {
+  color: #2789c8 !important;
+  background: none !important;
+  -webkit-text-fill-color: #2789c8 !important;
+}
+
+#navai-tool-dashboard .eyebrow {
+  color: #3989bd !important;
+}
+
+#navai-tool-dashboard .hero p,
+#navai-tool-dashboard .tool p {
+  color: #64829a !important;
+}
+
+#navai-tool-dashboard .tool {
+  background: linear-gradient(145deg, #f9fcff, #e8f4ff) !important;
+  color: #193b56 !important;
+  border: 1px solid #c3def2 !important;
+  box-shadow: 0 12px 30px rgba(49, 117, 165, .10) !important;
+}
+
+#navai-tool-dashboard .tool:hover {
+  background: #e0f1ff !important;
+  border-color: #80bce4 !important;
+}
+
+#navai-tool-dashboard .tool:before {
+  background: linear-gradient(90deg, transparent, #73b8e8, transparent) !important;
+}
+
+#navai-tool-dashboard .tool-icon {
+  background: #d9edff !important;
+  color: #247db5 !important;
+  border-color: #b9dcf5 !important;
+}
+
+#navai-tool-dashboard .tool-bottom,
+#navai-tool-dashboard .tool-arrow {
+  color: #247db5 !important;
+}
+
+#navai-tool-dashboard .footer {
+  color: #7895aa !important;
+}
+
+#navai-tool-dashboard #navai-auth-trigger,
+#navai-tool-dashboard .navai-sidebar-auth-trigger {
+  background: linear-gradient(135deg, #398fc9, #176da8) !important;
+  color: #fff !important;
+  border-color: #8bc4e9 !important;
+}
+
+#navai-dashboard-return {
+  background: #dceeff !important;
+  color: #193b56 !important;
+  border-color: #b9dcf5 !important;
+}
+
+pre {
+  background: #e0effc !important;
+  color: #214c6a !important;
+}
+
+a {
+  color: #247db5;
+}
+
+a:hover {
+  color: #155b91;
+}
+
+::selection {
+  background: #b9dcf5;
+  color: #193b56;
+}
+
+@media (max-width: 650px) {
+  .sidebar {
+    background: #dceeff !important;
+  }
+
+  .topbar {
+    background: rgba(240, 248, 255, .96) !important;
+  }
+}

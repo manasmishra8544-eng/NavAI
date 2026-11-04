@@ -1,0 +1,236 @@
+﻿(() => {
+"use strict";
+
+const $ = id => document.getElementById(id);
+const timeValue = id => {
+  const el = $(id);
+  return el ? el.value.trim() : "";
+};
+
+function minutes(value) {
+  if (!value || !/^\d{2}:\d{2}$/.test(value)) return null;
+  const [h,m] = value.split(":").map(Number);
+  if (h > 23 || m > 59) return null;
+  return h * 60 + m;
+}
+
+function clock(n) {
+  n = ((n % 1440) + 1440) % 1440;
+  const h = Math.floor(n / 60), m = n % 60;
+  const suffix = h >= 12 ? "PM" : "AM";
+  return `${(h % 12) || 12}:${String(m).padStart(2,"0")} ${suffix}`;
+}
+
+function duration(a,b) {
+  const n = b-a;
+  return `${Math.floor(n/60)}h ${n%60 ? n%60+"m" : ""}`.trim();
+}
+
+function collect() {
+  const commitments = [
+    ["School","schoolStart","schoolEnd"],
+    ["Coaching","coachingStart","coachingEnd"],
+    ["Gym","gymStart","gymEnd"],
+    ["Library","libraryStart","libraryEnd"]
+  ];
+
+  const events = [];
+  for (const [name,startId,endId] of commitments) {
+    const a = minutes(timeValue(startId));
+    const b = minutes(timeValue(endId));
+    if ((a === null) !== (b === null)) {
+      throw new Error(`${name}: start aur end dono timings bharo.`);
+    }
+    if (a !== null) {
+      if (b <= a) throw new Error(`${name}: end time, start time ke baad hona chahiye.`);
+      events.push({name,start:a,end:b,fixed:true});
+    }
+  }
+
+  for (let i=0;i<events.length;i++) {
+    for (let j=i+1;j<events.length;j++) {
+      if (events[i].start < events[j].end && events[j].start < events[i].end) {
+        throw new Error(`${events[i].name} aur ${events[j].name} ke timings overlap kar rahe hain.`);
+      }
+    }
+  }
+
+  return {
+    events,
+    studentClass: $("studentClass")?.value || "Student",
+    goal: $("goal")?.value || "Balanced daily routine"
+  };
+}
+
+function buildPlan(data) {
+  const events = [
+    {name:"Wake up & freshen up",start:330,end:360},
+    {name:"Morning routine",start:360,end:390},
+    {name:"Breakfast",start:450,end:480},
+    {name:"Lunch",start:810,end:840},
+    {name:"Rest & refresh",start:840,end:900},
+    {name:"Evening refreshment",start:1050,end:1080},
+    {name:"Dinner",start:1200,end:1230},
+    {name:"Prepare for sleep",start:1290,end:1320},
+    {name:"Sleep",start:1320,end:1440}
+  ];
+
+  for (const fixed of data.events) {
+    events.push({...fixed});
+  }
+
+  // Fixed activities cannot overlap with the daily routine anchors.
+  for (let i=0;i<events.length;i++) {
+    for (let j=i+1;j<events.length;j++) {
+      const a=events[i], b=events[j];
+      if (a.start < b.end && b.start < a.end) {
+        if (a.fixed && b.fixed) {
+          throw new Error(`${a.name} aur ${b.name} overlap kar rahe hain.`);
+        }
+        if (a.fixed) b.skip=true;
+        else if (b.fixed) a.skip=true;
+      }
+    }
+  }
+
+  const busy = events.filter(e=>!e.skip).sort((a,b)=>a.start-b.start);
+  const dayStart=330, dayEnd=1320;
+  const study=[];
+  let cursor=dayStart;
+
+  // Put self-study into available gaps, without overlapping commitments.
+  for (const event of busy) {
+    if (event.start-cursor >= 45) {
+      let gap=event.start-cursor;
+      while (gap >= 45) {
+        const block=Math.min(90,gap >= 105 ? 90 : gap);
+        study.push({
+          name:"Self-study",
+          start:cursor,
+          end:cursor+block,
+          study:true
+        });
+        cursor += block;
+        gap -= block;
+        if (gap >= 15) {
+          study.push({name:"Short break",start:cursor,end:cursor+15});
+          cursor += 15;
+          gap -= 15;
+        }
+      }
+    }
+    cursor=Math.max(cursor,event.end);
+  }
+
+  if (dayEnd-cursor >= 45) {
+    let gap=dayEnd-cursor;
+    while (gap >= 45) {
+      const block=Math.min(90,gap);
+      study.push({name:"Self-study",start:cursor,end:cursor+block,study:true});
+      cursor += block;
+      gap -= block;
+      if (gap >= 15) {
+        study.push({name:"Short break",start:cursor,end:cursor+15});
+        cursor += 15;
+        gap -= 15;
+      }
+    }
+  }
+
+  const all=[...busy.filter(e=>!e.skip),...study]
+    .sort((a,b)=>a.start-b.start);
+
+  const selfStudy=study.filter(e=>e.study)
+    .reduce((sum,e)=>sum+e.end-e.start,0);
+  const library=data.events.find(e=>e.name==="Library");
+  const libraryMinutes=library ? library.end-library.start : 0;
+
+  return {
+    events:all,
+    selfStudy,
+    libraryMinutes,
+    totalStudy:selfStudy+libraryMinutes,
+    className:data.studentClass,
+    goal:data.goal
+  };
+}
+
+function render(plan) {
+  const result=$("result");
+  const schedule=$("schedule");
+  const summary=$("summary");
+  if (!schedule || !result) throw new Error("Timetable page ke required elements nahi mile.");
+
+  const total=plan.totalStudy;
+  const hours=Math.floor(total/60);
+  const mins=total%60;
+
+  if (summary) {
+    summary.innerHTML=`
+      <div class="tt-stats">
+        <div class="tt-stat"><strong>${hours}h ${mins}m</strong><span>Total daily study</span></div>
+        <div class="tt-stat"><strong>${duration(0,plan.selfStudy)}</strong><span>Self-study</span></div>
+        <div class="tt-stat"><strong>${duration(0,plan.libraryMinutes)}</strong><span>Library study</span></div>
+      </div>
+      <p class="tt-goal"><b>Goal:</b> ${escapeHTML(plan.goal)}</p>
+      <p class="tt-note">One fixed daily routine · Repeat the same timetable every day · No subject assignments</p>`;
+  }
+
+  schedule.innerHTML=`
+    <div class="tt-heading">
+      <h2>My Permanent Daily Routine</h2>
+      <p>${escapeHTML(plan.className)} · Same routine every day</p>
+    </div>
+    <div class="tt-list">
+      ${plan.events.map((e,i)=>`
+        <div class="tt-item ${e.study?"tt-study":""}">
+          <div class="tt-time">${clock(e.start)} – ${clock(e.end)}</div>
+          <div class="tt-activity">
+            <strong>${escapeHTML(e.name)}</strong>
+            <span>${duration(e.start,e.end)}</span>
+          </div>
+        </div>`).join("")}
+    </div>
+    <p class="tt-footer">Keep this routine consistent. Adjust timings when your real commitments change.</p>`;
+
+  result.hidden=false;
+  result.scrollIntoView({behavior:"smooth",block:"start"});
+  const status=$("status");
+  if(status) status.textContent="Your permanent daily timetable is ready.";
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function generate() {
+  try {
+    const plan=buildPlan(collect());
+    render(plan);
+    window.__navaiDailyPlan=plan;
+  } catch(error) {
+    const status=$("status");
+    if(status) status.textContent=error.message;
+    else alert(error.message);
+  }
+}
+
+function printPDF() {
+  if (!window.__navaiDailyPlan) {
+    alert("Pehle Generate Timetable par click karo.");
+    return;
+  }
+  window.print();
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  $("generate")?.addEventListener("click",generate);
+  $("regenerate")?.addEventListener("click",generate);
+  $("print")?.addEventListener("click",printPDF);
+  $("edit")?.addEventListener("click",()=>{
+    $("schoolStart")?.scrollIntoView({behavior:"smooth",block:"center"});
+  });
+});
+})();

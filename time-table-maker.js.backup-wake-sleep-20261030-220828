@@ -1,0 +1,295 @@
+(() => {
+"use strict";
+
+const $ = id => document.getElementById(id);
+const val = id => $(id)?.value?.trim() || "";
+
+function readTime(id) {
+  const v = val(id);
+  if (!v) return null;
+  if (!/^\d{2}:\d{2}$/.test(v)) throw new Error("Invalid time: " + id);
+  const [h,m] = v.split(":").map(Number);
+  if (h > 23 || m > 59) throw new Error("Invalid time: " + id);
+  return h * 60 + m;
+}
+function clock(n) {
+  n = ((n % 1440) + 1440) % 1440;
+  const h = Math.floor(n / 60), m = n % 60;
+  return `${(h % 12) || 12}:${String(m).padStart(2,"0")} ${h >= 12 ? "PM" : "AM"}`;
+}
+function dur(n) {
+  return `${Math.floor(n/60)}h ${n%60 ? n%60+"m" : ""}`.trim();
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function addOptions() {
+  if ($("dailyStudyTarget")) return;
+  const button = $("generate");
+  if (!button) return;
+
+  const panel = document.createElement("section");
+  panel.id = "smartRoutineOptions";
+  panel.innerHTML = `
+    <h3>Topper Routine Settings</h3>
+    <label>Daily study target (hours)
+      <input id="dailyStudyTarget" type="number" min="1" max="12" step="0.5" value="4">
+    </label>
+    <p class="tt-help">Library hours are included in your daily study target.</p>
+    <h4>One-way travel time (minutes)</h4>
+    <div class="tt-travel-grid">
+      <label>School <input id="travelSchool" type="number" min="0" max="180" value="20"></label>
+      <label>Coaching <input id="travelCoaching" type="number" min="0" max="180" value="15"></label>
+      <label>Gym <input id="travelGym" type="number" min="0" max="180" value="10"></label>
+      <label>Library <input id="travelLibrary" type="number" min="0" max="180" value="15"></label>
+    </div>
+    <p class="tt-help">Travel will be merged into the related activity timing, not shown separately.</p>
+    <p class="tt-help">Daily routine: wake up 5:30 AM · Sleep 9:30 PM.</p>`;
+  button.parentElement.insertBefore(panel, button);
+}
+
+function collect() {
+  const target = Number(val("dailyStudyTarget") || 4);
+  if (!Number.isFinite(target) || target < 1 || target > 12)
+    throw new Error("Daily study target 1 se 12 hours ke beech rakho.");
+
+  const specs = [
+    ["School","schoolStart","schoolEnd","travelSchool"],
+    ["Coaching","coachingStart","coachingEnd","travelCoaching"],
+    ["Gym","gymStart","gymEnd","travelGym"],
+    ["Library","libraryStart","libraryEnd","travelLibrary"]
+  ];
+
+  const events = [];
+  for (const [name,s,e,t] of specs) {
+    const a = readTime(s), b = readTime(e);
+    if ((a === null) !== (b === null))
+      throw new Error(name + ": start aur end dono timings bharo.");
+    if (a === null) continue;
+    if (b <= a) throw new Error(name + ": end time start ke baad hona chahiye.");
+
+    const travel = Number(val(t) || 0);
+    if (!Number.isFinite(travel) || travel < 0 || travel > 180)
+      throw new Error(name + ": travel 0–180 minutes rakho.");
+
+    const before = travel ? a-travel : a;
+    const after = travel ? b+travel : b;
+
+    if (before < 330 || after > 1290)
+      throw new Error(name + " aur uska travel time 5:30 AM–9:30 PM ke routine ke bahar ja raha hai.");
+
+    events.push({
+      name, start:a, end:b, blockStart:before, blockEnd:after,
+      kind:"commitment", displayStart:before, displayEnd:after
+    });
+  }
+
+  const occupied = events.map(e => ({start:e.blockStart,end:e.blockEnd,name:e.name}));
+  occupied.sort((a,b)=>a.start-b.start);
+
+  for (let i=1;i<occupied.length;i++) {
+    if (occupied[i].start < occupied[i-1].end)
+      throw new Error(occupied[i-1].name + " aur " + occupied[i].name + " ke timings/travel overlap kar rahe hain.");
+  }
+
+  return {
+    target: Math.round(target*60),
+    events,
+    studentClass: val("studentClass") || "Student",
+    goal: val("goal") || "Academic excellence"
+  };
+}
+
+function gapsOf(events) {
+  // Commitments ke travel time ko bhi occupied time maana jayega.
+  const sorted = events.map(e => ({
+    start: e.kind === "commitment" ? e.blockStart : e.start,
+    end: e.kind === "commitment" ? e.blockEnd : e.end
+  })).sort((a,b) => a.start-b.start);
+
+  const gaps = [];
+  let cursor = 330;
+
+  for (const e of sorted) {
+    const start = Math.max(330, e.start);
+    const end = Math.min(1290, e.end);
+
+    if (end <= 330 || start >= 1290) continue;
+    if (start > cursor) gaps.push({start:cursor,end:start});
+    cursor = Math.max(cursor,end);
+  }
+
+  if (cursor < 1290) gaps.push({start:cursor,end:1290});
+  return gaps;
+}
+
+function place(events,name,length,preferredStart,preferredEnd,kind) {
+  const candidates = [];
+  for (const gap of gapsOf(events)) {
+    if (gap.end-gap.start < length) continue;
+    const low = Math.max(gap.start,preferredStart);
+    const high = Math.min(gap.end-length,preferredEnd-length);
+    if (low <= high) {
+      const start = Math.max(low,Math.min(high,preferredStart));
+      candidates.push({start,score:Math.abs(start-preferredStart)});
+    } else {
+      candidates.push({start:gap.start,score:500+Math.abs(gap.start-preferredStart)});
+    }
+  }
+  candidates.sort((a,b)=>a.score-b.score);
+  if (!candidates.length) return false;
+  const start = candidates[0].start;
+  events.push({name,start,end:start+length,kind});
+  return true;
+}
+
+function buildPlan(data) {
+  const events = data.events.map(e=>({...e}));
+  const library = events.find(e=>e.name==="Library");
+  const libraryMinutes = library ? library.end-library.start : 0;
+  const selfTarget = Math.max(0,data.target-libraryMinutes);
+
+  // Fixed daily anchors: wake-up, morning routine and sleep.
+  events.push({name:"Wake up",start:330,end:345,kind:"routine"});
+  events.push({name:"Morning routine",start:345,end:375,kind:"routine"});
+  events.push({name:"Sleep",start:1290,end:1770,kind:"sleep"});
+
+  // Meals and rest are placed only in gaps around actual commitments.
+  const mealPlan = [
+    ["Breakfast",30,390,540,"meal"],
+    ["Lunch",40,690,900,"meal"],
+    ["Evening snack",20,930,1080,"meal"],
+    ["Dinner",35,1110,1260,"meal"]
+  ];
+
+  for (const [name,length,from,to,kind] of mealPlan) {
+    if (!place(events,name,length,from,to,kind))
+      throw new Error(name + " ke liye free time nahi mila. Commitments ya travel timings adjust karo.");
+  }
+
+  // Rest is flexible: it is placed only if a suitable gap exists.
+  place(events,"Rest / relaxation",30,840,1080,"rest");
+
+  let remaining = selfTarget;
+  for (const gap of gapsOf(events)) {
+    let cursor = gap.start;
+    let available = gap.end-gap.start;
+
+    while (available >= 30 && remaining > 0) {
+      const block = Math.min(90,remaining,available);
+      if (block < 30) break;
+
+      events.push({name:"Focused study",start:cursor,end:cursor+block,kind:"study"});
+      cursor += block;
+      available -= block;
+      remaining -= block;
+
+      if (available >= 10 && remaining > 0) {
+        events.push({name:"Short break",start:cursor,end:cursor+10,kind:"break"});
+        cursor += 10;
+        available -= 10;
+      }
+    }
+  }
+
+  const displayed = events.filter(e=>e.kind!=="travel").map(e=>{
+    if (e.kind==="commitment") {
+      return {...e, start:e.displayStart, end:e.displayEnd};
+    }
+    return e;
+  }).sort((a,b)=>a.start-b.start);
+
+  // Check the full internal timeline, including travel blocks.
+  const internal = [
+    ...events.filter(e=>e.kind!=="commitment" && e.kind!=="sleep"),
+    ...data.events.map(e=>({name:e.name,start:e.blockStart,end:e.blockEnd}))
+  ].sort((a,b)=>a.start-b.start);
+
+  for (let i=1;i<internal.length;i++) {
+    if (internal[i].start < internal[i-1].end)
+      throw new Error("Schedule overlap detected. Please check your timings.");
+  }
+
+  const selfMinutes = events
+    .filter(e=>e.kind==="study")
+    .reduce((sum,e)=>sum+e.end-e.start,0);
+
+  const total = selfMinutes+libraryMinutes;
+
+  return {
+    events:displayed,
+    target:data.target,
+    remaining:Math.max(0,data.target-total),
+    selfMinutes,
+    libraryMinutes,
+    total,
+    goal:data.goal,
+    studentClass:data.studentClass
+  };
+}
+
+function render(p) {
+  const result=$("result"), schedule=$("schedule");
+  if (!result || !schedule) throw new Error("Timetable display elements nahi mile.");
+
+  const achieved=p.total>=p.target;
+  if ($("summary")) $("summary").innerHTML=`
+    <div class="tt-stats">
+      <div class="tt-stat"><strong>${dur(p.target)}</strong><span>Daily study target</span></div>
+      <div class="tt-stat"><strong>${dur(p.total)}</strong><span>Total study hours</span></div>
+      <div class="tt-stat"><strong>${dur(p.selfMinutes)}</strong><span>Self-study</span></div>
+      <div class="tt-stat"><strong>${dur(p.libraryMinutes)}</strong><span>Library study</span></div>
+    </div>
+    <p><b>Goal:</b> ${esc(p.goal)}</p>
+    <p class="tt-status ${achieved?"tt-ok":"tt-warn"}">
+      ${achieved ? "Your daily study target is covered." : `Your target has ${dur(p.remaining)} remaining. Available free time is not enough to fit the full target.`}
+    </p>
+    <p class="tt-help">Same routine every day · No subject allocation · Travel included in activity timings</p>`;
+
+  schedule.innerHTML=`
+    <div class="tt-heading">
+      <h2>My Permanent Topper Routine</h2>
+      <p>${esc(p.studentClass)} · Repeats every day</p>
+    </div>
+    <div class="tt-list">
+      ${p.events.map(e=>`
+        <div class="tt-item tt-${e.kind}">
+          <div class="tt-time">${clock(e.start)} – ${clock(e.end)}</div>
+          <div class="tt-activity">
+            <strong>${esc(e.name)}</strong>
+            <span>${dur(e.end-e.start)}</span>
+          </div>
+        </div>`).join("")}
+    </div>
+    <p class="tt-help">Wake up at 5:30 AM · Sleep at 9:30 PM · Keep your routine consistent.</p>`;
+
+  result.hidden=false;
+  result.scrollIntoView({behavior:"smooth",block:"start"});
+  if ($("status")) $("status").textContent="Your permanent daily routine is ready.";
+  window.__navaiDailyPlan=p;
+}
+
+function generate() {
+  try { render(buildPlan(collect())); }
+  catch(e) {
+    if ($("status")) $("status").textContent=e.message;
+    else alert(e.message);
+  }
+}
+function printPDF() {
+  if (!window.__navaiDailyPlan) return alert("Pehle timetable generate karo.");
+  window.print();
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  addOptions();
+  $("generate")?.addEventListener("click",generate);
+  $("regenerate")?.addEventListener("click",generate);
+  $("print")?.addEventListener("click",printPDF);
+  $("edit")?.addEventListener("click",()=>$("smartRoutineOptions")?.scrollIntoView({behavior:"smooth"}));
+});
+if (document.readyState!=="loading") addOptions();
+})();

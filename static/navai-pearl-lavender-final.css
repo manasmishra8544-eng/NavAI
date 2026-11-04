@@ -1,0 +1,201 @@
+/* NavAI Pearl Lavender — final visual override. Loaded LAST on every page. */
+:root{color-scheme:light!important;--nv-lav-bg:#f5f1ff;--nv-lav-surface:#ffffff;--nv-lav-soft:#eee7ff;--nv-lav-line:#ded4f4;--nv-lav-text:#302844;--nv-lav-muted:#766d87;--nv-lav-purple:#7652bd;--nv-lav-orange:#f29a55}
+html,body{background:#f6f3ff!important;color:var(--nv-lav-text)!important;color-scheme:light!important}
+body{background:radial-gradient(ellipse at 12% 0%,#eee5ff 0,transparent 38%),radial-gradient(ellipse at 100% 15%,#fff0e5 0,transparent 32%),#f7f4ff!important;font-family:Inter,"Segoe UI",system-ui,sans-serif!important}
+body :where(h1,h2,h3,h4,h5,h6,strong,b,label,li,p,span,small,div){color:var(--nv-lav-text)}
+body :where(.subtitle,.description,.hint,.note,.small,.muted,.helper-text,.eyebrow,.footnote,.privacy-note){color:var(--nv-lav-muted)!important}
+/* Remove inherited dark/blue surfaces from every common app shell and feature area. */
+body :where(main,header,footer,nav,aside,section,article,.app-shell,.main-area,.main-content,.content-area,.page,.page-content,.wrap,.layout,.workspace,.app,.container,.tool-container,.topbar,.navbar,.top,.hero,.intro,.welcome,.welcome-screen,.welcome-content,.panel,.workspace-panel,.answer-panel,.history-panel,.ask-panel,.board-section,.followup,.chat-card,.chat-container,.chat-window,.chat-area,.chat-panel,.chatbox,.chat-box,.chat-messages,.messages,.message-list,.conversation,.conversation-area,.result,.result-panel,.result-card,.output,.output-panel,.response,.response-panel,.answer,.answer-box,.questionbox,.question-box,.form-panel,.form-card,.input-panel,.composer,.chat-input,.feature-card,.tool-card,.dashboard-card,.stat-card,.tip-card,.preview,.preview-panel,.upload,.upload-area,.drop-zone,.lesson-step,.visual-card,.concept,.takeaway,.board,.empty-board,.suggestions,.options-row,.settings-panel,.history-item){background:#fff!important;background-image:none!important;color:var(--nv-lav-text)!important;border-color:var(--nv-lav-line)!important;box-shadow:0 8px 28px rgba(92,69,137,.08)!important}
+body :where(.topbar,header.topbar,.navbar,body>header){background:rgba(255,255,255,.96)!important;border-bottom:1px solid var(--nv-lav-line)!important;box-shadow:0 5px 22px rgba(92,69,137,.07)!important}
+/* Catch feature-specific classes and ids that contain the visible panel role. */
+body :where([class*="panel"],[class*="card"],[class*="result"],[class*="output"],[class*="answer"],[class*="chat"],[class*="message"],[class*="response"],[class*="workspace"],[class*="composer"],[class*="upload"],[class*="board"],[class*="step"],[class*="suggestion"]){color:var(--nv-lav-text)!important}
+body :where([class*="panel"],[class*="card"],[class*="result"],[class*="output"],[class*="answer"],[class*="chat"],[class*="message"],[class*="response"],[class*="workspace"],[class*="composer"],[class*="upload"],[class*="board"],[class*="step"]){background-color:#fff!important;background-image:none!important;border-color:var(--nv-lav-line)!important}
+/* Dashboard feature tiles */
+body :where(.feature-card,.tool-card,.dashboard-card,.feature-tile,.app-card,.feature-item){background:linear-gradient(145deg,#fff,#f7f2ff)!important;border:1px solid #e5dcf5!important;border-radius:20px!important;box-shadow:0 10px 28px rgba(92,69,137,.09)!important}
+/* Chat transcript: both assistant and user bubbles remain readable. */
+body :where(.message,.chat-message,.msg,.bubble,.message-bubble,.assistant-message,.bot-message,.ai-message,.user-message){background:#f0eaff!important;color:#34294b!important;border:1px solid #e1d5f7!important;border-radius:16px!important}
+body :where(.user-message,.message.user,.chat-message.user,.msg.user){background:#fff0e4!important;border-color:#f5d9c3!important}
+body :where(.assistant-message,.bot-message,.ai-message,.message.assistant,.chat-message.assistant){background:#f0eaff!important}
+/* Text entry fields, selects, editable areas, and generated result regions. */
+body input,body textarea,body select,body [contenteditable="true"],body .ql-editor,body .ProseMirror{color:#34294b!important;background:#fff!important;border:1px solid #dcd0f0!important;caret-color:#7652bd!important;box-shadow:inset 0 1px 2px rgba(80,55,120,.04)!important}
+body input::placeholder,body textarea::placeholder{color:#9a91aa!important;opacity:1!important}
+body input:focus,body textarea:focus,body select:focus,body [contenteditable="true"]:focus{outline:none!important;border-color:#a88bdc!important;box-shadow:0 0 0 3px rgba(142,109,199,.15)!important}
+/* Buttons: warm orange primary, soft lavender secondary — no blue gradients. */
+body button,body .btn,body [role="button"]{color:#59456f!important;border-color:#ded3f1!important}
+body :where(.primary,.primary-btn,.solve-button,.ask-row button,.follow-row button,.action-primary,.send-btn,#generate,#teachBtn,#solve,#start,#submit,#next,#sendBtn,#send-button,.send-button,.submit-btn){background:linear-gradient(115deg,#f6ad70,#ef9450)!important;color:#fff!important;border:1px solid #ed985c!important;box-shadow:0 7px 18px rgba(226,139,74,.18)!important}
+body :where(.secondary,.secondary-button,.action-secondary,.icon-btn,.control,.voice-btn,.suggestions button,.suggestion,.board-controls button){background:#f0eaff!important;color:#604b85!important;border:1px solid #ded2f2!important}
+body button:disabled{opacity:.55!important}
+body a{color:#7652bd!important}
+body a:hover{color:#593b9d!important}
+body :where(.status,.pill,.date-pill,.tag,.live-status,.mini-tags span,.mentor-tags span,.lesson-chip,.teacher-state){background:#f0eaff!important;color:#684f91!important;border-color:#dfd3f2!important}
+body :where(.sidebar,#sidebar,aside.sidebar,.app-sidebar){background:#fff!important;color:var(--nv-lav-text)!important;border-color:var(--nv-lav-line)!important}
+body :where(.sidebar a,.sidebar button,#sidebar a,#sidebar button){color:#665779!important}
+body :where(.sidebar .active,.sidebar a.active,#sidebar .active){background:#eee7ff!important;color:#63479a!important;border-color:#d9c9f2!important}
+/* Tables, code/output blocks, and preformatted AI answers. */
+body table,body th,body td{color:var(--nv-lav-text)!important;border-color:var(--nv-lav-line)!important}
+body pre,body code,body .code-block,body .result-content,body .answer-content,body .output-content{background:#f3effb!important;color:#403653!important;border-color:#e1d8ef!important}
+/* Keep media and SVG artwork intact. */
+body img,body video,body canvas,body svg{color:inherit}
+
+/* =========================================================
+   NAVAI PEARL LAVENDER GLOBAL PALETTE
+   Visual-only overrides. Existing layout and JS untouched.
+   ========================================================= */
+:root {
+  color-scheme: light;
+  --navai-bg: #f6f2fb;
+  --navai-surface: #fff;
+  --navai-surface-soft: #f0e9f8;
+  --navai-border: #e3d8ef;
+  --navai-text: #342b40;
+  --navai-muted: #82778f;
+  --navai-purple: #8060b5;
+  --navai-purple-dark: #684991;
+  --navai-orange: #ed955b;
+}
+
+/* Page canvas and major structural regions */
+html, body {
+  background-color: var(--navai-bg) !important;
+  color: var(--navai-text) !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(218,202,239,.28), transparent 40%),
+    radial-gradient(ellipse at 92% 100%, rgba(255,225,203,.18), transparent 36%) !important;
+}
+main, [role="main"], .main, .main-content, .main-area,
+.content, .content-area, .page-content, .app-content,
+.workspace, .dashboard, .chat-area, .chat-container,
+.conversation, .welcome-screen {
+  color: var(--navai-text) !important;
+}
+header, .header, .topbar, .navbar, .nav-bar, .top-nav,
+.app-header, .page-header {
+  background: rgba(250,247,255,.96) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 3px 18px rgba(75,55,99,.045) !important;
+}
+
+/* Sidebars and navigation */
+aside, .sidebar, .side-bar, .app-sidebar, .left-sidebar,
+.navigation, .side-nav, .sidenav {
+  background: linear-gradient(160deg,#fcfaff 0%,#f2ecf9 100%) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 6px 0 24px rgba(75,55,99,.055) !important;
+}
+.sidebar *, .side-bar *, .app-sidebar *, .left-sidebar *,
+.navigation *, .side-nav *, .sidenav * {
+  text-shadow: none !important;
+}
+.sidebar a, .sidebar button, .side-nav a, .navigation a,
+.sidebar .active, .nav-link.active, .menu-item.active {
+  color: var(--navai-text) !important;
+}
+.sidebar .active, .nav-link.active, .menu-item.active,
+.sidebar a:hover, .sidebar button:hover, .nav-link:hover,
+.menu-item:hover {
+  background-color: #eae1f4 !important;
+  border-color: #ddcfed !important;
+}
+
+/* Cards, panels, tools, result boxes */
+.card, .panel, .widget, .tool-card, .feature-card,
+.result, .result-box, .output, .output-box, .response,
+.response-box, .answer-box, .question-card, .content-card,
+.modal-content, .dialog-content, .settings-panel,
+.history-panel, .profile-card {
+  background-color: var(--navai-surface) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 7px 24px rgba(75,55,99,.055) !important;
+}
+
+/* Inputs, editors, search and chat composer */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select, .input, .search-box, .search-input,
+.prompt-input, .chat-input, .message-input,
+.composer, .input-container, .composer-container {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: #ded1ed !important;
+  caret-color: var(--navai-purple) !important;
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #a196ad !important;
+  opacity: 1 !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #a98acb !important;
+  outline-color: rgba(128,96,181,.18) !important;
+}
+
+/* Buttons: purple primary, orange call-to-action */
+button, .button, .btn, .action-button {
+  border-color: #ddcfed;
+}
+button.primary, .btn-primary, .primary-button,
+.send-button, #sendButton, .new-chat-button {
+  background: var(--navai-purple) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+button.primary:hover, .btn-primary:hover, .primary-button:hover,
+.send-button:hover, #sendButton:hover, .new-chat-button:hover {
+  background: var(--navai-purple-dark) !important;
+}
+button.orange, .btn-orange, .cta-button, .upgrade-button,
+.publish-button, .generate-button {
+  background: var(--navai-orange) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Typography, links and icon accents */
+h1, h2, h3, h4, h5, h6, p, label, li,
+.message, .message-content, .assistant-message,
+.user-message, .markdown-body {
+  text-shadow: none !important;
+}
+a, .link, .accent, .icon-accent {
+  color: var(--navai-purple-dark);
+}
+small, .muted, .subtitle, .description, .helper-text,
+.hint, .secondary-text {
+  color: var(--navai-muted);
+}
+
+/* Common dark/blue surfaces in chatbot and feature tools */
+.chat-message.assistant, .assistant-message,
+.message.assistant, .ai-response, .ai-result,
+.output-panel, .result-panel, .explanation-panel,
+.code-output, .preview-panel, .editor-panel,
+.quiz-panel, .question-panel, .notes-panel,
+.planner-panel, .timetable-panel, .teacher-panel {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+}
+.user-message, .message.user, .chat-message.user {
+  background-color: #eee6f7 !important;
+  color: var(--navai-text) !important;
+  border-color: #dfd2ed !important;
+}
+pre, .code-block {
+  background-color: #f0ebf6 !important;
+  color: #40334f !important;
+  border-color: var(--navai-border) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: #d6c7e7 #f5f0fa;
+}
+::-webkit-scrollbar-track { background: #f5f0fa; }
+::-webkit-scrollbar-thumb {
+  background: #d6c7e7;
+  border-radius: 10px;
+}

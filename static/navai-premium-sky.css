@@ -1,0 +1,544 @@
+﻿/* NAVAI PREMIUM SKY EDITION */
+
+:root {
+  color-scheme: light;
+  --nv-bg: #edf7ff;
+  --nv-bg2: #e3f2ff;
+  --nv-surface: #ffffff;
+  --nv-surface2: #f5faff;
+  --nv-blue: #2586d8;
+  --nv-blue-dark: #145b9b;
+  --nv-blue-soft: #dceeff;
+  --nv-text: #183b59;
+  --nv-muted: #66829c;
+  --nv-border: #d9eafa;
+  --nv-shadow: 0 12px 36px rgba(40, 105, 160, .10);
+  --nv-radius: 20px;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--nv-bg) !important;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(132, 198, 255, .27), transparent 38%),
+    radial-gradient(ellipse at 95% 10%, rgba(185, 220, 255, .35), transparent 35%),
+    linear-gradient(145deg, #f5faff, #eaf5ff 55%, #f7fbff) !important;
+  color: var(--nv-text) !important;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif !important;
+  min-height: 100vh;
+}
+
+* {
+  scrollbar-color: #a9d2f4 #edf6ff;
+}
+
+::selection {
+  background: #b9ddff;
+  color: #124b7b;
+}
+
+/* Main layout */
+.app-shell,
+.main-layout,
+.app-container {
+  background: transparent !important;
+}
+
+.main-area,
+.main-content,
+.content-area {
+  background: transparent !important;
+  color: var(--nv-text) !important;
+}
+
+/* Sidebar */
+.sidebar,
+aside.sidebar,
+#sidebar,
+.app-sidebar {
+  background: rgba(255,255,255,.88) !important;
+  color: var(--nv-text) !important;
+  border-right: 1px solid var(--nv-border) !important;
+  box-shadow: 8px 0 30px rgba(35,100,155,.045) !important;
+  backdrop-filter: blur(20px);
+}
+
+.sidebar *,
+#sidebar *,
+.app-sidebar * {
+  color: inherit;
+}
+
+.sidebar a,
+.sidebar button,
+#sidebar a,
+#sidebar button {
+  border-radius: 12px !important;
+  transition: background .2s ease, color .2s ease, transform .2s ease !important;
+}
+
+.sidebar a:hover,
+.sidebar button:hover,
+#sidebar a:hover,
+#sidebar button:hover {
+  background: #e8f4ff !important;
+  color: var(--nv-blue-dark) !important;
+}
+
+.sidebar .active,
+.sidebar a.active,
+#sidebar .active {
+  background: linear-gradient(110deg,#dceeff,#edf7ff) !important;
+  color: #176bb0 !important;
+  border: 1px solid #c8e3fb !important;
+}
+
+/* Header and navigation */
+.topbar,
+header.topbar,
+.navbar,
+header {
+  background: rgba(255,255,255,.82) !important;
+  color: var(--nv-text) !important;
+  border-color: var(--nv-border) !important;
+  backdrop-filter: blur(18px);
+}
+
+.topbar,
+.navbar {
+  box-shadow: 0 5px 22px rgba(38,100,150,.045) !important;
+}
+
+/* Headings and text */
+h1, h2, h3, h4, h5, h6 {
+  color: #173e60 !important;
+  letter-spacing: -.035em;
+}
+
+p, label, span, small {
+  text-wrap: pretty;
+}
+
+.muted, .subtitle, .description, .text-muted {
+  color: var(--nv-muted) !important;
+}
+
+/* Welcome section */
+.welcome-screen,
+.welcome-content,
+.hero,
+.hero-section {
+  background: transparent !important;
+  color: var(--nv-text) !important;
+}
+
+.welcome-screen h1,
+.hero h1,
+.hero-section h1 {
+  background: linear-gradient(100deg,#174e80,#2586d8 55%,#65b8f5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+.welcome-screen p,
+.hero p {
+  color: #64829e !important;
+}
+
+/* Cards and panels */
+.card,
+.tool-card,
+.feature-card,
+.app-card,
+.dashboard-card,
+.panel,
+.widget,
+.stat-card,
+[class*="tool-card"],
+[class*="feature-card"],
+[class*="dashboard-card"] {
+  background: rgba(255,255,255,.91) !important;
+  color: var(--nv-text) !important;
+  border: 1px solid rgba(194,222,245,.85) !important;
+  border-radius: var(--nv-radius) !important;
+  box-shadow: var(--nv-shadow) !important;
+  backdrop-filter: blur(14px);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
+}
+
+.card:hover,
+.tool-card:hover,
+.feature-card:hover,
+.app-card:hover,
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  border-color: #a8d2f5 !important;
+  box-shadow: 0 18px 42px rgba(37,112,174,.14) !important;
+}
+
+/* Dashboard */
+#navai-tool-dashboard {
+  background:
+    radial-gradient(circle at 10% 0%,rgba(173,218,255,.35),transparent 35%),
+    linear-gradient(145deg,#eff8ff,#e7f3ff 55%,#f8fbff) !important;
+  color: var(--nv-text) !important;
+  border-color: var(--nv-border) !important;
+}
+
+#navai-tool-dashboard h1,
+#navai-tool-dashboard h2,
+#navai-tool-dashboard h3,
+#navai-tool-dashboard h4,
+#navai-tool-dashboard p,
+#navai-tool-dashboard span {
+  color: var(--nv-text) !important;
+}
+
+#navai-tool-dashboard .tool,
+#navai-tool-dashboard .tool-card,
+#navai-tool-dashboard .feature,
+#navai-tool-dashboard .feature-card,
+#navai-tool-dashboard .card {
+  background: rgba(255,255,255,.94) !important;
+  color: var(--nv-text) !important;
+  border: 1px solid #d5e9fa !important;
+  border-radius: 19px !important;
+  box-shadow: 0 10px 28px rgba(35,100,155,.09) !important;
+}
+
+/* Buttons */
+button,
+.btn,
+.button,
+[role="button"],
+input[type="submit"] {
+  border-radius: 12px !important;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+}
+
+button:not(:disabled):hover,
+.btn:hover,
+.button:hover,
+input[type="submit"]:hover {
+  transform: translateY(-1px);
+}
+
+button.primary,
+.btn-primary,
+.primary-button,
+button[type="submit"],
+input[type="submit"] {
+  background: linear-gradient(115deg,#2586d8,#1768b1) !important;
+  color: #fff !important;
+  border: 1px solid #2586d8 !important;
+  box-shadow: 0 7px 18px rgba(37,134,216,.20) !important;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  background: #fbfdff !important;
+  color: #183b59 !important;
+  border: 1px solid #d4e7f8 !important;
+  border-radius: 12px !important;
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #66afe9 !important;
+  box-shadow: 0 0 0 4px rgba(74,158,224,.13) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #91a9bd !important;
+}
+
+/* Chat */
+.composer-area,
+.chat-input-area,
+.chat-composer {
+  background: rgba(255,255,255,.9) !important;
+  border-color: var(--nv-border) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 12px 35px rgba(35,100,155,.09) !important;
+}
+
+.message-bubble,
+.message,
+.chat-message {
+  border-radius: 18px !important;
+}
+
+.user-message,
+.message-bubble.user,
+.message.user {
+  background: linear-gradient(120deg,#dceeff,#cce6ff) !important;
+  color: #17466d !important;
+}
+
+.assistant-message,
+.message-bubble.assistant,
+.message.assistant {
+  background: #fff !important;
+  color: var(--nv-text) !important;
+  border: 1px solid var(--nv-border) !important;
+}
+
+/* Tables and code */
+table {
+  background: white !important;
+  border-color: var(--nv-border) !important;
+  border-radius: 12px;
+}
+
+th {
+  background: #eaf5ff !important;
+  color: #245b86 !important;
+}
+
+td {
+  color: var(--nv-text) !important;
+  border-color: var(--nv-border) !important;
+}
+
+pre, code {
+  border-radius: 12px;
+}
+
+/* Dialogs and popups */
+.modal,
+.dialog,
+.dropdown-menu,
+.popover,
+[role="dialog"] {
+  background: #fff !important;
+  color: var(--nv-text) !important;
+  border: 1px solid var(--nv-border) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 20px 60px rgba(30,80,130,.17) !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #edf6ff;
+}
+::-webkit-scrollbar-thumb {
+  background: #b6d8f5;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8fc1ec;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body {
+    background: linear-gradient(150deg,#f4faff,#e8f4ff) !important;
+  }
+
+  .sidebar,
+  #sidebar,
+  .app-sidebar {
+    box-shadow: 12px 0 35px rgba(20,70,120,.12) !important;
+  }
+
+  .card,
+  .tool-card,
+  .feature-card,
+  .app-card {
+    border-radius: 16px !important;
+  }
+
+  .topbar {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  input, textarea, select, button {
+    max-width: 100%;
+  }
+}
+
+/* Motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
+
+/* =========================================================
+   NAVAI PEARL LAVENDER GLOBAL PALETTE
+   Visual-only overrides. Existing layout and JS untouched.
+   ========================================================= */
+:root {
+  color-scheme: light;
+  --navai-bg: #f6f2fb;
+  --navai-surface: #fff;
+  --navai-surface-soft: #f0e9f8;
+  --navai-border: #e3d8ef;
+  --navai-text: #342b40;
+  --navai-muted: #82778f;
+  --navai-purple: #8060b5;
+  --navai-purple-dark: #684991;
+  --navai-orange: #ed955b;
+}
+
+/* Page canvas and major structural regions */
+html, body {
+  background-color: var(--navai-bg) !important;
+  color: var(--navai-text) !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(218,202,239,.28), transparent 40%),
+    radial-gradient(ellipse at 92% 100%, rgba(255,225,203,.18), transparent 36%) !important;
+}
+main, [role="main"], .main, .main-content, .main-area,
+.content, .content-area, .page-content, .app-content,
+.workspace, .dashboard, .chat-area, .chat-container,
+.conversation, .welcome-screen {
+  color: var(--navai-text) !important;
+}
+header, .header, .topbar, .navbar, .nav-bar, .top-nav,
+.app-header, .page-header {
+  background: rgba(250,247,255,.96) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 3px 18px rgba(75,55,99,.045) !important;
+}
+
+/* Sidebars and navigation */
+aside, .sidebar, .side-bar, .app-sidebar, .left-sidebar,
+.navigation, .side-nav, .sidenav {
+  background: linear-gradient(160deg,#fcfaff 0%,#f2ecf9 100%) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 6px 0 24px rgba(75,55,99,.055) !important;
+}
+.sidebar *, .side-bar *, .app-sidebar *, .left-sidebar *,
+.navigation *, .side-nav *, .sidenav * {
+  text-shadow: none !important;
+}
+.sidebar a, .sidebar button, .side-nav a, .navigation a,
+.sidebar .active, .nav-link.active, .menu-item.active {
+  color: var(--navai-text) !important;
+}
+.sidebar .active, .nav-link.active, .menu-item.active,
+.sidebar a:hover, .sidebar button:hover, .nav-link:hover,
+.menu-item:hover {
+  background-color: #eae1f4 !important;
+  border-color: #ddcfed !important;
+}
+
+/* Cards, panels, tools, result boxes */
+.card, .panel, .widget, .tool-card, .feature-card,
+.result, .result-box, .output, .output-box, .response,
+.response-box, .answer-box, .question-card, .content-card,
+.modal-content, .dialog-content, .settings-panel,
+.history-panel, .profile-card {
+  background-color: var(--navai-surface) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 7px 24px rgba(75,55,99,.055) !important;
+}
+
+/* Inputs, editors, search and chat composer */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select, .input, .search-box, .search-input,
+.prompt-input, .chat-input, .message-input,
+.composer, .input-container, .composer-container {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: #ded1ed !important;
+  caret-color: var(--navai-purple) !important;
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #a196ad !important;
+  opacity: 1 !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #a98acb !important;
+  outline-color: rgba(128,96,181,.18) !important;
+}
+
+/* Buttons: purple primary, orange call-to-action */
+button, .button, .btn, .action-button {
+  border-color: #ddcfed;
+}
+button.primary, .btn-primary, .primary-button,
+.send-button, #sendButton, .new-chat-button {
+  background: var(--navai-purple) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+button.primary:hover, .btn-primary:hover, .primary-button:hover,
+.send-button:hover, #sendButton:hover, .new-chat-button:hover {
+  background: var(--navai-purple-dark) !important;
+}
+button.orange, .btn-orange, .cta-button, .upgrade-button,
+.publish-button, .generate-button {
+  background: var(--navai-orange) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Typography, links and icon accents */
+h1, h2, h3, h4, h5, h6, p, label, li,
+.message, .message-content, .assistant-message,
+.user-message, .markdown-body {
+  text-shadow: none !important;
+}
+a, .link, .accent, .icon-accent {
+  color: var(--navai-purple-dark);
+}
+small, .muted, .subtitle, .description, .helper-text,
+.hint, .secondary-text {
+  color: var(--navai-muted);
+}
+
+/* Common dark/blue surfaces in chatbot and feature tools */
+.chat-message.assistant, .assistant-message,
+.message.assistant, .ai-response, .ai-result,
+.output-panel, .result-panel, .explanation-panel,
+.code-output, .preview-panel, .editor-panel,
+.quiz-panel, .question-panel, .notes-panel,
+.planner-panel, .timetable-panel, .teacher-panel {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+}
+.user-message, .message.user, .chat-message.user {
+  background-color: #eee6f7 !important;
+  color: var(--navai-text) !important;
+  border-color: #dfd2ed !important;
+}
+pre, .code-block {
+  background-color: #f0ebf6 !important;
+  color: #40334f !important;
+  border-color: var(--navai-border) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: #d6c7e7 #f5f0fa;
+}
+::-webkit-scrollbar-track { background: #f5f0fa; }
+::-webkit-scrollbar-thumb {
+  background: #d6c7e7;
+  border-radius: 10px;
+}

@@ -1,0 +1,84 @@
+(() => {
+  const level = document.getElementById("level");
+  if (!level || document.getElementById("teacherStage")) return;
+
+  const stage = document.createElement("section");
+  stage.id = "teacherStage";
+  stage.className = "teacher-stage";
+  stage.innerHTML = `
+    <div class="teacher-visual">
+      <div class="avatar avatar-cartoon" id="teacherAvatar">
+        <div class="avatar-aura"></div>
+        <div class="avatar-ears"><i></i><i></i></div>
+        <div class="avatar-head">
+          <div class="avatar-hair"></div>
+          <div class="avatar-eyes"><i></i><i></i></div>
+          <div class="avatar-cheeks"><i></i><i></i></div>
+          <div class="avatar-mouth"></div>
+          <div class="avatar-whiskers"> <span>— —</span><span>— —</span> </div>
+        </div>
+        <div class="avatar-neck"></div>
+        <div class="avatar-body"><span class="avatar-emblem">N</span></div>
+      </div>
+      <span class="avatar-name" id="avatarName">PICO · CARTOON TEACHER</span>
+    </div>
+    <div class="teacher-message">
+      <span class="teacher-kicker">YOUR CLASSROOM TEACHER</span>
+      <h3 id="teacherTitle">Meet Pico!</h3>
+      <p id="teacherDescription">Learning is an adventure. Choose a topic and I will explain it one step at a time.</p>
+      <div class="teacher-state" id="teacherState"><i></i><span>Ready to teach</span></div>
+    </div>`;
+  document.querySelector(".board-section").before(stage);
+
+  function updateTeacher() {
+    const value = level.value;
+    const match = value.match(/Class\s+(\d+)/i);
+    const n = match ? Number(match[1]) : null;
+    const avatar = document.getElementById("teacherAvatar");
+    const title = document.getElementById("teacherTitle");
+    const description = document.getElementById("teacherDescription");
+    const name = document.getElementById("avatarName");
+
+    avatar.classList.remove("avatar-cartoon", "avatar-ai", "avatar-human");
+
+    if ((n !== null && n <= 5) || value === "Beginner") {
+      avatar.classList.add("avatar-cartoon");
+      title.textContent = "Meet Pico!";
+      description.textContent = "Your friendly cartoon teacher makes big ideas easy with simple words, fun examples and step-by-step lessons.";
+      name.textContent = "PICO · CARTOON TEACHER";
+    } else if (n !== null && n >= 11 || value === "Advanced") {
+      avatar.classList.add("avatar-human");
+      title.textContent = "Your virtual subject tutor";
+      description.textContent = "Explore deeper concepts, detailed reasoning and advanced examples with your human-like illustrated teacher.";
+      name.textContent = "NOVA · VIRTUAL TUTOR";
+    } else {
+      avatar.classList.add("avatar-ai");
+      title.textContent = "Meet your AI teacher";
+      description.textContent = "Understand concepts through structured explanations, formulas, examples and a step-by-step learning board.";
+      name.textContent = "NAVI · AI TEACHER";
+    }
+  }
+
+  level.addEventListener("change", updateTeacher);
+  updateTeacher();
+
+  let lastSpeaking = false;
+  window.setInterval(() => {
+    const speaking = "speechSynthesis" in window &&
+      window.speechSynthesis.speaking &&
+      !window.speechSynthesis.paused;
+
+    stage.classList.toggle("teacher-speaking", speaking);
+
+    const state = document.getElementById("teacherState");
+    if (state) {
+      state.classList.toggle("is-speaking", speaking);
+      state.querySelector("span").textContent = speaking ? "Explaining aloud..." : "Ready to teach";
+    }
+
+    if (speaking !== lastSpeaking) {
+      stage.classList.toggle("voice-active", speaking);
+      lastSpeaking = speaking;
+    }
+  }, 180);
+})();

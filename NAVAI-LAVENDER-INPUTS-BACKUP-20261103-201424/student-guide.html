@@ -1,0 +1,59 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071126">
+<title>Student Guide | NavAI</title>
+<link rel="stylesheet" href="student-guide.css">
+<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
+<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
+<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" aria-label="NavAI home"><span class="brand-mark">N</span><span>NavAI <small>STUDENT GUIDE</small></span></a>
+  <a class="back" href="/">ÃƒÂ¢Ã¢â‚¬Â Ã‚Â All features</a>
+</header>
+<main class="layout">
+  <section class="intro">
+    <div class="eyebrow"><span class="pulse"></span> YOUR PERSONAL GUIDE</div>
+    <h1>You don't have to figure <span>everything out alone.</span></h1>
+    <p>Talk things through with a calm, practical guide that helps you think clearly, make a plan and take your next step.</p>
+    <div class="mentor-tags"><span>Teacher's clarity</span><span>Parent-like support</span><span>Senior's practical advice</span></div>
+  </section>
+
+  <section class="chat-card" aria-label="Student Guide chat">
+    <div class="chat-head">
+      <div class="avatar">N</div>
+      <div class="head-copy"><strong>Your Student Guide</strong><small><span class="online"></span> Here to help you think it through</small></div>
+      <label class="language"><span>Language</span><select id="language"><option value="hinglish">Hinglish</option><option value="en">English</option><option value="hi">Hindi</option></select></label>
+    </div>
+    <div id="messages" class="messages" aria-live="polite">
+      <div class="message guide"><span class="speaker">YOUR GUIDE</span><p>Hey! Batao, aaj kis cheez mein help chahiye? Studies, exam stress, routine, confidence, school problem ya future planningÃ¢â‚¬â€hum ek-ek step karke samjhenge.</p></div>
+    </div>
+    <div class="quick-prompts" id="quickPrompts">
+      <button type="button" data-prompt="Help me make a realistic study plan for my exams.">Ã°Å¸â€œÅ¡ Study plan</button>
+      <button type="button" data-prompt="I keep procrastinating. Help me understand why and start small.">Ã°Å¸Å½Â¯ Stop procrastinating</button>
+      <button type="button" data-prompt="I feel stressed about school. Help me think it through.">Ã°Å¸â€™Â­ School stress</button>
+      <button type="button" data-prompt="Help me explore my strengths and possible career paths.">Ã°Å¸Â§Â­ Career direction</button>
+    </div>
+    <div class="composer">
+      <textarea id="messageInput" rows="1" maxlength="4000" placeholder="Type whatÃ¢â‚¬â„¢s on your mindÃ¢â‚¬Â¦" aria-label="Your message"></textarea>
+      <button id="voiceBtn" class="voice-btn" type="button" title="Speak your message" aria-label="Speak your message">Ã°Å¸Å½Â¤</button>
+      <button id="sendBtn" class="send-btn" type="button" aria-label="Send message">Ã¢Å¾Â¤</button>
+    </div>
+    <div class="chat-foot"><span id="status">Your microphone starts only when you tap it.</span><button id="speakToggle" type="button" aria-pressed="true">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ…Â  Read replies: on</button></div>
+  </section>
+  <p class="note">Your guide can help you explore options, but important health, safety or family concerns should also involve a trusted adult. You choose what to share.</p>
+</main>
+<script src="student-guide.js"></script>
+<script src="/math-renderer.js"></script>
+</body>
+</html>
+
+
+
+
+
+

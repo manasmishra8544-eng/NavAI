@@ -1,0 +1,324 @@
+/* NAVAI OBSIDIAN UNIFIED — consistent dark surfaces across every feature */
+:root{
+ color-scheme:dark!important;
+ --bg:#080a0f!important;--bg-2:#0b0f16!important;--surface:#101620!important;
+ --panel:#111923!important;--panel-2:#151f2c!important;--panel-hover:#1b2838!important;
+ --sidebar:#0b1018!important;--border:#263344!important;--text:#edf3fb!important;
+ --muted:#9aaabd!important;--blue:#6da8ff!important;--blue-bright:#4c91f2!important;
+ --green:#55d6ae!important;--purple:#a58bff!important;
+ --navai-bg:#080a0f!important;--navai-surface:#101620!important;
+ --navai-surface-2:#151f2c!important;--navai-border:#263344!important;
+ --navai-text:#edf3fb!important;--navai-muted:#9aaabd!important;
+ --navai-blue:#6da8ff!important;--navai-purple:#a58bff!important;
+}
+html,body,body[data-theme="light"]{
+ color-scheme:dark!important;background:#080a0f!important;color:#edf3fb!important;
+}
+body,body[data-theme="light"]{
+ background:radial-gradient(ellipse at 50% -25%,rgba(69,104,157,.16),transparent 55%),#080a0f!important;
+ font-family:Inter,"Segoe UI",system-ui,sans-serif!important;
+}
+body :where(h1,h2,h3,h4,h5,h6,p,span,label,li,small,strong,em,dt,dd){color:inherit}
+body :where(.muted,.subtitle,.description,.hint,.helper-text,.text-muted,.eyebrow,.section-heading,small){color:#9aaabd!important}
+
+/* App shell: all outer regions share one dark palette */
+.app-shell,.main-area,.main-content,.content-area,main,.page,.page-content,.workspace,.app-container{
+ background:transparent!important;color:#edf3fb!important;
+}
+.sidebar,#sidebar,aside.sidebar,.app-sidebar,.nav-sidebar{
+ background:#0b1018!important;color:#edf3fb!important;border-color:#263344!important;
+ box-shadow:8px 0 28px rgba(0,0,0,.24)!important;
+}
+.sidebar-top,.sidebar-bottom,.sidebar-section,.chat-history,.local-note{
+ background:transparent!important;border-color:#263344!important;
+}
+.brand-icon{
+ background:#172438!important;border:1px solid #344a67!important;
+ box-shadow:none!important;color:#dceaff!important;
+}
+.brand-name,.page-title{color:#f2f6fc!important}
+.sidebar a,.sidebar button,.sidebar-action,.new-chat-button{
+ color:#c4d1e1!important;border-color:transparent!important;
+}
+.sidebar a:hover,.sidebar button:hover,.sidebar-action:hover,.new-chat-button:hover{
+ background:#172231!important;color:#fff!important;
+}
+.sidebar .active,.sidebar a.active,.sidebar button.active{
+ background:#19283b!important;color:#9fc5ff!important;border-color:#2c4564!important;
+}
+.history-empty{background:#101722!important;color:#8294aa!important;border:1px solid #263344!important}
+.topbar,header.topbar,.navbar,header,.toolbar{
+ background:#0c1119!important;color:#edf3fb!important;border-color:#263344!important;
+ box-shadow:0 5px 22px rgba(0,0,0,.18)!important;
+}
+.sidebar-overlay{background:rgba(0,0,0,.68)!important}
+
+/* Main page backgrounds and feature workspaces */
+.welcome-screen,.welcome-content,.hero,.hero-section,
+#navai-tool-dashboard,#classroom,#homework,#oralQuiz,#studentGuide,
+#handwrittenNotes,#studyPlanner,#doubtSolver,#examImprover,#timeTableMaker{
+ background:#080a0f!important;color:#edf3fb!important;
+}
+#navai-tool-dashboard{
+ background:radial-gradient(ellipse at 50% 0%,#172337 0%,#0b111b 48%,#080a0f 82%)!important;
+}
+#navai-tool-dashboard .tool,.tool,.tool-card,.feature-card,.app-card,.dashboard-card,
+.card,.panel,.widget,.stat-card,.workspace-card,.tool-panel,.content-card,.section-card,
+.question-card,.quiz-card,.result-card,.history-card,.chat-panel,.chat-container,
+.editor-panel,.preview-panel,.notes-panel,.board,.classroom-board,.modal-content,
+.modal,.dialog,[role="dialog"],.settings-card,.task-card,.subject-card,.lesson-card{
+ background:#111923!important;color:#edf3fb!important;border:1px solid #263344!important;
+ box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+}
+#navai-tool-dashboard .tool:hover,.tool:hover,.tool-card:hover,.feature-card:hover{
+ background:#172333!important;border-color:#45658d!important;
+}
+#navai-tool-dashboard .tool h2,#navai-tool-dashboard .tool p,
+#navai-tool-dashboard .tool-bottom{color:#edf3fb!important}
+#navai-tool-dashboard .tool p{color:#a8b7c9!important}
+#navai-tool-dashboard .tool-icon{background:#1b2b42!important;color:#a9cbff!important;border-color:#344e70!important}
+.hero h1,.welcome-content h1{color:#edf3fb!important}
+.welcome-description,.hero p{color:#9aaabd!important}
+
+/* Inputs, editors, selects, contenteditable */
+input,textarea,select,option,[contenteditable="true"],.editor,.CodeMirror,.cm-editor{
+ background:#0b1119!important;color:#edf3fb!important;border-color:#2b3a4d!important;
+}
+input::placeholder,textarea::placeholder{color:#75879d!important}
+input:focus,textarea:focus,select:focus,[contenteditable="true"]:focus{
+ border-color:#5b91d4!important;box-shadow:0 0 0 3px rgba(91,145,212,.16)!important;outline:none!important;
+}
+button,.btn,.button,[role="button"]{
+ color:#eaf2fc!important;border-color:#304158!important;
+}
+button:not(.primary):not(.primary-button):not(.btn-primary):not([type="submit"]),
+.btn:not(.primary):not(.btn-primary),.button{
+ background:#172231!important;
+}
+button:hover,.btn:hover,.button:hover,[role="button"]:hover{
+ filter:brightness(1.13);
+}
+.primary,.primary-button,.btn-primary,.send-button,.submit-button,
+button[type="submit"],input[type="submit"]{
+ background:linear-gradient(135deg,#397bc7,#285b9b)!important;
+ color:#fff!important;border-color:#4a83c6!important;
+}
+
+/* Chat and message composer */
+.composer-area,.chat-input-area,.chat-composer,.input-area,.message-input,.prompt-box,
+.composer-wrap,.composer,.composer-hint{
+ background:#080c12!important;color:#edf3fb!important;border-color:#263344!important;
+}
+.composer{
+ background:#101722!important;border:1px solid #304158!important;
+ box-shadow:0 10px 30px rgba(0,0,0,.28)!important;
+}
+.message-bubble,.message,.chat-message,.assistant-message,.user-message{
+ color:#edf3fb!important;border-color:#2a394c!important;
+}
+.assistant-message,.message-bubble.assistant,.message.assistant{background:#141d29!important}
+.user-message,.message-bubble.user,.message.user{background:#1a2b40!important}
+
+/* Feature-specific panels and status elements */
+#board,#result,#answer-panel,#answer,#history,#transcript,#reply,#status,
+#messages,#quickPrompts,#taskList,#emptyState,#schedule,#results,#feedback{
+ color:#edf3fb!important;
+}
+#board,.board,.classroom-board,.lesson-panel,.question-panel,.answer-panel,
+.quiz-stage,.quiz-card,.notes-workspace,.planner-panel,.schedule-panel{
+ background:#111923!important;color:#edf3fb!important;border-color:#263344!important;
+}
+.badge,.chip,.tag,.status-pill{background:#1b2a3d!important;color:#b8d4f8!important;border-color:#344a65!important}
+
+/* Tables, code, menus, separators */
+table,thead,tbody,tr,td,th{border-color:#263344!important}
+th{background:#172333!important;color:#dce9f8!important}
+td{background:#101722!important;color:#dce6f2!important}
+pre,code,.code-block{background:#090d13!important;color:#dce9f8!important;border-color:#263344!important}
+.dropdown-menu,.dropdown,.popover,.tooltip,.menu,.context-menu{
+ background:#141d29!important;color:#edf3fb!important;border:1px solid #304158!important;
+}
+hr,.divider,.separator{border-color:#263344!important}
+a{color:#9fc5ff}
+a:hover{color:#c6ddff}
+*{scrollbar-color:#34465d #0b1018}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:#0b1018}
+::-webkit-scrollbar-thumb{background:#34465d;border-radius:20px}
+
+/* Hide only the unwanted small sidebar brand tile; retain NavAI wordmark */
+.app-shell .sidebar .brand-icon{display:none!important}
+.app-shell .sidebar .brand{gap:0!important}
+.sidebar-close{display:none!important}
+
+/* Keep responsive structure intact */
+@media(max-width:768px){
+ .sidebar,#sidebar,.app-sidebar{background:#0b1018!important}
+ .card,.tool-card,.feature-card,.panel{border-radius:15px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+
+/* =========================================================
+   NAVAI PEARL LAVENDER GLOBAL PALETTE
+   Visual-only overrides. Existing layout and JS untouched.
+   ========================================================= */
+:root {
+  color-scheme: light;
+  --navai-bg: #f6f2fb;
+  --navai-surface: #fff;
+  --navai-surface-soft: #f0e9f8;
+  --navai-border: #e3d8ef;
+  --navai-text: #342b40;
+  --navai-muted: #82778f;
+  --navai-purple: #8060b5;
+  --navai-purple-dark: #684991;
+  --navai-orange: #ed955b;
+}
+
+/* Page canvas and major structural regions */
+html, body {
+  background-color: var(--navai-bg) !important;
+  color: var(--navai-text) !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(218,202,239,.28), transparent 40%),
+    radial-gradient(ellipse at 92% 100%, rgba(255,225,203,.18), transparent 36%) !important;
+}
+main, [role="main"], .main, .main-content, .main-area,
+.content, .content-area, .page-content, .app-content,
+.workspace, .dashboard, .chat-area, .chat-container,
+.conversation, .welcome-screen {
+  color: var(--navai-text) !important;
+}
+header, .header, .topbar, .navbar, .nav-bar, .top-nav,
+.app-header, .page-header {
+  background: rgba(250,247,255,.96) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 3px 18px rgba(75,55,99,.045) !important;
+}
+
+/* Sidebars and navigation */
+aside, .sidebar, .side-bar, .app-sidebar, .left-sidebar,
+.navigation, .side-nav, .sidenav {
+  background: linear-gradient(160deg,#fcfaff 0%,#f2ecf9 100%) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 6px 0 24px rgba(75,55,99,.055) !important;
+}
+.sidebar *, .side-bar *, .app-sidebar *, .left-sidebar *,
+.navigation *, .side-nav *, .sidenav * {
+  text-shadow: none !important;
+}
+.sidebar a, .sidebar button, .side-nav a, .navigation a,
+.sidebar .active, .nav-link.active, .menu-item.active {
+  color: var(--navai-text) !important;
+}
+.sidebar .active, .nav-link.active, .menu-item.active,
+.sidebar a:hover, .sidebar button:hover, .nav-link:hover,
+.menu-item:hover {
+  background-color: #eae1f4 !important;
+  border-color: #ddcfed !important;
+}
+
+/* Cards, panels, tools, result boxes */
+.card, .panel, .widget, .tool-card, .feature-card,
+.result, .result-box, .output, .output-box, .response,
+.response-box, .answer-box, .question-card, .content-card,
+.modal-content, .dialog-content, .settings-panel,
+.history-panel, .profile-card {
+  background-color: var(--navai-surface) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 7px 24px rgba(75,55,99,.055) !important;
+}
+
+/* Inputs, editors, search and chat composer */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select, .input, .search-box, .search-input,
+.prompt-input, .chat-input, .message-input,
+.composer, .input-container, .composer-container {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: #ded1ed !important;
+  caret-color: var(--navai-purple) !important;
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #a196ad !important;
+  opacity: 1 !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #a98acb !important;
+  outline-color: rgba(128,96,181,.18) !important;
+}
+
+/* Buttons: purple primary, orange call-to-action */
+button, .button, .btn, .action-button {
+  border-color: #ddcfed;
+}
+button.primary, .btn-primary, .primary-button,
+.send-button, #sendButton, .new-chat-button {
+  background: var(--navai-purple) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+button.primary:hover, .btn-primary:hover, .primary-button:hover,
+.send-button:hover, #sendButton:hover, .new-chat-button:hover {
+  background: var(--navai-purple-dark) !important;
+}
+button.orange, .btn-orange, .cta-button, .upgrade-button,
+.publish-button, .generate-button {
+  background: var(--navai-orange) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Typography, links and icon accents */
+h1, h2, h3, h4, h5, h6, p, label, li,
+.message, .message-content, .assistant-message,
+.user-message, .markdown-body {
+  text-shadow: none !important;
+}
+a, .link, .accent, .icon-accent {
+  color: var(--navai-purple-dark);
+}
+small, .muted, .subtitle, .description, .helper-text,
+.hint, .secondary-text {
+  color: var(--navai-muted);
+}
+
+/* Common dark/blue surfaces in chatbot and feature tools */
+.chat-message.assistant, .assistant-message,
+.message.assistant, .ai-response, .ai-result,
+.output-panel, .result-panel, .explanation-panel,
+.code-output, .preview-panel, .editor-panel,
+.quiz-panel, .question-panel, .notes-panel,
+.planner-panel, .timetable-panel, .teacher-panel {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+}
+.user-message, .message.user, .chat-message.user {
+  background-color: #eee6f7 !important;
+  color: var(--navai-text) !important;
+  border-color: #dfd2ed !important;
+}
+pre, .code-block {
+  background-color: #f0ebf6 !important;
+  color: #40334f !important;
+  border-color: var(--navai-border) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: #d6c7e7 #f5f0fa;
+}
+::-webkit-scrollbar-track { background: #f5f0fa; }
+::-webkit-scrollbar-thumb {
+  background: #d6c7e7;
+  border-radius: 10px;
+}

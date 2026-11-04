@@ -1,0 +1,1203 @@
+﻿diff --git a/doubt-solver.html b/doubt-solver.html
+index e340213..51f58ad 100644
+--- a/doubt-solver.html
++++ b/doubt-solver.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++∩╗┐<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+@@ -6,19 +6,26 @@
+   <meta name="theme-color" content="#071126">
+   <title>NavAI Doubt Solver</title>
+   <link rel="stylesheet" href="doubt-solver.css">
+-<link rel="stylesheet" href="/static/pearl-aurora.css">
++<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
++<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
++<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
++
++<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
++<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
++    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
++<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
+ </head>
+ <body>
+   <header class="topbar">
+     <a class="brand" href="index.html"><span class="brand-icon">N</span> NavAI <span class="brand-sub">/ Doubt Solver</span></a>
+-    <a class="back-link" href="index.html">├â┬ó├óΓé¼┬á├é┬É Back to NavAI</a>
++    <a class="back-link" href="index.html">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬á├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬É Back to NavAI</a>
+   </header>
+ 
+   <main class="layout">
+     <section class="hero">
+       <div class="eyebrow"><span class="live-dot"></span> YOUR LEARNING SPACE</div>
+       <h1>Every doubt has a <span>solution.</span></h1>
+-      <p>Ask anything you├óΓé¼Γäóre learning. Understand the steps, not just the final answer.</p>
++      <p>Ask anything you├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓé¼┼╛├é┬óre learning. Understand the steps, not just the final answer.</p>
+     </section>
+ 
+     <section class="workspace">
+@@ -41,7 +48,7 @@
+       </div>
+ 
+       <label class="question-label" for="question">WHAT ARE YOU STUCK ON?</label>
+-      <textarea id="question" rows="5" placeholder="Type your question here├óΓé¼┬ª&#10;&#10;Example: Why does a negative number multiplied by a negative number become positive?"></textarea>
++      <textarea id="question" rows="5" placeholder="Type your question here├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬ª&#10;&#10;Example: Why does a negative number multiplied by a negative number become positive?"></textarea>
+ 
+       <div class="suggestions">
+         <button class="suggestion" data-prompt="Explain this concept step by step in simple language: ">Explain a concept</button>
+@@ -49,13 +56,13 @@
+         <button class="suggestion" data-prompt="Give me a simple example and then a short practice question about: ">Show an example</button>
+       </div>
+ 
+-      <button id="solve" class="solve-button"><span>├â┬ó├àΓÇ£├é┬ª</span> Solve my doubt <span class="arrow">├â┬ó├óΓé¼┬á├óΓé¼Γäó</span></button>
++      <button id="solve" class="solve-button"><span>├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├óΓé¼┬ª├â┬ó├óΓÇÜ┬¼├àΓÇ£├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬ª</span> Solve my doubt <span class="arrow">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬á├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓé¼┼╛├é┬ó</span></button>
+       <p class="privacy-note">Your saved history stays in this browser until you clear it.</p>
+     </section>
+ 
+     <section id="answer-panel" class="answer-panel" hidden>
+       <div class="answer-heading">
+-        <div><div class="eyebrow">YOUR EXPLANATION</div><h2>Let├óΓé¼Γäós understand it.</h2></div>
++        <div><div class="eyebrow">YOUR EXPLANATION</div><h2>Let├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓé¼┼╛├é┬ós understand it.</h2></div>
+         <div class="answer-actions">
+           <button id="copy" class="secondary-button">Copy answer</button>
+           <button id="save" class="secondary-button">Save doubt</button>
+@@ -73,4 +80,14 @@
+   <script src="doubt-solver.js"></script>
+ <script src="/math-renderer.js"></script>
+ </body>
+-</html>
++</html>
++
++
++
++
++
++
++
++
++
++
+diff --git a/exam-improver.html b/exam-improver.html
+index fe45101..65e0e8d 100644
+--- a/exam-improver.html
++++ b/exam-improver.html
+@@ -1,209 +1,226 @@
+-<!DOCTYPE html>
+-<html lang="en">
+-<head>
+-<meta charset="UTF-8">
+-<meta name="viewport" content="width=device-width,initial-scale=1">
+-<meta name="theme-color" content="#06132b">
+-<title>Exam Improver ? NavAI</title>
+-<style>
+-:root{color-scheme:dark;--bg:#050d20;--panel:#0a1934;--line:#1d467d;--blue:#3185ff;--text:#eff6ff;--muted:#a6bfdf}
+-*{box-sizing:border-box}
+-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#15376a,transparent 42%),radial-gradient(ellipse at 100% 30%,#251d60,transparent 36%),var(--bg);font:15px/1.6 "Segoe UI",Arial,sans-serif;color:var(--text)}
+-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 5%;border-bottom:1px solid var(--line);background:#061128cc}
+-.brand{font-size:22px;font-weight:850}.brand span{color:#82aaff}
+-a{color:#b9d7ff;text-decoration:none}
+-main{max-width:1200px;margin:auto;padding:30px 18px}
+-.hero{margin-bottom:22px}.eyebrow{font-size:11px;letter-spacing:2px;color:#55c8ff;font-weight:850}
+-h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:8px 0;letter-spacing:-1px}
+-h1 em{font-style:normal;color:#8e9dff}
+-p{color:var(--muted)}
+-.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
+-.panel{min-width:0;border:1px solid #1c477e;background:linear-gradient(145deg,#0c1d3bf5,#07152ff5);border-radius:19px;padding:20px;box-shadow:0 20px 60px #0003}
+-h2{font-size:18px;margin:0 0 14px}
+-label{display:block;color:#bed4f2;font-size:12px;margin:13px 0 6px}
+-input,select,textarea{width:100%;background:#061229;color:var(--text);border:1px solid #244d80;border-radius:10px;padding:11px;font:inherit}
+-textarea{min-height:110px;resize:vertical}
+-button{border:1px solid #327aff;background:linear-gradient(120deg,#2378ff,#5549ed);color:white;font:inherit;font-weight:750;border-radius:11px;padding:12px 15px;cursor:pointer}
+-button:disabled{opacity:.45;cursor:not-allowed}
+-.secondary{background:#0a1d3a;border-color:#2b558a;color:#d5e8ff}
+-.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.row button{flex:1}
+-.pill{display:inline-block;border:1px solid #28558c;background:#0a2446;border-radius:99px;padding:4px 10px;font-size:11px;color:#c5e4ff}
+-.questionbox{border:1px solid #234e84;border-radius:15px;padding:20px;background:#07152c;min-height:200px}
+-.qmeta{font-size:11px;letter-spacing:1.5px;color:#6bcfff;font-weight:850}
+-#question{font-size:clamp(20px,2.6vw,28px);line-height:1.45;font-weight:750;margin:12px 0}
+-#status{min-height:25px;color:#a9d2ff;font-size:13px;margin-top:12px;white-space:pre-wrap}
+-.progress{height:6px;background:#142a49;border-radius:20px;overflow:hidden;margin:12px 0 20px}
+-#progressBar{display:block;width:0;height:100%;background:linear-gradient(90deg,#3285ff,#50d5ff)}
+-.feedback{margin-top:15px;border:1px solid #235184;border-radius:14px;padding:16px;background:#07152c}
+-.score{font-size:26px;font-weight:850;color:#83bdff}
+-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
+-.stat{padding:12px;background:#091a34;border:1px solid #204675;border-radius:11px}
+-.stat strong{display:block;font-size:22px}.stat small{color:var(--muted)}
+-.history{max-height:230px;overflow:auto}.history div{padding:10px 0;border-bottom:1px solid #1b3c66;font-size:12px}
+-.small{font-size:12px;color:var(--muted)}
+-footer{text-align:center;padding:25px;color:#7898c5;font-size:12px}
+-@media(max-width:780px){.layout{grid-template-columns:1fr}header{padding:15px}.panel{padding:16px}}
+-@media print{body{background:white;color:#111}header,.setup,.controls,footer{display:none}.panel,.questionbox,.feedback{background:white;color:#111;box-shadow:none}}
+-</style>
+-<link rel="stylesheet" href="/static/pearl-aurora.css">
+-</head>
+-<body>
+-<header><div class="brand">NavAI <span>Exam Improver</span></div><a href="/">NavAI Home</a></header>
+-<main>
+-<section class="hero">
+-<div class="eyebrow">YOUR PERSONAL EXAM PRACTICE STUDIO</div>
+-<h1>Think clearly.<br><em>Answer confidently.</em></h1>
+-<p>One question at a time. Listen, answer by voice or typing, get feedback and improve your exam skills.</p>
+-</section>
+-<div class="layout">
+-<aside class="panel setup">
+-<h2>Build your practice session</h2>
+-<label for="className">Class</label>
+-<select id="className"><option>Class 9</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select>
+-<label for="board">Board</label>
+-<select id="board"><option>CBSE</option><option>ICSE</option><option>State Board</option><option>Other</option></select>
+-<label for="subject">Subject</label>
+-<select id="subject"><option>Science</option><option>Mathematics</option><option>Social Science</option><option>English</option><option>Hindi</option><option>Computer</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select>
+-<label for="topic">Chapter or topic</label>
+-<input id="topic" placeholder="e.g. Atoms and Molecules">
+-<div class="row">
+-<div style="flex:1"><label for="difficulty">Difficulty</label><select id="difficulty"><option>Mixed</option><option>Easy</option><option>Moderate</option><option>Challenging</option></select></div>
+-<div style="flex:1"><label for="total">Questions</label><select id="total"><option>5</option><option selected>10</option><option>15</option></select></div>
+-</div>
+-<label for="format">Question style</label>
+-<select id="format"><option>Mixed exam-style</option><option>MCQ</option><option>Very short answer</option><option>Short answer</option><option>Long answer</option><option>Numerical</option><option>Case-based</option><option>Assertion and Reason</option></select>
+-<label for="language">Language</label>
+-<select id="language"><option>English</option><option>Hindi</option><option selected>Hinglish</option></select>
+-<div class="row"><button id="start">Start practice ├â┬ó├óΓé¼┬á├óΓé¼Γäó</button></div>
+-<p class="small">Questions are practice material, not guaranteed predictions of actual exams.</p>
+-</aside>
+-
+-<section class="panel">
+-<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+-<h2>Live question room</h2><span class="pill" id="sessionPill">Not started</span>
+-</div>
+-<div class="progress"><span id="progressBar"></span></div>
+-<div class="questionbox">
+-<div class="qmeta" id="qmeta">READY WHEN YOU ARE</div>
+-<div id="question">Choose your subject and topic to begin.</div>
+-<p id="hint">NavAI will ask one question at a time.</p>
+-</div>
+-<div class="row controls">
+-<button id="hear" class="secondary" disabled>?? Hear question</button>
+-<button id="mic" disabled>?? Speak answer</button>
+-<button id="stopMic" class="secondary" disabled>Stop listening</button>
+-</div>
+-<label for="answer">Your answer</label>
+-<textarea id="answer" placeholder="Speak or type your answer here?" disabled></textarea>
+-<div class="row controls">
+-<button id="submit" disabled>Check my answer</button>
+-<button id="next" class="secondary" disabled>Next question ├â┬ó├óΓé¼┬á├óΓé¼Γäó</button>
+-<button id="finish" class="secondary" disabled>Finish</button>
+-<button id="print" class="secondary">Print / Save PDF</button>
+-</div>
+-<div id="status" role="status" aria-live="polite">Ready to begin.</div>
+-<div id="feedback" class="feedback" hidden>
+-<div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><h3>Answer feedback</h3><span class="score" id="score">?</span></div>
+-<p id="feedbackText"></p>
+-<h3>Ideal answer</h3><p id="ideal"></p>
+-<div class="row"><button id="hearFeedback" class="secondary">?? Hear feedback</button></div>
+-</div>
+-<div class="stats">
+-<div class="stat"><strong id="asked">0</strong><small>Checked</small></div>
+-<div class="stat"><strong id="earned">0</strong><small>Strong answers</small></div>
+-<div class="stat"><strong id="percent">0%</strong><small>Session score</small></div>
+-</div>
+-<div class="history" id="history"><p class="small">Your checked answers will appear here.</p></div>
+-<div class="row"><button id="new" class="secondary">New session</button></div>
+-<p class="small">Voice input requires browser microphone permission and a compatible browser. If voice is unavailable, typing still works.</p>
+-</section>
+-</div>
+-</main>
+-<footer>NavAI Exam Improver ? Interactive exam practice ? Check answers against your school textbook and syllabus</footer>
++<!DOCTYPE html>
++<html lang="en">
++<head>
++<meta charset="UTF-8">
++<meta name="viewport" content="width=device-width,initial-scale=1">
++<meta name="theme-color" content="#06132b">
++<title>Exam Improver ? NavAI</title>
++<style>
++:root{color-scheme:dark;--bg:#050d20;--panel:#0a1934;--line:#1d467d;--blue:#3185ff;--text:#eff6ff;--muted:#a6bfdf}
++*{box-sizing:border-box}
++body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#15376a,transparent 42%),radial-gradient(ellipse at 100% 30%,#251d60,transparent 36%),var(--bg);font:15px/1.6 "Segoe UI",Arial,sans-serif;color:var(--text)}
++header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 5%;border-bottom:1px solid var(--line);background:#061128cc}
++.brand{font-size:22px;font-weight:850}.brand span{color:#82aaff}
++a{color:#b9d7ff;text-decoration:none}
++main{max-width:1200px;margin:auto;padding:30px 18px}
++.hero{margin-bottom:22px}.eyebrow{font-size:11px;letter-spacing:2px;color:#55c8ff;font-weight:850}
++h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:8px 0;letter-spacing:-1px}
++h1 em{font-style:normal;color:#8e9dff}
++p{color:var(--muted)}
++.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
++.panel{min-width:0;border:1px solid #1c477e;background:linear-gradient(145deg,#0c1d3bf5,#07152ff5);border-radius:19px;padding:20px;box-shadow:0 20px 60px #0003}
++h2{font-size:18px;margin:0 0 14px}
++label{display:block;color:#bed4f2;font-size:12px;margin:13px 0 6px}
++input,select,textarea{width:100%;background:#061229;color:var(--text);border:1px solid #244d80;border-radius:10px;padding:11px;font:inherit}
++textarea{min-height:110px;resize:vertical}
++button{border:1px solid #327aff;background:linear-gradient(120deg,#2378ff,#5549ed);color:white;font:inherit;font-weight:750;border-radius:11px;padding:12px 15px;cursor:pointer}
++button:disabled{opacity:.45;cursor:not-allowed}
++.secondary{background:#0a1d3a;border-color:#2b558a;color:#d5e8ff}
++.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.row button{flex:1}
++.pill{display:inline-block;border:1px solid #28558c;background:#0a2446;border-radius:99px;padding:4px 10px;font-size:11px;color:#c5e4ff}
++.questionbox{border:1px solid #234e84;border-radius:15px;padding:20px;background:#07152c;min-height:200px}
++.qmeta{font-size:11px;letter-spacing:1.5px;color:#6bcfff;font-weight:850}
++#question{font-size:clamp(20px,2.6vw,28px);line-height:1.45;font-weight:750;margin:12px 0}
++#status{min-height:25px;color:#a9d2ff;font-size:13px;margin-top:12px;white-space:pre-wrap}
++.progress{height:6px;background:#142a49;border-radius:20px;overflow:hidden;margin:12px 0 20px}
++#progressBar{display:block;width:0;height:100%;background:linear-gradient(90deg,#3285ff,#50d5ff)}
++.feedback{margin-top:15px;border:1px solid #235184;border-radius:14px;padding:16px;background:#07152c}
++.score{font-size:26px;font-weight:850;color:#83bdff}
++.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
++.stat{padding:12px;background:#091a34;border:1px solid #204675;border-radius:11px}
++.stat strong{display:block;font-size:22px}.stat small{color:var(--muted)}
++.history{max-height:230px;overflow:auto}.history div{padding:10px 0;border-bottom:1px solid #1b3c66;font-size:12px}
++.small{font-size:12px;color:var(--muted)}
++footer{text-align:center;padding:25px;color:#7898c5;font-size:12px}
++@media(max-width:780px){.layout{grid-template-columns:1fr}header{padding:15px}.panel{padding:16px}}
++@media print{body{background:white;color:#111}header,.setup,.controls,footer{display:none}.panel,.questionbox,.feedback{background:white;color:#111;box-shadow:none}}
++</style>
++<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
++<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
++<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
++
++<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
++<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
++    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
++<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
++</head>
++<body>
++<header><div class="brand">NavAI <span>Exam Improver</span></div><a href="/">NavAI Home</a></header>
++<main>
++<section class="hero">
++<div class="eyebrow">YOUR PERSONAL EXAM PRACTICE STUDIO</div>
++<h1>Think clearly.<br><em>Answer confidently.</em></h1>
++<p>One question at a time. Listen, answer by voice or typing, get feedback and improve your exam skills.</p>
++</section>
++<div class="layout">
++<aside class="panel setup">
++<h2>Build your practice session</h2>
++<label for="className">Class</label>
++<select id="className"><option>Class 9</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select>
++<label for="board">Board</label>
++<select id="board"><option>CBSE</option><option>ICSE</option><option>State Board</option><option>Other</option></select>
++<label for="subject">Subject</label>
++<select id="subject"><option>Science</option><option>Mathematics</option><option>Social Science</option><option>English</option><option>Hindi</option><option>Computer</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select>
++<label for="topic">Chapter or topic</label>
++<input id="topic" placeholder="e.g. Atoms and Molecules">
++<div class="row">
++<div style="flex:1"><label for="difficulty">Difficulty</label><select id="difficulty"><option>Mixed</option><option>Easy</option><option>Moderate</option><option>Challenging</option></select></div>
++<div style="flex:1"><label for="total">Questions</label><select id="total"><option>5</option><option selected>10</option><option>15</option></select></div>
++</div>
++<label for="format">Question style</label>
++<select id="format"><option>Mixed exam-style</option><option>MCQ</option><option>Very short answer</option><option>Short answer</option><option>Long answer</option><option>Numerical</option><option>Case-based</option><option>Assertion and Reason</option></select>
++<label for="language">Language</label>
++<select id="language"><option>English</option><option>Hindi</option><option selected>Hinglish</option></select>
++<div class="row"><button id="start">Start practice ├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬á├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓé¼┼╛├é┬ó</button></div>
++<p class="small">Questions are practice material, not guaranteed predictions of actual exams.</p>
++</aside>
++
++<section class="panel">
++<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
++<h2>Live question room</h2><span class="pill" id="sessionPill">Not started</span>
++</div>
++<div class="progress"><span id="progressBar"></span></div>
++<div class="questionbox">
++<div class="qmeta" id="qmeta">READY WHEN YOU ARE</div>
++<div id="question">Choose your subject and topic to begin.</div>
++<p id="hint">NavAI will ask one question at a time.</p>
++</div>
++<div class="row controls">
++<button id="hear" class="secondary" disabled>?? Hear question</button>
++<button id="mic" disabled>?? Speak answer</button>
++<button id="stopMic" class="secondary" disabled>Stop listening</button>
++</div>
++<label for="answer">Your answer</label>
++<textarea id="answer" placeholder="Speak or type your answer here?" disabled></textarea>
++<div class="row controls">
++<button id="submit" disabled>Check my answer</button>
++<button id="next" class="secondary" disabled>Next question ├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬á├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓé¼┼╛├é┬ó</button>
++<button id="finish" class="secondary" disabled>Finish</button>
++<button id="print" class="secondary">Print / Save PDF</button>
++</div>
++<div id="status" role="status" aria-live="polite">Ready to begin.</div>
++<div id="feedback" class="feedback" hidden>
++<div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><h3>Answer feedback</h3><span class="score" id="score">?</span></div>
++<p id="feedbackText"></p>
++<h3>Ideal answer</h3><p id="ideal"></p>
++<div class="row"><button id="hearFeedback" class="secondary">?? Hear feedback</button></div>
++</div>
++<div class="stats">
++<div class="stat"><strong id="asked">0</strong><small>Checked</small></div>
++<div class="stat"><strong id="earned">0</strong><small>Strong answers</small></div>
++<div class="stat"><strong id="percent">0%</strong><small>Session score</small></div>
++</div>
++<div class="history" id="history"><p class="small">Your checked answers will appear here.</p></div>
++<div class="row"><button id="new" class="secondary">New session</button></div>
++<p class="small">Voice input requires browser microphone permission and a compatible browser. If voice is unavailable, typing still works.</p>
++</section>
++</div>
++</main>
++<footer>NavAI Exam Improver ? Interactive exam practice ? Check answers against your school textbook and syllabus</footer>
+ <script>
+-/* NAVAI_COPY_READY_FORMAT_V1 */
+-function formatCopyReadyAnswer(value) {
+-  let s = String(value ? "");
+-  s = s.replace(/\$\$([\s\S]*?)\$\$/g, "$1");
+-  s = s.replace(/\\\[([\s\S]*?)\\\]/g, "$1");
+-  s = s.replace(/\\\(([\s\S]*?)\\\)/g, "$1");
+-  s = s.replace(/\\tfrac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
+-  s = s.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
+-  s = s.replace(/\\sqrt\s*\{([^{}]+)\}/g, "├â┬ó├ïΓÇá├à┬í($1)");
+-  s = s.replace(/\\times\b/g, "?").replace(/\\cdot\b/g, "?");
+-  s = s.replace(/\\div\b/g, "?").replace(/\\pm\b/g, "?");
+-  s = s.replace(/\\rightarrow\b|\\to\b/g, "├â┬ó├óΓé¼┬á├óΓé¼Γäó");
+-  s = s.replace(/\\degree\b/g, "├âΓÇÜ├é┬░").replace(/\\pi\b/g, "├â┬Å├óΓÇÜ┬¼");
+-  s = s.replace(/\\text\s*\{([^{}]*)\}/g, "$1");
+-  s = s.replace(/\\(?:mathrm|mathbf|textbf|textit)\s*\{([^{}]*)\}/g, "$1");
+-  s = s.replace(/\\(?:,|;|:|!|quad|qquad)\b?/g, " ");
+-  s = s.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n");
+-  return s.trim();
+-}
+-(()=>{
+-const $=id=>document.getElementById(id);
+-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+-let questions=[],index=0,asked=0,strong=0,active=false,busy=false,rec=null,feedbackData=null,session=0,history=[];
+-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+-function setStatus(s){$('status').textContent=s;}
+-function say(s){if(!('speechSynthesis'in window)){setStatus('Speech playback unsupported; read the question on screen.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang=$('language').value==='Hindi'?'hi-IN':'en-IN';u.rate=.94;speechSynthesis.speak(u);}
+-function languagePrompt(){return $('language').value==='Hindi'?'Hindi':$('language').value==='Hinglish'?'simple Hinglish':'English';}
+-function answerApiText(d){if(typeof d==='string')return d;if(!d||typeof d!=='object')return '';for(const k of ['reply','response','answer','output','text','content'])if(typeof d[k]==='string'&&d[k].trim())return d[k];if(typeof d.message==='string')return d.message;if(d.choices?.[0]?.message?.content)return d.choices[0].message.content;if(typeof d.result==='string')return d.result;return '';}
+-async function askAI(prompt){
+- let last='NavAI API response mein answer nahi mila.';
+- for(const body of [{message:prompt},{messages:[{role:'user',content:prompt}]},{prompt}]){
+-  try{
+-   const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+-   const raw=await r.text();let d;try{d=JSON.parse(raw)}catch{d=raw}
+-   if(!r.ok){last='API error HTTP '+r.status;continue}
+-   const t=answerApiText(d);if(t.trim())return t;last='API response mein answer nahi mila.';
+-  }catch(e){last='Network error: '+e.message;}
+- }
+- throw new Error(last);
+-}
+-function setBusy(v){busy=v;$('start').disabled=v;$('submit').disabled=v||!active||!$('answer').value.trim();$('next').disabled=v||!active||!feedbackData;$('mic').disabled=v||!active||!SR;$('hear').disabled=v||!active;$('stopMic').disabled=!rec;$('finish').disabled=v||!active;}
+-function stats(){$('asked').textContent=asked;$('earned').textContent=strong;$('percent').textContent=asked?Math.round(strong/asked*100)+'%':'0%';$('progressBar').style.width=(questions.length?Math.min(100,(index+(feedbackData?1:0))/questions.length*100):0)+'%';}
+-function parseQuestions(t){
+- let lines=t.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),out=[];
+- for(let l of lines){let q=l.replace(/^(?:question\s*)?\d{1,2}[.)\-:]\s*/i,'').replace(/^[-?*]\s*/,'').trim();if(!q||/^(answer key|answers|instructions|here are|questions:)/i.test(q))continue;if(/^\d+[.)]/.test(l)||/^Q\d*[:.)]/i.test(l)||q.endsWith('?'))out.push(q)}
+- if(out.length<2)out=lines.filter(x=>x.length>12&&!/^(answer key|instructions|here are)/i.test(x)).map(x=>x.replace(/^\d+[.)-]\s*/,''));return [...new Set(out)].slice(0,Number($('total').value));
+-}
+-function showQuestion(){
+- feedbackData=null;$('feedback').hidden=true;$('qmeta').textContent='QUESTION '+(index+1)+' OF '+questions.length;$('question').textContent=questions[index];$('hint').textContent='Answer in your own words. You can speak or type.';$('answer').value='';$('answer').disabled=false;$('sessionPill').textContent='In progress';stats();setBusy(false);
+-}
+-async function start(){
+- const topic=$('topic').value.trim();if(!topic){setStatus('Chapter ya topic enter karo.');$('topic').focus();return}
+- const sid=++session;active=false;questions=[];index=asked=strong=0;history=[];$('history').innerHTML='<p class="small">Your checked answers will appear here.</p>';$('question').textContent='Preparing your questions?';$('qmeta').textContent='BUILDING YOUR SESSION';$('feedback').hidden=true;setBusy(true);setStatus('NavAI exam-style questions bana raha hai?');
+- try{
+-  const prompt=`Create exactly ${$('total').value} distinct school exam-style questions. Class ${$('className').value}; board ${$('board').value}; subject ${$('subject').value}; topic ${topic}; difficulty ${$('difficulty').value}; format ${$('format').value}; language ${languagePrompt()}. Give ONLY one question per numbered line, no answers or introduction. Make questions clear, syllabus-appropriate, original and not claimed to be guaranteed exam questions.`;
+-  const t=await askAI(prompt);if(sid!==session)return;questions=parseQuestions(t);if(!questions.length)throw new Error('Questions parse nahi hue. Dobara try karo.');
+-  active=true;index=0;showQuestion();setStatus('Session ready. Question suno ya answer type karo.');say('Question one. '+formatCopyReadyAnswer(questions[0]));
+- }catch(e){$('question').textContent='Session start nahi ho saka.';setStatus(e.message+' Ensure /api/chat is working.');active=false;}finally{setBusy(false);}
+-}
+-async function submit(){
+- const a=$('answer').value.trim();if(!active||!a||busy)return;
+- const q=questions[index];setBusy(true);setStatus('Answer check ho raha hai?');
+- try{
+-  const prompt=`Act as a fair school exam tutor. Language: ${languagePrompt()}. Class ${$('className').value}, board ${$('board').value}, subject ${$('subject').value}, topic ${$('topic').value}. Question: ${q}. Student answer: ${a}. Grade fairly out of 5; do not reward irrelevant answers. Return exactly this format: SCORE: n/5\nFEEDBACK: explain what is correct and what to improve in 2-4 sentences\nIDEAL ANSWER: a concise correct school-level answer. Do not invent facts.`;
+-  const t=await askAI(prompt);const m=t.match(/SCORE\s*:\s*(\d+(?:\.\d+)?)\s*\/\s*5/i);const s=m?Math.max(0,Math.min(5,Number(m[1]))):null;const f=(t.match(/FEEDBACK\s*:\s*([\s\S]*?)(?=IDEAL ANSWER\s*:|$)/i)||[])[1]?.trim()||t;const ideal=(t.match(/IDEAL ANSWER\s*:\s*([\s\S]*)/i)||[])[1]?.trim()||'Review the feedback above.';
+-  asked++;if(s!==null&&s>=4)strong++;feedbackData={score:s,feedback:f,ideal};$('score').textContent=s===null?'Review':s+'/5';$('feedbackText').textContent=f;$('ideal').textContent=ideal;$('feedback').hidden=false;history.unshift({q,s,f});$('history').innerHTML=history.slice(0,8).map((h,i)=>'<div><b>Q'+(index+1-i)+': '+esc(h.q)+'</b><br>'+esc(h.s===null?'Feedback':h.s+'/5')+' ? '+esc(h.f)+'</div>').join('');stats();setStatus('Feedback ready. Next question par ja sakte ho.');say((s===null?'Here is your feedback. ':'You scored '+s+' out of five. ')+f+'. Ideal answer: '+ideal);
+- }catch(e){setStatus('Answer check nahi ho saka: '+e.message);}finally{setBusy(false);}
+-}
+-function stopMic(){if(rec){try{rec.stop()}catch{}rec=null}$('mic').textContent='?? Speak answer';$('mic').classList.remove('listening');$('stopMic').disabled=true;}
+-function startMic(){
+- if(!SR){setStatus('Is browser mein voice recognition available nahi. Type karke answer do, ya Chrome try karo.');return}
+- if(!active||busy)return;stopMic();rec=new SR();rec.lang=$('language').value==='Hindi'?'hi-IN':'en-IN';rec.continuous=false;rec.interimResults=true;let final='';
+- rec.onstart=()=>{$('mic').textContent='Listening?';$('mic').classList.add('listening');$('stopMic').disabled=false;setStatus('Listening? apna answer bolo.');};
+- rec.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){let x=e.results[i][0].transcript;if(e.results[i].isFinal)final+=x+' ';else interim+=x}$('answer').value=(final+interim).trim();$('submit').disabled=!$('answer').value.trim()};
+- rec.onerror=e=>setStatus('Voice input: '+e.error+'. Type answer bhi kar sakte ho.');
+- rec.onend=()=>{stopMic();if($('answer').value.trim())setStatus('Answer capture ho gaya. Check my answer dabao.')};
+- try{rec.start()}catch(e){setStatus('Microphone start nahi hua. Browser permission check karo.')}
+-}
+-function finish(){active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();$('sessionPill').textContent='Completed';$('question').textContent='Session complete! Feedback review karo aur apne weak topics par dobara practice karo.';$('qmeta').textContent='SESSION COMPLETE';$('answer').disabled=true;setBusy(false);$('progressBar').style.width='100%';setStatus('Session complete. Strong answers: '+strong+'/'+asked+'.');}
+-function reset(){session++;active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();questions=[];index=asked=strong=0;feedbackData=null;history=[];$('question').textContent='Choose your subject and topic to begin.';$('qmeta').textContent='READY WHEN YOU ARE';$('hint').textContent='NavAI will ask one question at a time.';$('answer').value='';$('answer').disabled=true;$('feedback').hidden=true;$('history').innerHTML='<p class="small">Your checked answers will appear here.</p>';$('sessionPill').textContent='Not started';stats();setBusy(false);$('hear').disabled=$('mic').disabled=$('submit').disabled=$('next').disabled=$('finish').disabled=true;setStatus('Ready to begin.');}
+-$('start').onclick=start;$('submit').onclick=submit;$('next').onclick=()=>{if(!feedbackData)return;if(index+1>=questions.length){finish();return}index++;showQuestion();say('Question '+(index+1)+'. '+formatCopyReadyAnswer(questions[index]));};$('mic').onclick=startMic;$('stopMic').onclick=stopMic;$('hear').onclick=()=>say(questions[index]||'');$('hearFeedback').onclick=()=>{if(feedbackData)say(feedbackData.feedback+'. Ideal answer: '+feedbackData.ideal)};$('finish').onclick=finish;$('new').onclick=reset;$('print').onclick=()=>window.print();$('answer').oninput=()=>{$('submit').disabled=busy||!active||!$('answer').value.trim()};
+-})();
+-</script>
++/* NAVAI_COPY_READY_FORMAT_V1 */
++function formatCopyReadyAnswer(value) {
++  let s = String(value || "");
++  s = s.replace(/\$\$([\s\S]*?)\$\$/g, "$1");
++  s = s.replace(/\\\[([\s\S]*?)\\\]/g, "$1");
++  s = s.replace(/\\\(([\s\S]*?)\\\)/g, "$1");
++  s = s.replace(/\\tfrac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
++  s = s.replace(/\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g, "($1)/($2)");
++  s = s.replace(/\\sqrt\s*\{([^{}]+)\}/g, "ΓêÜ($1)");
++  s = s.replace(/\\times\b/g, "├ù").replace(/\\cdot\b/g, "┬╖");
++  s = s.replace(/\\div\b/g, "├╖").replace(/\\pm\b/g, "┬▒");
++  s = s.replace(/\\rightarrow\b|\\to\b/g, "ΓåÆ");
++  s = s.replace(/\\degree\b/g, "┬░").replace(/\\pi\b/g, "╧Ç");
++  s = s.replace(/\\text\s*\{([^{}]*)\}/g, "$1");
++  s = s.replace(/\\(?:mathrm|mathbf|textbf|textit)\s*\{([^{}]*)\}/g, "$1");
++  s = s.replace(/\\(?:,|;|:|!|quad|qquad)\b?/g, " ");
++  s = s.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n");
++  return s.trim();
++}
++(()=>{
++const $=id=>document.getElementById(id);
++const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
++let questions=[],index=0,asked=0,strong=0,active=false,busy=false,rec=null,feedbackData=null,session=0,history=[];
++function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
++function setStatus(s){$('status').textContent=s;}
++function say(s){if(!('speechSynthesis'in window)){setStatus('Speech playback unsupported; read the question on screen.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang=$('language').value==='Hindi'?'hi-IN':'en-IN';u.rate=.94;speechSynthesis.speak(u);}
++function languagePrompt(){return $('language').value==='Hindi'?'Hindi':$('language').value==='Hinglish'?'simple Hinglish':'English';}
++function answerApiText(d){if(typeof d==='string')return d;if(!d||typeof d!=='object')return '';for(const k of ['reply','response','answer','output','text','content'])if(typeof d[k]==='string'&&d[k].trim())return d[k];if(typeof d.message==='string')return d.message;if(d.choices?.[0]?.message?.content)return d.choices[0].message.content;if(typeof d.result==='string')return d.result;return '';}
++async function askAI(prompt){
++ let last='NavAI API response mein answer nahi mila.';
++ for(const body of [{message:prompt},{messages:[{role:'user',content:prompt}]},{prompt}]){
++  try{
++   const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
++   const raw=await r.text();let d;try{d=JSON.parse(raw)}catch{d=raw}
++   if(!r.ok){last='API error HTTP '+r.status;continue}
++   const t=answerApiText(d);if(t.trim())return t;last='API response mein answer nahi mila.';
++  }catch(e){last='Network error: '+e.message;}
++ }
++ throw new Error(last);
++}
++function setBusy(v){busy=v;$('start').disabled=v;$('submit').disabled=v||!active||!$('answer').value.trim();$('next').disabled=v||!active||!feedbackData;$('mic').disabled=v||!active||!SR;$('hear').disabled=v||!active;$('stopMic').disabled=!rec;$('finish').disabled=v||!active;}
++function stats(){$('asked').textContent=asked;$('earned').textContent=strong;$('percent').textContent=asked?Math.round(strong/asked*100)+'%':'0%';$('progressBar').style.width=(questions.length?Math.min(100,(index+(feedbackData?1:0))/questions.length*100):0)+'%';}
++function parseQuestions(t){
++ let lines=t.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),out=[];
++ for(let l of lines){let q=l.replace(/^(?:question\s*)?\d{1,2}[.)\-:]\s*/i,'').replace(/^[-?*]\s*/,'').trim();if(!q||/^(answer key|answers|instructions|here are|questions:)/i.test(q))continue;if(/^\d+[.)]/.test(l)||/^Q\d*[:.)]/i.test(l)||q.endsWith('?'))out.push(q)}
++ if(out.length<2)out=lines.filter(x=>x.length>12&&!/^(answer key|instructions|here are)/i.test(x)).map(x=>x.replace(/^\d+[.)-]\s*/,''));return [...new Set(out)].slice(0,Number($('total').value));
++}
++function showQuestion(){
++ feedbackData=null;$('feedback').hidden=true;$('qmeta').textContent='QUESTION '+(index+1)+' OF '+questions.length;$('question').textContent=questions[index];$('hint').textContent='Answer in your own words. You can speak or type.';$('answer').value='';$('answer').disabled=false;$('sessionPill').textContent='In progress';stats();setBusy(false);
++}
++async function start(){
++ const topic=$('topic').value.trim();if(!topic){setStatus('Chapter ya topic enter karo.');$('topic').focus();return}
++ const sid=++session;active=false;questions=[];index=asked=strong=0;history=[];$('history').innerHTML='<p class="small">Your checked answers will appear here.</p>';$('question').textContent='Preparing your questions?';$('qmeta').textContent='BUILDING YOUR SESSION';$('feedback').hidden=true;setBusy(true);setStatus('NavAI exam-style questions bana raha hai?');
++ try{
++  const prompt=`Create exactly ${$('total').value} distinct school exam-style questions. Class ${$('className').value}; board ${$('board').value}; subject ${$('subject').value}; topic ${topic}; difficulty ${$('difficulty').value}; format ${$('format').value}; language ${languagePrompt()}. Give ONLY one question per numbered line, no answers or introduction. Make questions clear, syllabus-appropriate, original and not claimed to be guaranteed exam questions.`;
++  const t=await askAI(prompt);if(sid!==session)return;questions=parseQuestions(t);if(!questions.length)throw new Error('Questions parse nahi hue. Dobara try karo.');
++  active=true;index=0;showQuestion();setStatus('Session ready. Question suno ya answer type karo.');say('Question one. '+formatCopyReadyAnswer(questions[0]));
++ }catch(e){$('question').textContent='Session start nahi ho saka.';setStatus(e.message+' Ensure /api/chat is working.');active=false;}finally{setBusy(false);}
++}
++async function submit(){
++ const a=$('answer').value.trim();if(!active||!a||busy)return;
++ const q=questions[index];setBusy(true);setStatus('Answer check ho raha hai?');
++ try{
++  const prompt=`Act as a fair school exam tutor. Language: ${languagePrompt()}. Class ${$('className').value}, board ${$('board').value}, subject ${$('subject').value}, topic ${$('topic').value}. Question: ${q}. Student answer: ${a}. Grade fairly out of 5; do not reward irrelevant answers. Return exactly this format: SCORE: n/5\nFEEDBACK: explain what is correct and what to improve in 2-4 sentences\nIDEAL ANSWER: a concise correct school-level answer. Do not invent facts.`;
++  const t=await askAI(prompt);const m=t.match(/SCORE\s*:\s*(\d+(?:\.\d+)?)\s*\/\s*5/i);const s=m?Math.max(0,Math.min(5,Number(m[1]))):null;const f=(t.match(/FEEDBACK\s*:\s*([\s\S]*?)(?=IDEAL ANSWER\s*:|$)/i)||[])[1]?.trim()||t;const ideal=(t.match(/IDEAL ANSWER\s*:\s*([\s\S]*)/i)||[])[1]?.trim()||'Review the feedback above.';
++  asked++;if(s!==null&&s>=4)strong++;feedbackData={score:s,feedback:f,ideal};$('score').textContent=s===null?'Review':s+'/5';$('feedbackText').textContent=f;$('ideal').textContent=ideal;$('feedback').hidden=false;history.unshift({q,s,f});$('history').innerHTML=history.slice(0,8).map((h,i)=>'<div><b>Q'+(index+1-i)+': '+esc(h.q)+'</b><br>'+esc(h.s===null?'Feedback':h.s+'/5')+' ? '+esc(h.f)+'</div>').join('');stats();setStatus('Feedback ready. Next question par ja sakte ho.');say((s===null?'Here is your feedback. ':'You scored '+s+' out of five. ')+f+'. Ideal answer: '+ideal);
++ }catch(e){setStatus('Answer check nahi ho saka: '+e.message);}finally{setBusy(false);}
++}
++function stopMic(){if(rec){try{rec.stop()}catch{}rec=null}$('mic').textContent='?? Speak answer';$('mic').classList.remove('listening');$('stopMic').disabled=true;}
++function startMic(){
++ if(!SR){setStatus('Is browser mein voice recognition available nahi. Type karke answer do, ya Chrome try karo.');return}
++ if(!active||busy)return;stopMic();rec=new SR();rec.lang=$('language').value==='Hindi'?'hi-IN':'en-IN';rec.continuous=false;rec.interimResults=true;let final='';
++ rec.onstart=()=>{$('mic').textContent='Listening?';$('mic').classList.add('listening');$('stopMic').disabled=false;setStatus('Listening? apna answer bolo.');};
++ rec.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){let x=e.results[i][0].transcript;if(e.results[i].isFinal)final+=x+' ';else interim+=x}$('answer').value=(final+interim).trim();$('submit').disabled=!$('answer').value.trim()};
++ rec.onerror=e=>setStatus('Voice input: '+e.error+'. Type answer bhi kar sakte ho.');
++ rec.onend=()=>{stopMic();if($('answer').value.trim())setStatus('Answer capture ho gaya. Check my answer dabao.')};
++ try{rec.start()}catch(e){setStatus('Microphone start nahi hua. Browser permission check karo.')}
++}
++function finish(){active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();$('sessionPill').textContent='Completed';$('question').textContent='Session complete! Feedback review karo aur apne weak topics par dobara practice karo.';$('qmeta').textContent='SESSION COMPLETE';$('answer').disabled=true;setBusy(false);$('progressBar').style.width='100%';setStatus('Session complete. Strong answers: '+strong+'/'+asked+'.');}
++function reset(){session++;active=false;stopMic();if('speechSynthesis'in window)speechSynthesis.cancel();questions=[];index=asked=strong=0;feedbackData=null;history=[];$('question').textContent='Choose your subject and topic to begin.';$('qmeta').textContent='READY WHEN YOU ARE';$('hint').textContent='NavAI will ask one question at a time.';$('answer').value='';$('answer').disabled=true;$('feedback').hidden=true;$('history').innerHTML='<p class="small">Your checked answers will appear here.</p>';$('sessionPill').textContent='Not started';stats();setBusy(false);$('hear').disabled=$('mic').disabled=$('submit').disabled=$('next').disabled=$('finish').disabled=true;setStatus('Ready to begin.');}
++$('start').onclick=start;$('submit').onclick=submit;$('next').onclick=()=>{if(!feedbackData)return;if(index+1>=questions.length){finish();return}index++;showQuestion();say('Question '+(index+1)+'. '+formatCopyReadyAnswer(questions[index]));};$('mic').onclick=startMic;$('stopMic').onclick=stopMic;$('hear').onclick=()=>say(questions[index]||'');$('hearFeedback').onclick=()=>{if(feedbackData)say(feedbackData.feedback+'. Ideal answer: '+feedbackData.ideal)};$('finish').onclick=finish;$('new').onclick=reset;$('print').onclick=()=>window.print();$('answer').oninput=()=>{$('submit').disabled=busy||!active||!$('answer').value.trim()};
++})();
++</script>
+ <script src="/math-renderer.js"></script>
+-</body>
++</body>
+ </html>
++
++
++
++
++
++
++
++
++
++
+diff --git a/handwritten-notes.html b/handwritten-notes.html
+index f1f8c54..0325413 100644
+--- a/handwritten-notes.html
++++ b/handwritten-notes.html
+@@ -1,17 +1,24 @@
+-<!doctype html>
++∩╗┐<!doctype html>
+ <html lang="en">
+ <head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#080f24">
+-<title>Handwritten Notes ├óΓé¼ΓÇ¥ NavAI</title>
++<title>Handwritten Notes ├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓÇÜ┬¼├à┬í├âΓÇÜ├é┬¼├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬¥ NavAI</title>
+ <link rel="stylesheet" href="handwritten-notes.css">
+-<link rel="stylesheet" href="/static/pearl-aurora.css">
++<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
++<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
++<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
++
++<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
++<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
++    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
++<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
+ </head>
+ <body>
+ <main class="app">
+   <header>
+-    <a href="index.html" class="back">├óΓÇá┬É NavAI</a>
++    <a href="index.html" class="back">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬á├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬É NavAI</a>
+     <p class="eyebrow">STUDENT LEARNING TOOLS</p>
+     <h1>Handwritten Notes</h1>
+     <p class="sub">Turn any topic into a notebook-style study sheet.</p>
+@@ -69,3 +76,13 @@
+ <script src="/math-renderer.js"></script>
+ </body>
+ </html>
++
++
++
++
++
++
++
++
++
++
+diff --git a/student-guide.html b/student-guide.html
+index 6468f59..0e2f366 100644
+--- a/student-guide.html
++++ b/student-guide.html
+@@ -1,4 +1,4 @@
+-<!doctype html>
++∩╗┐<!doctype html>
+ <html lang="en">
+ <head>
+ <meta charset="utf-8">
+@@ -6,12 +6,19 @@
+ <meta name="theme-color" content="#071126">
+ <title>Student Guide | NavAI</title>
+ <link rel="stylesheet" href="student-guide.css">
+-<link rel="stylesheet" href="/static/pearl-aurora.css">
++<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
++<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
++<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
++
++<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
++<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
++    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
++<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
+ </head>
+ <body>
+ <header class="topbar">
+   <a class="brand" href="/" aria-label="NavAI home"><span class="brand-mark">N</span><span>NavAI <small>STUDENT GUIDE</small></span></a>
+-  <a class="back" href="/">├â┬ó├óΓé¼┬á├é┬É All features</a>
++  <a class="back" href="/">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬á├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬É All features</a>
+ </header>
+ <main class="layout">
+   <section class="intro">
+@@ -28,24 +35,34 @@
+       <label class="language"><span>Language</span><select id="language"><option value="hinglish">Hinglish</option><option value="en">English</option><option value="hi">Hindi</option></select></label>
+     </div>
+     <div id="messages" class="messages" aria-live="polite">
+-      <div class="message guide"><span class="speaker">YOUR GUIDE</span><p>Hey! Batao, aaj kis cheez mein help chahiye? Studies, exam stress, routine, confidence, school problem ya future planning├óΓé¼ΓÇ¥hum ek-ek step karke samjhenge.</p></div>
++      <div class="message guide"><span class="speaker">YOUR GUIDE</span><p>Hey! Batao, aaj kis cheez mein help chahiye? Studies, exam stress, routine, confidence, school problem ya future planning├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓÇÜ┬¼├é┬¥hum ek-ek step karke samjhenge.</p></div>
+     </div>
+     <div class="quick-prompts" id="quickPrompts">
+-      <button type="button" data-prompt="Help me make a realistic study plan for my exams.">├░┼╕ΓÇ£┼í Study plan</button>
+-      <button type="button" data-prompt="I keep procrastinating. Help me understand why and start small.">├░┼╕┼╜┬» Stop procrastinating</button>
+-      <button type="button" data-prompt="I feel stressed about school. Help me think it through.">├░┼╕ΓÇÖ┬¡ School stress</button>
+-      <button type="button" data-prompt="Help me explore my strengths and possible career paths.">├░┼╕┬º┬¡ Career direction</button>
++      <button type="button" data-prompt="Help me make a realistic study plan for my exams.">├â╞Æ├é┬░├âΓÇª├é┬╕├â┬ó├óΓÇÜ┬¼├àΓÇ£├âΓÇª├é┬í Study plan</button>
++      <button type="button" data-prompt="I keep procrastinating. Help me understand why and start small.">├â╞Æ├é┬░├âΓÇª├é┬╕├âΓÇª├é┬╜├âΓÇÜ├é┬» Stop procrastinating</button>
++      <button type="button" data-prompt="I feel stressed about school. Help me think it through.">├â╞Æ├é┬░├âΓÇª├é┬╕├â┬ó├óΓÇÜ┬¼├óΓÇ₧┬ó├âΓÇÜ├é┬¡ School stress</button>
++      <button type="button" data-prompt="Help me explore my strengths and possible career paths.">├â╞Æ├é┬░├âΓÇª├é┬╕├âΓÇÜ├é┬º├âΓÇÜ├é┬¡ Career direction</button>
+     </div>
+     <div class="composer">
+-      <textarea id="messageInput" rows="1" maxlength="4000" placeholder="Type what├óΓé¼Γäós on your mind├óΓé¼┬ª" aria-label="Your message"></textarea>
+-      <button id="voiceBtn" class="voice-btn" type="button" title="Speak your message" aria-label="Speak your message">├░┼╕┼╜┬ñ</button>
+-      <button id="sendBtn" class="send-btn" type="button" aria-label="Send message">├ó┼╛┬ñ</button>
++      <textarea id="messageInput" rows="1" maxlength="4000" placeholder="Type what├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓé¼┼╛├é┬ós on your mind├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬ª" aria-label="Your message"></textarea>
++      <button id="voiceBtn" class="voice-btn" type="button" title="Speak your message" aria-label="Speak your message">├â╞Æ├é┬░├âΓÇª├é┬╕├âΓÇª├é┬╜├âΓÇÜ├é┬ñ</button>
++      <button id="sendBtn" class="send-btn" type="button" aria-label="Send message">├â╞Æ├é┬ó├âΓÇª├é┬╛├âΓÇÜ├é┬ñ</button>
+     </div>
+-    <div class="chat-foot"><span id="status">Your microphone starts only when you tap it.</span><button id="speakToggle" type="button" aria-pressed="true">├░┼╕ΓÇ¥┼á Read replies: on</button></div>
++    <div class="chat-foot"><span id="status">Your microphone starts only when you tap it.</span><button id="speakToggle" type="button" aria-pressed="true">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬░├â╞Æ├óΓé¼┬ª├âΓÇÜ├é┬╕├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬¥├â╞Æ├óΓé¼┬ª├âΓÇÜ├é┬á Read replies: on</button></div>
+   </section>
+   <p class="note">Your guide can help you explore options, but important health, safety or family concerns should also involve a trusted adult. You choose what to share.</p>
+ </main>
+ <script src="student-guide.js"></script>
+ <script src="/math-renderer.js"></script>
+ </body>
+-</html>
++</html>
++
++
++
++
++
++
++
++
++
++
+diff --git a/student-question-helper.html b/student-question-helper.html
+index f1371b0..fbc740b 100644
+--- a/student-question-helper.html
++++ b/student-question-helper.html
+@@ -1,10 +1,10 @@
+-<!DOCTYPE html>
++∩╗┐<!DOCTYPE html>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#06132d">
+-    <title>Student Question Helper ? NavAI</title>
++<title>Student Question Helper ├â╞Æ├åΓÇÖ├âΓÇá├óΓé¼Γäó├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬ó├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇª├é┬í├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬¼├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓÇÜ┬¼├à┬í├âΓÇÜ├é┬¼├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬¥ NavAI</title>
+ <style>
+ :root{color-scheme:dark;--bg:#041027;--panel:#081a38;--line:#174b89;--blue:#2780ff;--text:#edf5ff;--muted:#a7c5ed}
+ *{box-sizing:border-box}
+@@ -41,7 +41,14 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
+ @media(max-width:760px){.layout{grid-template-columns:1fr}header{padding:15px}.panel{padding:16px}}
+ @media print{body{background:white;color:#111}header,.form-panel,.actions,.no-print,footer{display:none!important}.panel{background:white;border:0;box-shadow:none;color:#111}.question,.answer{color:#111;border-color:#ddd;background:white}p{color:#333}}
+ </style>
+-<link rel="stylesheet" href="/static/pearl-aurora.css">
++<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
++<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
++<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
++
++<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
++<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
++    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
++<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
+ </head>
+ <body>
+ <header>
+@@ -82,7 +89,7 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
+ <option>Numerical problems</option><option>Assertion and Reason</option>
+ </select>
+ <label for="difficulty">Difficulty</label>
+-<select id="difficulty"><option>Exam Focus ├óΓé¼ΓÇ¥ High Priority</option><option>Easy Revision</option><option>Moderate</option><option>Hard Practice</option><option>Very Tough</option><option>Mixed</option></select>
++<select id="difficulty"><option>Exam Focus ├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓÇÜ┬¼├é┬¥ High Priority</option><option>Easy Revision</option><option>Moderate</option><option>Hard Practice</option><option>Very Tough</option><option>Mixed</option></select>
+ <label for="count">Number of questions</label>
+ <select id="count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
+ <label for="marks">Total marks (optional)</label>
+@@ -108,7 +115,7 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
+ </section>
+ </div>
+ </main>
+-<footer>NavAI Student Question Helper ├â╞Æ├óΓé¼┼í? Educational practice tool ├â╞Æ├óΓé¼┼í? Verify syllabus and marking scheme with your school</footer>
++<footer>NavAI Student Question Helper ├â╞Æ├åΓÇÖ├âΓÇá├óΓé¼Γäó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇª├é┬í? Educational practice tool ├â╞Æ├åΓÇÖ├âΓÇá├óΓé¼Γäó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇª├é┬í? Verify syllabus and marking scheme with your school</footer>
+ <script>
+ const $ = id => document.getElementById(id);
+ let latestPaper = "";
+@@ -163,7 +170,7 @@ Requirements:
+ Return clean, readable plain text.`;
+ 
+   $("generate").disabled = true;
+-    $("status").textContent = "Generating questions?";
++  $("status").textContent = "Generating questions├â╞Æ├åΓÇÖ├âΓÇá├óΓé¼Γäó├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬ó├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇª├é┬í├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬¼├â╞Æ├åΓÇÖ├â┬ó├óΓÇÜ┬¼├à┬í├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬ª";
+   $("results").innerHTML = "<p>NavAI is preparing your practice paper. Please wait.</p>";
+ 
+   try {
+@@ -234,3 +241,13 @@ $("copy").addEventListener("click", async () => {
+ <script src="/math-renderer.js"></script>
+ </body>
+ </html>
++
++
++
++
++
++
++
++
++
++
+diff --git a/study-planner.html b/study-planner.html
+index 546d9f8..19770c9 100644
+--- a/study-planner.html
++++ b/study-planner.html
+@@ -1,4 +1,4 @@
+-<!DOCTYPE html>
++∩╗┐<!DOCTYPE html>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8">
+@@ -6,7 +6,14 @@
+ <meta name="theme-color" content="#080d1b">
+ <title>Study Planner | NavAI</title>
+ <link rel="stylesheet" href="/study-planner.css">
+-<link rel="stylesheet" href="/static/pearl-aurora.css">
++<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
++<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
++<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
++
++<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
++<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
++    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
++<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
+ </head>
+ <body>
+ <header class="topbar">
+@@ -20,7 +27,7 @@
+   <section class="hero">
+     <div class="eyebrow"><span class="pulse"></span> YOUR PERSONAL STUDY SPACE</div>
+     <h1>Study smarter.<br><span>Achieve more.</span></h1>
+-    <p>Your subjects, daily plan, syllabus and progress ├óΓé¼ΓÇ¥ all in one place.</p>
++    <p>Your subjects, daily plan, syllabus and progress ├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├â┬ó├óΓÇÜ┬¼├é┬¥ all in one place.</p>
+     <div class="hero-stats">
+       <div><strong id="doneCount">0</strong><small>Tasks completed</small></div>
+       <div><strong id="taskCount">0</strong><small>Total tasks</small></div>
+@@ -35,7 +42,7 @@
+ 
+   <section class="layout">
+     <div class="panel main-panel">
+-      <div class="panel-title"><div><span class="icon">├â┬ó├àΓÇ£├é┬ª</span><h3>Build your study plan</h3></div></div>
++      <div class="panel-title"><div><span class="icon">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├óΓé¼┬ª├â┬ó├óΓÇÜ┬¼├àΓÇ£├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬ª</span><h3>Build your study plan</h3></div></div>
+       <form id="planForm" class="form-grid">
+         <label>Subject
+           <input id="subject" required maxlength="70" placeholder="e.g. Mathematics">
+@@ -61,7 +68,7 @@
+             <option>Normal</option><option>High</option><option>Important</option>
+           </select>
+         </label>
+-        <button class="primary" type="submit">├â┬»├é┬╝├óΓé¼┬╣ Add study task</button>
++        <button class="primary" type="submit">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬»├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬╝├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬╣ Add study task</button>
+       </form>
+ 
+       <div class="task-toolbar">
+@@ -75,7 +82,7 @@
+       </div>
+       <div id="taskList" class="task-list"></div>
+       <div id="emptyState" class="empty">
+-        <span>├â┬ó├àΓÇ£├é┬º</span><h3>Your next win starts here</h3>
++        <span>├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├óΓé¼┬ª├â┬ó├óΓÇÜ┬¼├àΓÇ£├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬º</span><h3>Your next win starts here</h3>
+         <p>Add a subject and chapter above to create your first task.</p>
+       </div>
+     </div>
+@@ -95,13 +102,13 @@
+         <form id="syllabusForm">
+           <label>Subject<input id="syllabusSubject" required maxlength="70" placeholder="e.g. Science"></label>
+           <label>Chapter<input id="syllabusTopic" required maxlength="120" placeholder="e.g. Matter in Our Surroundings"></label>
+-          <button class="secondary" type="submit">├â┬»├é┬╝├óΓé¼┬╣ Add chapter</button>
++          <button class="secondary" type="submit">├â╞Æ├åΓÇÖ├âΓÇÜ├é┬»├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬╝├â╞Æ├é┬ó├â┬ó├óΓé¼┼í├é┬¼├âΓÇÜ├é┬╣ Add chapter</button>
+         </form>
+         <div id="syllabusList" class="syllabus-list"></div>
+       </section>
+ 
+       <section class="tip-card">
+-        <span>├â┬ó├àΓÇ£├é┬ª A SMALL REMINDER</span>
++        <span>├â╞Æ├åΓÇÖ├âΓÇÜ├é┬ó├â╞Æ├óΓé¼┬ª├â┬ó├óΓÇÜ┬¼├àΓÇ£├â╞Æ├óΓé¼┼í├âΓÇÜ├é┬ª A SMALL REMINDER</span>
+         <p>Consistency beats cramming. Focus on the next task, not the entire mountain.</p>
+       </section>
+     </aside>
+@@ -111,4 +118,14 @@
+ <script src="/study-planner.js"></script>
+ <script src="/math-renderer.js"></script>
+ </body>
+-</html>
++</html>
++
++
++
++
++
++
++
++
++
++
+diff --git a/time-table-maker.html b/time-table-maker.html
+index 8fb9e60..1925c93 100644
+--- a/time-table-maker.html
++++ b/time-table-maker.html
+@@ -1,187 +1,203 @@
+-<!DOCTYPE html>
+-<html lang="en">
+-<head>
+-<meta charset="UTF-8">
+-<meta name="viewport" content="width=device-width,initial-scale=1">
+-<meta name="theme-color" content="#080d1b">
+-<title>Time Table Maker | NavAI</title>
+-<link rel="stylesheet" href="/time-table-maker.css">
+-<link rel="stylesheet" href="/static/pearl-aurora.css">
+-</head>
+-<body>
+-<header class="topbar">
+-  <a class="brand" href="/"><span class="brand-icon">N</span><span>NavAI <small>STUDENT OS</small></span></a>
+-  <a class="back" href="/">ΓåÉ Dashboard</a>
+-</header>
+-
+-<main class="wrap">
+-  <section class="hero">
+-    <div class="eyebrow">Γ£ª YOUR AI SCHEDULE ARCHITECT</div>
+-    <h1>Your time.<br><span>Your success.</span></h1>
+-    <p>Tell NavAI about your routine. It will build a balanced timetable around your day.</p>
+-  </section>
+-
+-  <section class="panel">
+-    <div class="section-title">
+-      <div><span class="eyebrow">YOUR ROUTINE</span><h2>When are you busy?</h2></div>
+-      <span class="optional">Timings are optional</span>
+-    </div>
+-    <div class="fields">
+-      <div class="field">
+-        <label>≡ƒÅ½ School timing</label>
+-        <div class="time-pair"><input id="schoolStart" type="time" aria-label="School start"><span>to</span><input id="schoolEnd" type="time" aria-label="School end"></div>
+-      </div>
+-      <div class="field">
+-        <label>≡ƒôÜ Coaching timing</label>
+-        <div class="time-pair"><input id="coachingStart" type="time" aria-label="Coaching start"><span>to</span><input id="coachingEnd" type="time" aria-label="Coaching end"></div>
+-      </div>
+-      <div class="field">
+-        <label>≡ƒÆ¬ Gym timing</label>
+-        <div class="time-pair"><input id="gymStart" type="time" aria-label="Gym start"><span>to</span><input id="gymEnd" type="time" aria-label="Gym end"></div>
+-      </div>
+-      <div class="field">
+-        <label>≡ƒôû Library timing</label>
+-        <div class="time-pair"><input id="libraryStart" type="time" aria-label="Library start"><span>to</span><input id="libraryEnd" type="time" aria-label="Library end"></div>
+-      </div>
+-      <div class="field">
+-        <label>≡ƒÄô Your class</label>
+-        <input id="studentClass" type="text" maxlength="50" placeholder="e.g. Class 9, CBSE">
+-      </div>
+-      <div class="field">
+-        <label>≡ƒÄ» Your goal</label>
+-        <input id="goal" type="text" maxlength="180" placeholder="e.g. Score 95%, improve Maths">
+-      </div>
+-    </div>
+-    <p class="hint">You can leave any field blank. Enter only the timings and details that apply to you.</p>
+-    <button id="generate" class="primary">Γ£ª Generate my AI timetable <span>ΓåÆ</span></button>
+-    <p id="status" class="status" role="status"></p>
+-  </section>
+-
+-  <section id="result" class="result" hidden>
+-    <div class="result-head">
+-      <div><span class="eyebrow">YOUR PERSONAL PLAN</span><h2>Your timetable</h2><p id="summary"></p></div>
+-      <button id="regenerate" class="secondary">Γå╗ Regenerate</button>
+-    </div>
+-    <div id="schedule" class="schedule"></div>
+-    <div class="result-actions">
+-      <button id="print" class="secondary">Print / Save PDF</button>
+-      <button id="edit" class="secondary">Edit details</button>
+-    </div>
+-    <p class="footnote">Your timetable is a suggested plan. Adjust it whenever your routine changes.</p>
+-  </section>
+-  <footer>NavAI ┬╖ Plan smarter, live better.</footer>
+-</main>
+-<script src="/time-table-maker.js"></script>
+-<script id="NAVAI_ONE_PAGE_IMAGE_EXPORT">
+-(() => {
+-  function setup() {
+-    const oldButton = document.getElementById("print");
+-    const result = document.getElementById("result");
+-    if (!oldButton || !result) return;
+-
+-    const button = oldButton.cloneNode(true);
+-    oldButton.replaceWith(button);
+-    button.textContent = "Download Timetable Image";
+-
+-    button.addEventListener("click", async () => {
+-      if (!result.innerText.trim()) {
+-        alert("Pehle timetable generate karo.");
+-        return;
+-      }
+-
+-      const original = button.textContent;
+-      button.disabled = true;
+-      button.textContent = "Creating Image...";
+-
+-      let temporary = null;
+-      try {
+-        if (!window.html2canvas) {
+-          await new Promise((resolve, reject) => {
+-            const s = document.createElement("script");
+-            s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+-            s.onload = resolve;
+-            s.onerror = () => reject(new Error("Image library load nahi hui."));
+-            document.head.appendChild(s);
+-          });
+-        }
+-
+-        // Capture ONLY the timetable result, not the whole website.
+-        temporary = document.createElement("div");
+-        temporary.style.cssText = [
+-          "position:fixed",
+-          "left:-100000px",
+-          "top:0",
+-          "width:1000px",
+-          "box-sizing:border-box",
+-          "padding:42px",
+-          "background:#f4f7fc",
+-          "font-family:Arial,sans-serif",
+-          "color:#101b35"
+-        ].join(";");
+-
+-        const heading = document.createElement("div");
+-        heading.textContent = "NavAI Timetable";
+-        heading.style.cssText = "font-size:38px;font-weight:800;text-align:center;margin:0 0 28px;color:#10264f;letter-spacing:.5px";
+-
+-        const card = document.createElement("div");
+-        card.style.cssText = "background:#fff;border:1px solid #dce5f2;border-radius:22px;padding:28px;box-shadow:0 8px 30px rgba(20,40,80,.08);box-sizing:border-box";
+-
+-        const clone = result.cloneNode(true);
+-        clone.removeAttribute("id");
+-        clone.style.cssText += ";width:100%;max-width:none;max-height:none;height:auto;overflow:visible;box-sizing:border-box;background:#fff;color:#101b35";
+-
+-        // Remove controls from the copied timetable only.
+-        clone.querySelectorAll("button,input,select,textarea").forEach(el => el.remove());
+-
+-        card.appendChild(clone);
+-        temporary.append(heading, card);
+-        document.body.appendChild(temporary);
+-
+-        const source = await window.html2canvas(temporary, {
+-          backgroundColor: "#f4f7fc",
+-          scale: 2,
+-          useCORS: true,
+-          logging: false,
+-          width: 1000,
+-          windowWidth: 1000
+-        });
+-
+-        const maxW = 1800, maxH = 2546, pad = 70;
+-        const output = document.createElement("canvas");
+-        output.width = maxW;
+-        output.height = maxH;
+-        const ctx = output.getContext("2d");
+-        ctx.fillStyle = "#f4f7fc";
+-        ctx.fillRect(0, 0, maxW, maxH);
+-
+-        const ratio = Math.min((maxW - pad * 2) / source.width, (maxH - pad * 2) / source.height);
+-        const w = source.width * ratio, h = source.height * ratio;
+-        ctx.drawImage(source, (maxW - w) / 2, (maxH - h) / 2, w, h);
+-
+-        const blob = await new Promise(resolve => output.toBlob(resolve, "image/png"));
+-        if (!blob) throw new Error("PNG create nahi hui.");
+-
+-        const url = URL.createObjectURL(blob);
+-        const a = document.createElement("a");
+-        a.href = url;
+-        a.download = "NavAI-Timetable.png";
+-        a.click();
+-        setTimeout(() => URL.revokeObjectURL(url), 2000);
+-      } catch (e) {
+-        console.error(e);
+-        alert("Image export error: " + e.message);
+-      } finally {
+-        if (temporary) temporary.remove();
+-        button.disabled = false;
+-        button.textContent = original;
+-      }
+-    });
+-  }
+-
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", setup, { once: true });
+-  } else setup();
+-})();
++∩╗┐<!DOCTYPE html>
++<html lang="en">
++<head>
++<meta charset="UTF-8">
++<meta name="viewport" content="width=device-width,initial-scale=1">
++<meta name="theme-color" content="#080d1b">
++<title>Time Table Maker | NavAI</title>
++<link rel="stylesheet" href="/time-table-maker.css">
++<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
++<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
++<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
++
++<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
++<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
++    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
++<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
++</head>
++<body>
++<header class="topbar">
++  <a class="brand" href="/"><span class="brand-icon">N</span><span>NavAI <small>STUDENT OS</small></span></a>
++  <a class="back" href="/">&#8592; School timing</a>
++</header>
++<main class="wrap">
++  <section class="hero">
++    <div class="eyebrow">├â╞Æ├é┬ó├âΓÇª├óΓé¼┼ô├âΓÇÜ├é┬ª YOUR AI SCHEDULE ARCHITECT</div>
++    <h1>Your time.<br><span>Your success.</span></h1>
++    <p>Tell NavAI about your routine. It will build a balanced timetable around your day.</p>
++  </section>
++
++  <section class="panel">
++    <div class="section-title">
++      <div><span class="eyebrow">YOUR ROUTINE</span><h2>When are you busy?</h2></div>
++      <span class="optional">Timings are optional</span>
++    </div>
++    <div class="fields">
++      <div class="field">
++        <label>├â╞Æ├é┬░├âΓÇª├é┬╕├âΓÇÜ├é┬Å├âΓÇÜ├é┬½ School timing</label>
++        <div class="time-pair"><input id="schoolStart" type="time" aria-label="School start"><span>to</span><input id="schoolEnd" type="time" aria-label="School end"></div>
++      </div>
++      <div class="field">
++        <label>&#128218; Coaching timing</label>
++        <div class="time-pair"><input id="coachingStart" type="time" aria-label="Coaching start"><span>to</span><input id="coachingEnd" type="time" aria-label="Coaching end"></div>
++      </div>
++      <div class="field">
++        <label>&#128170; Gym timing</label>
++        <div class="time-pair"><input id="gymStart" type="time" aria-label="Gym start"><span>to</span><input id="gymEnd" type="time" aria-label="Gym end"></div>
++      </div>
++      <div class="field">
++        <label>&#128214; Library timing</label>
++        <div class="time-pair"><input id="libraryStart" type="time" aria-label="Library start"><span>to</span><input id="libraryEnd" type="time" aria-label="Library end"></div>
++      </div>
++      <div class="field">
++        <label>&#127891; Your class</label>
++        <input id="studentClass" type="text" maxlength="50" placeholder="e.g. Class 9, CBSE">
++      </div>
++      <div class="field">
++        <label>&#127919; Your goal</label>
++        <input id="goal" type="text" maxlength="180" placeholder="e.g. Score 95%, improve Maths">
++      </div>
++    </div>
++    <p class="hint">You can leave any field blank. Enter only the timings and details that apply to you.</p>
++    <button id="generate" class="primary">&#10024; Generate my AI timetable <span>&#8594;</span></button>
++    <p id="status" class="status" role="status"></p>
++  </section>
++
++  <section id="result" class="result" hidden>
++    <div class="result-head">
++      <div><span class="eyebrow">YOUR PERSONAL PLAN</span><h2>Your timetable</h2><p id="summary"></p></div>
++      <button id="regenerate" class="secondary">&#8635; Regenerate</button>
++    </div>
++    <div id="schedule" class="schedule"></div>
++    <div class="result-actions">
++      <button id="print" class="secondary">Print / Save PDF</button>
++      <button id="edit" class="secondary">Edit details</button>
++    </div>
++    <p class="footnote">Your timetable is a suggested plan. Adjust it whenever your routine changes.</p>
++  </section>
++  <footer>NavAI &#183; Plan smarter, live better.</footer>
++</main>
++<script src="/time-table-maker.js"></script>
++<script id="NAVAI_ONE_PAGE_IMAGE_EXPORT">
++(() => {
++  function setup() {
++    const oldButton = document.getElementById("print");
++    const result = document.getElementById("result");
++    if (!oldButton || !result) return;
++
++    const button = oldButton.cloneNode(true);
++    oldButton.replaceWith(button);
++    button.textContent = "Download Timetable Image";
++
++    button.addEventListener("click", async () => {
++      if (!result.innerText.trim()) {
++        alert("Pehle timetable generate karo.");
++        return;
++      }
++
++      const original = button.textContent;
++      button.disabled = true;
++      button.textContent = "Creating Image...";
++
++      let temporary = null;
++      try {
++        if (!window.html2canvas) {
++          await new Promise((resolve, reject) => {
++            const s = document.createElement("script");
++            s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
++            s.onload = resolve;
++            s.onerror = () => reject(new Error("Image library load nahi hui."));
++            document.head.appendChild(s);
++          });
++        }
++
++        // Capture ONLY the timetable result, not the whole website.
++        temporary = document.createElement("div");
++        temporary.style.cssText = [
++          "position:fixed",
++          "left:-100000px",
++          "top:0",
++          "width:1000px",
++          "box-sizing:border-box",
++          "padding:42px",
++          "background:#f4f7fc",
++          "font-family:Arial,sans-serif",
++          "color:#101b35"
++        ].join(";");
++
++        const heading = document.createElement("div");
++        heading.textContent = "NavAI Timetable";
++        heading.style.cssText = "font-size:38px;font-weight:800;text-align:center;margin:0 0 28px;color:#10264f;letter-spacing:.5px";
++
++        const card = document.createElement("div");
++        card.style.cssText = "background:#fff;border:1px solid #dce5f2;border-radius:22px;padding:28px;box-shadow:0 8px 30px rgba(20,40,80,.08);box-sizing:border-box";
++
++        const clone = result.cloneNode(true);
++        clone.removeAttribute("id");
++        clone.style.cssText += ";width:100%;max-width:none;max-height:none;height:auto;overflow:visible;box-sizing:border-box;background:#fff;color:#101b35";
++
++        // Remove controls from the copied timetable only.
++        clone.querySelectorAll("button,input,select,textarea").forEach(el => el.remove());
++
++        card.appendChild(clone);
++        temporary.append(heading, card);
++        document.body.appendChild(temporary);
++
++        const source = await window.html2canvas(temporary, {
++          backgroundColor: "#f4f7fc",
++          scale: 2,
++          useCORS: true,
++          logging: false,
++          width: 1000,
++          windowWidth: 1000
++        });
++
++        const maxW = 1800, maxH = 2546, pad = 70;
++        const output = document.createElement("canvas");
++        output.width = maxW;
++        output.height = maxH;
++        const ctx = output.getContext("2d");
++        ctx.fillStyle = "#f4f7fc";
++        ctx.fillRect(0, 0, maxW, maxH);
++
++        const ratio = Math.min((maxW - pad * 2) / source.width, (maxH - pad * 2) / source.height);
++        const w = source.width * ratio, h = source.height * ratio;
++        ctx.drawImage(source, (maxW - w) / 2, (maxH - h) / 2, w, h);
++
++        const blob = await new Promise(resolve => output.toBlob(resolve, "image/png"));
++        if (!blob) throw new Error("PNG create nahi hui.");
++
++        const url = URL.createObjectURL(blob);
++        const a = document.createElement("a");
++        a.href = url;
++        a.download = "NavAI-Timetable.png";
++        a.click();
++        setTimeout(() => URL.revokeObjectURL(url), 2000);
++      } catch (e) {
++        console.error(e);
++        alert("Image export error: " + e.message);
++      } finally {
++        if (temporary) temporary.remove();
++        button.disabled = false;
++        button.textContent = original;
++      }
++    });
++  }
++
++  if (document.readyState === "loading") {
++    document.addEventListener("DOMContentLoaded", setup, { once: true });
++  } else setup();
++})();
+ </script>
+-</body>
++</body>
+ </html>
++
++
++
++
++
++
++
++
++
++

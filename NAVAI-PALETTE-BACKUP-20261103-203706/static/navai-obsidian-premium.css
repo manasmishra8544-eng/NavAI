@@ -1,0 +1,90 @@
+/* NavAI Obsidian Premium — cohesive visual system */
+:root{
+ color-scheme:dark;
+ --nv-bg:#080b11;--nv-bg2:#0b1018;--nv-surface:#101722;--nv-surface2:#141e2b;--nv-surface3:#192638;
+ --nv-line:#26364a;--nv-line2:#344963;--nv-text:#edf4ff;--nv-muted:#91a4bb;--nv-accent:#79aaff;--nv-accent2:#4d83e6;
+ --nv-radius:18px;--nv-shadow:0 18px 48px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}
+html{color-scheme:dark;background:var(--nv-bg);scroll-behavior:smooth}
+body{margin:0!important;min-height:100vh;background:radial-gradient(ellipse at 50% -18%,rgba(67,112,184,.18),transparent 48%),linear-gradient(180deg,#0b1018 0%,#080b11 70%)!important;color:var(--nv-text)!important;font-family:Inter,"Segoe UI",system-ui,sans-serif!important;letter-spacing:.005em}
+body :where(h1,h2,h3,h4,h5,h6){color:#f2f6ff!important;letter-spacing:-.035em}
+body :where(p,li,label,span,small){color:inherit}
+body :where(.subtitle,.description,.hint,.note,.small,.muted,.helper-text,.eyebrow){color:var(--nv-muted)!important}
+body :where(a){color:#a9c8ff} body :where(a:hover){color:#d2e2ff}
+::selection{background:#355b91;color:#fff}
+/* Shared app chrome */
+.app-shell{background:transparent!important}
+.sidebar,#sidebar,aside.sidebar,.app-sidebar{background:rgba(12,17,25,.97)!important;color:var(--nv-text)!important;border-right:1px solid #202d3d!important;box-shadow:10px 0 35px rgba(0,0,0,.16)!important;backdrop-filter:blur(18px)}
+/* Remove only the tiny square brand tile in the main app sidebar */
+.app-shell .sidebar-top .brand-icon,#sidebar .sidebar-top .brand-icon{display:none!important}
+.app-shell .sidebar-top .brand{gap:0!important}
+.sidebar a,.sidebar button,#sidebar a,#sidebar button{color:#aebed2!important;border-radius:11px!important;transition:background .18s ease,color .18s ease,border-color .18s ease}
+.sidebar a:hover,.sidebar button:hover,#sidebar a:hover,#sidebar button:hover{background:#182333!important;color:#fff!important}
+.sidebar .active,.sidebar a.active,#sidebar .active{background:linear-gradient(110deg,#1b2c43,#172437)!important;color:#c8dcff!important;border:1px solid #304968!important}
+.topbar,header.topbar,.navbar,body>header{background:rgba(12,17,25,.94)!important;color:var(--nv-text)!important;border-color:#202d3d!important;box-shadow:0 8px 28px rgba(0,0,0,.18)!important;backdrop-filter:blur(18px)}
+/* Page containers */
+main,.main-area,.main-content,.content-area,.page,.page-content,.wrap,.layout,.workspace,.app,.container,.tool-container{color:var(--nv-text)!important}
+/* Feature heroes: consistent hierarchy and breathing room */
+.hero,.intro,.welcome,.welcome-screen,.welcome-content,.navai-robot-copy,.mascot-wrap{color:var(--nv-text)!important}
+.hero,.intro{position:relative}
+.eyebrow,.hero .eyebrow,.intro .eyebrow{color:#8eb8ff!important;font-size:.72rem!important;font-weight:750!important;letter-spacing:.14em!important;text-transform:uppercase}
+.hero h1,.intro h1,.welcome h1{font-weight:800!important;line-height:1.08!important}
+/* Premium surfaces — feature-specific class families */
+:where(.panel,.card,.tool-card,.feature-card,.app-card,.dashboard-card,.widget,.stat-card,.workspace-card,.tool-panel,.content-card,.section-card,.question-card,.quiz-card,.result-card,.history-card,.chat-card,.ask-panel,.workspace,.paper-wrap,.questionbox,.answer-panel,.preview,.form-panel,.main-panel,.side-column,.setup){background:linear-gradient(160deg,rgba(20,30,44,.98),rgba(13,19,29,.99))!important;color:var(--nv-text)!important;border:1px solid var(--nv-line)!important;border-radius:var(--nv-radius)!important;box-shadow:var(--nv-shadow)!important}
+:where(.panel,.card,.tool-card,.feature-card,.app-card,.dashboard-card,.widget,.stat-card,.workspace-card,.tool-panel,.content-card,.section-card,.question-card,.quiz-card,.result-card,.history-card,.chat-card,.ask-panel,.workspace,.paper-wrap,.questionbox,.answer-panel,.preview,.form-panel,.main-panel,.side-column,.setup) :where(h1,h2,h3,h4,p,label,small,strong){color:var(--nv-text)!important}
+/* Slightly raised inner blocks, without flattening custom illustrations */
+:where(.panel,.card,.chat-card,.ask-panel,.workspace,.form-panel,.main-panel,.side-column,.setup) :where(.panel-title,.section-head,.chat-head,.preview-head,.answer-heading,.result-head){border-color:var(--nv-line)!important}
+/* Form controls */
+input,textarea,select,.form-control{background:#090f18!important;color:#edf4ff!important;border:1px solid #2a3b51!important;border-radius:12px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important}
+input::placeholder,textarea::placeholder{color:#71859d!important}
+input:focus,textarea:focus,select:focus{outline:none!important;border-color:#6597ed!important;box-shadow:0 0 0 3px rgba(91,143,226,.17)!important}
+option{background:#111a27!important;color:#edf4ff!important}
+/* Buttons */
+button,.btn,.button,[role=button],input[type=submit]{font:inherit;transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important;border-radius:11px!important}
+button:not(:disabled):hover,.btn:hover,.button:hover,[role=button]:hover{transform:translateY(-1px)}
+button.primary,.primary,.primary-button,.btn-primary,.solve-button,.send-btn,.send-button,.orb-button,input[type=submit],button[type=submit]{background:linear-gradient(135deg,#3978d5,#2859a4)!important;color:#fff!important;border:1px solid #5489dc!important;box-shadow:0 8px 22px rgba(43,100,184,.24)!important}
+button.secondary,.secondary,.secondary-button{background:#172333!important;color:#dce9fb!important;border:1px solid #344960!important}
+/* Home dashboard and welcome */
+#navai-tool-dashboard{background:transparent!important;color:var(--nv-text)!important}
+#navai-tool-dashboard :where(.tool,.tool-card,.feature,.feature-card,.card){background:linear-gradient(155deg,#141f2e,#101722)!important;border:1px solid #2a3b51!important;color:var(--nv-text)!important;border-radius:17px!important;box-shadow:0 12px 30px rgba(0,0,0,.2)!important}
+#navai-tool-dashboard :where(h1,h2,h3,h4,p,span,label){color:var(--nv-text)!important}
+/* Classroom */
+body:has(.ask-panel) .layout,body:has(.mascot-wrap) .layout{background:transparent!important}
+.ask-panel{padding:clamp(18px,3vw,28px)!important}
+.mini-tags span,.mini-tags .tag{background:#17283d!important;border:1px solid #304968!important;color:#bcd4f8!important;border-radius:999px!important}
+/* Homework / doubt solver / study planner / timetable */
+.wrap{max-width:1160px}
+.intro,.hero{margin-bottom:24px}
+.fields,.form-grid,.form-row,.form-grid .field{gap:14px}
+.result,.answer-panel,.preview{overflow:hidden}
+.result-head,.answer-heading,.preview-head{background:rgba(28,43,62,.55)!important;border-bottom:1px solid var(--nv-line)!important}
+.task-list .task,.task-item,.list-item{background:#121d2a!important;border:1px solid var(--nv-line)!important;border-radius:13px!important}
+/* Student Guide conversation */
+.chat-card{overflow:hidden}
+.chat-head{background:#172438!important;border-bottom:1px solid var(--nv-line)!important}
+.messages{background:transparent!important}
+.message,.message.guide,.message.user{border-radius:15px!important}
+.message.guide{background:#172333!important;border:1px solid #2b3c52!important;color:#eaf2ff!important}
+.message.user{background:#1b3150!important;border:1px solid #355783!important;color:#eff6ff!important}
+.composer{background:#0c131e!important;border:1px solid #2a3b51!important;border-radius:15px!important;padding:8px!important}
+/* Oral quiz */
+.navai-oral-robot-showcase,.navai-robot-art{background:transparent!important}
+.live-status,.navai-robot-status{background:#13251f!important;color:#8fe0b5!important;border:1px solid #285541!important;border-radius:999px!important}
+/* Handwritten notes preview: keep paper visually paper-like, not darkened */
+.paper-wrap{background:#111a26!important;padding:16px!important}
+.paper-wrap #paper,.paper-wrap .paper{background:#fffdf6!important;color:#263448!important;border:1px solid #e5dfcf!important;border-radius:5px!important;box-shadow:0 12px 32px rgba(0,0,0,.35)!important}
+.paper-wrap #paper *,.paper-wrap .paper *{color:#263448!important}
+/* Timetable and generated tables */
+table{border-collapse:separate!important;border-spacing:0!important;background:#101925!important;color:var(--nv-text)!important;border:1px solid var(--nv-line)!important;border-radius:13px!important;overflow:hidden}
+th{background:#1b2a3d!important;color:#dceaff!important}td{background:#111a26!important;color:#e8f0fc!important}th,td{border-color:#293a50!important}
+/* Code, notices, dialogs */
+pre,code,.code-block{background:#090f18!important;color:#dceaff!important;border:1px solid #26374b!important;border-radius:10px!important}
+.modal,.dialog,[role=dialog],.dropdown-menu,.popover,.menu{background:#121b28!important;color:var(--nv-text)!important;border:1px solid #304158!important;border-radius:16px!important;box-shadow:0 24px 65px rgba(0,0,0,.45)!important}
+hr,.divider{border-color:#26364a!important}
+/* Scrollbars */
+*{scrollbar-color:#344a66 #0b111a}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:#0b111a}::-webkit-scrollbar-thumb{background:#344a66;border-radius:20px}
+/* Responsive */
+@media(max-width:800px){.wrap{width:min(100% - 28px,1160px)!important}.panel,.chat-card,.ask-panel{border-radius:15px!important}.hero h1,.intro h1{font-size:clamp(1.8rem,7vw,3rem)!important}.sidebar,#sidebar{background:#0c121c!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}

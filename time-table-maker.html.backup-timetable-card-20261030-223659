@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d1b">
+<title>Time Table Maker | NavAI</title>
+<link rel="stylesheet" href="/time-table-maker.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/"><span class="brand-icon">N</span><span>NavAI <small>STUDENT OS</small></span></a>
+  <a class="back" href="/">← Dashboard</a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">✦ YOUR AI SCHEDULE ARCHITECT</div>
+    <h1>Your time.<br><span>Your success.</span></h1>
+    <p>Tell NavAI about your routine. It will build a balanced timetable around your day.</p>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <div><span class="eyebrow">YOUR ROUTINE</span><h2>When are you busy?</h2></div>
+      <span class="optional">Timings are optional</span>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <label>🏫 School timing</label>
+        <div class="time-pair"><input id="schoolStart" type="time" aria-label="School start"><span>to</span><input id="schoolEnd" type="time" aria-label="School end"></div>
+      </div>
+      <div class="field">
+        <label>📚 Coaching timing</label>
+        <div class="time-pair"><input id="coachingStart" type="time" aria-label="Coaching start"><span>to</span><input id="coachingEnd" type="time" aria-label="Coaching end"></div>
+      </div>
+      <div class="field">
+        <label>💪 Gym timing</label>
+        <div class="time-pair"><input id="gymStart" type="time" aria-label="Gym start"><span>to</span><input id="gymEnd" type="time" aria-label="Gym end"></div>
+      </div>
+      <div class="field">
+        <label>📖 Library timing</label>
+        <div class="time-pair"><input id="libraryStart" type="time" aria-label="Library start"><span>to</span><input id="libraryEnd" type="time" aria-label="Library end"></div>
+      </div>
+      <div class="field">
+        <label>🎓 Your class</label>
+        <input id="studentClass" type="text" maxlength="50" placeholder="e.g. Class 9, CBSE">
+      </div>
+      <div class="field">
+        <label>🎯 Your goal</label>
+        <input id="goal" type="text" maxlength="180" placeholder="e.g. Score 95%, improve Maths">
+      </div>
+    </div>
+    <p class="hint">You can leave any field blank. Enter only the timings and details that apply to you.</p>
+    <button id="generate" class="primary">✦ Generate my AI timetable <span>→</span></button>
+    <p id="status" class="status" role="status"></p>
+  </section>
+
+  <section id="result" class="result" hidden>
+    <div class="result-head">
+      <div><span class="eyebrow">YOUR PERSONAL PLAN</span><h2>Your timetable</h2><p id="summary"></p></div>
+      <button id="regenerate" class="secondary">↻ Regenerate</button>
+    </div>
+    <div id="schedule" class="schedule"></div>
+    <div class="result-actions">
+      <button id="print" class="secondary">Print / Save PDF</button>
+      <button id="edit" class="secondary">Edit details</button>
+    </div>
+    <p class="footnote">Your timetable is a suggested plan. Adjust it whenever your routine changes.</p>
+  </section>
+  <footer>NavAI · Plan smarter, live better.</footer>
+</main>
+<script src="/time-table-maker.js"></script>
+<script id="NAVAI_ONE_PAGE_IMAGE_EXPORT">
+(() => {
+  function installImageExport() {
+    const oldButton = document.getElementById("print");
+    const result = document.getElementById("result");
+
+    if (!oldButton || !result) {
+      console.error("Image export: print button ya result section nahi mila.");
+      return;
+    }
+
+    const newButton = oldButton.cloneNode(true);
+    oldButton.replaceWith(newButton);
+
+    newButton.textContent = "Download Timetable Image";
+    newButton.title = "Download complete timetable as one PNG image";
+
+    newButton.addEventListener("click", async () => {
+      if (!result.innerText.trim()) {
+        alert("Pehle timetable generate karo.");
+        return;
+      }
+
+      const originalText = newButton.textContent;
+      newButton.disabled = true;
+      newButton.textContent = "Creating Image...";
+
+      try {
+        if (typeof window.html2canvas !== "function") {
+          await new Promise((resolve, reject) => {
+            const script = document.createElement("script");
+            script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+            script.onload = resolve;
+            script.onerror = () => reject(new Error("Image library load nahi hui. Internet check karo."));
+            document.head.appendChild(script);
+          });
+        }
+
+        const source = await window.html2canvas(result, {
+          backgroundColor: "#ffffff",
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          windowWidth: Math.max(result.scrollWidth, result.clientWidth),
+          windowHeight: Math.max(result.scrollHeight, result.clientHeight)
+        });
+
+        // One A4-style portrait image. Entire timetable is fitted inside it.
+        const canvas = document.createElement("canvas");
+        canvas.width = 1800;
+        canvas.height = 2546;
+
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const padding = 70;
+        const maxWidth = canvas.width - padding * 2;
+        const maxHeight = canvas.height - padding * 2;
+        const ratio = Math.min(
+          maxWidth / source.width,
+          maxHeight / source.height
+        );
+
+        const drawWidth = source.width * ratio;
+        const drawHeight = source.height * ratio;
+        const x = (canvas.width - drawWidth) / 2;
+        const y = (canvas.height - drawHeight) / 2;
+
+        ctx.drawImage(source, x, y, drawWidth, drawHeight);
+
+        const blob = await new Promise(resolve =>
+          canvas.toBlob(resolve, "image/png")
+        );
+
+        if (!blob) throw new Error("PNG image create nahi ho paayi.");
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "NavAI-Daily-Timetable.png";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      } catch (error) {
+        console.error(error);
+        alert("Image export failed: " + error.message);
+      } finally {
+        newButton.disabled = false;
+        newButton.textContent = originalText;
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", installImageExport, { once: true });
+  } else {
+    installImageExport();
+  }
+})();
+</script>
+</body>
+</html>
+

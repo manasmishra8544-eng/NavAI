@@ -1,0 +1,106 @@
+﻿/* NAVAI TEACHER — PEARL LAVENDER */
+:root {
+    color-scheme: light;
+    --teacher-bg: #f5f0fa;
+    --teacher-surface: #fffaff;
+    --teacher-panel: #eee6f6;
+    --teacher-border: #e2d5ec;
+    --teacher-text: #493b5b;
+    --teacher-muted: #8b7c9b;
+    --teacher-purple: #9272b8;
+    --teacher-peach: #f6e5dc;
+}
+
+html, body {
+    background: var(--teacher-bg) !important;
+    color: var(--teacher-text) !important;
+}
+
+/* Main backgrounds and panels */
+main, header, aside, section, nav,
+.main, .main-content, .main-container, .container,
+.sidebar, .topbar, .header, .panel, .card,
+.dashboard, .workspace, .content-area {
+    background-color: var(--teacher-bg) !important;
+    color: var(--teacher-text) !important;
+    border-color: var(--teacher-border) !important;
+}
+
+/* Cards and learning panels */
+.card, .panel, .feature-card, .tool-card,
+.lesson-card, .subject-card, .class-card,
+.question-card, .answer-card, .chat-container,
+.teacher-card, .content-card {
+    background: var(--teacher-surface) !important;
+    color: var(--teacher-text) !important;
+    border: 1px solid var(--teacher-border) !important;
+    box-shadow: 0 5px 20px rgba(91, 66, 120, .055) !important;
+}
+
+/* Text */
+h1, h2, h3, h4, h5, h6, p, label, span,
+strong, b, small, li, .title, .subtitle {
+    text-shadow: none !important;
+}
+
+h1, h2, h3, h4, h5, h6, strong, b {
+    color: var(--teacher-text) !important;
+}
+
+p, label, small, .subtitle, .description {
+    color: var(--teacher-muted) !important;
+}
+
+/* Inputs */
+input, textarea, select {
+    background: #fffaff !important;
+    color: var(--teacher-text) !important;
+    border: 1px solid var(--teacher-border) !important;
+    accent-color: var(--teacher-purple) !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #a99bb5 !important;
+}
+
+/* Buttons */
+button, .btn, [role="button"] {
+    border-color: var(--teacher-border) !important;
+}
+
+button:not(.primary):not(.send-button),
+.btn:not(.primary) {
+    background: #eee6f6 !important;
+    color: #604b79 !important;
+}
+
+button:hover, .btn:hover {
+    filter: brightness(.97);
+}
+
+/* Primary actions */
+button.primary, .btn-primary, .primary-button,
+.send-button, .submit-btn, .ask-button {
+    background: linear-gradient(110deg, #b99cda, #e9bcae) !important;
+    color: #fff !important;
+    border-color: transparent !important;
+}
+
+/* Accent elements */
+a, .icon, .accent, .active {
+    color: var(--teacher-purple) !important;
+}
+
+hr, .divider {
+    border-color: var(--teacher-border) !important;
+}
+
+::selection {
+    background: #e2d3f2 !important;
+    color: #493b5b !important;
+}
+
+* {
+    scrollbar-color: #cbb9dc #f5f0fa;
+}
+/* END NAVAI TEACHER PEARL LAVENDER */

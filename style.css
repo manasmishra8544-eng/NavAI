@@ -3154,221 +3154,743 @@ nav button:active {
 }
 /* END NAVAI MOBILE KEYBOARD FIX v2 */
 
-/* NAVAI MOBILE KEYBOARD FINAL FIX */
-@media (max-width: 650px) {
-  html, body {
-    width: 100%;
-    min-width: 0;
-    overflow-x: hidden;
-  }
 
-  body.navai-keyboard-open {
-    height: var(--navai-mobile-height, 100dvh);
-    min-height: 0;
-    overflow: hidden;
-  }
 
-  body.navai-keyboard-open .app-shell {
-    height: var(--navai-mobile-height, 100dvh) !important;
-    min-height: 0 !important;
-    max-height: var(--navai-mobile-height, 100dvh);
-    overflow: hidden !important;
-  }
-
-  body.navai-keyboard-open .main-area {
-    height: var(--navai-mobile-height, 100dvh) !important;
-    min-height: 0 !important;
-    max-height: var(--navai-mobile-height, 100dvh);
-    overflow: hidden !important;
-  }
-
-  body.navai-keyboard-open .chat-container,
-  body.navai-keyboard-open .chat-area,
-  body.navai-keyboard-open .messages-container {
-    min-height: 0;
-  }
-
-  body.navai-keyboard-open footer.composer-area {
-    position: sticky;
-    bottom: 0;
-    z-index: 100;
-    flex-shrink: 0;
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
-    background: #080f20;
-  }
-
-  body.navai-keyboard-open .composer-wrap {
-    width: 100%;
-    max-width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  body.navai-keyboard-open form.composer#chatForm {
-    width: 100%;
-    min-width: 0;
-    min-height: 0;
-    margin: 0;
-  }
-
-  body.navai-keyboard-open #messageInput {
-    min-width: 0;
-    max-height: 100px;
-    overflow-y: auto;
-    font-size: 16px;
-    line-height: 1.4;
-    scroll-margin-bottom: 12px;
-  }
-
-  body.navai-keyboard-open .sidebar {
-    display: none !important;
-  }
-}
-/* END NAVAI MOBILE KEYBOARD FINAL FIX */
-
-/* NAVAI_PREMIUM_AMBIENT_BACKGROUND_V1 */
-html {
-    min-height: 100%;
-    background-color: #070b14 !important;
+/* ==========================================================
+   NAVAI PEARL LAVENDER — CHATBOT FINAL THEME OVERRIDE
+   Keeps existing layout and functionality; visual overrides only.
+   ========================================================== */
+:root {
+  --navai-pearl-bg: #f5f1fb;
+  --navai-pearl-surface: #ffffff;
+  --navai-pearl-soft: #eee7f8;
+  --navai-pearl-border: #e3d9f0;
+  --navai-pearl-text: #30283d;
+  --navai-pearl-muted: #82778f;
+  --navai-pearl-purple: #8060b5;
+  --navai-pearl-purple-dark: #69489e;
+  --navai-pearl-orange: #ef985c;
 }
 
+/* Main canvas */
+html, body {
+  background: var(--navai-pearl-bg) !important;
+  color: var(--navai-pearl-text) !important;
+}
 body {
-    min-height: 100vh;
-    background-color: #070b14 !important;
-    background-image:
-        radial-gradient(
-            ellipse at 12% 8%,
-            rgba(45, 82, 165, 0.24) 0%,
-            transparent 43%
-        ),
-        radial-gradient(
-            ellipse at 88% 28%,
-            rgba(105, 64, 180, 0.15) 0%,
-            transparent 38%
-        ),
-        radial-gradient(
-            ellipse at 50% 100%,
-            rgba(24, 65, 125, 0.13) 0%,
-            transparent 45%
-        ),
-        linear-gradient(
-            135deg,
-            #080d19 0%,
-            #0b1020 48%,
-            #080b15 100%
-        ) !important;
-    background-attachment: fixed !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(214,196,239,.34), transparent 38%),
+    radial-gradient(ellipse at 92% 100%, rgba(255,224,201,.22), transparent 34%) !important;
+}
+.main-area, .main-content, .chat-container, .conversation,
+.chat-area, .content-area, .welcome-screen {
+  background: transparent !important;
+  color: var(--navai-pearl-text) !important;
 }
 
-/* Keep the main canvas transparent so the new background shows through. */
-main,
-.main-content,
-.chat-container,
-.chat-layout,
-.main-area,
-.content-area {
-    background-color: transparent;
-    background-image: none;
+/* Sidebar — remove all black/navy layers */
+.sidebar {
+  background: linear-gradient(180deg, #fbf9ff 0%, #f0eafa 100%) !important;
+  color: var(--navai-pearl-text) !important;
+  border-right: 1px solid var(--navai-pearl-border) !important;
+  box-shadow: 5px 0 24px rgba(83, 61, 112, .07) !important;
+}
+.sidebar::after { display: none !important; }
+.brand-name, .brand span, .sidebar-section-title,
+.section-heading, .history-item-title, .sidebar-action,
+.history-open-button, .local-note, .sidebar-signature {
+  color: var(--navai-pearl-text) !important;
+  text-shadow: none !important;
+}
+.sidebar-section-title, .section-heading, .local-note,
+.sidebar-signature { color: var(--navai-pearl-muted) !important; }
+.brand-icon {
+  box-shadow: none !important;
+  border-color: #d9c9ee !important;
+}
+.new-chat-button {
+  background: #e9def7 !important;
+  color: var(--navai-pearl-purple-dark) !important;
+  border: 1px solid #d8c7ed !important;
+  box-shadow: none !important;
+}
+.new-chat-button:hover {
+  background: #dfd0f1 !important;
+  border-color: #cbb5e7 !important;
+}
+.new-chat-icon, .history-item-icon { color: var(--navai-pearl-purple) !important; }
+.history-item, .history-item.active, .history-item.selected,
+.history-item:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+.history-item.active, .history-item.selected {
+  background: #e9e0f5 !important;
+  border-color: #ddcfed !important;
+}
+.history-item:hover { background: #f0eafa !important; }
+.history-open-button,
+.history-item:hover .history-open-button,
+.history-item.active .history-open-button,
+.history-item.selected .history-open-button {
+  color: var(--navai-pearl-text) !important;
+}
+.history-empty {
+  color: var(--navai-pearl-muted) !important;
+  border-color: var(--navai-pearl-border) !important;
+}
+.sidebar-bottom {
+  background: transparent !important;
+  border-top: 1px solid var(--navai-pearl-border) !important;
+}
+.sidebar-action:hover {
+  background: #e9e0f5 !important;
+  border-color: #ddcfed !important;
+  color: var(--navai-pearl-purple-dark) !important;
 }
 
-/* NAVAI_PREMIUM_AMBIENT_BACKGROUND_END */
-/* NAVAI_BACKGROUND_FIX_V2 */
-html, body {
-    background-color: #070b14 !important;
-    background-image:
-        radial-gradient(ellipse at 10% 10%,
-            rgba(47, 91, 190, .32), transparent 42%),
-        radial-gradient(ellipse at 90% 20%,
-            rgba(125, 68, 205, .23), transparent 38%),
-        linear-gradient(135deg, #080d19, #10152b 55%, #080b15) !important;
-    background-attachment: fixed !important;
+/* Header */
+.topbar {
+  background: rgba(250, 247, 255, .92) !important;
+  border-bottom: 1px solid var(--navai-pearl-border) !important;
+  color: var(--navai-pearl-text) !important;
+  box-shadow: 0 3px 16px rgba(83, 61, 112, .035) !important;
+  backdrop-filter: blur(14px);
+}
+.topbar::after {
+  background: linear-gradient(135deg, var(--navai-pearl-orange), #e98249) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 5px 14px rgba(239,152,92,.18) !important;
 }
 
-#app, #root, .app, .app-container, .app-layout,
-.main-content, .main-area, .content-area,
-.chat-container, .chat-layout, .chat-wrapper,
-.chat-main, .main-panel, .page-content {
-    background-color: transparent !important;
-    background-image: none !important;
+/* Welcome area and headings */
+.welcome-screen { background: transparent !important; }
+.welcome-content h1, .welcome-content h1 span,
+.welcome-screen h1, .welcome h1, .welcome-title, .hero-title {
+  color: var(--navai-pearl-text) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--navai-pearl-text) !important;
+  text-shadow: none !important;
 }
-/* END NAVAI_BACKGROUND_FIX_V2 */
-/* NAVAI_TARGETED_BACKGROUND_V3 */
-html, body {
-    background: #080d19 !important;
-    background-image:
-        radial-gradient(ellipse at 12% 8%, rgba(60, 100, 220, .28), transparent 44%),
-        radial-gradient(ellipse at 88% 22%, rgba(130, 75, 220, .20), transparent 40%),
-        linear-gradient(135deg, #080d19 0%, #10172b 52%, #070b14 100%) !important;
-    background-attachment: fixed !important;
+.navai-reference-subtitle, .welcome-content p {
+  color: var(--navai-pearl-muted) !important;
 }
-body > #app,
-body > #root,
-.app-shell,
-.app-container,
-.app-layout,
-.main-area,
-.main-content {
-    background-color: transparent !important;
-    background-image: none !important;
-}
-/* END NAVAI_TARGETED_BACKGROUND_V3 */
-
-/* NAVAI_AURORA_VISIBLE_FIX_V2 */
-html, body {
-    background-color: #030712 !important;
+.navai-orb {
+  border-color: #c8b4e5 !important;
+  box-shadow: 0 10px 30px rgba(128,96,181,.16) !important;
 }
 
-body {
-    background-image:
-        radial-gradient(ellipse at 12% 18%, rgba(24, 91, 255, .42), transparent 42%),
-        radial-gradient(ellipse at 88% 22%, rgba(0, 220, 255, .27), transparent 40%),
-        radial-gradient(ellipse at 62% 88%, rgba(133, 45, 255, .34), transparent 45%) !important;
-    background-attachment: fixed !important;
-    background-size: 160% 160% !important;
-    animation: navaiAuroraVisibleV2 18s ease-in-out infinite alternate !important;
+/* Composer and message input */
+.composer, .composer-area, .input-area, .chat-input-container {
+  background: transparent !important;
+}
+.composer {
+  background: #fff !important;
+  border: 1px solid #d9cbea !important;
+  box-shadow: 0 8px 28px rgba(83,61,112,.08) !important;
+}
+.composer:focus-within {
+  border-color: #a88acb !important;
+  box-shadow: 0 0 0 3px rgba(128,96,181,.12), 0 8px 28px rgba(83,61,112,.08) !important;
+}
+.composer textarea, #messageInput, .composer input,
+.composer textarea::placeholder, #messageInput::placeholder {
+  color: var(--navai-pearl-text) !important;
+}
+.composer textarea, #messageInput, .composer input {
+  background: transparent !important;
+  caret-color: var(--navai-pearl-purple) !important;
+}
+.composer textarea::placeholder, #messageInput::placeholder {
+  color: #a49aaa !important;
+  opacity: 1 !important;
+}
+.composer button, .send-button, #sendButton {
+  background: var(--navai-pearl-purple) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+.composer button:hover, .send-button:hover, #sendButton:hover {
+  background: var(--navai-pearl-purple-dark) !important;
 }
 
-.app-shell {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
+/* Conversation messages and result surfaces */
+.message, .message-content, .assistant-message, .user-message,
+.response-content, .chat-message, .markdown-body {
+  color: var(--navai-pearl-text) !important;
 }
+.assistant-message, .assistant-message .message-content,
+.response-content, .message.assistant .message-content {
+  background: #fff !important;
+  border-color: var(--navai-pearl-border) !important;
+}
+.user-message, .message.user .message-content {
+  background: #eee6f7 !important;
+  border-color: #e0d3ef !important;
+  color: var(--navai-pearl-text) !important;
+}
+pre, code {
+  color: #40334f;
+}
+pre {
+  background: #f0ebf6 !important;
+  border: 1px solid var(--navai-pearl-border) !important;
+}
+
+/* Suggestion chips */
+.navai-reference-prompts button, .prompt-chip, .suggestion-chip {
+  background: #fff !important;
+  color: var(--navai-pearl-purple-dark) !important;
+  border: 1px solid var(--navai-pearl-border) !important;
+}
+.navai-reference-prompts button:hover, .prompt-chip:hover, .suggestion-chip:hover {
+  background: #eee7f8 !important;
+  border-color: #cbb8e3 !important;
+}
+
+/* Image generator panel */
+.navai-imagegen-panel {
+  background: rgba(48, 37, 63, .32) !important;
+}
+.navai-imagegen-card {
+  background: #fbf9ff !important;
+  color: var(--navai-pearl-text) !important;
+  border: 1px solid var(--navai-pearl-border) !important;
+  box-shadow: 0 24px 70px rgba(55, 39, 76, .18) !important;
+}
+.navai-imagegen-heading p, #navai-imagegen-status {
+  color: var(--navai-pearl-muted) !important;
+}
+.navai-imagegen-kicker { color: var(--navai-pearl-purple) !important; }
+#navai-imagegen-close {
+  background: #eee7f8 !important;
+  color: var(--navai-pearl-purple-dark) !important;
+}
+#navai-imagegen-prompt {
+  background: #fff !important;
+  color: var(--navai-pearl-text) !important;
+  border-color: var(--navai-pearl-border) !important;
+}
+#navai-imagegen-generate, .navai-imagegen-download {
+  background: var(--navai-pearl-orange) !important;
+  color: #fff !important;
+}
+
+/* General form controls used inside chatbot */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select {
+  color: var(--navai-pearl-text);
+}
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus, select:focus {
+  border-color: #b49bd2 !important;
+  outline-color: rgba(128,96,181,.18) !important;
+}
+
+/* ==========================================
+   NAVAI PREMIUM PEARL LAVENDER SIDEBAR
+   Visual-only styling. No JS or functionality changes.
+   ========================================== */
 
 .sidebar {
-    background: rgba(4, 11, 29, .72) !important;
-    background-image: none !important;
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
+    background: linear-gradient(160deg, #fcfaff 0%, #f3edf9 55%, #eee6f7 100%) !important;
+    color: #342a42 !important;
+    border-right: 1px solid #e5d9f0 !important;
+    box-shadow: 8px 0 30px rgba(79, 55, 105, 0.055) !important;
+    backdrop-filter: blur(18px) !important;
 }
 
-.main-area {
+.sidebar * {
+    text-shadow: none !important;
+}
+
+.sidebar-header,
+.sidebar-top,
+.sidebar-bottom {
     background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
+    border-color: #e5d9f0 !important;
 }
 
-.welcome-screen {
+.brand-name,
+.sidebar .brand-name,
+.sidebar-section-title,
+.sidebar .section-heading {
+    color: #392d49 !important;
+}
+
+.sidebar-section-title,
+.sidebar .section-heading {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.2px !important;
+    text-transform: uppercase !important;
+    opacity: .65 !important;
+}
+
+.new-chat-button {
+    min-height: 44px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #e9def7, #dfd0f0) !important;
+    color: #674991 !important;
+    border: 1px solid #d8c7eb !important;
+    box-shadow: 0 4px 12px rgba(111, 78, 151, .07) !important;
+    font-weight: 650 !important;
+    transition: background .2s ease, box-shadow .2s ease, transform .2s ease !important;
+}
+
+.new-chat-button:hover {
+    background: #dfd0f1 !important;
+    box-shadow: 0 6px 16px rgba(111, 78, 151, .12) !important;
+    transform: translateY(-1px);
+}
+
+.history-item,
+.sidebar .history-item {
+    border-radius: 12px !important;
+    margin: 3px 0 !important;
+    padding: 10px 12px !important;
+    color: #51465f !important;
     background: transparent !important;
-    background-image: none !important;
+    border: 1px solid transparent !important;
+    transition: background .18s ease, border-color .18s ease !important;
 }
 
-@keyframes navaiAuroraVisibleV2 {
-    0% {
-        background-position: 0% 20%;
-    }
-    50% {
-        background-position: 100% 60%;
-    }
-    100% {
-        background-position: 20% 100%;
+.history-item:hover,
+.sidebar .history-item:hover {
+    background: #f0e9f8 !important;
+    border-color: #e5d9f0 !important;
+}
+
+.history-item.active,
+.history-item.selected,
+.sidebar .history-item.active,
+.sidebar .history-item.selected {
+    background: #e9e0f4 !important;
+    border-color: #ddcdec !important;
+    color: #543a78 !important;
+}
+
+.history-item-title,
+.history-open-button,
+.sidebar-action {
+    color: #51445f !important;
+}
+
+.history-item-icon,
+.new-chat-icon {
+    color: #8867b4 !important;
+}
+
+.sidebar-action {
+    min-height: 40px !important;
+    border-radius: 11px !important;
+    padding: 9px 12px !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    transition: background .18s ease, border-color .18s ease !important;
+}
+
+.sidebar-action:hover {
+    background: #eee6f7 !important;
+    border-color: #e0d3ed !important;
+    color: #684b91 !important;
+}
+
+.sidebar-bottom {
+    border-top: 1px solid #e5d9f0 !important;
+    padding-top: 12px !important;
+}
+
+.sidebar button,
+.sidebar a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.sidebar button:focus-visible,
+.sidebar a:focus-visible {
+    outline: 2px solid #a88acb !important;
+    outline-offset: 2px !important;
+    border-radius: 10px !important;
+}
+
+.sidebar ::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+.sidebar ::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+.sidebar ::-webkit-scrollbar-thumb {
+    background: #d6c6e8 !important;
+    border-radius: 10px !important;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        box-shadow: 10px 0 35px rgba(65, 45, 90, .12) !important;
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    body {
-        animation: none !important;
-    }
+/* =========================================================
+   NAVAI PEARL LAVENDER GLOBAL PALETTE
+   Visual-only overrides. Existing layout and JS untouched.
+   ========================================================= */
+:root {
+  color-scheme: light;
+  --navai-bg: #f6f2fb;
+  --navai-surface: #fff;
+  --navai-surface-soft: #f0e9f8;
+  --navai-border: #e3d8ef;
+  --navai-text: #342b40;
+  --navai-muted: #82778f;
+  --navai-purple: #8060b5;
+  --navai-purple-dark: #684991;
+  --navai-orange: #ed955b;
 }
-/* NAVAI_AURORA_VISIBLE_FIX_V2_END */
+
+/* Page canvas and major structural regions */
+html, body {
+  background-color: var(--navai-bg) !important;
+  color: var(--navai-text) !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(218,202,239,.28), transparent 40%),
+    radial-gradient(ellipse at 92% 100%, rgba(255,225,203,.18), transparent 36%) !important;
+}
+main, [role="main"], .main, .main-content, .main-area,
+.content, .content-area, .page-content, .app-content,
+.workspace, .dashboard, .chat-area, .chat-container,
+.conversation, .welcome-screen {
+  color: var(--navai-text) !important;
+}
+header, .header, .topbar, .navbar, .nav-bar, .top-nav,
+.app-header, .page-header {
+  background: rgba(250,247,255,.96) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 3px 18px rgba(75,55,99,.045) !important;
+}
+
+/* Sidebars and navigation */
+aside, .sidebar, .side-bar, .app-sidebar, .left-sidebar,
+.navigation, .side-nav, .sidenav {
+  background: linear-gradient(160deg,#fcfaff 0%,#f2ecf9 100%) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 6px 0 24px rgba(75,55,99,.055) !important;
+}
+.sidebar *, .side-bar *, .app-sidebar *, .left-sidebar *,
+.navigation *, .side-nav *, .sidenav * {
+  text-shadow: none !important;
+}
+.sidebar a, .sidebar button, .side-nav a, .navigation a,
+.sidebar .active, .nav-link.active, .menu-item.active {
+  color: var(--navai-text) !important;
+}
+.sidebar .active, .nav-link.active, .menu-item.active,
+.sidebar a:hover, .sidebar button:hover, .nav-link:hover,
+.menu-item:hover {
+  background-color: #eae1f4 !important;
+  border-color: #ddcfed !important;
+}
+
+/* Cards, panels, tools, result boxes */
+.card, .panel, .widget, .tool-card, .feature-card,
+.result, .result-box, .output, .output-box, .response,
+.response-box, .answer-box, .question-card, .content-card,
+.modal-content, .dialog-content, .settings-panel,
+.history-panel, .profile-card {
+  background-color: var(--navai-surface) !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+  box-shadow: 0 7px 24px rgba(75,55,99,.055) !important;
+}
+
+/* Inputs, editors, search and chat composer */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea, select, .input, .search-box, .search-input,
+.prompt-input, .chat-input, .message-input,
+.composer, .input-container, .composer-container {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: #ded1ed !important;
+  caret-color: var(--navai-purple) !important;
+  box-shadow: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #a196ad !important;
+  opacity: 1 !important;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #a98acb !important;
+  outline-color: rgba(128,96,181,.18) !important;
+}
+
+/* Buttons: purple primary, orange call-to-action */
+button, .button, .btn, .action-button {
+  border-color: #ddcfed;
+}
+button.primary, .btn-primary, .primary-button,
+.send-button, #sendButton, .new-chat-button {
+  background: var(--navai-purple) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+button.primary:hover, .btn-primary:hover, .primary-button:hover,
+.send-button:hover, #sendButton:hover, .new-chat-button:hover {
+  background: var(--navai-purple-dark) !important;
+}
+button.orange, .btn-orange, .cta-button, .upgrade-button,
+.publish-button, .generate-button {
+  background: var(--navai-orange) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Typography, links and icon accents */
+h1, h2, h3, h4, h5, h6, p, label, li,
+.message, .message-content, .assistant-message,
+.user-message, .markdown-body {
+  text-shadow: none !important;
+}
+a, .link, .accent, .icon-accent {
+  color: var(--navai-purple-dark);
+}
+small, .muted, .subtitle, .description, .helper-text,
+.hint, .secondary-text {
+  color: var(--navai-muted);
+}
+
+/* Common dark/blue surfaces in chatbot and feature tools */
+.chat-message.assistant, .assistant-message,
+.message.assistant, .ai-response, .ai-result,
+.output-panel, .result-panel, .explanation-panel,
+.code-output, .preview-panel, .editor-panel,
+.quiz-panel, .question-panel, .notes-panel,
+.planner-panel, .timetable-panel, .teacher-panel {
+  background-color: #fff !important;
+  color: var(--navai-text) !important;
+  border-color: var(--navai-border) !important;
+}
+.user-message, .message.user, .chat-message.user {
+  background-color: #eee6f7 !important;
+  color: var(--navai-text) !important;
+  border-color: #dfd2ed !important;
+}
+pre, .code-block {
+  background-color: #f0ebf6 !important;
+  color: #40334f !important;
+  border-color: var(--navai-border) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: #d6c7e7 #f5f0fa;
+}
+::-webkit-scrollbar-track { background: #f5f0fa; }
+::-webkit-scrollbar-thumb {
+  background: #d6c7e7;
+  border-radius: 10px;
+}
+
+
+/* ===== NAVAI PEARL LAVENDER FINAL THEME ===== */
+body:has(.composer-wrap) {
+    background: #f5f0fc !important;
+    color: #403653 !important;
+}
+
+/* Main surfaces */
+body:has(.composer-wrap) .main-area,
+body:has(.composer-wrap) .main-content,
+body:has(.composer-wrap) .chat-main,
+body:has(.composer-wrap) .chat-container {
+    background: #f7f3fc !important;
+    color: #403653 !important;
+}
+
+/* Sidebar */
+body:has(.composer-wrap) .sidebar {
+    background: linear-gradient(180deg, #eee8f8, #f6eff9) !important;
+    border-right: 1px solid #ded3ed !important;
+    box-shadow: 5px 0 24px rgba(91, 65, 130, .06) !important;
+    color: #493c5e !important;
+}
+
+body:has(.composer-wrap) .brand-name,
+body:has(.composer-wrap) .section-heading,
+body:has(.composer-wrap) .sidebar-signature {
+    color: #514267 !important;
+    text-shadow: none !important;
+}
+
+body:has(.composer-wrap) .new-chat-button {
+    background: linear-gradient(110deg, #e7dcfa, #f8e7e7) !important;
+    border: 1px solid #d6c4ed !important;
+    color: #604a82 !important;
+    box-shadow: none !important;
+}
+
+body:has(.composer-wrap) .new-chat-button:hover {
+    background: #e5d8f6 !important;
+    border-color: #bda5df !important;
+}
+
+body:has(.composer-wrap) .history-item,
+body:has(.composer-wrap) .sidebar-action {
+    color: #685b78 !important;
+    background: transparent !important;
+}
+
+body:has(.composer-wrap) .history-item:hover,
+body:has(.composer-wrap) .sidebar-action:hover {
+    background: #e8def3 !important;
+    border-color: #ded0ed !important;
+    color: #443456 !important;
+}
+
+body:has(.composer-wrap) .history-item.active {
+    background: #e4d9f3 !important;
+    border-color: #d2c0e8 !important;
+    color: #493563 !important;
+    box-shadow: none !important;
+}
+
+body:has(.composer-wrap) .local-note {
+    background: linear-gradient(120deg, #eee6f8, #f9eae7) !important;
+    border: 1px solid #e2d5ed !important;
+}
+
+body:has(.composer-wrap) .sidebar-bottom {
+    border-top-color: #ded3e9 !important;
+}
+
+/* Top bar */
+body:has(.composer-wrap) .topbar {
+    background: rgba(250, 247, 253, .96) !important;
+    border-bottom: 1px solid #e6dced !important;
+    box-shadow: 0 3px 15px rgba(83, 57, 112, .035) !important;
+    color: #493c5e !important;
+}
+
+/* Welcome screen */
+body:has(.composer-wrap) .welcome-screen,
+body:has(.composer-wrap) .welcome,
+body:has(.composer-wrap) #hero,
+body:has(.composer-wrap) .hero-section {
+    background: transparent !important;
+    color: #443653 !important;
+}
+
+body:has(.composer-wrap) .welcome-screen h1,
+body:has(.composer-wrap) .welcome h1,
+body:has(.composer-wrap) #hero h1,
+body:has(.composer-wrap) .hero-section h1,
+body:has(.composer-wrap) .welcome-title,
+body:has(.composer-wrap) .hero-title {
+    color: #514064 !important;
+    text-shadow: none !important;
+}
+
+/* Chat messages */
+body:has(.composer-wrap) .message-bubble {
+    background: #fffaff !important;
+    color: #493d59 !important;
+    border: 1px solid #e9dff0 !important;
+    box-shadow: 0 3px 12px rgba(79, 55, 105, .045) !important;
+}
+
+/* Composer */
+body:has(.composer-wrap) .composer-area {
+    background: transparent !important;
+}
+
+body:has(.composer-wrap) .composer {
+    background: #fffaff !important;
+    border: 1px solid #dfd1eb !important;
+    box-shadow: 0 8px 28px rgba(86, 59, 117, .09) !important;
+}
+
+body:has(.composer-wrap) .composer:focus-within {
+    border-color: #b99cdd !important;
+    box-shadow: 0 8px 28px rgba(129, 95, 169, .12) !important;
+}
+
+body:has(.composer-wrap) .composer textarea,
+body:has(.composer-wrap) textarea,
+body:has(.composer-wrap) input {
+    background: transparent !important;
+    color: #493d59 !important;
+    accent-color: #9876c5 !important;
+}
+
+body:has(.composer-wrap) .composer textarea::placeholder,
+body:has(.composer-wrap) input::placeholder {
+    color: #a397b1 !important;
+}
+
+/* Tools popup */
+body:has(.composer-wrap) .navai-tools-menu {
+    background: #fffaff !important;
+    border: 1px solid #e2d5ed !important;
+    box-shadow: 0 16px 45px rgba(79, 55, 105, .14) !important;
+}
+
+body:has(.composer-wrap) .navai-tools-heading,
+body:has(.composer-wrap) .navai-tool-copy small {
+    color: #8a7b9a !important;
+}
+
+body:has(.composer-wrap) .navai-tool-item,
+body:has(.composer-wrap) .navai-tool-copy strong {
+    color: #514267 !important;
+}
+
+body:has(.composer-wrap) button.navai-tool-item:hover {
+    background: #f0e8f8 !important;
+    border-color: #dfd0ed !important;
+}
+
+body:has(.composer-wrap) .navai-tool-icon {
+    background: linear-gradient(145deg, #e8dcf7, #f9e6df) !important;
+    color: #8867b1 !important;
+    border-color: #e0d2ed !important;
+}
+
+body:has(.composer-wrap) .navai-mode-notice {
+    background: #fff7f2 !important;
+    color: #76543f !important;
+    border-color: #efd7c9 !important;
+    box-shadow: 0 8px 25px rgba(100, 65, 45, .08) !important;
+}
+
+/* Buttons and icons */
+body:has(.composer-wrap) .icon-button,
+body:has(.composer-wrap) .delete-chat-button {
+    color: #79658e !important;
+}
+
+body:has(.composer-wrap) .icon-button:hover,
+body:has(.composer-wrap) .delete-chat-button:hover {
+    background: #eee5f5 !important;
+    color: #57416f !important;
+}
+
+body:has(.composer-wrap) .action-icon,
+body:has(.composer-wrap) .history-item-icon {
+    color: #9276b4 !important;
+}
+
+body:has(.composer-wrap) ::selection {
+    color: #403653 !important;
+    background: #dfd0f3 !important;
+}
+
+body:has(.composer-wrap) .chat-history::-webkit-scrollbar-thumb {
+    background: #d1c2df !important;
+}
+/* ===== END PEARL LAVENDER ===== */
+

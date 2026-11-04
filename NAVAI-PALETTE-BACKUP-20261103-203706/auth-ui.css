@@ -1,0 +1,196 @@
+﻿#navai-auth-trigger {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 9990;
+  padding: 10px 17px;
+  border: 1px solid rgba(130, 155, 255, .38);
+  border-radius: 12px;
+  background: #172443;
+  color: #fff;
+  font: 600 14px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .22);
+}
+#navai-auth-trigger:hover { background: #22345d; }
+
+#navai-auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 6, 18, .78);
+  backdrop-filter: blur(12px);
+  overflow-y: auto;
+}
+#navai-auth-overlay[hidden],
+#navai-auth-form[hidden],
+#navai-auth-account[hidden],
+#navai-auth-switch-row[hidden] { display: none !important; }
+
+.navai-auth-card {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 34px;
+  border: 1px solid rgba(125, 151, 255, .22);
+  border-radius: 24px;
+  background: linear-gradient(150deg, #111c35, #080d1b 75%);
+  color: #f4f6ff;
+  box-shadow: 0 24px 90px rgba(0, 0, 0, .48);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.navai-auth-card * { box-sizing: border-box; }
+.navai-auth-close {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #cbd5ee;
+  font-size: 25px;
+  cursor: pointer;
+}
+.navai-auth-brand {
+  margin-bottom: 18px;
+  color: #94b4ff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.navai-auth-card h2 {
+  margin: 0 0 8px;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -.6px;
+}
+.navai-auth-subtitle {
+  margin: 0 0 22px;
+  color: #aab6d1;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.navai-auth-card label {
+  display: block;
+  margin: 15px 0 7px;
+  color: #d9e1f5;
+  font-size: 13px;
+  font-weight: 600;
+}
+.navai-auth-card input {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 13px;
+  border: 1px solid #293755;
+  border-radius: 11px;
+  outline: none;
+  background: #0a1225;
+  color: #fff;
+  font: inherit;
+}
+.navai-auth-card input:focus {
+  border-color: #799bff;
+  box-shadow: 0 0 0 3px rgba(101, 133, 255, .13);
+}
+.navai-auth-primary {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(100deg, #4777ff, #7655ed);
+  color: #fff;
+  font: 700 14px system-ui, sans-serif;
+  cursor: pointer;
+}
+.navai-auth-primary:disabled { opacity: .6; cursor: wait; }
+#navai-auth-message {
+  margin: 0 0 8px;
+  color: #a8c7ff;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+#navai-auth-message:empty { display: none; }
+#navai-auth-message.navai-auth-error { color: #ffaaa9; }
+.navai-auth-switch-row {
+  margin: 20px 0 0;
+  text-align: center;
+  color: #aab6d1;
+  font-size: 13px;
+}
+#navai-auth-switch {
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #9db7ff;
+  font: 700 13px system-ui, sans-serif;
+  cursor: pointer;
+}
+.navai-auth-privacy {
+  margin: 20px 0 0;
+  color: #7785a3;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+.navai-auth-email-display {
+  overflow-wrap: anywhere;
+  color: #fff;
+  font-size: 15px;
+}
+body.navai-auth-open { overflow: hidden; }
+
+@media (max-width: 600px) {
+  #navai-auth-trigger { top: 10px; right: 10px; padding: 9px 12px; }
+  .navai-auth-card { padding: 28px 22px; border-radius: 19px; }
+}
+
+/* NavAI account access */
+#navai-auth-trigger.navai-sidebar-auth-trigger {
+  position: relative !important;
+  inset: auto !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 42px;
+  margin: 0 0 8px;
+  padding: 0 12px;
+  border: 1px solid rgba(85, 160, 255, .25);
+  border-radius: 10px;
+  background: rgba(35, 91, 155, .18);
+  color: #eaf4ff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: none;
+}
+#navai-auth-trigger.navai-sidebar-auth-trigger:hover {
+  background: rgba(35, 105, 180, .28);
+}
+.navai-auth-google {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(130, 150, 180, .35);
+  border-radius: 9px;
+  background: #fff;
+  color: #202124;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.navai-auth-google:hover { background: #f1f4f8; }
+.navai-auth-google:disabled { opacity: .65; cursor: wait; }
+.navai-auth-google[hidden] { display: none !important; }

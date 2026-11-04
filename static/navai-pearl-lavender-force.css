@@ -1,0 +1,92 @@
+﻿:root {
+    color-scheme: light;
+    --bg: #f5f1fa;
+    --sidebar: #eee8f6;
+    --panel: #ffffff;
+    --panel-hover: #f4effa;
+    --border: #e5dced;
+    --text: #30283b;
+    --muted: #81758e;
+    --blue: #9b80bd;
+    --blue-bright: #8060a6;
+    --blue-soft: #eee5f7;
+    --green: #65a88a;
+    --shadow: 0 12px 35px rgba(75, 51, 94, .09);
+}
+
+html, body {
+    color-scheme: light !important;
+}
+
+body {
+    background-color: #f6f2fa !important;
+    color: #30283b;
+}
+
+input, textarea, select {
+    background: #fff !important;
+    color: #30283b !important;
+    border-color: #e3d8ed !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #9b90a5 !important;
+}
+
+button {
+    color: inherit;
+}
+
+:where(.card, .panel, .tool-card, .feature-card, .chat-card,
+       .message-card, .settings-card, .modal-content, .dropdown-menu,
+       .navai-tools-menu, .navai-plus-menu, .composer, .chat-input-area) {
+    background-color: #fff;
+    color: #30283b;
+    border-color: #e7ddec;
+    box-shadow: 0 8px 28px rgba(75, 51, 94, .07);
+}
+
+:where(.primary-button, .send-button, .generate-button, .new-chat-button) {
+    background: linear-gradient(135deg, #a78bc7, #8668aa) !important;
+    color: #fff !important;
+    border-color: #9b80bd !important;
+}
+
+:where(.primary-button, .send-button, .generate-button, .new-chat-button):hover {
+    background: linear-gradient(135deg, #9879bb, #78599e) !important;
+}
+
+:where(.active, .selected, .nav-item.active, .history-item.active) {
+    background-color: #eee6f6;
+    color: #71558f;
+}
+
+:where(.sidebar, .topbar, header, nav) {
+    background-color: #f0eaf6;
+    border-color: #e4d9ed;
+    color: #453850;
+}
+
+:where(.muted, .description, .subtitle, .helper-text) {
+    color: #81758e;
+}
+
+:where(.navai-tools-menu, .navai-plus-menu) {
+    background: #fff !important;
+    color: #30283b !important;
+    border: 1px solid #e6dcec !important;
+}
+
+:where(.navai-tools-menu *, .navai-plus-menu *) {
+    color: inherit;
+}
+
+:focus-visible {
+    outline-color: #a78bc7 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    html, body {
+        color-scheme: light !important;
+    }
+}

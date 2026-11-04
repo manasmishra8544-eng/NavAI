@@ -1,0 +1,172 @@
+﻿(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const val = id => $(id)?.value?.trim() || "";
+
+function mins(id) {
+  const v=val(id);
+  if(!v) return null;
+  if(!/^\d{2}:\d{2}$/.test(v)) throw new Error("Invalid time: "+id);
+  const [h,m]=v.split(":").map(Number);
+  if(h>23||m>59) throw new Error("Invalid time: "+id);
+  return h*60+m;
+}
+function clock(n) {
+  n=((n%1440)+1440)%1440;
+  const h=Math.floor(n/60),m=n%60;
+  return `${(h%12)||12}:${String(m).padStart(2,"0")} ${h>=12?"PM":"AM"}`;
+}
+function dur(n) {
+  return `${Math.floor(n/60)}h ${n%60? n%60+"m":""}`.trim();
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function addOptions() {
+  const form=$("generate")?.closest("form") || $("generate")?.parentElement;
+  if(!form || $("dailyStudyTarget")) return;
+  const panel=document.createElement("section");
+  panel.id="smartRoutineOptions";
+  panel.innerHTML=`
+    <h3>Personalise your daily routine</h3>
+    <label>How many hours do you want to study per day?
+      <input id="dailyStudyTarget" type="number" min="1" max="12" step="0.5" value="4">
+    </label>
+    <p class="tt-help">This is your total study target. Library hours are included in it.</p>
+    <h4>One-way travel time (minutes)</h4>
+    <div class="tt-travel-grid">
+      <label>School <input id="travelSchool" type="number" min="0" max="180" value="20"></label>
+      <label>Coaching <input id="travelCoaching" type="number" min="0" max="180" value="15"></label>
+      <label>Gym <input id="travelGym" type="number" min="0" max="180" value="10"></label>
+      <label>Library <input id="travelLibrary" type="number" min="0" max="180" value="15"></label>
+    </div>
+    <p class="tt-help">Travel time is added before and after each commitment.</p>`;
+  const button=$("generate");
+  if(button) button.parentElement.insertBefore(panel,button);
+  else form.prepend(panel);
+}
+function collect() {
+  const target=Number(val("dailyStudyTarget")||4);
+  if(!Number.isFinite(target)||target<1||target>12) throw new Error("Daily study target 1 se 12 hours ke beech rakho.");
+  const specs=[
+    ["School","schoolStart","schoolEnd","travelSchool"],
+    ["Coaching","coachingStart","coachingEnd","travelCoaching"],
+    ["Gym","gymStart","gymEnd","travelGym"],
+    ["Library","libraryStart","libraryEnd","travelLibrary"]
+  ];
+  const events=[];
+  for(const [name,s,e,t] of specs) {
+    const a=mins(s),b=mins(e);
+    if((a===null)!==(b===null)) throw new Error(name+": start aur end dono timings bharo.");
+    if(a===null) continue;
+    if(b<=a) throw new Error(name+": end time start time ke baad hona chahiye.");
+    const travel=Number(val(t)||0);
+    if(!Number.isFinite(travel)||travel<0||travel>180) throw new Error(name+": travel 0–180 minutes rakho.");
+    if(travel) events.push({name:"Travel to "+name,start:a-travel,end:a,kind:"travel"});
+    events.push({name,start:a,end:b,kind:"commitment"});
+    if(travel) events.push({name:"Travel from "+name,start:b,end:b+travel,kind:"travel"});
+  }
+  const anchors=[
+    ["Wake up & freshen up",360,390,"routine"],
+    ["Morning refresh & breakfast",420,465,"meal"],
+    ["Lunch",780,825,"meal"],
+    ["Rest",825,885,"rest"],
+    ["Evening snack & refresh",1020,1050,"meal"],
+    ["Dinner",1200,1245,"meal"],
+    ["Prepare for sleep",1290,1320,"routine"],
+    ["Sleep",1320,1800,"sleep"]
+  ];
+  anchors.forEach(([name,start,end,kind])=>events.push({name,start,end,kind}));
+  events.sort((a,b)=>a.start-b.start);
+  for(let i=1;i<events.length;i++){
+    if(events[i].start<events[i-1].end) {
+      throw new Error(`Timing conflict: ${events[i-1].name} aur ${events[i].name} overlap kar rahe hain. Apni timings adjust karo.`);
+    }
+  }
+  return {
+    target:Math.round(target*60),
+    events,
+    studentClass:val("studentClass")||"Student",
+    goal:val("goal")||"Balanced routine"
+  };
+}
+function makePlan(data) {
+  const start=360,end=1320;
+  const fixed=data.events.filter(e=>e.end>start&&e.start<end);
+  const study=[];
+  let cursor=start, remaining=data.target;
+  for(const event of fixed) {
+    const gap=event.start-cursor;
+    if(gap>=30 && remaining>0) {
+      let available=gap;
+      while(available>=30 && remaining>0) {
+        const block=Math.min(90,remaining,available);
+        if(block<30) break;
+        study.push({name:"Self-study",start:cursor,end:cursor+block,kind:"study"});
+        cursor+=block; available-=block; remaining-=block;
+        if(available>=10 && remaining>0) {
+          study.push({name:"Short break",start:cursor,end:cursor+10,kind:"break"});
+          cursor+=10; available-=10;
+        }
+      }
+    }
+    cursor=Math.max(cursor,event.end);
+  }
+  if(end-cursor>=30 && remaining>0) {
+    const block=Math.min(end-cursor,remaining);
+    if(block>=30) {
+      study.push({name:"Self-study",start:cursor,end:cursor+block,kind:"study"});
+      remaining-=block;
+    }
+  }
+  const events=[...data.events,...study].sort((a,b)=>a.start-b.start);
+  const library=data.events.find(e=>e.name==="Library");
+  const libraryMinutes=library?library.end-library.start:0;
+  const selfMinutes=study.filter(e=>e.kind==="study").reduce((n,e)=>n+e.end-e.start,0);
+  return {events,target:data.target,remaining,libraryMinutes,selfMinutes,total:selfMinutes+libraryMinutes,goal:data.goal,studentClass:data.studentClass};
+}
+function render(p) {
+  const result=$("result"),schedule=$("schedule");
+  if(!result||!schedule) throw new Error("Timetable display elements page par nahi mile.");
+  const achieved=p.total>=p.target;
+  const stat=(number,label)=>`<div class="tt-stat"><strong>${number}</strong><span>${label}</span></div>`;
+  if($("summary")) $("summary").innerHTML=`
+    <div class="tt-stats">
+      ${stat(dur(p.target),"Your daily study target")}
+      ${stat(dur(p.total),"Total study including library")}
+      ${stat(dur(p.selfMinutes),"Self-study")}
+      ${stat(dur(p.libraryMinutes),"Library study")}
+    </div>
+    <p><b>Goal:</b> ${esc(p.goal)}</p>
+    <p class="tt-status ${achieved?"tt-ok":"tt-warn"}">${achieved?"Your daily study target is covered.":`You have ${dur(p.remaining)} study time still needed. Your current commitments leave insufficient free time.`}</p>
+    <p class="tt-help">Same routine every day · No subject assignments · Travel, meals, rest and sleep included</p>`;
+  schedule.innerHTML=`
+    <div class="tt-heading"><h2>My Permanent Daily Routine</h2><p>${esc(p.studentClass)} · Repeats every day</p></div>
+    <div class="tt-list">${p.events.map(e=>`
+      <div class="tt-item tt-${e.kind}">
+        <div class="tt-time">${clock(e.start)} – ${clock(e.end)}</div>
+        <div class="tt-activity"><strong>${esc(e.name)}</strong><span>${dur(e.end-e.start)}</span></div>
+      </div>`).join("")}</div>
+    <p class="tt-help">Your daily routine is the same every day. Change your commitments or study target whenever your real schedule changes.</p>`;
+  result.hidden=false;
+  result.scrollIntoView({behavior:"smooth",block:"start"});
+  if($("status")) $("status").textContent="Your daily routine is ready.";
+  window.__navaiDailyPlan=p;
+}
+function generate() {
+  try { render(makePlan(collect())); }
+  catch(e) { if($("status")) $("status").textContent=e.message; else alert(e.message); }
+}
+function printPDF() {
+  if(!window.__navaiDailyPlan) return alert("Pehle timetable generate karo.");
+  window.print();
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  addOptions();
+  $("generate")?.addEventListener("click",generate);
+  $("regenerate")?.addEventListener("click",generate);
+  $("print")?.addEventListener("click",printPDF);
+  $("edit")?.addEventListener("click",()=> $("smartRoutineOptions")?.scrollIntoView({behavior:"smooth"}));
+});
+if(document.readyState!=="loading") addOptions();
+})();

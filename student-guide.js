@@ -148,7 +148,7 @@
   });
   speakToggle.addEventListener("click", () => {
     readReplies = !readReplies;
-    speakToggle.textContent = readReplies ? "🔊 Read replies: on" : "🔇 Read replies: off";
+    speakToggle.textContent = readReplies ? "ðŸ”Š Read replies: on" : "🔇 Read replies: off";
     speakToggle.setAttribute("aria-pressed", String(readReplies));
     if (!readReplies && "speechSynthesis" in window) window.speechSynthesis.cancel();
   });
@@ -170,7 +170,7 @@
     recognition.onstart = () => {
       listening = true;
       voiceBtn.classList.add("listening");
-      voiceBtn.textContent = "🎙️";
+      voiceBtn.textContent = "â– ";
       status.textContent = "Listening… speak now.";
     };
     recognition.onresult = event => {

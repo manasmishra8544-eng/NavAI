@@ -1,0 +1,725 @@
+=== NAVAI CHATBOT ICON REPORT ===
+
+=== .\index.html ===
+
+  index.html:193:/* Refined icon glass */
+> index.html:194:#navai-tool-dashboard .tool-icon {
+  index.html:195:    background: rgba(153, 125, 255, .12) !important;
+  index.html:196:    -webkit-backdrop-filter: blur(10px);
+  index.html:215:    <div class="app-shell">
+> index.html:216:        <aside class="sidebar" id="sidebar">
+> index.html:217:            <div class="sidebar-top">
+  index.html:218:                <a href="/" class="brand" id="homeBtn">
+  index.html:219:                    
+  index.html:224:
+> index.html:225:                <button class="icon-button sidebar-close" id="menuBtn"
+  index.html:226:                        type="button" aria-label="Close menu">&#215;</button>
+  index.html:227:            </div>
+  index.html:235:            
+> index.html:236:<div class="sidebar-section">
+  index.html:237:                <div class="section-heading">
+  index.html:238:                    <span>YOUR CHATS</span>
+  index.html:247:            </div>
+> index.html:248:            <div class="sidebar-bottom">
+  index.html:249:                <div class="local-note">
+  index.html:250:                    <span class="status-indicator"></span>
+  index.html:256:
+> index.html:257:                <button class="sidebar-action" id="themeBtn" type="button">
+  index.html:258:                    <span class="action-icon" id="themeIcon">&#9728;</span>
+  index.html:259:                    <span id="themeLabel">Switch appearance</span>
+  index.html:261:
+> index.html:262:                <button class="sidebar-action" id="historyBtn" type="button">
+  index.html:263:                    <span class="action-icon">&#8943;</span>
+  index.html:264:                    <span>Chat history</span>
+  index.html:266:
+> index.html:267:                <div class="sidebar-signature">Manas Mishra</div>
+  index.html:268:            </div>
+  index.html:269:        </aside>
+  index.html:270:
+> index.html:271:        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  index.html:272:
+  index.html:273:        <main class="main-area">
+  index.html:275:                <div class="topbar-left">
+> index.html:276:                    <button class="icon-button mobile-menu" id="mobileMenuBtn"
+  index.html:277:                            type="button" aria-label="Open menu">&#9776;</button>
+  index.html:278:
+  index.html:285:
+> index.html:286:            <section class="welcome-screen" id="welcomeScreen">
+> index.html:287:                <div class="welcome-content">
+  index.html:288:                    <div class="navai-orb" aria-hidden="true">
+  index.html:289:                        <span></span>
+  index.html:297:
+> index.html:298:                    <h1>Welcome Back <span>NavAI!</span></h1>
+  index.html:299:
+> index.html:300:                    <p class="welcome-description navai-reference-subtitle">
+  index.html:301:                        What would you like help with today?
+  index.html:302:                    </p>
+  index.html:445:}
+> index.html:446:#navai-tool-dashboard .tool-icon {
+  index.html:447:    width:49px !important;
+  index.html:448:    height:49px !important;
+  index.html:458:}
+> index.html:459:#navai-tool-dashboard .tool:nth-child(3n+2) .tool-icon {
+  index.html:460:    color:#b5c8ff !important;
+  index.html:461:    border-color:#91aaff70 !important;
+  index.html:463:}
+> index.html:464:#navai-tool-dashboard .tool:nth-child(3n) .tool-icon {
+  index.html:465:    color:#8ce9e6 !important;
+  index.html:466:    border-color:#65d8d270 !important;
+  index.html:468:}
+> index.html:469:#navai-tool-dashboard .tool-icon svg {
+  index.html:470:    width:29px !important;
+  index.html:471:    height:29px !important;
+  index.html:512:#navai-tool-dashboard #navai-auth-trigger,
+> index.html:513:#navai-tool-dashboard .navai-sidebar-auth-trigger {
+  index.html:514:    position:fixed !important;
+  index.html:515:    top:12px !important;
+  index.html:537:/* Hide original app chrome only while dashboard is open */
+> index.html:538:body.navai-dashboard-active .sidebar,
+  index.html:539:body.navai-dashboard-active .topbar,
+> index.html:540:body.navai-dashboard-active .welcome-screen,
+  index.html:541:body.navai-dashboard-active .composer-area,
+  index.html:542:body.navai-dashboard-active #conversation {
+  index.html:599:    <a class="tool" href="/" data-open-chat>
+> index.html:600:      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1M12 8l1.3 2.7L16 12l-2.7 1.3L12 16l-1.3-2.7L8 
+12l2.7-1.3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  index.html:601:      <h2>NavAI Chat</h2>
+  index.html:602:      <p>Ask questions, solve problems, explore ideas and get help with everyday tasks.</p>
+  index.html:605:    <a class="tool" href="classroom.html">
+> index.html:606:      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3z" fill="none" stroke="currentColor" stroke-width="1.6" 
+stroke-linejoin="round"/><path d="M19 15v2m-1 1h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  index.html:607:      <h2>NavAI Teacher</h2>
+  index.html:608:      <p>Understand difficult topics with step-by-step explanations and visual learning.</p>
+  index.html:611:    <a class="tool" href="homework.html">
+> index.html:612:      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v14l-7-4-7 4V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path 
+d="M9 8h6M9 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  index.html:613:      <h2>Homework Helper</h2>
+  index.html:614:      <p>Get clean, notebook-ready answers from a question or photo.</p>
+  index.html:617:<a class="tool" href="student-question-helper.html" id="navai-student-question-helper-card">
+> index.html:618:      <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-5 3v-3H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" 
+stroke-linejoin="round"/><path d="M8 9h8M8 12.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+  index.html:619:      <h2>Student Question Helper</h2>
+  index.html:620:      <p>Get help with school questions, understand difficult concepts and work through problems step by step.</p>
+  index.html:623:<a class="tool" href="/time-table-maker.html" id="navai-time-table-card">
+> index.html:624:  <div class="tool-icon"><span aria-hidden="true">&#128197;</span></div>
+  index.html:625:  <h2>Time Table Maker</h2>
+  index.html:626:  <p>Create a practical daily schedule around school, study, coaching, gym and your goals.</p>
+  index.html:630:<a id="navai-student-guide-card" class="tool" href="student-guide.html">
+> index.html:631:  <div class="tool-icon"><span aria-hidden="true">&#127891;</span></div>
+  index.html:632:  <h2>Student Guide</h2>
+  index.html:633:  <p>Get guidance for study plans, homework, exams and goals.</p>
+  index.html:638:<a class="tool" href="/oral-quiz" id="navai-oral-quiz-home-card">
+> index.html:639:  <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="12" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8" 
+fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+  index.html:640:  <h2>NavAI Oral Quiz</h2>
+  index.html:641:  <p>Practise by speaking naturally. Answer questions aloud, get feedback and learn hands-free.</p>
+  index.html:647:<a class="tool" href="/handwritten-notes.html" id="navai-handwritten-notes-card">
+> index.html:648:  <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path 
+d="M14.8 6.2l3 3M4 20h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+  index.html:649:  <h2>Handwritten Notes</h2>
+  index.html:650:  <p>Turn a study topic into notebook-style notes and save them as an image.</p>
+  index.html:654:<a class="tool navai-doubt-solver-card tool" href="/doubt-solver.html" aria-label="Open NavAI Doubt Solver">
+> index.html:655:  <div class="tool-icon"><span aria-hidden="true">&#128172;</span></div>
+  index.html:656:  <h2>NavAI Doubt Solver</h2>
+  index.html:657:  <p>Get clear, step-by-step explanations for your doubts.</p>
+  index.html:789:    <script src="/image-generator.js"></script>
+> index.html:790:    <script src="/sidebar-enhancement.js"></script>
+  index.html:791:
+  index.html:792:
+  index.html:822:
+> index.html:823:  var sidebar = document.querySelector('aside,[class*="sidebar" i],[id*="sidebar" i]');
+  index.html:824:  var selectors = [
+  index.html:825:    '[class*="brand" i]','[class*="logo" i]','[id*="logo" i]',
+> index.html:826:    '[class*="sidebar-header" i]','[class*="header-brand" i]'
+  index.html:827:  ];
+  index.html:828:  var logo = null;
+  index.html:829:
+> index.html:830:  // Prefer an identifiable brand/logo inside the sidebar.
+  index.html:831:  for(var i=0;i<selectors.length && !logo;i++){
+  index.html:832:    var list = document.querySelectorAll(selectors[i]);
+  index.html:835:      if(!el.getClientRects().length || wrap.contains(el)) continue;
+> index.html:836:      if(sidebar && !sidebar.contains(el) && !developer) continue;
+  index.html:837:      var t=(el.innerText||el.textContent||"").trim();
+  index.html:838:      if(/navai/i.test(t) && t.length<100){logo=el;break;}
+  index.html:849:      if(/^navai$/i.test(text)){
+> index.html:850:        if(!sidebar || sidebar.contains(node) || developer){logo=node;break;}
+  index.html:851:      }
+  index.html:852:    }
+  index.html:863:    }
+> index.html:864:  } else if(sidebar && !developer){
+> index.html:865:    sidebar.insertBefore(wrap,sidebar.firstChild);
+  index.html:866:    wrap.style.margin="10px 12px";
+  index.html:867:  } else {
+  index.html:930:<script src="/auth-cloud-sync.js"></script>
+> index.html:931:<!-- NAVAI ICON-ONLY DEVELOPER FIX -->
+  index.html:932:<script>
+  index.html:933:(function () {
+  index.html:947:
+> index.html:948:      if (button.getAttribute("data-navai-icon-only-developer") !== "1") {
+> index.html:949:        button.setAttribute("data-navai-icon-only-developer", "1");
+  index.html:950:        button.addEventListener("click", function (event) {
+  index.html:951:          event.preventDefault();
+  index.html:983:        if (
+> index.html:984:          (/action|developer|sidebar|nav-item/i.test(cls) &&
+  index.html:985:           false) ||
+  index.html:986:          false ||
+
+
+
+
+=== .\style.css ===
+
+  style.css:6:    --bg: #0b0d12;
+> style.css:7:    --sidebar: #0f1118;
+  style.css:8:    --panel: #141720;
+  style.css:9:    --panel-hover: #1b1f2b;
+  style.css:74:
+> style.css:75:/* SIDEBAR */
+  style.css:76:
+> style.css:77:.sidebar {
+  style.css:78:    position: relative;
+  style.css:79:    z-index: 20;
+  style.css:85:    padding: 22px 15px 15px;
+> style.css:86:    background: var(--sidebar);
+  style.css:87:    border-right: 1px solid var(--border);
+  style.css:88:}
+  style.css:89:
+> style.css:90:.sidebar-top {
+  style.css:91:    display: flex;
+  style.css:92:    align-items: center;
+  style.css:175:
+> style.css:176:.sidebar-section {
+  style.css:177:    flex: 1;
+  style.css:178:    min-height: 0;
+  style.css:276:
+> style.css:277:.sidebar-bottom {
+  style.css:278:    display: flex;
+  style.css:279:    flex-direction: column;
+  style.css:315:
+> style.css:316:.sidebar-action {
+  style.css:317:    display: flex;
+  style.css:318:    align-items: center;
+  style.css:329:
+> style.css:330:.sidebar-action:hover {
+  style.css:331:    background: var(--panel-hover);
+  style.css:332:    color: var(--text);
+  style.css:410:
+> style.css:411:.icon-button {
+  style.css:412:    display: grid;
+  style.css:413:    width: 35px;
+  style.css:422:
+> style.css:423:.icon-button:hover {
+  style.css:424:    border-color: var(--border);
+  style.css:425:    background: var(--panel-hover);
+  style.css:429:.mobile-menu,
+> style.css:430:.sidebar-close {
+  style.css:431:    display: none;
+  style.css:432:}
+  style.css:433:
+> style.css:434:/* WELCOME SCREEN */
+  style.css:435:
+> style.css:436:.welcome-screen {
+  style.css:437:    display: flex;
+  style.css:438:    flex: 1;
+  style.css:445:
+> style.css:446:.welcome-content {
+  style.css:447:    width: 100%;
+  style.css:448:    max-width: 750px;
+  style.css:453:
+> style.css:454:.welcome-emblem {
+  style.css:455:    position: relative;
+  style.css:456:    display: grid;
+  style.css:511:
+> style.css:512:.welcome-content h1 {
+  style.css:513:    margin: 17px 0 14px;
+  style.css:514:    font-family: "Space Grotesk", sans-serif;
+  style.css:520:
+> style.css:521:.welcome-content h1 span {
+  style.css:522:    color: var(--blue-bright);
+  style.css:523:}
+  style.css:524:
+> style.css:525:.welcome-description {
+  style.css:526:    max-width: 470px;
+  style.css:527:    margin: 0 auto;
+  style.css:570:
+> style.css:571:.icon-blue {
+  style.css:572:    background: rgba(101,136,255,.15);
+  style.css:573:    color: #91aaff;
+  style.css:575:
+> style.css:576:.icon-purple {
+  style.css:577:    background: rgba(178,120,255,.14);
+  style.css:578:    color: #c6a2ff;
+  style.css:580:
+> style.css:581:.icon-orange {
+  style.css:582:    background: rgba(255,170,90,.13);
+  style.css:583:    color: #ffbd81;
+  style.css:585:
+> style.css:586:.icon-green {
+  style.css:587:    background: rgba(93,222,174,.12);
+  style.css:588:    color: #6de5b6;
+  style.css:1049:    --bg: #f5f7fc;
+> style.css:1050:    --sidebar: #ffffff;
+  style.css:1051:    --panel: #ffffff;
+  style.css:1052:    --panel-hover: #edf1f9;
+  style.css:1090:
+> style.css:1091:body[data-theme="light"] .welcome-content h1 span {
+  style.css:1092:    color: #4969e8;
+  style.css:1093:}
+  style.css:1140:@media (max-width: 900px) {
+> style.css:1141:    .sidebar {
+  style.css:1142:        width: 245px;
+  style.css:1143:    }
+  style.css:1148:
+> style.css:1149:    .welcome-screen {
+  style.css:1150:        padding-right: 22px;
+  style.css:1151:        padding-left: 22px;
+  style.css:1164:
+> style.css:1165:    .sidebar {
+  style.css:1166:        position: fixed;
+  style.css:1167:        inset: 0 auto 0 0;
+  style.css:1174:
+> style.css:1175:    body.sidebar-open .sidebar {
+  style.css:1176:        transform: translateX(0);
+  style.css:1177:    }
+  style.css:1178:
+> style.css:1179:    .sidebar-close {
+  style.css:1180:        display: grid;
+  style.css:1181:    }
+  style.css:1182:
+> style.css:1183:    .sidebar-overlay {
+  style.css:1184:        position: fixed;
+  style.css:1185:        inset: 0;
+  style.css:1191:
+> style.css:1192:    body.sidebar-open .sidebar-overlay {
+  style.css:1193:        display: block;
+  style.css:1194:    }
+  style.css:1223:
+> style.css:1224:    .welcome-screen {
+  style.css:1225:        padding: 30px 15px 25px;
+  style.css:1226:    }
+  style.css:1227:
+> style.css:1228:    .welcome-emblem {
+  style.css:1229:        margin-bottom: 21px;
+  style.css:1230:        transform: scale(.9);
+  style.css:1232:
+> style.css:1233:    .welcome-content h1 {
+  style.css:1234:        margin-top: 15px;
+  style.css:1235:        font-size: clamp(38px, 10vw, 48px);
+  style.css:1238:
+> style.css:1239:    .welcome-description {
+  style.css:1240:        max-width: 350px;
+  style.css:1241:        font-size: 12px;
+  style.css:1400:
+> style.css:1401:.sidebar-signature {
+  style.css:1402:    margin-top: 10px;
+  style.css:1403:    padding: 12px 9px 4px;
+  style.css:1423:
+> style.css:1424:body:not([data-theme="light"]) .sidebar {
+  style.css:1425:    background:
+  style.css:1426:        radial-gradient(ellipse at 0% 0%, rgba(47, 111, 171, .13), transparent 55%),
+  style.css:1430:
+> style.css:1431:.sidebar-top {
+  style.css:1432:    padding-bottom: 18px;
+  style.css:1433:}
+  style.css:1453:
+> style.css:1454:.sidebar-section {
+  style.css:1455:    min-height: 0;
+  style.css:1456:}
+  style.css:1461:
+> style.css:1462:.sidebar-action,
+  style.css:1463:.new-chat-button,
+> style.css:1464:.icon-button,
+  style.css:1465:.message-action-button,
+  style.css:1466:.send-button {
+  style.css:1484:
+> style.css:1485:.sidebar-action {
+  style.css:1486:    border: 1px solid transparent;
+  style.css:1487:}
+  style.css:1488:
+> style.css:1489:.sidebar-action:hover {
+  style.css:1490:    border-color: rgba(120, 168, 230, .16);
+  style.css:1491:    background: rgba(103, 154, 220, .09);
+  style.css:1493:
+> style.css:1494:.sidebar-signature {
+  style.css:1495:    border-top: 1px solid rgba(139, 164, 204, .12);
+  style.css:1496:    letter-spacing: .65px;
+  style.css:1521:.message-action-button:hover,
+> style.css:1522:.icon-button:hover {
+  style.css:1523:    box-shadow: 0 0 16px rgba(72, 225, 255, .09);
+  style.css:1524:}
+  style.css:1583:
+> style.css:1584:body[data-theme="light"] .sidebar {
+  style.css:1585:    background:
+  style.css:1586:        radial-gradient(ellipse at 0% 0%, rgba(77, 157, 255, .08), transparent 55%),
+  style.css:1605:@media (min-width: 901px) {
+> style.css:1606:    .sidebar {
+  style.css:1607:        box-shadow: 8px 0 30px rgba(0, 0, 0, .055);
+  style.css:1608:    }
+  style.css:1620:@media (max-width: 650px) {
+> style.css:1621:    .sidebar {
+  style.css:1622:        box-shadow: 18px 0 48px rgba(0, 0, 0, .24);
+  style.css:1623:    }
+  style.css:1624:
+> style.css:1625:    .sidebar-action,
+  style.css:1626:    .new-chat-button {
+  style.css:1627:        min-height: 44px;
+  style.css:1668:
+> style.css:1669:    .sidebar-signature {
+  style.css:1670:        padding-bottom: max(12px, env(safe-area-inset-bottom));
+  style.css:1671:    }
+  style.css:1676:    .new-chat-button,
+> style.css:1677:    .sidebar-action,
+> style.css:1678:    .icon-button,
+  style.css:1679:    .message-action-button,
+  style.css:1680:    .send-button {
+  style.css:1689:/* ==========================================
+> style.css:1690:   NavAI Premium Sidebar — visual enhancement
+  style.css:1691:   ========================================== */
+  style.css:1692:
+> style.css:1693:.sidebar {
+  style.css:1694:    width: 276px;
+  style.css:1695:    padding: 19px 13px 13px;
+  style.css:1703:
+> style.css:1704:.sidebar-top {
+  style.css:1705:    margin: 0 3px 23px;
+  style.css:1706:    min-height: 43px;
+  style.css:1763:
+> style.css:1764:.sidebar-section {
+  style.css:1765:    margin-top: 27px;
+  style.css:1766:}
+  style.css:1822:
+> style.css:1823:.sidebar-bottom {
+  style.css:1824:    gap: 4px;
+  style.css:1825:    padding-top: 12px;
+  style.css:1844:
+> style.css:1845:.sidebar-action {
+  style.css:1846:    min-height: 39px;
+  style.css:1847:    padding: 10px;
+  style.css:1852:
+> style.css:1853:.sidebar-action:hover {
+  style.css:1854:    background: rgba(255,255,255,.055);
+  style.css:1855:    border-color: rgba(255,255,255,.045);
+  style.css:1862:
+> style.css:1863:.sidebar-signature {
+  style.css:1864:    margin-top: 7px;
+  style.css:1865:    padding: 12px 10px 3px;
+  style.css:1879:
+> style.css:1880:.sidebar-overlay {
+  style.css:1881:    backdrop-filter: blur(5px);
+  style.css:1882:}
+  style.css:1884:@media (max-width: 760px) {
+> style.css:1885:    .sidebar {
+  style.css:1886:        width: min(290px, 86vw);
+  style.css:1887:        padding: 17px 12px 12px;
+  style.css:1889:
+> style.css:1890:    .sidebar-top {
+  style.css:1891:        margin-bottom: 20px;
+  style.css:1892:    }
+  style.css:1897:
+> style.css:1898:    .sidebar-action {
+  style.css:1899:        min-height: 43px;
+  style.css:1900:    }
+  style.css:1923:
+> style.css:1924:.sidebar {
+  style.css:1925:    background:
+  style.css:1926:        radial-gradient(ellipse at 0% 0%, rgba(0,205,255,.12), transparent 43%),
+  style.css:1972:
+> style.css:1973:/* Sidebar headings */
+  style.css:1974:.section-heading {
+  style.css:1975:    color: #6e8c9b !important;
+  style.css:2012:
+> style.css:2013:/* Sidebar actions */
+> style.css:2014:.sidebar-action {
+  style.css:2015:    color: #a3b3c2 !important;
+  style.css:2016:    border-color: transparent !important;
+  style.css:2018:
+> style.css:2019:.sidebar-action:hover {
+  style.css:2020:    color: #f0fdff !important;
+  style.css:2021:    background: rgba(56,232,255,.065) !important;
+  style.css:2040:
+> style.css:2041:.sidebar-bottom {
+  style.css:2042:    border-top-color: rgba(56,232,255,.12) !important;
+  style.css:2043:}
+  style.css:2044:
+> style.css:2045:.sidebar-signature {
+  style.css:2046:    color: #607989 !important;
+  style.css:2047:    border-top-color: rgba(56,232,255,.09) !important;
+  style.css:2077:@media (max-width: 760px) {
+> style.css:2078:    .sidebar {
+  style.css:2079:        box-shadow: 12px 0 40px rgba(0,0,0,.4);
+  style.css:2080:    }
+  style.css:2145:
+> style.css:2146:.navai-tool-icon {
+  style.css:2147:    display: grid;
+  style.css:2148:    place-items: center;
+  style.css:2229:
+> style.css:2230:/* NAVAI CENTERED WELCOME SCREEN */
+> style.css:2231:.welcome-screen,
+> style.css:2232:.welcome,
+  style.css:2233:#hero,
+  style.css:2234:.hero-section {
+  style.css:2237:
+> style.css:2238:.welcome-screen h1,
+> style.css:2239:.welcome h1,
+  style.css:2240:#hero h1,
+  style.css:2241:.hero-section h1,
+> style.css:2242:.welcome-title,
+  style.css:2243:.hero-title {
+  style.css:2244:    font-size: clamp(42px, 6vw, 70px);
+  style.css:2252:
+> style.css:2253:.welcome-screen,
+> style.css:2254:.welcome,
+  style.css:2255:#hero,
+  style.css:2256:.hero-section {
+  style.css:2288:@media (max-width: 600px) {
+> style.css:2289:    .welcome-screen h1,
+> style.css:2290:    .welcome h1,
+  style.css:2291:    #hero h1,
+  style.css:2292:    .hero-section h1,
+> style.css:2293:    .welcome-title,
+  style.css:2294:    .hero-title {
+  style.css:2295:        font-size: clamp(36px, 10vw, 48px);
+  style.css:2304:
+> style.css:2305:/* NAVAI — REFERENCE-INSPIRED WELCOME DESIGN */
+  style.css:2306::root {
+  style.css:2307:    --navai-reference-bg: #031326;
+  style.css:2340:
+> style.css:2341:.welcome-screen {
+  style.css:2342:    overflow-y: auto;
+  style.css:2343:    background: linear-gradient(180deg, rgba(3, 24, 47, .15), rgba(2, 15, 29, .68));
+  style.css:2345:
+> style.css:2346:.welcome-content {
+  style.css:2347:    width: min(100%, 1000px);
+  style.css:2348:    margin: auto;
+  style.css:2352:
+> style.css:2353:.welcome-content .eyebrow {
+  style.css:2354:    display: none;
+  style.css:2355:}
+  style.css:2396:
+> style.css:2397:.welcome-content h1 {
+  style.css:2398:    margin: 0 auto 14px !important;
+  style.css:2399:    color: #eaf4ff;
+  style.css:2406:
+> style.css:2407:.welcome-content h1 span {
+  style.css:2408:    background: linear-gradient(90deg, #d8eaff, #69aaff, #258fff);
+  style.css:2409:    -webkit-background-clip: text;
+  style.css:2468:
+> style.css:2469:.sidebar {
+  style.css:2470:    background: rgba(2, 15, 29, .96);
+  style.css:2471:    border-right: 1px solid rgba(21, 112, 201, .18);
+  style.css:2474:@media (min-width: 900px) {
+> style.css:2475:    .welcome-screen {
+  style.css:2476:        min-height: 0;
+  style.css:2477:    }
+  style.css:2478:
+> style.css:2479:    .welcome-content {
+  style.css:2480:        transform: translateY(-12px);
+  style.css:2481:    }
+  style.css:2519:
+> style.css:2520:/* NAVAI PREMIUM BLUE SIDEBAR */
+> style.css:2521:.sidebar {
+  style.css:2522:    position: relative;
+  style.css:2523:    background:
+  style.css:2529:
+> style.css:2530:.sidebar::after {
+  style.css:2531:    content: "";
+  style.css:2532:    position: absolute;
+  style.css:2546:
+> style.css:2547:.sidebar-top,
+> style.css:2548:.sidebar-bottom {
+  style.css:2549:    position: relative;
+  style.css:2550:    z-index: 1;
+  style.css:2590:
+> style.css:2591:.sidebar-section {
+  style.css:2592:    padding: 8px 12px 5px !important;
+  style.css:2593:}
+  style.css:2594:
+> style.css:2595:.sidebar-section-title {
+  style.css:2596:    padding: 8px 10px !important;
+  style.css:2597:    color: #7893af !important;
+  style.css:2661:
+> style.css:2662:.sidebar-bottom {
+  style.css:2663:    padding: 12px !important;
+  style.css:2664:    border-top: 1px solid rgba(45, 122, 190, .14);
+  style.css:2671:
+> style.css:2672:.sidebar-action {
+  style.css:2673:    min-height: 40px;
+  style.css:2674:    margin: 3px 0 !important;
+  style.css:2681:
+> style.css:2682:.sidebar-action:hover {
+  style.css:2683:    border-color: rgba(51, 143, 223, .2) !important;
+  style.css:2684:    background: rgba(11, 57, 93, .5) !important;
+  style.css:2688:.local-note,
+> style.css:2689:.sidebar-signature {
+  style.css:2690:    color: #607b96 !important;
+  style.css:2691:    font-size: 10px !important;
+  style.css:2693:
+> style.css:2694:.sidebar-overlay {
+  style.css:2695:    background: rgba(0, 5, 14, .7) !important;
+  style.css:2696:    backdrop-filter: blur(5px);
+  style.css:2699:@media (max-width: 760px) {
+> style.css:2700:    .sidebar {
+  style.css:2701:        box-shadow: 15px 0 45px rgba(0, 0, 0, .3);
+  style.css:2702:    }
+  style.css:2767:  .topbar-left, .topbar-right { min-width: 0; }
+> style.css:2768:  .welcome-screen, .conversation, .composer-area { min-width: 0; max-width: 100%; }
+> style.css:2769:  .welcome-content { min-width: 0; max-width: 100%; padding-left: 8px; padding-right: 8px; }
+  style.css:2770:  .suggestion-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  style.css:2771:  .composer-wrap, .composer { min-width: 0; max-width: 100%; }
+  style.css:2814:    .topbar,
+> style.css:2815:    .welcome-screen,
+  style.css:2816:    .conversation,
+  style.css:2817:    .composer-area {
+  style.css:2823:
+> style.css:2824:/* NavAI: keep sidebar item colours consistent on hover and click */
+> style.css:2825:#sidebar a:hover,
+> style.css:2826:#sidebar button:hover,
+> style.css:2827:#sidebar a:active,
+> style.css:2828:#sidebar button:active,
+> style.css:2829:#sidebar a:focus,
+> style.css:2830:#sidebar button:focus,
+> style.css:2831:.sidebar a:hover,
+> style.css:2832:.sidebar button:hover,
+> style.css:2833:.sidebar a:active,
+> style.css:2834:.sidebar button:active,
+> style.css:2835:.sidebar a:focus,
+> style.css:2836:.sidebar button:focus,
+> style.css:2837:.sidebar .active,
+> style.css:2838:.sidebar .selected,
+> style.css:2839:.sidebar .active:hover,
+> style.css:2840:.sidebar .selected:hover,
+  style.css:2841:nav a:hover,
+  style.css:2842:nav button:hover,
+  style.css:2851:
+> style.css:2852:/* NAVAI FIXED SIDEBAR COLORS V2 */
+> style.css:2853::is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+> style.css:2854::is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item),
+> style.css:2855::is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+> style.css:2856::is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item):is(:hover, :active, :focus, :focus-visible, .active, .selected, [aria-current], [aria-selected="true"]),
+> style.css:2857::is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"]) :is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item):is(:hover, :active, :focus, :focus-visible, .active, .selected, [aria-current], 
+[aria-selected="true"]) {
+  style.css:2858:    background: transparent !important;
+  style.css:2859:    background-color: transparent !important;
+  style.css:2869:
+> style.css:2870::is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"]) :is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item)::before,
+> style.css:2871::is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"]) :is(a, button, [role="button"], .nav-item, .menu-item, .sidebar-item)::after {
+  style.css:2872:    background: transparent !important;
+  style.css:2873:    box-shadow: none !important;
+  style.css:2879:/* NAVAI SEARCH: prevent black hover/click backgrounds */
+> style.css:2880::is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+  style.css:2881::is(button, a, input, [role="button"], [title*="Search" i], [aria-label*="Search" i]),
+> style.css:2882::is(#sidebar, .sidebar, [id*="sidebar"], [class*="sidebar"])
+  style.css:2883::is(button, a, [role="button"], [title*="Search" i], [aria-label*="Search" i]):is(:hover, :active, :focus, .active, .selected) {
+  style.css:2884:    background-color: transparent !important;
+  style.css:2934:    .main-area,
+> style.css:2935:    .welcome-screen,
+  style.css:2936:    .conversation,
+  style.css:2937:    .composer-area,
+  style.css:2939:    .composer,
+> style.css:2940:    .welcome-content {
+  style.css:2941:        min-width: 0 !important;
+  style.css:2942:        max-width: 100% !important;
+  style.css:2956:
+> style.css:2957:    .welcome-content {
+  style.css:2958:        padding-left: 14px !important;
+  style.css:2959:        padding-right: 14px !important;
+  style.css:2961:
+> style.css:2962:    .welcome-content h1,
+> style.css:2963:    .welcome-screen h1 {
+  style.css:2964:        font-size: clamp(25px, 7vw, 34px);
+  style.css:2965:        line-height: 1.2;
+  style.css:2998:    .conversation img,
+> style.css:2999:    .welcome-screen img {
+  style.css:3000:        max-width: 100%;
+  style.css:3001:        height: auto;
+  style.css:3034:
+> style.css:3035:    .welcome-content {
+  style.css:3036:        padding-left: 10px !important;
+  style.css:3037:        padding-right: 10px !important;
+  style.css:3116:
+> style.css:3117:    .main-area > .welcome-screen,
+  style.css:3118:    .main-area > .conversation {
+  style.css:3119:        flex: 1 1 0% !important;
+  style.css:3166:/* NAVAI CHATBOT - DECORATIVE ICON CLEANUP */
+> style.css:3167:.welcome-icon,
+  style.css:3168:.hero-icon,
+  style.css:3169:.empty-state-icon,
+  style.css:3170:.chat-empty-icon,
+> style.css:3171:.chat-welcome-icon,
+  style.css:3172:.assistant-illustration,
+> style.css:3173:.welcome-illustration,
+  style.css:3174:.decorative-icon,
+  style.css:3175:.decoration-icon,
+  style.css:3189:/* Remove oversized decorative icon spacing */
+> style.css:3190:.welcome-icon,
+  style.css:3191:.hero-icon,
+  style.css:3192:.empty-state-icon,
+  style.css:3193:.chat-empty-icon,
+> style.css:3194:.chat-welcome-icon {
+  style.css:3195:    margin: 0 !important;
+  style.css:3196:    padding: 0 !important;
+
+
+
+
+=== .\script.js ===
+
+  script.js:15:const removeImageBtn = $("removeImageBtn");
+> script.js:16:const welcomeScreen = $("welcomeScreen");
+  script.js:17:const conversation = $("conversation");
+  script.js:18:const messages = $("messages");
+  script.js:146:    renderCurrentChat();
+> script.js:147:    closeSidebar();
+  script.js:148:}
+  script.js:149:
+  script.js:156:    conversation.classList.add("hidden");
+> script.js:157:    welcomeScreen.classList.remove("hidden");
+  script.js:158:    renderHistory();
+> script.js:159:    closeSidebar();
+  script.js:160:    messageInput.focus();
+  script.js:161:}
+  script.js:173:        conversation.classList.add("hidden");
+> script.js:174:        welcomeScreen.classList.remove("hidden");
+  script.js:175:    }
+  script.js:176:
+  script.js:188:        conversation.classList.add("hidden");
+> script.js:189:        welcomeScreen.classList.remove("hidden");
+  script.js:190:        return;
+  script.js:191:    }
+  script.js:192:
+> script.js:193:    welcomeScreen.classList.add("hidden");
+  script.js:194:    conversation.classList.remove("hidden");
+  script.js:195:    chat.messages.forEach(renderMessage);
+  script.js:456:    renderHistory();
+> script.js:457:    welcomeScreen.classList.add("hidden");
+  script.js:458:    conversation.classList.remove("hidden");
+  script.js:459:    renderMessage(userMessage);
+  script.js:713:
+> script.js:714:/* SIDEBAR AND NAVIGATION */
+  script.js:715:
+  script.js:716:$("newChatBtn").addEventListener("click", startNewChat);
+  script.js:722:
+> script.js:723:$("menuBtn").addEventListener("click", closeSidebar);
+> script.js:724:$("mobileMenuBtn").addEventListener("click", openSidebar);
+> script.js:725:$("sidebarOverlay").addEventListener("click", closeSidebar);
+  script.js:726:
+  script.js:727:$("historyBtn").addEventListener("click", () => {
+> script.js:728:    if (window.innerWidth <= 650) openSidebar();
+  script.js:729:    chatHistory.scrollTop = 0;
+  script.js:730:});
+  script.js:731:
+> script.js:732:function openSidebar() {
+> script.js:733:    document.body.classList.add("sidebar-open");
+  script.js:734:}
+  script.js:735:
+> script.js:736:function closeSidebar() {
+> script.js:737:    document.body.classList.remove("sidebar-open");
+  script.js:738:}
+  script.js:739:
+  script.js:744:    }
+> script.js:745:    if (event.key === "Escape") closeSidebar();
+  script.js:746:});
+  script.js:747:
+
+
+

@@ -1,0 +1,224 @@
+﻿(() => {
+"use strict";
+const $=id=>document.getElementById(id);
+const val=id=>$(id)?.value?.trim()||"";
+
+function readTime(id){
+  const v=val(id);
+  if(!v)return null;
+  if(!/^\d{2}:\d{2}$/.test(v))throw new Error("Invalid timing: "+id);
+  const [h,m]=v.split(":").map(Number);
+  if(h>23||m>59)throw new Error("Invalid timing: "+id);
+  return h*60+m;
+}
+function clock(n){
+  n=((n%1440)+1440)%1440;
+  const h=Math.floor(n/60),m=n%60;
+  return `${(h%12)||12}:${String(m).padStart(2,"0")} ${h>=12?"PM":"AM"}`;
+}
+function dur(n){return `${Math.floor(n/60)}h ${n%60?n%60+"m":""}`.trim();}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function addOptions(){
+  if($("dailyStudyTarget"))return;
+  const button=$("generate");
+  if(!button)return;
+  const panel=document.createElement("section");
+  panel.id="smartRoutineOptions";
+  panel.innerHTML=`
+    <h3>Personalise your daily routine</h3>
+    <label>Daily study target (hours)
+      <input id="dailyStudyTarget" type="number" min="1" max="12" step="0.5" value="4">
+    </label>
+    <p class="tt-help">Library study hours are included in this target.</p>
+    <h4>One-way travel time (minutes)</h4>
+    <div class="tt-travel-grid">
+      <label>School <input id="travelSchool" type="number" min="0" max="180" value="20"></label>
+      <label>Coaching <input id="travelCoaching" type="number" min="0" max="180" value="15"></label>
+      <label>Gym <input id="travelGym" type="number" min="0" max="180" value="10"></label>
+      <label>Library <input id="travelLibrary" type="number" min="0" max="180" value="15"></label>
+    </div>
+    <p class="tt-help">Travel is added before and after each selected activity.</p>`;
+  button.parentElement.insertBefore(panel,button);
+}
+
+function collect(){
+  const target=Number(val("dailyStudyTarget")||4);
+  if(!Number.isFinite(target)||target<1||target>12)throw new Error("Study target 1 se 12 hours ke beech rakho.");
+
+  const specs=[
+    ["School","schoolStart","schoolEnd","travelSchool"],
+    ["Coaching","coachingStart","coachingEnd","travelCoaching"],
+    ["Gym","gymStart","gymEnd","travelGym"],
+    ["Library","libraryStart","libraryEnd","travelLibrary"]
+  ];
+  const events=[];
+  for(const [name,s,e,t] of specs){
+    const a=readTime(s),b=readTime(e);
+    if((a===null)!==(b===null))throw new Error(name+": start aur end dono timings bharo.");
+    if(a===null)continue;
+    if(b<=a)throw new Error(name+": end time start ke baad hona chahiye.");
+    const travel=Number(val(t)||0);
+    if(!Number.isFinite(travel)||travel<0||travel>180)throw new Error(name+": travel 0–180 minutes rakho.");
+    if(travel)events.push({name:"Travel to "+name,start:a-travel,end:a,kind:"travel"});
+    events.push({name,start:a,end:b,kind:"commitment"});
+    if(travel)events.push({name:"Travel from "+name,start:b,end:b+travel,kind:"travel"});
+  }
+
+  events.sort((a,b)=>a.start-b.start);
+  for(let i=1;i<events.length;i++){
+    if(events[i].start<events[i-1].end)
+      throw new Error(`${events[i-1].name} aur ${events[i].name} overlap kar rahe hain. Timings check karo.`);
+  }
+  if(events.some(e=>e.start<360||e.end>1320))
+    throw new Error("Travel ya activity 6:00 AM se pehle ya 10:00 PM ke baad ja rahi hai. Timings adjust karo.");
+
+  return {
+    target:Math.round(target*60),
+    events,
+    studentClass:val("studentClass")||"Student",
+    goal:val("goal")||"Balanced daily routine"
+  };
+}
+
+function freeGaps(events){
+  const sorted=[...events].sort((a,b)=>a.start-b.start);
+  const gaps=[];
+  let cursor=360;
+  for(const e of sorted){
+    if(e.start>cursor)gaps.push({start:cursor,end:e.start});
+    cursor=Math.max(cursor,e.end);
+  }
+  if(cursor<1320)gaps.push({start:cursor,end:1320});
+  return gaps;
+}
+
+function placeActivity(events,name,length,preferredStart,preferredEnd,kind){
+  const gaps=freeGaps(events).filter(g=>g.end-g.start>=length);
+  if(!gaps.length)return false;
+
+  let candidates=[];
+  for(const g of gaps){
+    const low=Math.max(g.start,preferredStart);
+    const high=Math.min(g.end-length,preferredEnd-length);
+    if(low<=high){
+      const ideal=Math.max(low,Math.min(high,preferredStart));
+      candidates.push({start:ideal,gap:g,score:Math.abs(ideal-preferredStart)});
+    }
+  }
+  if(!candidates.length){
+    for(const g of gaps){
+      const start=g.start;
+      candidates.push({start,gap:g,score:Math.abs(start-preferredStart)+500});
+    }
+  }
+  candidates.sort((a,b)=>a.score-b.score);
+  const chosen=candidates[0];
+  events.push({name,start:chosen.start,end:chosen.start+length,kind});
+  return true;
+}
+
+function buildPlan(data){
+  const events=[...data.events];
+  const library=events.find(e=>e.name==="Library");
+  const libraryMinutes=library?library.end-library.start:0;
+  const requiredSelf=Math.max(0,data.target-libraryMinutes);
+
+  // Meals and rest are placed only after checking the user's actual free gaps.
+  const meals=[
+    ["Breakfast",30,420,570,"meal"],
+    ["Lunch",40,720,900,"meal"],
+    ["Evening snack",20,960,1080,"meal"],
+    ["Dinner",35,1110,1260,"meal"]
+  ];
+  for(const [name,length,prefStart,prefEnd,kind] of meals){
+    if(!placeActivity(events,name,length,prefStart,prefEnd,kind)){
+      throw new Error(`${name} ke liye free time nahi mila. Apni school/coaching/library timings ya travel time adjust karo.`);
+    }
+  }
+
+  if(!placeActivity(events,"Rest",30,840,1050,"rest")){
+    // If there is no suitable rest gap, don't force rest over a commitment.
+    // The timetable will still be valid and show the actual free time.
+  }
+
+  let remaining=requiredSelf;
+  let gaps=freeGaps(events);
+  for(const gap of gaps){
+    let cursor=gap.start;
+    let available=gap.end-gap.start;
+    while(available>=30 && remaining>0){
+      const block=Math.min(90,remaining,available);
+      if(block<30)break;
+      events.push({name:"Self-study",start:cursor,end:cursor+block,kind:"study"});
+      cursor+=block;
+      available-=block;
+      remaining-=block;
+      if(available>=10 && remaining>0){
+        events.push({name:"Short break",start:cursor,end:cursor+10,kind:"break"});
+        cursor+=10;
+        available-=10;
+      }
+    }
+  }
+
+  events.sort((a,b)=>a.start-b.start);
+  for(let i=1;i<events.length;i++){
+    if(events[i].start<events[i-1].end)
+      throw new Error("Planner overlap detected: "+events[i-1].name+" and "+events[i].name);
+  }
+
+  const selfMinutes=events.filter(e=>e.kind==="study").reduce((n,e)=>n+e.end-e.start,0);
+  const total=selfMinutes+libraryMinutes;
+  return {events,target:data.target,remaining:Math.max(0,data.target-total),selfMinutes,libraryMinutes,total,goal:data.goal,studentClass:data.studentClass};
+}
+
+function render(p){
+  const result=$("result"),schedule=$("schedule");
+  if(!result||!schedule)throw new Error("Timetable display elements nahi mile.");
+  const achieved=p.total>=p.target;
+  if($("summary"))$("summary").innerHTML=`
+    <div class="tt-stats">
+      <div class="tt-stat"><strong>${dur(p.target)}</strong><span>Daily study target</span></div>
+      <div class="tt-stat"><strong>${dur(p.total)}</strong><span>Total study including library</span></div>
+      <div class="tt-stat"><strong>${dur(p.selfMinutes)}</strong><span>Self-study</span></div>
+      <div class="tt-stat"><strong>${dur(p.libraryMinutes)}</strong><span>Library study</span></div>
+    </div>
+    <p><b>Goal:</b> ${esc(p.goal)}</p>
+    <p class="tt-status ${achieved?"tt-ok":"tt-warn"}">${achieved?"Daily study target covered.":`Target se ${dur(p.remaining)} kam study time fit ho paya. Commitments ke available gaps limited hain.`}</p>
+    <p class="tt-help">Same routine every day · Meals and rest are placed around your commitments · No subject allocation</p>`;
+
+  schedule.innerHTML=`
+    <div class="tt-heading"><h2>My Permanent Daily Routine</h2><p>${esc(p.studentClass)} · Same routine every day</p></div>
+    <div class="tt-list">
+      ${p.events.map(e=>`
+        <div class="tt-item tt-${e.kind}">
+          <div class="tt-time">${clock(e.start)} – ${clock(e.end)}</div>
+          <div class="tt-activity"><strong>${esc(e.name)}</strong><span>${dur(e.end-e.start)}</span></div>
+        </div>`).join("")}
+      <div class="tt-item tt-sleep"><div class="tt-time">10:00 PM – 6:00 AM</div><div class="tt-activity"><strong>Sleep</strong><span>8h</span></div></div>
+    </div>
+    <p class="tt-help">Routine repeats daily. Update your commitments and travel times whenever they change.</p>`;
+
+  result.hidden=false;
+  result.scrollIntoView({behavior:"smooth",block:"start"});
+  if($("status"))$("status").textContent="Your daily routine is ready.";
+  window.__navaiDailyPlan=p;
+}
+function generate(){
+  try{render(buildPlan(collect()));}
+  catch(e){if($("status"))$("status").textContent=e.message;else alert(e.message);}
+}
+function printPDF(){
+  if(!window.__navaiDailyPlan)return alert("Pehle timetable generate karo.");
+  window.print();
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  addOptions();
+  $("generate")?.addEventListener("click",generate);
+  $("regenerate")?.addEventListener("click",generate);
+  $("print")?.addEventListener("click",printPDF);
+  $("edit")?.addEventListener("click",()=>$("smartRoutineOptions")?.scrollIntoView({behavior:"smooth"}));
+});
+if(document.readyState!=="loading")addOptions();
+})();

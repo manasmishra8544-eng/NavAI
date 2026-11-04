@@ -1,0 +1,151 @@
+:root {
+  color-scheme: light;
+  --pa-bg: #f0eff9;
+  --pa-surface: rgba(255,255,255,.76);
+  --pa-surface-solid: #fbfaff;
+  --pa-text: #20243b;
+  --pa-muted: #73758d;
+  --pa-border: rgba(119,112,173,.17);
+  --pa-primary: #7065d9;
+  --pa-primary-dark: #574cc0;
+  --pa-blue: #729ce9;
+  --pa-shadow: 0 12px 38px rgba(73,66,130,.09);
+  --pa-radius: 20px;
+}
+
+html {
+  min-height: 100%;
+  background: var(--pa-bg) !important;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--pa-text) !important;
+  background:
+    radial-gradient(ellipse at 8% 4%, rgba(177,164,255,.30), transparent 34%),
+    radial-gradient(ellipse at 92% 12%, rgba(145,195,255,.30), transparent 32%),
+    radial-gradient(ellipse at 50% 100%, rgba(229,205,255,.28), transparent 40%),
+    linear-gradient(135deg, #f3f0fb 0%, #edf2fc 52%, #f8f0fb 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body, button, input, select, textarea {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--pa-text);
+  letter-spacing: -.035em;
+}
+
+p, label, small {
+  color: inherit;
+}
+
+a {
+  color: var(--pa-primary);
+  transition: color .2s ease;
+}
+
+a:hover {
+  color: var(--pa-primary-dark);
+}
+
+header, nav, aside, .sidebar, .navbar, .topbar,
+.header, .app-header, .navigation {
+  border-color: var(--pa-border) !important;
+}
+
+header, .navbar, .topbar, .app-header {
+  background: rgba(250,249,255,.78) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.sidebar, aside {
+  background: rgba(248,247,255,.83) !important;
+  border-right: 1px solid var(--pa-border) !important;
+  backdrop-filter: blur(18px);
+}
+
+.card, .feature-card, .tool-card, .panel, .widget,
+.dashboard-card, .content-card, .glass-card,
+.modal-content, .settings-card, .stat-card {
+  color: var(--pa-text) !important;
+  background: var(--pa-surface) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: var(--pa-radius) !important;
+  box-shadow: var(--pa-shadow) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+button, .btn, .button, input[type="submit"] {
+  border-radius: 13px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+button:not(:disabled), .btn, .button, input[type="submit"] {
+  cursor: pointer;
+}
+
+button:hover:not(:disabled), .btn:hover, .button:hover {
+  transform: translateY(-1px);
+}
+
+button.primary, .btn-primary, .primary-btn,
+button[type="submit"], input[type="submit"] {
+  color: #fff !important;
+  background: linear-gradient(115deg, #7769df, #739de9) !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 7px 18px rgba(108,99,208,.20);
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select, textarea {
+  color: var(--pa-text) !important;
+  background: rgba(255,255,255,.82) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 12px !important;
+  outline-color: var(--pa-primary);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9998ad !important;
+}
+
+table {
+  color: var(--pa-text);
+  border-color: var(--pa-border);
+}
+
+th {
+  background: rgba(119,105,223,.09);
+}
+
+td, th {
+  border-color: var(--pa-border) !important;
+}
+
+hr {
+  border-color: var(--pa-border) !important;
+}
+
+.badge, .tag, .chip {
+  border-radius: 999px;
+}
+
+::selection {
+  color: #fff;
+  background: #8175df;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card, .feature-card, .tool-card, .panel, .widget {
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+
+  .card:hover, .feature-card:hover, .tool-card:hover {
+    box-shadow: 0 17px 42px rgba(73,66,130,.13) !important;
+  }
+}

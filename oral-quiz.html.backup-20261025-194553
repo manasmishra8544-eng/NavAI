@@ -1,0 +1,26 @@
+﻿<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NavAI Oral Quiz</title><link rel="stylesheet" href="/oral-quiz.css">
+</head><body>
+<header><a href="/">✦ NavAI</a><span>ORAL QUIZ</span><a href="/">Back to NavAI</a></header>
+<main>
+<section id="setup" class="panel">
+<p class="eyebrow">LEARN BY SPEAKING</p><h1>Your topic. Your voice.</h1>
+<p>NavAI questions poochega. Answer nahi pata? NavAI samjhayega.</p>
+<label>Subject<input id="subject" placeholder="Science, Maths, English..." required></label>
+<label>Class / level<input id="level" value="Class 9"></label>
+<label>Topic / chapter<input id="topic" placeholder="Atoms and Molecules" required></label>
+<label>Difficulty<select id="difficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></label>
+<label>Questions<select id="count"><option>5</option><option selected>10</option><option>15</option></select></label>
+<button id="start">Start Oral Quiz →</button></section>
+<section id="quiz" class="panel hidden">
+<div class="row"><span id="progress"></span><span id="score">Score: 0</span></div>
+<div class="bar"><div id="fill"></div></div><p class="eyebrow">NAVAI ASKS</p><h2 id="question"></h2>
+<div class="row"><button id="read" class="secondary">🔊 Read question</button><button id="mic" class="secondary">🎙 Speak answer</button><button id="mute" class="secondary">Mute</button></div>
+<textarea id="answer" placeholder="Type your answer here..."></textarea>
+<div class="row"><button id="unknown" class="secondary">Answer nahi pata</button><button id="submit">Submit answer</button></div>
+<div id="feedback" class="feedback hidden"></div><button id="next" class="hidden">Next question →</button>
+</section>
+<section id="results" class="panel hidden"><p class="eyebrow">QUIZ COMPLETED</p><h2>Your result</h2><h1 id="finalScore"></h1><div id="review"></div><button id="retry">Practise again</button><button id="new" class="secondary">New topic</button></section>
+<p id="status" role="status"></p></main><script src="/oral-quiz.js"></script></body></html>
