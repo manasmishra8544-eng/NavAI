@@ -152,131 +152,284 @@
             </section>
 
             <section id="navai-tool-dashboard">
-<style>
-#navai-tool-dashboard{position:fixed;inset:0;z-index:999999;overflow-y:auto;background:radial-gradient(ellipse at 50% 0%,#172750 0%,#0a1124 42%,#060a14 78%);color:#f4f7ff;font-family:inherit;display:flex;align-items:center;justify-content:center;padding:35px 22px;box-sizing:border-box}
-#navai-tool-dashboard *{box-sizing:border-box}
-#navai-tool-dashboard .home-wrap{width:100%;max-width:1000px;margin:auto}
-#navai-tool-dashboard .brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:65px}
-#navai-tool-dashboard .brand-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,#6688ff,#8658ed);box-shadow:0 5px 35px #5277ff45;font-size:25px;font-weight:800}
-#navai-tool-dashboard .brand-name{font-size:23px;font-weight:750;letter-spacing:-.8px}
-#navai-tool-dashboard .brand-name span{color:#8da8ff}
-#navai-tool-dashboard .eyebrow{text-align:center;text-transform:uppercase;letter-spacing:4px;font-size:10px;color:#93aaff;font-weight:750;margin-bottom:17px}
-#navai-tool-dashboard .hero{text-align:center;margin-bottom:45px}
-#navai-tool-dashboard .hero h1{font-size:clamp(35px,5.4vw,57px);line-height:1.12;letter-spacing:-2.3px;margin:0 auto 17px;font-weight:750}
-#navai-tool-dashboard .hero h1 span{background:linear-gradient(90deg,#9bb7ff,#c3a6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-#navai-tool-dashboard .hero p{font-size:15px;line-height:1.8;color:#a5b1cb;margin:0}
-#navai-tool-dashboard .tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
-#navai-tool-dashboard .tool{min-height:245px;text-decoration:none;color:inherit;border:1px solid #8298cf2b;background:linear-gradient(145deg,#17233bd9,#0c1426ed);border-radius:23px;padding:25px 23px 22px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:transform .2s,border-color .2s,background .2s}
-#navai-tool-dashboard .tool:before{content:"";position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,#9cb4ff8c,transparent)}
-#navai-tool-dashboard .tool:hover{transform:translateY(-5px);border-color:#819effa6;background:linear-gradient(145deg,#1d2d50,#101a30)}
-#navai-tool-dashboard .tool-icon{width:49px;height:49px;display:grid;place-items:center;border:1px solid #819fff40;border-radius:16px;background:#6688ff19;color:#adc0ff;font-size:23px;font-weight:750;margin-bottom:25px}
-#navai-tool-dashboard .tool:nth-child(2) .tool-icon{background:#b17aff17;border-color:#c09aff3d;color:#d0b0ff}
-#navai-tool-dashboard .tool:nth-child(3) .tool-icon{background:#4cdbc017;border-color:#4cdbc03d;color:#7cebd9}
-#navai-tool-dashboard .tool h2{font-size:18px;margin:0 0 10px;letter-spacing:-.35px}
-#navai-tool-dashboard .tool p{font-size:13px;line-height:1.75;color:#a6b3cc;margin:0 0 24px}
-#navai-tool-dashboard .tool-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:auto;color:#b3c5ff;font-size:12px;font-weight:700}
-#navai-tool-dashboard .tool-arrow{font-size:19px;transition:transform .2s}
-#navai-tool-dashboard .tool:hover .tool-arrow{transform:translateX(4px)}
-#navai-tool-dashboard .footer{text-align:center;color:#677797;font-size:11px;margin-top:35px}
-#navai-dashboard-return{position:fixed;z-index:1000001;top:14px;left:14px;display:none;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid #8ba7ff55;background:#111c33;color:#e2eaff;border-radius:11px;font-size:21px;line-height:1;cursor:pointer;box-shadow:0 5px 20px #0005;backdrop-filter:blur(12px)}#navai-dashboard-return:hover{background:#23365b;border-color:#9bb5ff}
-@media(max-width:720px){#navai-tool-dashboard{align-items:flex-start;padding:25px 17px}.brand{margin-bottom:43px!important}.hero{margin-bottom:28px!important}#navai-tool-dashboard .tools{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}#navai-tool-dashboard .footer{margin-top:23px}}
-@media(prefers-reduced-motion:reduce){#navai-tool-dashboard .tool{transition:none}}
-
-#navai-tool-dashboard #navai-auth-trigger,#navai-tool-dashboard .navai-sidebar-auth-trigger{position:fixed!important;top:20px!important;right:24px!important;left:auto!important;bottom:auto!important;z-index:1000002!important;display:flex!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:88px!important;height:38px!important;padding:0 17px!important;border:1px solid #91aaff65!important;border-radius:12px!important;background:linear-gradient(135deg,#263b68,#172440)!important;color:#f2f5ff!important;font-size:12px!important;font-weight:700!important;box-shadow:0 6px 24px #0003!important;cursor:pointer!important}
-#navai-tool-dashboard #navai-auth-trigger:hover,#navai-tool-dashboard .navai-sidebar-auth-trigger:hover{border-color:#b5c6ff!important;background:#2b416f!important}
-@media(max-width:600px){#navai-tool-dashboard #navai-auth-trigger,#navai-tool-dashboard .navai-sidebar-auth-trigger{top:15px!important;right:15px!important;min-width:75px!important;height:34px!important;padding:0 12px!important}}
-
-/* NAVAI PREMIUM DASHBOARD ICONS */
-#navai-tool-dashboard .tool-icon svg {
-  display: block;
-  width: 29px;
-  height: 29px;
+<div class="navai-reference-header">
+  <div class="navai-ref-logo">&#10022; Nav<span>AI</span></div>
+  <input class="navai-ref-search" type="search" placeholder="&#128269;  Find tools, help..." aria-label="Find tools">
+  <div class="navai-ref-profile"><span class="navai-ref-avatar">M</span><span>NavAI User<br><small>Welcome back</small></span></div>
+  <div class="navai-ref-tools" aria-hidden="true">&#9881; &#8942;</div>
+</div>
+<style id="navai-final-reference-design">
+/* NAVAI FINAL REFERENCE DESIGN */
+#navai-tool-dashboard {
+    position:fixed !important;
+    inset:0 !important;
+    z-index:999999 !important;
+    width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    padding:28px 24px 32px !important;
+    box-sizing:border-box !important;
+    color:#f5f3ff !important;
+    background:
+      radial-gradient(ellipse at 12% 50%,rgba(117,62,164,.19),transparent 34%),
+      radial-gradient(ellipse at 88% 35%,rgba(27,119,164,.20),transparent 35%),
+      radial-gradient(ellipse at 50% 110%,rgba(66,47,125,.15),transparent 45%),
+      #080a12 !important;
+    font-family:inherit !important;
 }
-#navai-tool-dashboard .tool-arrow {
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 500;
-}
-#navai-tool-dashboard .tool {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* NAVAI_UNIFIED_PREMIUM_HOME_V1 */
+#navai-tool-dashboard * {box-sizing:border-box}
 #navai-tool-dashboard .home-wrap {
-  max-width: 1050px;
+    width:100% !important;
+    max-width:930px !important;
+    margin:auto !important;
 }
 #navai-tool-dashboard .brand {
-  margin-bottom: 54px;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:12px !important;
+    margin:0 0 55px !important;
+}
+#navai-tool-dashboard .brand-icon {
+    width:42px !important;
+    height:42px !important;
+    border-radius:14px !important;
+    display:grid !important;
+    place-items:center !important;
+    border:1px solid #c1a2ff80 !important;
+    color:#d9c5ff !important;
+    background:linear-gradient(145deg,#292044,#111827) !important;
+    box-shadow:0 0 30px #9270ff30 !important;
+}
+#navai-tool-dashboard .brand-name {
+    font-size:22px !important;
+    font-weight:750 !important;
+    color:#f5f1ff !important;
+}
+#navai-tool-dashboard .brand-name span {
+    background:linear-gradient(90deg,#a9c5ff,#d6aaff) !important;
+    color:transparent !important;
+    background-clip:text !important;
+    -webkit-background-clip:text !important;
 }
 #navai-tool-dashboard .hero {
-  margin-bottom: 39px;
+    text-align:center !important;
+    margin:0 auto 37px !important;
+}
+#navai-tool-dashboard .eyebrow {
+    text-align:center !important;
+    color:#b8a8e9 !important;
+    font-size:10px !important;
+    font-weight:750 !important;
+    letter-spacing:4px !important;
+    margin-bottom:17px !important;
+}
+#navai-tool-dashboard .hero h1 {
+    color:#f1f1ff !important;
+    font-size:clamp(35px,5.1vw,53px) !important;
+    line-height:1.15 !important;
+    letter-spacing:-2px !important;
+    font-weight:780 !important;
+    margin:0 auto 17px !important;
+}
+#navai-tool-dashboard .hero h1 span {
+    background:linear-gradient(95deg,#a9d8ff,#bca3ff,#dfa9f4) !important;
+    color:transparent !important;
+    background-clip:text !important;
+    -webkit-background-clip:text !important;
+}
+#navai-tool-dashboard .hero p {
+    color:#aeb1c4 !important;
+    font-size:14px !important;
+    line-height:1.8 !important;
 }
 #navai-tool-dashboard .tools {
-  align-items: stretch;
-  grid-auto-rows: 1fr;
-  gap: 18px;
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:16px !important;
+    width:100% !important;
+    align-items:stretch !important;
 }
 #navai-tool-dashboard .tool {
-  min-width: 0;
-  min-height: 258px;
-  height: 100%;
-  border-color: rgba(137, 160, 215, .19);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.025),
-              0 12px 32px rgba(0,0,0,.09);
+    display:flex !important;
+    flex-direction:column !important;
+    position:relative !important;
+    min-width:0 !important;
+    min-height:236px !important;
+    height:auto !important;
+    padding:21px 20px 19px !important;
+    border:1px solid #9299c344 !important;
+    border-radius:19px !important;
+    text-decoration:none !important;
+    color:#f5f3ff !important;
+    background:linear-gradient(145deg,#202035d9,#111925ed) !important;
+    box-shadow:inset 0 1px 0 #ffffff0b,0 12px 35px #0004 !important;
+    backdrop-filter:blur(15px) !important;
+    transition:transform .2s,border-color .2s,box-shadow .2s !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+1) {
+    border-color:#c18cff66 !important;
+    background:linear-gradient(145deg,#291d39e8,#141522ed) !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+2) {
+    border-color:#92aaff66 !important;
+    background:linear-gradient(145deg,#20243fe8,#121827ed) !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n) {
+    border-color:#75dce066 !important;
+    background:linear-gradient(145deg,#172d37e8,#111b24ed) !important;
 }
 #navai-tool-dashboard .tool:hover {
-  transform: translateY(-4px);
-  border-color: rgba(145, 170, 255, .55);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.05),
-              0 18px 40px rgba(0,0,0,.2),
-              0 0 28px rgba(88, 119, 255, .07);
+    transform:translateY(-4px) !important;
+    border-color:#d0c0ff !important;
+    box-shadow:0 18px 42px #0006,0 0 25px #9273ff20 !important;
 }
-#navai-tool-dashboard .tool:nth-child(4) .tool-icon {
-  color: #a8bbff;
-  background: rgba(102,136,255,.12);
+#navai-tool-dashboard .tool-icon {
+    width:49px !important;
+    height:49px !important;
+    flex:0 0 49px !important;
+    display:grid !important;
+    place-items:center !important;
+    margin:0 0 21px !important;
+    border-radius:15px !important;
+    border:1px solid #c18cff70 !important;
+    color:#d5adff !important;
+    background:#a779ff18 !important;
+    font-size:23px !important;
 }
-#navai-tool-dashboard .tool:nth-child(5) .tool-icon {
-  color: #f0b7ff;
-  border-color: rgba(217,142,255,.27);
-  background: rgba(190,115,255,.12);
+#navai-tool-dashboard .tool:nth-child(3n+2) .tool-icon {
+    color:#b5c8ff !important;
+    border-color:#91aaff70 !important;
+    background:#8caaff18 !important;
 }
-#navai-tool-dashboard .tool:nth-child(6) .tool-icon {
-  color: #88e8d8;
-  border-color: rgba(76,219,192,.25);
-  background: rgba(76,219,192,.09);
-}
-#navai-tool-dashboard .tool h2 {
-  line-height: 1.35;
-}
-#navai-tool-dashboard .tool p {
-  flex: 0 0 auto;
+#navai-tool-dashboard .tool:nth-child(3n) .tool-icon {
+    color:#8ce9e6 !important;
+    border-color:#65d8d270 !important;
+    background:#65d8d218 !important;
 }
 #navai-tool-dashboard .tool-icon svg {
-  width: 27px;
-  height: 27px;
+    width:29px !important;
+    height:29px !important;
 }
+#navai-tool-dashboard .tool h2 {
+    color:#f5f2ff !important;
+    font-size:16px !important;
+    line-height:1.4 !important;
+    font-weight:720 !important;
+    margin:0 0 9px !important;
+}
+#navai-tool-dashboard .tool p {
+    color:#b7b8c9 !important;
+    font-size:12px !important;
+    line-height:1.75 !important;
+    margin:0 0 20px !important;
+}
+#navai-tool-dashboard .tool-bottom {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:8px !important;
+    margin-top:auto !important;
+    color:#d6b9ff !important;
+    font-size:11px !important;
+    font-weight:650 !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n+2) .tool-bottom {
+    color:#bdcaff !important;
+}
+#navai-tool-dashboard .tool:nth-child(3n) .tool-bottom {
+    color:#9ce9e4 !important;
+}
+#navai-tool-dashboard .tool-arrow {font-size:20px !important}
 #navai-tool-dashboard .footer {
-  letter-spacing: 1.2px;
-  font-size: 10px;
+    color:#777b94 !important;
+    text-align:center !important;
+    font-size:10px !important;
+    letter-spacing:2px !important;
+    margin-top:27px !important;
 }
-@media (max-width: 720px) {
-  #navai-tool-dashboard .tools {
-    grid-auto-rows: auto;
-  }
-  #navai-tool-dashboard .tool {
-    min-height: 0;
-    height: auto;
-  }
-  #navai-tool-dashboard .hero h1 {
-    letter-spacing: -1.4px;
-  }
+
+/* Sign-in must remain a small floating button */
+#navai-tool-dashboard #navai-auth-trigger,
+#navai-tool-dashboard .navai-sidebar-auth-trigger {
+    position:fixed !important;
+    top:12px !important;
+    right:19px !important;
+    left:auto !important;
+    bottom:auto !important;
+    display:inline-flex !important;
+    width:auto !important;
+    min-width:82px !important;
+    max-width:125px !important;
+    height:38px !important;
+    min-height:38px !important;
+    padding:0 17px !important;
+    align-items:center !important;
+    justify-content:center !important;
+    border:1px solid #b6a7d580 !important;
+    border-radius:24px !important;
+    background:linear-gradient(145deg,#292b3b,#111522) !important;
+    color:#fff !important;
+    font-size:12px !important;
+    white-space:nowrap !important;
+    z-index:1000005 !important;
 }
-@media (prefers-reduced-motion: reduce) {
-  #navai-tool-dashboard .tool:hover {
-    transform: none;
-  }
+
+/* Hide original app chrome only while dashboard is open */
+body.navai-dashboard-active .sidebar,
+body.navai-dashboard-active .topbar,
+body.navai-dashboard-active .welcome-screen,
+body.navai-dashboard-active .composer-area,
+body.navai-dashboard-active #conversation {
+    display:none !important;
 }
-/* NAVAI_UNIFIED_PREMIUM_HOME_V1_END */
+body.navai-dashboard-active {
+    overflow:hidden !important;
+    background:#080a12 !important;
+}
+#navai-dashboard-return {
+    position:fixed !important;
+    top:15px !important;
+    left:15px !important;
+    z-index:1000006 !important;
+    width:38px !important;
+    height:38px !important;
+    border:1px solid #b6a7d580 !important;
+    border-radius:12px !important;
+    background:#171526 !important;
+    color:white !important;
+    cursor:pointer !important;
+}
+@media(max-width:720px) {
+    #navai-tool-dashboard {
+        align-items:flex-start !important;
+        padding:22px 15px !important;
+    }
+    #navai-tool-dashboard .brand {margin-bottom:36px !important}
+    #navai-tool-dashboard .hero {margin-bottom:27px !important}
+    #navai-tool-dashboard .tools {
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:12px !important;
+    }
+    #navai-tool-dashboard .tool {
+        min-height:215px !important;
+        padding:17px !important;
+    }
+}
+@media(max-width:480px) {
+    #navai-tool-dashboard .tools {
+        grid-template-columns:1fr !important;
+    }
+    #navai-tool-dashboard .tool {min-height:190px !important}
+}
+@media(prefers-reduced-motion:reduce) {
+    #navai-tool-dashboard .tool {transition:none !important}
+}
 </style>
 
 
@@ -289,41 +442,42 @@
     <p>What would you like to create, discover, or learn today?</p>
   </div>
   <div class="tools">
-    <a class="tool" href="classroom.html" data-open-chat>
+    <a class="tool" href="/" data-open-chat>
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1M12 8l1.3 2.7L16 12l-2.7 1.3L12 16l-1.3-2.7L8 12l2.7-1.3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h2>NavAI Chat</h2>
-      <p>Ask questions, solve problems, explore ideas and get help with everyday tasks.</p>
-      <div class="tool-bottom"><span>Start a conversation</span><span class="tool-arrow" aria-label="Open">&#8599;</span></div>
+      <p>Your everyday AI workspace for clear answers, fresh ideas, writing help and problem-solving.</p>
+      <div class="tool-bottom"><span>Chat with NavAI</span><span class="tool-arrow" aria-label="Open">&#8599;</span></div>
     </a>
     <a class="tool" href="classroom.html">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M19 15v2m-1 1h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
       <h2>NavAI Teacher</h2>
-      <p>Understand difficult topics with step-by-step explanations and visual learning.</p>
-      <div class="tool-bottom"><span>Start learning</span><span class="tool-arrow" aria-label="Open">&#8599;</span></div>
+      <p>Learn difficult topics with simple explanations, guided steps and visual support.</p>
+      <div class="tool-bottom"><span>Learn with NavAI</span><span class="tool-arrow" aria-label="Open">&#8599;</span></div>
     </a>
     <a class="tool" href="homework.html">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 0 1 2 2v14l-7-4-7 4V6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 8h6M9 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
       <h2>Homework Helper</h2>
-      <p>Get clean, notebook-ready answers from a question or photo.</p>
-      <div class="tool-bottom"><span>Answer my homework</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
+      <p>Work through questions or photos and get clear, well-structured homework help.</p>
+      <div class="tool-bottom"><span>Get homework help</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
     </a>
 <a class="tool" href="student-question-helper.html" id="navai-student-question-helper-card">
       <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7l-5 3v-3H5a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
       <h2>Student Question Helper</h2>
-      <p>Get help with school questions, understand difficult concepts and work through problems step by step.</p>
-      <div class="tool-bottom"><span>Explore questions</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
+      <p>Ask school-related questions, understand key concepts and build confidence solving problems step by step.</p>
+      <div class="tool-bottom"><span>Ask a question</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
     </a>
 <a class="tool" href="/time-table-maker.html" id="navai-time-table-maker-card">
-      <div class="tool-icon"><span aria-hidden="true">&#128197;</span></div>
-      <h2>Time Table Maker</h2>
-      <p>Let NavAI create a personalized daily and weekly timetable around your routine and goals.</p>
-      <div class="tool-bottom"><span>Create my timetable</span><span class="tool-arrow" aria-hidden="true" aria-label="Open">&#8599;</span></div>
-    </a>
+  <div class="tool-icon"><span aria-hidden="true">&#128197;</span></div>
+  <h2>Time Table Maker</h2>
+  <p>Build a balanced daily timetable for classes, study sessions, activities and personal goals.</p>
+  <div class="tool-bottom"><span>Build my timetable</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+
 <a id="navai-student-guide-card" class="tool" href="student-guide.html">
   <div class="tool-icon"><span aria-hidden="true">&#127891;</span></div>
   <h2>Student Guide</h2>
-  <p>Get guidance for study plans, homework, exams and goals.</p>
-  <div class="tool-bottom"><span>Open Guide</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+  <p>Plan your studies, stay on top of homework, prepare for exams and track your goals.</p>
+  <div class="tool-bottom"><span>Open Student Guide</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
 </a>
 
 
@@ -333,53 +487,109 @@
 <a class="tool" href="/handwritten-notes.html" id="navai-handwritten-notes-card">
   <div class="tool-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14.8 6.2l3 3M4 20h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
   <h2>Handwritten Notes</h2>
-  <p>Turn a study topic into notebook-style notes and save them as an image.</p>
-  <div class="tool-bottom"><span>Create my notes</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+  <p>Turn topics into neat, notebook-style study notes you can review and save.</p>
+  <div class="tool-bottom"><span>Create study notes</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
 </a>
 <!-- NAVAI_HANDWRITTEN_NOTES_CARD_V1_END -->
 <a class="tool navai-doubt-solver-card tool" href="/doubt-solver.html" aria-label="Open NavAI Doubt Solver">
   <div class="tool-icon"><span aria-hidden="true">&#128172;</span></div>
   <h2>NavAI Doubt Solver</h2>
-  <p>Get clear, step-by-step explanations for your doubts.</p>
-  <div class="tool-bottom"><span>Solve my doubt</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+  <p>Clear up tricky concepts with focused explanations and step-by-step guidance.</p>
+  <div class="tool-bottom"><span>Clear my doubt</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
+</a>
+<a class="tool" href="/oral-quiz.html" id="navai-quiz-card">
+  <div class="tool-icon"><span aria-hidden="true">&#129504;</span></div>
+  <h2>NavAI Quiz</h2>
+  <p>Test your knowledge with interactive questions and check what you have learned.</p>
+  <div class="tool-bottom"><span>Start quiz</span><span class="tool-arrow" aria-hidden="true">&#8599;</span></div>
 </a>
 <!-- NAVAI_CHEMISTRY_TOOL_CARD_V1_END -->
   </div>
   <div class="footer">NAVAI | YOUR IDEAS START HERE</div>
 </div>
-<script>
+<div class="navai-search-empty" id="navai-search-empty">No matching NavAI tools found. Try another search.</div>
+<script id="navai-dashboard-search-function">
 (function(){
-  var home=document.getElementById('navai-tool-dashboard');
-  if(!home || home.dataset.ready)return;
-  home.dataset.ready='1';
-  function placeDashboardAuth(){
-    var auth=document.getElementById('navai-auth-trigger');
-    if(auth && !home.contains(auth)){
-      auth.classList.add('navai-sidebar-auth-trigger');
-      home.appendChild(auth);
+ const input=document.querySelector("#navai-tool-dashboard .navai-ref-search");
+ const grid=document.querySelector("#navai-tool-dashboard .tools");
+ const empty=document.getElementById("navai-search-empty");
+ if(!input||!grid||input.dataset.searchReady==="1") return;
+ input.dataset.searchReady="1";
+ const cards=Array.from(grid.querySelectorAll(".tool"));
+ input.addEventListener("input",function(){
+   const q=input.value.trim().toLowerCase(); let shown=0;
+   cards.forEach(function(card){
+     const match=(card.innerText||card.textContent||"").toLowerCase().includes(q);
+     card.hidden=!match; if(match) shown++;
+   });
+   if(empty) empty.style.display=shown?"none":"block";
+ });
+ input.addEventListener("keydown",function(e){if(e.key==="Escape"){input.value="";input.dispatchEvent(new Event("input"));input.blur();}});
+})();
+</script>
+<script>
+(function () {
+    const home = document.getElementById("navai-tool-dashboard");
+    if (!home || home.dataset.integratedReady === "1") return;
+
+    home.dataset.integratedReady = "1";
+
+    const body = document.body;
+    const back = document.createElement("button");
+
+    back.id = "navai-dashboard-return";
+    back.type = "button";
+    back.textContent = "\u2190";
+    back.setAttribute("aria-label", "Return to dashboard");
+    back.title = "Return to dashboard";
+    document.body.appendChild(back);
+
+    const authObserver = new MutationObserver(function () {
+        const auth = document.getElementById("navai-auth-trigger");
+
+        if (auth && auth.parentElement !== document.body) {
+            document.body.appendChild(auth);
+        }
+    });
+
+    authObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    function showDashboard() {
+          body.classList.remove("navai-chat-view");
+          body.classList.remove("navai-chat-view");
+        body.classList.add("navai-dashboard-active");
+        home.style.display = "flex";
+        back.style.display = "none";
     }
-  }
-  placeDashboardAuth();
-  var authWatch=new MutationObserver(placeDashboardAuth);
-  authWatch.observe(document.body,{childList:true,subtree:true});
-  var back=document.createElement('button');
-  back.id='navai-dashboard-return';
-  back.type='button';
-  back.textContent='';
-  back.setAttribute('aria-label','Dashboard');
-  back.title='Dashboard';
-  document.body.appendChild(back);
-  home.querySelector('[data-open-chat]').addEventListener('click',function(e){
-    e.preventDefault();
-    home.style.display='none';
-    back.style.display='block';
-    var input=document.getElementById('messageInput');
-    if(input){input.focus();input.scrollIntoView({behavior:'smooth',block:'center'});}
-  });
-  back.addEventListener('click',function(){
-    home.style.display='flex';
-    back.style.display='none';
-  });
+
+    function showChat() {
+          body.classList.add("navai-chat-view");
+          body.classList.add("navai-chat-view");
+        body.classList.remove("navai-dashboard-active");
+        home.style.display = "none";
+        back.style.display = "flex";
+
+        const input = document.getElementById("messageInput");
+        if (input) {
+            input.focus();
+        }
+    }
+
+    const chatCard = home.querySelector('[data-open-chat]');
+
+    if (chatCard) {
+        chatCard.addEventListener("click", function (event) {
+            event.preventDefault();
+            showChat();
+        });
+    }
+
+    back.addEventListener("click", showDashboard);
+
+    showDashboard();
 })();
 </script>
 </section>
@@ -676,18 +886,273 @@
 <!-- navai-handwritten-notes-integration -->
 <script src="handwritten-notes-integration.js"></script>
 <script src="/math-renderer.js"></script>
-</body>
-</html>
-<style id="navai-dashboard-light-background">
-/* NAVAI-DASHBOARD-LIGHT-BACKGROUND-ONLY */
+
+<style id="navai-screenshot-dashboard-v1">
+/* NAVAI_SCREENSHOT_DASHBOARD_V1 */
 body.navai-dashboard-active {
-    background: #f6f2ff !important;
+    overflow:hidden !important;
+    background:#f7f1ff !important;
+}
+body.navai-chat-view #navai-tool-dashboard {
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
 }
 body.navai-dashboard-active #navai-tool-dashboard {
+    display:block !important;
+    visibility:visible !important;
+    pointer-events:auto !important;
+}
+body.navai-dashboard-active .sidebar,
+body.navai-dashboard-active .topbar,
+body.navai-dashboard-active .sidebar-overlay,
+body.navai-dashboard-active .welcome-screen,
+body.navai-dashboard-active .composer-area,
+body.navai-dashboard-active #conversation {
+    display:none !important;
+}
+body.navai-dashboard-active #navai-auth-trigger,
+body.navai-dashboard-active .navai-sidebar-auth-trigger {
+    display:none !important;
+}
+#navai-tool-dashboard {
+    position:fixed !important;
+    inset:0 !important;
+    z-index:999999 !important;
+    width:100vw !important;
+    height:100vh !important;
+    min-height:100vh !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    display:block !important;
+    padding:92px clamp(18px,5.8vw,88px) 30px !important;
+    box-sizing:border-box !important;
+    color:#211638 !important;
     background:
-        radial-gradient(ellipse at 8% 12%, rgba(218,195,255,.48), transparent 38%),
-        radial-gradient(ellipse at 92% 18%, rgba(255,220,202,.38), transparent 34%),
-        linear-gradient(135deg, #fcfaff 0%, #f2edff 55%, #fff8f3 100%) !important;
-    background-color: #f6f2ff !important;
+      radial-gradient(ellipse at 8% 18%,rgba(210,181,255,.48),transparent 36%),
+      radial-gradient(ellipse at 92% 20%,rgba(255,207,190,.42),transparent 34%),
+      linear-gradient(125deg,#f1e8ff 0%,#faf6ff 48%,#fff0e9 100%) !important;
+    font-family:Arial,Helvetica,sans-serif !important;
+}
+#navai-tool-dashboard,
+#navai-tool-dashboard * {
+    box-sizing:border-box !important;
+}
+#navai-tool-dashboard .navai-reference-header {
+    display:none !important;
+}
+#navai-tool-dashboard .home-wrap {
+    display:block !important;
+    width:100% !important;
+    max-width:1320px !important;
+    min-width:0 !important;
+    margin:0 auto !important;
+    padding:0 !important;
+    position:relative !important;
+    transform:none !important;
+}
+#navai-tool-dashboard .brand {
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:12px !important;
+    margin:0 auto 52px !important;
+    text-align:center !important;
+}
+#navai-tool-dashboard .brand-icon {
+    display:grid !important;
+    place-items:center !important;
+    width:42px !important;
+    height:42px !important;
+    border-radius:14px !important;
+    background:linear-gradient(145deg,#a96bff,#7142dc) !important;
+    border:1px solid #b78aff !important;
+    color:#fff !important;
+    font-size:22px !important;
+    box-shadow:0 8px 22px rgba(125,78,220,.22) !important;
+}
+#navai-tool-dashboard .brand-name {
+    color:#201638 !important;
+    font-size:22px !important;
+    font-weight:800 !important;
+}
+#navai-tool-dashboard .brand-name span {
+    background:linear-gradient(90deg,#a34be8,#6154ed) !important;
+    color:transparent !important;
+    -webkit-background-clip:text !important;
+    background-clip:text !important;
+}
+#navai-tool-dashboard .hero {
+    display:block !important;
+    width:100% !important;
+    margin:0 auto 34px !important;
+    padding:5px 12px 2px !important;
+    text-align:center !important;
+    background:#fff !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:0 10px 30px rgba(112,78,158,.06) !important;
+}
+#navai-tool-dashboard .eyebrow {
+    display:none !important;
+}
+#navai-tool-dashboard .hero h1 {
+    margin:0 auto 17px !important;
+    color:#191329 !important;
+    font-size:clamp(34px,4.7vw,53px) !important;
+    line-height:1.15 !important;
+    letter-spacing:-2px !important;
+    font-weight:800 !important;
+}
+#navai-tool-dashboard .hero h1 span {
+    background:linear-gradient(90deg,#a64de8,#6154ed) !important;
+    color:transparent !important;
+    -webkit-background-clip:text !important;
+    background-clip:text !important;
+}
+#navai-tool-dashboard .hero p {
+    margin:0 !important;
+    color:#81739b !important;
+    font-size:14px !important;
+    line-height:1.5 !important;
+}
+#navai-tool-dashboard .tools {
+    display:grid !important;
+    width:100% !important;
+    max-width:none !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:18px !important;
+    align-items:stretch !important;
+    margin:0 !important;
+    padding:0 !important;
+}
+#navai-tool-dashboard .tool,
+#navai-tool-dashboard .tool:nth-child(n) {
+    display:flex !important;
+    flex-direction:column !important;
+    position:relative !important;
+    min-width:0 !important;
+    min-height:224px !important;
+    height:auto !important;
+    padding:22px !important;
+    border:1px solid rgba(190,165,232,.35) !important;
+    border-radius:20px !important;
+    background:rgba(255,255,255,.86) !important;
+    background-image:none !important;
+    color:#24183b !important;
+    text-decoration:none !important;
+    box-shadow:0 10px 28px rgba(112,78,158,.10) !important;
+    backdrop-filter:blur(14px) !important;
+    -webkit-backdrop-filter:blur(14px) !important;
+    transform:none !important;
+}
+#navai-tool-dashboard .tool:hover {
+    background:#fff !important;
+    border-color:#c79af5 !important;
+    box-shadow:0 16px 34px rgba(112,78,158,.16) !important;
+    transform:translateY(-3px) !important;
+}
+#navai-tool-dashboard .tool-icon,
+#navai-tool-dashboard .tool:nth-child(n) .tool-icon {
+    display:grid !important;
+    place-items:center !important;
+    width:39px !important;
+    height:43px !important;
+    flex:0 0 43px !important;
+    margin:0 0 0 0 !important;
+    border-radius:9px !important;
+    border:1px solid #efddff !important;
+    background:linear-gradient(135deg,#f7edff,#fff0e8) !important;
+    color:#a34be8 !important;
+    font-size:22px !important;
+}
+#navai-tool-dashboard .tool-icon svg {
+    width:27px !important;
+    height:27px !important;
+}
+#navai-tool-dashboard .tool h2 {
+    position:absolute !important;
+    top:22px !important;
+    left:69px !important;
+    right:12px !important;
+    margin:0 !important;
+    color:#2c1c49 !important;
+    font-size:16px !important;
+    line-height:1.4 !important;
+    font-weight:750 !important;
+    text-transform:uppercase !important;
+}
+#navai-tool-dashboard .tool p {
+    margin: -9px 0 18px 47px !important;
+    color:#897b9f !important;
+    font-size:12px !important;
+    line-height:1.75 !important;
+}
+#navai-tool-dashboard .tool-bottom,
+#navai-tool-dashboard .tool:nth-child(n) .tool-bottom {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:8px !important;
+    margin-top:auto !important;
+    padding:0 !important;
+    background:none !important;
+    color:#fff !important;
+    font-size:12px !important;
+    font-weight:700 !important;
+}
+#navai-tool-dashboard .tool-bottom span:first-child {
+    display:inline-flex !important;
+    align-items:center !important;
+    padding:17px 30px !important;
+    min-height:54px !important;
+    border-radius:28px !important;
+    background:linear-gradient(100deg,#ff9637,#ff741b) !important;
+    color:#fff !important;
+    text-shadow:none !important;
+}
+#navai-tool-dashboard .tool-arrow {
+    color:#fff !important;
+    font-size:20px !important;
+}
+#navai-tool-dashboard .footer {
+    margin-top:28px !important;
+    color:#927eaa !important;
+    text-align:center !important;
+    font-size:10px !important;
+}
+#navai-tool-dashboard .navai-search-empty {
+    display:none !important;
+}
+@media(max-width:900px) {
+    #navai-tool-dashboard {
+        padding:48px 22px 30px !important;
+    }
+    #navai-tool-dashboard .tools {
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+    #navai-tool-dashboard .brand {
+        margin-bottom:34px !important;
+    }
+}
+@media(max-width:560px) {
+    #navai-tool-dashboard {
+        padding:30px 14px 24px !important;
+    }
+    #navai-tool-dashboard .tools {
+        grid-template-columns:1fr !important;
+        gap:14px !important;
+    }
+    #navai-tool-dashboard .tool {
+        min-height:190px !important;
+    }
+    #navai-tool-dashboard .hero h1 {
+        font-size:32px !important;
+        letter-spacing:-1px !important;
+    }
 }
 </style>
+
+</body>
+</html>
+
