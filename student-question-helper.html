@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#06132d">
-    <title>Student Question Helper ? NavAI</title>
+<title>Student Question Helper  NavAI</title>
 <style>
 :root{color-scheme:dark;--bg:#041027;--panel:#081a38;--line:#174b89;--blue:#2780ff;--text:#edf5ff;--muted:#a7c5ed}
 *{box-sizing:border-box}
@@ -41,7 +41,14 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
 @media(max-width:760px){.layout{grid-template-columns:1fr}header{padding:15px}.panel{padding:16px}}
 @media print{body{background:white;color:#111}header,.form-panel,.actions,.no-print,footer{display:none!important}.panel{background:white;border:0;box-shadow:none;color:#111}.question,.answer{color:#111;border-color:#ddd;background:white}p{color:#333}}
 </style>
-<link rel="stylesheet" href="/static/pearl-aurora.css">
+<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
+<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
+<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
+
+<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
+<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
+    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
+<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
 </head>
 <body>
 <header>
@@ -82,7 +89,7 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
 <option>Numerical problems</option><option>Assertion and Reason</option>
 </select>
 <label for="difficulty">Difficulty</label>
-<select id="difficulty"><option>Exam Focus â€” High Priority</option><option>Easy Revision</option><option>Moderate</option><option>Hard Practice</option><option>Very Tough</option><option>Mixed</option></select>
+<select id="difficulty"><option>Exam Focus  High Priority</option><option>Easy Revision</option><option>Moderate</option><option>Hard Practice</option><option>Very Tough</option><option>Mixed</option></select>
 <label for="count">Number of questions</label>
 <select id="count"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
 <label for="marks">Total marks (optional)</label>
@@ -108,7 +115,7 @@ footer{text-align:center;color:#829fca;font-size:12px;padding:28px 12px}
 </section>
 </div>
 </main>
-<footer>NavAI Student Question Helper Ãƒâ€š? Educational practice tool Ãƒâ€š? Verify syllabus and marking scheme with your school</footer>
+<footer>NavAI Student Question Helper ? Educational practice tool ? Verify syllabus and marking scheme with your school</footer>
 <script>
 const $ = id => document.getElementById(id);
 let latestPaper = "";
@@ -163,7 +170,7 @@ Requirements:
 Return clean, readable plain text.`;
 
   $("generate").disabled = true;
-    $("status").textContent = "Generating questions?";
+  $("status").textContent = "Generating questions...";
   $("results").innerHTML = "<p>NavAI is preparing your practice paper. Please wait.</p>";
 
   try {
