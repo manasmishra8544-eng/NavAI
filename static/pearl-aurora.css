@@ -1,151 +1,228 @@
 :root {
-  color-scheme: light;
-  --pa-bg: #f0eff9;
-  --pa-surface: rgba(255,255,255,.76);
-  --pa-surface-solid: #fbfaff;
-  --pa-text: #20243b;
-  --pa-muted: #73758d;
-  --pa-border: rgba(119,112,173,.17);
-  --pa-primary: #7065d9;
-  --pa-primary-dark: #574cc0;
-  --pa-blue: #729ce9;
-  --pa-shadow: 0 12px 38px rgba(73,66,130,.09);
-  --pa-radius: 20px;
+  color-scheme: light !important;
+  --pa-bg: #f1eff9;
+  --pa-text: #27263d;
+  --pa-muted: #77758e;
+  --pa-border: rgba(119,105,180,.18);
+  --pa-card: rgba(255,255,255,.82);
+  --pa-primary: #7465d5;
+  --pa-shadow: 0 12px 36px rgba(72,62,130,.09);
 }
 
-html {
-  min-height: 100%;
-  background: var(--pa-bg) !important;
+html, body {
+  background: #f1eff9 !important;
+  color: var(--pa-text) !important;
+  min-height: 100% !important;
 }
 
 body {
-  min-height: 100vh;
-  color: var(--pa-text) !important;
   background:
-    radial-gradient(ellipse at 8% 4%, rgba(177,164,255,.30), transparent 34%),
-    radial-gradient(ellipse at 92% 12%, rgba(145,195,255,.30), transparent 32%),
-    radial-gradient(ellipse at 50% 100%, rgba(229,205,255,.28), transparent 40%),
-    linear-gradient(135deg, #f3f0fb 0%, #edf2fc 52%, #f8f0fb 100%) !important;
+    radial-gradient(ellipse at 8% 5%, rgba(187,170,255,.34), transparent 35%),
+    radial-gradient(ellipse at 92% 8%, rgba(151,194,255,.32), transparent 34%),
+    linear-gradient(135deg,#f5f1fc,#edf2fc 55%,#faf1fb) !important;
   background-attachment: fixed !important;
+  color: var(--pa-text) !important;
 }
 
-body, button, input, select, textarea {
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
+/* Main application layout */
+.app-shell {
+  background: transparent !important;
+  color: var(--pa-text) !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: var(--pa-text);
-  letter-spacing: -.035em;
+.app-shell .sidebar,
+#sidebar {
+  background: rgba(249,247,255,.94) !important;
+  color: #302d4c !important;
+  border-right: 1px solid var(--pa-border) !important;
+  box-shadow: 5px 0 30px rgba(70,60,120,.045) !important;
+  backdrop-filter: blur(22px) !important;
 }
 
-p, label, small {
+.sidebar *,
+.main-area,
+.main-area * {
+  --theme-text: var(--pa-text);
+}
+
+.main-area {
+  background: transparent !important;
+  color: var(--pa-text) !important;
+}
+
+.topbar {
+  background: rgba(250,249,255,.86) !important;
+  color: var(--pa-text) !important;
+  border-bottom: 1px solid var(--pa-border) !important;
+  box-shadow: 0 5px 24px rgba(70,60,120,.04) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.sidebar-top,
+.sidebar-bottom,
+.sidebar-section,
+.section-heading,
+.chat-history,
+.topbar-left,
+.page-title {
+  color: var(--pa-text) !important;
+  border-color: var(--pa-border) !important;
+}
+
+.sidebar a,
+.sidebar button,
+.sidebar span,
+.sidebar p,
+.sidebar h1,
+.sidebar h2,
+.sidebar h3 {
+  color: #393650 !important;
+}
+
+/* Welcome and dashboard */
+.welcome-screen,
+.welcome-content,
+#navai-tool-dashboard,
+.navai-reference-header,
+.navai-reference-prompts,
+.home-wrap,
+.hero {
+  background: transparent !important;
+  color: var(--pa-text) !important;
+}
+
+.eyebrow {
+  color: #786cbd !important;
+}
+
+.brand-name,
+.page-title,
+.hero h1,
+.welcome-content h1,
+.navai-reference-header h1 {
+  color: #292640 !important;
+}
+
+.navai-ref-profile,
+.navai-ref-tools,
+.navai-search-empty {
+  color: var(--pa-text) !important;
+  background: rgba(255,255,255,.66) !important;
+  border-color: var(--pa-border) !important;
+}
+
+/* Feature cards */
+.tools > *,
+.tools .tool-bottom,
+.tool-bottom,
+.tool-icon,
+.navai-ref-tools > * {
+  border-color: var(--pa-border) !important;
+}
+
+.tools > *,
+.tools > div,
+.tool-bottom {
+  background: rgba(255,255,255,.82) !important;
+  color: var(--pa-text) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--pa-shadow) !important;
+}
+
+.tools > *:hover {
+  background: #fff !important;
+  box-shadow: 0 16px 40px rgba(83,70,150,.14) !important;
+}
+
+.tool-icon {
+  background: linear-gradient(135deg,#eee9ff,#e6f0ff) !important;
+  border-radius: 16px !important;
+}
+
+.tool-bottom h2,
+.tool-bottom h3,
+.tool-bottom p,
+.tools h2,
+.tools h3,
+.tools p {
+  color: var(--pa-text) !important;
+}
+
+/* Conversation and composer */
+.conversation,
+.messages,
+.conversation-end {
+  background: transparent !important;
+  color: var(--pa-text) !important;
+}
+
+.composer-wrap,
+.composer-input-area {
+  background: rgba(255,255,255,.91) !important;
+  color: var(--pa-text) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 10px 34px rgba(72,62,130,.09) !important;
+}
+
+.composer-hint,
+.local-note,
+.history-empty {
+  color: var(--pa-muted) !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  color: #292640 !important;
+  background: rgba(255,255,255,.94) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 13px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9995ad !important;
+}
+
+/* Buttons */
+button, .btn, .button {
+  border-radius: 13px !important;
+}
+
+button.primary,
+.btn-primary,
+.primary-btn,
+button[type="submit"] {
+  background: linear-gradient(115deg,#7767d9,#79a5e9) !important;
+  color: white !important;
+  border-color: transparent !important;
+  box-shadow: 0 7px 20px rgba(112,98,205,.20) !important;
+}
+
+/* Common surfaces */
+.card, .feature-card, .tool-card, .panel, .widget,
+.modal-content, .stat-card, .settings-card {
+  background: var(--pa-card) !important;
+  color: var(--pa-text) !important;
+  border: 1px solid var(--pa-border) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--pa-shadow) !important;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  color: #292640;
+}
+
+p,label,small {
   color: inherit;
 }
 
 a {
-  color: var(--pa-primary);
-  transition: color .2s ease;
-}
-
-a:hover {
-  color: var(--pa-primary-dark);
-}
-
-header, nav, aside, .sidebar, .navbar, .topbar,
-.header, .app-header, .navigation {
-  border-color: var(--pa-border) !important;
-}
-
-header, .navbar, .topbar, .app-header {
-  background: rgba(250,249,255,.78) !important;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-.sidebar, aside {
-  background: rgba(248,247,255,.83) !important;
-  border-right: 1px solid var(--pa-border) !important;
-  backdrop-filter: blur(18px);
-}
-
-.card, .feature-card, .tool-card, .panel, .widget,
-.dashboard-card, .content-card, .glass-card,
-.modal-content, .settings-card, .stat-card {
-  color: var(--pa-text) !important;
-  background: var(--pa-surface) !important;
-  border: 1px solid var(--pa-border) !important;
-  border-radius: var(--pa-radius) !important;
-  box-shadow: var(--pa-shadow) !important;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-button, .btn, .button, input[type="submit"] {
-  border-radius: 13px;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-button:not(:disabled), .btn, .button, input[type="submit"] {
-  cursor: pointer;
-}
-
-button:hover:not(:disabled), .btn:hover, .button:hover {
-  transform: translateY(-1px);
-}
-
-button.primary, .btn-primary, .primary-btn,
-button[type="submit"], input[type="submit"] {
-  color: #fff !important;
-  background: linear-gradient(115deg, #7769df, #739de9) !important;
-  border: 1px solid transparent !important;
-  box-shadow: 0 7px 18px rgba(108,99,208,.20);
-}
-
-input:not([type="checkbox"]):not([type="radio"]),
-select, textarea {
-  color: var(--pa-text) !important;
-  background: rgba(255,255,255,.82) !important;
-  border: 1px solid var(--pa-border) !important;
-  border-radius: 12px !important;
-  outline-color: var(--pa-primary);
-}
-
-input::placeholder, textarea::placeholder {
-  color: #9998ad !important;
-}
-
-table {
-  color: var(--pa-text);
-  border-color: var(--pa-border);
-}
-
-th {
-  background: rgba(119,105,223,.09);
-}
-
-td, th {
-  border-color: var(--pa-border) !important;
-}
-
-hr {
-  border-color: var(--pa-border) !important;
-}
-
-.badge, .tag, .chip {
-  border-radius: 999px;
+  color: #6d60c9;
 }
 
 ::selection {
-  color: #fff;
-  background: #8175df;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .card, .feature-card, .tool-card, .panel, .widget {
-    transition: box-shadow .2s ease, transform .2s ease;
-  }
-
-  .card:hover, .feature-card:hover, .tool-card:hover {
-    box-shadow: 0 17px 42px rgba(73,66,130,.13) !important;
-  }
+  background: #b8aaff;
+  color: #27243e;
 }
