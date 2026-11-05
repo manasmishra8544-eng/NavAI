@@ -1,92 +1,121 @@
-﻿/* NAVAI — PEARL LAVENDER FINAL THEME */
-:root {
-  color-scheme: light !important;
-  --bg: #f5f1fa;
-  --surface: #fffaff;
-  --surface-2: #f0eafa;
-  --text: #302642;
-  --muted: #756b83;
-  --accent: #9875c9;
-  --accent-dark: #7853ad;
-  --border: #e5d9f0;
+﻿/* NAVAI PEARL LAVENDER — ACTUAL DASHBOARD SELECTORS */
+html, body,
+body.navai-dashboard-active {
+    background: #f7f3fc !important;
+    color: #302642 !important;
+    color-scheme: light !important;
 }
 
-html, body {
-  background: #f5f1fa !important;
-  color: #302642 !important;
+#navai-tool-dashboard {
+    background:
+      radial-gradient(ellipse at 8% 8%, #eee2ff 0, transparent 36%),
+      radial-gradient(ellipse at 92% 18%, #fce9f1 0, transparent 30%),
+      linear-gradient(135deg, #fbf9ff, #f3edfb 55%, #fff8fb) !important;
+    color: #302642 !important;
 }
 
-body {
-  background-image: none !important;
+#navai-tool-dashboard .navai-reference-header {
+    background: rgba(255,250,255,.94) !important;
+    border-bottom: 1px solid #e7d9f3 !important;
+    box-shadow: 0 5px 22px rgba(92,62,140,.08) !important;
+    backdrop-filter: blur(18px) !important;
 }
 
-/* Remove dark surfaces and blue gradients */
-body :is(
-  header, nav, aside, main, section, article,
-  [class*="sidebar"], [id*="sidebar"],
-  [class*="topbar"], [class*="header"],
-  [class*="dashboard"], [id*="dashboard"],
-  [class*="chat"], [id*="chat"],
-  [class*="feature"], [class*="tool-card"],
-  [class*="panel"], [class*="card"],
-  [class*="composer"], [class*="message"],
-  [class*="quiz"], [class*="container"]
-) {
-  background-color: #fffaff !important;
-  background-image: none !important;
-  border-color: #e5d9f0 !important;
-  box-shadow: 0 4px 22px rgba(111, 79, 151, .07) !important;
+#navai-tool-dashboard .navai-ref-logo {
+    color: #39264f !important;
+}
+#navai-tool-dashboard .navai-ref-logo span {
+    color: #9874c7 !important;
+}
+#navai-tool-dashboard .navai-ref-search {
+    color: #392e49 !important;
+    background-color: #f7f1fc !important;
+    border: 1px solid #dfd0ef !important;
+}
+#navai-tool-dashboard .navai-ref-profile {
+    color: #49385d !important;
+}
+#navai-tool-dashboard .navai-ref-avatar {
+    background: linear-gradient(135deg,#e4d2fa,#f8dce9) !important;
+    color: #67488b !important;
+}
+#navai-tool-dashboard .navai-ref-tools {
+    color: #8866ad !important;
 }
 
-/* Text */
-body :is(h1, h2, h3, h4, h5, h6, p, label, span, small, li, a) {
-  color: #302642;
+#navai-tool-dashboard .hero h1 {
+    color: #302440 !important;
+}
+#navai-tool-dashboard .hero h1 span {
+    background: linear-gradient(90deg,#a77bd0,#8064b5) !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+}
+#navai-tool-dashboard .hero p {
+    color: #81738f !important;
+}
+#navai-tool-dashboard .eyebrow {
+    color: #9878bd !important;
 }
 
-body :is(input, textarea, select) {
-  background: #fffaff !important;
-  color: #302642 !important;
-  border: 1px solid #ddcfea !important;
-  box-shadow: none !important;
+#navai-tool-dashboard .tool,
+#navai-tool-dashboard .tool:nth-child(3n+1),
+#navai-tool-dashboard .tool:nth-child(3n+2),
+#navai-tool-dashboard .tool:nth-child(3n) {
+    background: rgba(255,250,255,.94) !important;
+    background-image: none !important;
+    color: #382b49 !important;
+    border: 1px solid #e5d8f0 !important;
+    box-shadow: 0 9px 26px rgba(91,65,125,.09) !important;
+    backdrop-filter: blur(14px) !important;
 }
 
-body :is(input, textarea, select)::placeholder {
-  color: #9488a1 !important;
+#navai-tool-dashboard .tool:hover {
+    background: #fffaff !important;
+    border-color: #c9afe5 !important;
+    box-shadow: 0 14px 30px rgba(115,80,155,.14) !important;
 }
 
-/* Buttons */
-body button,
-body [role="button"],
-body input[type="button"],
-body input[type="submit"] {
-  border-color: #d8c5ed !important;
+#navai-tool-dashboard .tool::before {
+    background: none !important;
+    opacity: 0 !important;
 }
 
-body :is(button, [role="button"]).primary,
-body button[type="submit"] {
-  background: linear-gradient(135deg, #a98bd4, #8966bd) !important;
-  color: #fff !important;
+#navai-tool-dashboard .tool h2 {
+    color: #392b4c !important;
+}
+#navai-tool-dashboard .tool p {
+    color: #82758e !important;
+}
+#navai-tool-dashboard .tool-icon,
+#navai-tool-dashboard .tool:nth-child(3n+1) .tool-icon,
+#navai-tool-dashboard .tool:nth-child(3n+2) .tool-icon,
+#navai-tool-dashboard .tool:nth-child(3n) .tool-icon {
+    background: linear-gradient(135deg,#f0e5fc,#fceaf1) !important;
+    color: #936cbd !important;
+    border: 1px solid #eadcf5 !important;
+    box-shadow: none !important;
+}
+#navai-tool-dashboard .tool-bottom,
+#navai-tool-dashboard .tool:nth-child(3n+1) .tool-bottom,
+#navai-tool-dashboard .tool:nth-child(3n+2) .tool-bottom,
+#navai-tool-dashboard .tool:nth-child(3n) .tool-bottom {
+    background: linear-gradient(100deg,#a987cf,#8868b7) !important;
+    color: #fff !important;
+    text-shadow: none !important;
+}
+#navai-tool-dashboard .tool-arrow {
+    color: #fff !important;
+}
+#navai-tool-dashboard .footer {
+    color: #9889a5 !important;
 }
 
-/* Links and accents */
-body a {
-  color: #7853ad;
+#navai-tool-dashboard input {
+    color: #392e49 !important;
 }
-
-/* Oral Quiz and chatbot surfaces */
-#navai-tool-dashboard,
-.chat-container,
-.chat-main,
-.welcome-screen,
-.composer-area,
-.quiz-container,
-.quiz-card {
-  background: #f5f1fa !important;
-  color: #302642 !important;
-  background-image: none !important;
-}
-
-/* Keep media unchanged */
-body img, body video, body canvas, body svg {
-  filter: none;
+#navai-tool-dashboard input::placeholder {
+    color: #9a8ca7 !important;
 }
