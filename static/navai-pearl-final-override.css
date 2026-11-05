@@ -1,0 +1,78 @@
+﻿:root {
+  color-scheme: light !important;
+  --navai-bg: #f5f1fa;
+  --navai-surface: #fffaff;
+  --navai-soft: #eee6f7;
+  --navai-border: #e3d7ef;
+  --navai-text: #30283d;
+  --navai-muted: #81758f;
+  --navai-purple: #9270b8;
+  --navai-purple-dark: #76569e;
+}
+html, body {
+  background: #f5f1fa !important;
+  color: #30283d !important;
+  color-scheme: light !important;
+}
+#navai-tool-dashboard {
+  background: #f5f1fa !important;
+  color: #30283d !important;
+}
+#navai-tool-dashboard .tool-card,
+#navai-tool-dashboard .feature-card,
+#navai-tool-dashboard .dashboard-card,
+#navai-tool-dashboard [class*="tool-card"],
+#navai-tool-dashboard [class*="feature-card"] {
+  background: linear-gradient(145deg,#fffaff,#f3edf9) !important;
+  color: #30283d !important;
+  border: 1px solid #e3d7ef !important;
+  box-shadow: 0 8px 24px rgba(91,65,115,.07) !important;
+}
+#navai-tool-dashboard h1,
+#navai-tool-dashboard h2,
+#navai-tool-dashboard h3,
+#navai-tool-dashboard p,
+#navai-tool-dashboard span {
+  color: #40364d;
+}
+.sidebar {
+  background: linear-gradient(180deg,#fffaff,#f4edf9) !important;
+  color: #30283d !important;
+  border-color: #e3d7ef !important;
+}
+.topbar {
+  background: rgba(255,250,255,.97) !important;
+  color: #30283d !important;
+  border-color: #e3d7ef !important;
+}
+.chat-container, .chat-main, .welcome-screen, .composer-area {
+  background-color: #f5f1fa !important;
+  color: #30283d !important;
+}
+.composer {
+  background: #fffaff !important;
+  border-color: #dfd2eb !important;
+}
+.message-row.user .message-bubble {
+  background: linear-gradient(135deg,#eee4f8,#f9e9e3) !important;
+  color: #44364f !important;
+}
+.message-row.assistant .message-bubble {
+  color: #40364d !important;
+}
+.card, .panel, .quiz-panel, .question-panel, .result-panel,
+.output-panel, .content-card, .settings-panel {
+  background: #fffaff !important;
+  color: #30283d !important;
+  border-color: #e3d7ef !important;
+}
+input, textarea, select {
+  background: #fffaff !important;
+  color: #30283d !important;
+  border-color: #dfd2eb !important;
+}
+button.primary, .btn-primary, .primary-button {
+  background: #9270b8 !important;
+  color: white !important;
+}
+a { color: #76569e; }
