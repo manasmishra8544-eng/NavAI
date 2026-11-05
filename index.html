@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -365,6 +365,106 @@ body.navai-dashboard-active { background:#f6f2ff !important; overflow:hidden !im
 
 <link rel="stylesheet" href="/static/navai-pearl-lavender-force.css?v=20261104-205815">
 <link id="navai-chatbot-pearl-lavender" rel="stylesheet" href="/static/navai-chatbot-pearl-lavender.css?v=1">
+<style id="navai-mobile-layout-fix-v2">
+@media screen and (max-width: 600px) {
+
+    html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    body:has(#navai-tool-dashboard) {
+        display: block !important;
+    }
+
+    body:has(#navai-tool-dashboard) main,
+    body:has(#navai-tool-dashboard) .main-content,
+    body:has(#navai-tool-dashboard) .app-content,
+    body:has(#navai-tool-dashboard) .page-content,
+    body:has(#navai-tool-dashboard) .dashboard-content,
+    body:has(#navai-tool-dashboard) .content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+    }
+
+    #navai-tool-dashboard {
+        display: block !important;
+        position: relative !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        transform: none !important;
+        box-sizing: border-box !important;
+    }
+
+    #navai-tool-dashboard .home-wrap {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 auto !important;
+        padding: 12px 14px 28px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Green circle wale profile aur settings icons hide */
+    #navai-tool-dashboard .navai-ref-profile,
+    #navai-tool-dashboard .navai-ref-tools {
+        display: none !important;
+    }
+
+    #navai-tool-dashboard .navai-reference-header {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 0 14px !important;
+        padding: 8px 4px !important;
+        box-sizing: border-box !important;
+    }
+
+    #navai-tool-dashboard .hero,
+    #navai-tool-dashboard .brand,
+    #navai-tool-dashboard .tools {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    #navai-tool-dashboard .tools {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 14px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    #navai-tool-dashboard .tools > * {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    #navai-tool-dashboard * {
+        box-sizing: border-box;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -1823,4 +1923,3 @@ body.navai-dashboard-active #navai-tool-dashboard {
     });
 })();
 </script>
-
