@@ -1,0 +1,513 @@
+﻿/* NAVAI MOBILE REFERENCE DESIGN — MOBILE ONLY */
+@media (max-width: 720px) {
+
+  html, body {
+    color-scheme: light !important;
+  }
+
+  /* HOME DASHBOARD */
+  body.navai-dashboard-active {
+    background: #f5f8ff !important;
+    color: #25283b !important;
+  }
+
+  #navai-tool-dashboard {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow-y: auto !important;
+    display: block !important;
+    padding: 12px 13px 26px !important;
+    background:
+      radial-gradient(ellipse at 10% 0%, #e7f2ff 0, transparent 42%),
+      linear-gradient(160deg, #f7fbff, #edf5fc 65%, #f8f4ff) !important;
+    color: #273044 !important;
+  }
+
+  #navai-tool-dashboard .navai-reference-header {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding: 5px 2px 15px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #navai-tool-dashboard .navai-ref-logo,
+  #navai-tool-dashboard .navai-ref-search {
+    display: none !important;
+  }
+
+  #navai-tool-dashboard .navai-ref-profile {
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+    color: #242c40 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+  }
+
+  #navai-tool-dashboard .navai-ref-profile small {
+    color: #68758b !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+  }
+
+  #navai-tool-dashboard .navai-ref-avatar {
+    display: grid !important;
+    place-items: center !important;
+    width: 39px !important;
+    height: 39px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg,#d7eaff,#c9b8f7) !important;
+    color: #51427d !important;
+    font-size: 15px !important;
+  }
+
+  #navai-tool-dashboard .navai-ref-tools {
+    display: grid !important;
+    place-items: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    border: 1px solid #dce5f1 !important;
+    border-radius: 50% !important;
+    background: #ffffffc9 !important;
+    color: #39445b !important;
+    font-size: 19px !important;
+  }
+
+  #navai-tool-dashboard .home-wrap {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  #navai-tool-dashboard .home-wrap::before {
+    content: "PREMIUM PLAN  •  Explore your NavAI tools";
+    display: flex !important;
+    align-items: flex-end !important;
+    min-height: 105px !important;
+    width: 100% !important;
+    padding: 17px !important;
+    margin: 0 0 19px !important;
+    border-radius: 17px !important;
+    background:
+      radial-gradient(circle at 83% 30%,#b9e5ff 0 11%,transparent 12%),
+      linear-gradient(115deg,#58b9ec,#477ce0 62%,#6b9bf1) !important;
+    box-shadow: 0 8px 20px #568bd52b !important;
+    color: white !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    letter-spacing: .2px !important;
+  }
+
+  #navai-tool-dashboard .home-wrap > .brand {
+    display: none !important;
+  }
+
+  #navai-tool-dashboard .hero {
+    text-align: left !important;
+    margin: 0 0 13px !important;
+  }
+
+  #navai-tool-dashboard .hero .eyebrow {
+    display: none !important;
+  }
+
+  #navai-tool-dashboard .hero h1 {
+    margin: 0 0 4px !important;
+    color: #26334a !important;
+    font-size: 19px !important;
+    letter-spacing: -.5px !important;
+    line-height: 1.3 !important;
+  }
+
+  #navai-tool-dashboard .hero h1 span {
+    color: #26334a !important;
+    background: none !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #navai-tool-dashboard .hero p {
+    margin: 0 !important;
+    color: #8190a5 !important;
+    font-size: 12px !important;
+  }
+
+  #navai-tool-dashboard .tools {
+    display: grid !important;
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  #navai-tool-dashboard .tool,
+  #navai-tool-dashboard .tool:nth-child(3n+1),
+  #navai-tool-dashboard .tool:nth-child(3n+2),
+  #navai-tool-dashboard .tool:nth-child(3n) {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    min-height: 145px !important;
+    padding: 13px !important;
+    border: 1px solid #e1e9f3 !important;
+    border-radius: 16px !important;
+    background: #ffffffed !important;
+    background-image: none !important;
+    box-shadow: 0 5px 16px #637c9b12 !important;
+    color: #29354b !important;
+    backdrop-filter: blur(12px) !important;
+  }
+
+  #navai-tool-dashboard .tool:active {
+    transform: scale(.98) !important;
+  }
+
+  #navai-tool-dashboard .tool-icon,
+  #navai-tool-dashboard .tool:nth-child(3n+1) .tool-icon,
+  #navai-tool-dashboard .tool:nth-child(3n+2) .tool-icon,
+  #navai-tool-dashboard .tool:nth-child(3n) .tool-icon {
+    width: 37px !important;
+    height: 37px !important;
+    flex-basis: 37px !important;
+    margin: 0 0 10px !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: #eaf3ff !important;
+    color: #508bd6 !important;
+    box-shadow: none !important;
+    font-size: 19px !important;
+  }
+
+  #navai-tool-dashboard .tool h2 {
+    margin: 0 0 5px !important;
+    color: #303b50 !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    font-weight: 750 !important;
+  }
+
+  #navai-tool-dashboard .tool p {
+    display: block !important;
+    margin: 0 0 9px !important;
+    color: #8995a8 !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+  }
+
+  #navai-tool-dashboard .tool-bottom,
+  #navai-tool-dashboard .tool:nth-child(3n+1) .tool-bottom,
+  #navai-tool-dashboard .tool:nth-child(3n+2) .tool-bottom,
+  #navai-tool-dashboard .tool:nth-child(3n) .tool-bottom {
+    margin-top: auto !important;
+    padding-top: 5px !important;
+    color: #5489cb !important;
+    font-size: 10px !important;
+  }
+
+  #navai-tool-dashboard .tool-arrow {
+    color: #5489cb !important;
+  }
+
+  #navai-tool-dashboard .footer {
+    margin-top: 20px !important;
+    color: #9ba8ba !important;
+  }
+
+  /* CHAT SCREEN */
+  body.navai-chat-view {
+    background:
+      radial-gradient(ellipse at 0% 0%,#ffe9dc,transparent 45%),
+      radial-gradient(ellipse at 100% 0%,#ead8ff,transparent 42%),
+      linear-gradient(145deg,#fff4ed,#f1e8f8 60%,#e8e3f8) !important;
+    color: #302b3d !important;
+  }
+
+  body.navai-chat-view .sidebar {
+    display: none !important;
+  }
+
+  body.navai-chat-view .main-area {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100dvh !important;
+    background: transparent !important;
+  }
+
+  body.navai-chat-view .topbar {
+    min-height: 64px !important;
+    padding: 10px 15px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body.navai-chat-view .page-title {
+    color: #282538 !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+  }
+
+  body.navai-chat-view .online-dot {
+    display: none !important;
+  }
+
+  body.navai-chat-view .welcome-screen {
+    background: transparent !important;
+  }
+
+  body.navai-chat-view .welcome-content {
+    padding: 18px !important;
+  }
+
+  body.navai-chat-view .welcome-content h1 {
+    color: #342b43 !important;
+  }
+
+  body.navai-chat-view .welcome-content p {
+    color: #80758e !important;
+  }
+
+  body.navai-chat-view .navai-reference-prompts button {
+    border: 1px solid #e4d8ee !important;
+    border-radius: 22px !important;
+    background: #ffffffa8 !important;
+    color: #5d4c70 !important;
+  }
+
+  body.navai-chat-view .conversation {
+    background: transparent !important;
+  }
+
+  body.navai-chat-view .messages {
+    padding: 14px 12px 120px !important;
+  }
+
+  body.navai-chat-view .message-row {
+    gap: 8px !important;
+    margin: 15px 0 !important;
+  }
+
+  body.navai-chat-view .message-avatar {
+    display: grid !important;
+    place-items: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    flex: 0 0 34px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg,#d8b7ff,#f6a9d9) !important;
+    color: #fff !important;
+  }
+
+  body.navai-chat-view .message-author {
+    display: none !important;
+  }
+
+  body.navai-chat-view .message-content {
+    max-width: 84% !important;
+  }
+
+  body.navai-chat-view .message-bubble {
+    padding: 14px 16px !important;
+    border: 1px solid #ffffffa8 !important;
+    border-radius: 20px !important;
+    background: #ffffffb8 !important;
+    color: #383244 !important;
+    box-shadow: 0 5px 16px #6b547b0d !important;
+    line-height: 1.65 !important;
+  }
+
+  body.navai-chat-view .message-row.user {
+    justify-content: flex-end !important;
+  }
+
+  body.navai-chat-view .message-row.user .message-bubble {
+    border: 0 !important;
+    border-radius: 20px 20px 4px 20px !important;
+    background: #b76cf0 !important;
+    color: white !important;
+  }
+
+  body.navai-chat-view .message-row.user .message-avatar {
+    order: 2 !important;
+  }
+
+  body.navai-chat-view .composer-area {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 50 !important;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom)) !important;
+    background: linear-gradient(transparent,#f4eafa 25%) !important;
+    border: 0 !important;
+  }
+
+  body.navai-chat-view .composer-wrap {
+    border: 1px solid #ffffff !important;
+    border-radius: 20px !important;
+    background: #ffffffc9 !important;
+    box-shadow: 0 5px 20px #725b8514 !important;
+  }
+
+  body.navai-chat-view .composer {
+    background: transparent !important;
+  }
+
+  body.navai-chat-view .composer textarea,
+  body.navai-chat-view .composer input {
+    color: #393346 !important;
+  }
+
+  body.navai-chat-view .send-button {
+    border-radius: 12px !important;
+    background: #171725 !important;
+    color: white !important;
+  }
+
+  /* VOICE SCREEN */
+  body:has(.navai-oral-robot-showcase) {
+    min-height: 100dvh !important;
+    background:
+      radial-gradient(ellipse at 10% 18%,#ffe9dc,transparent 42%),
+      radial-gradient(ellipse at 90% 12%,#e6d3ff,transparent 42%),
+      linear-gradient(145deg,#f9edf2,#eee5f6 70%,#f8e9ed) !important;
+    color: #393246 !important;
+  }
+
+  .navai-oral-robot-showcase {
+    display: none !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .app {
+    width: 100% !important;
+    max-width: 480px !important;
+    min-height: 100dvh !important;
+    padding: 16px 18px calc(22px + env(safe-area-inset-bottom)) !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .topbar {
+    min-height: 42px !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .brand {
+    color: #3a3049 !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .live-status {
+    color: #82738f !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .hero {
+    padding: 28px 0 0 !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .hero > .eyebrow,
+  body:has(.navai-oral-robot-showcase) .hero > h1,
+  body:has(.navai-oral-robot-showcase) .hero > .subtitle {
+    display: none !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .orb-button {
+    display: grid !important;
+    place-items: center !important;
+    width: min(64vw,235px) !important;
+    height: min(64vw,235px) !important;
+    margin: 26px auto 28px !important;
+    padding: 0 !important;
+    border: 2px solid #ffffffb8 !important;
+    border-radius: 50% !important;
+    background:
+      radial-gradient(ellipse at 30% 25%,#ffffff 0%,#9feaff 17%,#a58bff 39%,#ff9dd9 62%,#ffe7a8 78%,#d58df2 100%) !important;
+    box-shadow:
+      0 0 0 7px #d9b9f344,
+      0 0 0 14px #c7a0e522,
+      inset 0 5px 14px #ffffffc9,
+      0 15px 35px #ad78d64a !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .orb-core {
+    display: grid !important;
+    place-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    background: linear-gradient(145deg,#ffffff25,#edb4ff20) !important;
+    color: white !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .microphone {
+    width: 31px !important;
+    height: 39px !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .orb-caption {
+    color: #66566f !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .hint {
+    color: #887b91 !important;
+    font-size: 12px !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .conversation {
+    margin-top: 28px !important;
+    padding: 15px !important;
+    border: 1px solid #ffffffa8 !important;
+    border-radius: 19px !important;
+    background: #ffffff85 !important;
+    box-shadow: 0 7px 20px #785d8910 !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .conversation-label {
+    color: #a087b5 !important;
+    font-size: 9px !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .transcript,
+  body:has(.navai-oral-robot-showcase) .reply {
+    color: #40364a !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .controls {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-top: 18px !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .control {
+    border: 1px solid #ffffff !important;
+    border-radius: 22px !important;
+    background: #ffffff9c !important;
+    color: #62526f !important;
+    padding: 10px 13px !important;
+  }
+
+  body:has(.navai-oral-robot-showcase) .footer-status,
+  body:has(.navai-oral-robot-showcase) .privacy-note {
+    color: #94869b !important;
+  }
+}
+
+@media (max-width: 390px) {
+  #navai-tool-dashboard .tool {
+    min-height: 135px !important;
+    padding: 11px !important;
+  }
+
+  #navai-tool-dashboard .tool p {
+    font-size: 9px !important;
+  }
+}
