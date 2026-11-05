@@ -1,78 +1,92 @@
-﻿:root {
+﻿/* NAVAI — PEARL LAVENDER FINAL THEME */
+:root {
   color-scheme: light !important;
-  --navai-bg: #f5f1fa;
-  --navai-surface: #fffaff;
-  --navai-soft: #eee6f7;
-  --navai-border: #e3d7ef;
-  --navai-text: #30283d;
-  --navai-muted: #81758f;
-  --navai-purple: #9270b8;
-  --navai-purple-dark: #76569e;
+  --bg: #f5f1fa;
+  --surface: #fffaff;
+  --surface-2: #f0eafa;
+  --text: #302642;
+  --muted: #756b83;
+  --accent: #9875c9;
+  --accent-dark: #7853ad;
+  --border: #e5d9f0;
 }
+
 html, body {
   background: #f5f1fa !important;
-  color: #30283d !important;
-  color-scheme: light !important;
+  color: #302642 !important;
 }
-#navai-tool-dashboard {
+
+body {
+  background-image: none !important;
+}
+
+/* Remove dark surfaces and blue gradients */
+body :is(
+  header, nav, aside, main, section, article,
+  [class*="sidebar"], [id*="sidebar"],
+  [class*="topbar"], [class*="header"],
+  [class*="dashboard"], [id*="dashboard"],
+  [class*="chat"], [id*="chat"],
+  [class*="feature"], [class*="tool-card"],
+  [class*="panel"], [class*="card"],
+  [class*="composer"], [class*="message"],
+  [class*="quiz"], [class*="container"]
+) {
+  background-color: #fffaff !important;
+  background-image: none !important;
+  border-color: #e5d9f0 !important;
+  box-shadow: 0 4px 22px rgba(111, 79, 151, .07) !important;
+}
+
+/* Text */
+body :is(h1, h2, h3, h4, h5, h6, p, label, span, small, li, a) {
+  color: #302642;
+}
+
+body :is(input, textarea, select) {
+  background: #fffaff !important;
+  color: #302642 !important;
+  border: 1px solid #ddcfea !important;
+  box-shadow: none !important;
+}
+
+body :is(input, textarea, select)::placeholder {
+  color: #9488a1 !important;
+}
+
+/* Buttons */
+body button,
+body [role="button"],
+body input[type="button"],
+body input[type="submit"] {
+  border-color: #d8c5ed !important;
+}
+
+body :is(button, [role="button"]).primary,
+body button[type="submit"] {
+  background: linear-gradient(135deg, #a98bd4, #8966bd) !important;
+  color: #fff !important;
+}
+
+/* Links and accents */
+body a {
+  color: #7853ad;
+}
+
+/* Oral Quiz and chatbot surfaces */
+#navai-tool-dashboard,
+.chat-container,
+.chat-main,
+.welcome-screen,
+.composer-area,
+.quiz-container,
+.quiz-card {
   background: #f5f1fa !important;
-  color: #30283d !important;
+  color: #302642 !important;
+  background-image: none !important;
 }
-#navai-tool-dashboard .tool-card,
-#navai-tool-dashboard .feature-card,
-#navai-tool-dashboard .dashboard-card,
-#navai-tool-dashboard [class*="tool-card"],
-#navai-tool-dashboard [class*="feature-card"] {
-  background: linear-gradient(145deg,#fffaff,#f3edf9) !important;
-  color: #30283d !important;
-  border: 1px solid #e3d7ef !important;
-  box-shadow: 0 8px 24px rgba(91,65,115,.07) !important;
+
+/* Keep media unchanged */
+body img, body video, body canvas, body svg {
+  filter: none;
 }
-#navai-tool-dashboard h1,
-#navai-tool-dashboard h2,
-#navai-tool-dashboard h3,
-#navai-tool-dashboard p,
-#navai-tool-dashboard span {
-  color: #40364d;
-}
-.sidebar {
-  background: linear-gradient(180deg,#fffaff,#f4edf9) !important;
-  color: #30283d !important;
-  border-color: #e3d7ef !important;
-}
-.topbar {
-  background: rgba(255,250,255,.97) !important;
-  color: #30283d !important;
-  border-color: #e3d7ef !important;
-}
-.chat-container, .chat-main, .welcome-screen, .composer-area {
-  background-color: #f5f1fa !important;
-  color: #30283d !important;
-}
-.composer {
-  background: #fffaff !important;
-  border-color: #dfd2eb !important;
-}
-.message-row.user .message-bubble {
-  background: linear-gradient(135deg,#eee4f8,#f9e9e3) !important;
-  color: #44364f !important;
-}
-.message-row.assistant .message-bubble {
-  color: #40364d !important;
-}
-.card, .panel, .quiz-panel, .question-panel, .result-panel,
-.output-panel, .content-card, .settings-panel {
-  background: #fffaff !important;
-  color: #30283d !important;
-  border-color: #e3d7ef !important;
-}
-input, textarea, select {
-  background: #fffaff !important;
-  color: #30283d !important;
-  border-color: #dfd2eb !important;
-}
-button.primary, .btn-primary, .primary-button {
-  background: #9270b8 !important;
-  color: white !important;
-}
-a { color: #76569e; }
