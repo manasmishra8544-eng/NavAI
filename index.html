@@ -1314,290 +1314,67 @@ body.navai-dashboard-active { background:#f6f2ff !important; }
 
 <link rel="stylesheet" href="/static/navai-pearl-final-override.css?v=2">
 <link rel="stylesheet" href="/static/navai-reference-mobile.css?v=1">
-<style id="navai-mobile-dashboard-final">
-@media (max-width:720px) {
 
+<style id="navai-mobile-dashboard-final">
+@media screen and (max-width: 720px) {
   html, body {
-    color-scheme: light !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
   }
 
   #navai-tool-dashboard {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    display: block !important;
-    padding: 12px 13px 28px !important;
+    position: relative !important;
+    left: calc(50% - 50vw) !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 12px 16px 28px !important;
     box-sizing: border-box !important;
-    background:
-      radial-gradient(ellipse at 5% 5%,#dceeff 0,transparent 40%),
-      linear-gradient(145deg,#f7fbff,#edf5fc 65%,#f7f2ff) !important;
-    color: #29354b !important;
+    transform: none !important;
   }
 
   #navai-tool-dashboard .home-wrap {
-    display: block !important;
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-  }
-
-  /* Compact top header */
-  #navai-tool-dashboard .navai-reference-header {
-    display: flex !important;
-    width: 100% !important;
-    min-height: 48px !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-    padding: 2px 1px 12px !important;
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-  }
-
-  #navai-tool-dashboard .navai-ref-logo {
-    display: block !important;
-    color: #27364d !important;
-    font-size: 21px !important;
-    font-weight: 850 !important;
-    letter-spacing: -.7px !important;
-  }
-
-  #navai-tool-dashboard .navai-ref-logo span {
-    color: #568bd5 !important;
-  }
-
-  #navai-tool-dashboard .navai-ref-search {
-    display: none !important;
-  }
-
-  #navai-tool-dashboard .navai-ref-profile {
-    display: flex !important;
-    align-items: center !important;
-    gap: 7px !important;
-    margin-left: auto !important;
-    color: #3c4960 !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-  }
-
-  #navai-tool-dashboard .navai-ref-profile small {
-    color: #8592a5 !important;
-    font-size: 9px !important;
-    font-weight: 500 !important;
-  }
-
-  #navai-tool-dashboard .navai-ref-avatar {
-    display: grid !important;
-    place-items: center !important;
-    width: 35px !important;
-    height: 35px !important;
-    border-radius: 50% !important;
-    background: linear-gradient(135deg,#d8eaff,#d9c9ff) !important;
-    color: #536da5 !important;
-    border: 1px solid #ffffff !important;
-  }
-
-  #navai-tool-dashboard .navai-ref-tools {
-    display: grid !important;
-    place-items: center !important;
-    width: 36px !important;
-    height: 36px !important;
-    border-radius: 50% !important;
-    border: 1px solid #dce7f4 !important;
-    background: #ffffffd9 !important;
-    color: #53647d !important;
-    font-size: 16px !important;
-  }
-
-  /* Remove duplicate desktop brand */
-  #navai-tool-dashboard .home-wrap > .brand {
-    display: none !important;
-  }
-
-  /* Hero becomes a compact blue welcome banner */
-  #navai-tool-dashboard .hero {
-    display: block !important;
-    width: 100% !important;
-    margin: 3px 0 19px !important;
-    padding: 19px 17px !important;
-    min-height: 112px !important;
-    text-align: left !important;
-    border-radius: 17px !important;
-    background: linear-gradient(115deg,#55b8e8,#397de0 72%,#668de9) !important;
-    box-shadow: 0 8px 20px #568bd52b !important;
-  }
-
-  #navai-tool-dashboard .hero .eyebrow {
-    margin: 0 0 8px !important;
-    color: #eaf7ff !important;
-    text-align: left !important;
-    font-size: 9px !important;
-    letter-spacing: 1.6px !important;
-  }
-
-  #navai-tool-dashboard .hero h1 {
-    margin: 0 0 6px !important;
-    color: #ffffff !important;
-    font-size: 21px !important;
-    line-height: 1.2 !important;
-    letter-spacing: -.5px !important;
-    text-align: left !important;
-  }
-
-  #navai-tool-dashboard .hero h1 span {
-    color: #ffffff !important;
-    background: none !important;
-    -webkit-text-fill-color: #ffffff !important;
-  }
-
-  #navai-tool-dashboard .hero p {
-    margin: 0 !important;
-    color: #eff8ff !important;
-    font-size: 10px !important;
-    line-height: 1.5 !important;
-    text-align: left !important;
-  }
-
-  /* Two-column compact Quick Access layout */
-  #navai-tool-dashboard .tools {
-    display: grid !important;
-    width: 100% !important;
-    max-width: none !important;
-    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
-    gap: 10px !important;
-    align-items: stretch !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) {
     display: flex !important;
     flex-direction: column !important;
-    position: relative !important;
+    align-items: stretch !important;
     width: 100% !important;
+    max-width: none !important;
     min-width: 0 !important;
-    min-height: 145px !important;
-    height: auto !important;
     margin: 0 !important;
-    padding: 13px !important;
-    overflow: hidden !important;
-    border: 1px solid #e0eaf5 !important;
-    border-radius: 16px !important;
-    background: #ffffff !important;
-    background-image: none !important;
-    color: #303c52 !important;
-    box-shadow: 0 5px 15px #637c9b14 !important;
-    transform: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    text-decoration: none !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    gap: 20px !important;
   }
 
-  #navai-tool-dashboard .tools > .tool:nth-child(n)::before {
-    display: none !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n):hover {
-    background: #ffffff !important;
-    border-color: #c8ddf4 !important;
-    box-shadow: 0 7px 18px #637c9b20 !important;
-    transform: none !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) .tool-icon {
-    display: grid !important;
-    place-items: center !important;
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important;
-    margin: 0 0 10px !important;
-    border: 0 !important;
-    border-radius: 12px !important;
-    background: #eaf3ff !important;
-    color: #508bd6 !important;
-    box-shadow: none !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) .tool-icon svg {
-    width: 19px !important;
-    height: 19px !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) h2 {
-    margin: 0 0 5px !important;
-    color: #303c52 !important;
-    font-size: 12px !important;
-    line-height: 1.35 !important;
-    font-weight: 750 !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) p {
-    display: -webkit-box !important;
-    -webkit-box-orient: vertical !important;
-    -webkit-line-clamp: 2 !important;
-    overflow: hidden !important;
-    margin: 0 0 9px !important;
-    color: #8995a8 !important;
-    font-size: 9px !important;
-    line-height: 1.45 !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) .tool-bottom {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 4px !important;
+  #navai-tool-dashboard .navai-reference-header,
+  #navai-tool-dashboard .hero,
+  #navai-tool-dashboard .tools {
     width: 100% !important;
-    margin-top: auto !important;
-    padding: 0 !important;
-    background: transparent !important;
-    color: #568bd5 !important;
-    font-size: 9px !important;
-    font-weight: 700 !important;
-    text-shadow: none !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) .tool-bottom span:first-child {
-    display: inline !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    color: #568bd5 !important;
-  }
-
-  #navai-tool-dashboard .tools > .tool:nth-child(n) .tool-arrow {
-    color: #568bd5 !important;
-    font-size: 16px !important;
-  }
-
-  #navai-tool-dashboard .footer {
-    margin: 19px 0 0 !important;
-    color: #9aa8ba !important;
-    font-size: 9px !important;
-    text-align: center !important;
-  }
-}
-
-@media(max-width:360px) {
-  #navai-tool-dashboard {
-    padding-left: 10px !important;
-    padding-right: 10px !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    align-self: stretch !important;
   }
 
   #navai-tool-dashboard .tools {
-    gap: 8px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    justify-content: stretch !important;
+    justify-items: stretch !important;
+    gap: 18px !important;
   }
 
-  #navai-tool-dashboard .tools > .tool:nth-child(n) {
-    padding: 10px !important;
-    min-height: 140px !important;
+  #navai-tool-dashboard .tool {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
   }
 }
 </style>
@@ -1744,4 +1521,3 @@ body.navai-dashboard-active #navai-tool-dashboard {
     background-color: #f6f2ff !important;
 }
 </style>
-
