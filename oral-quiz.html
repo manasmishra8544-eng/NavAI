@@ -3,116 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f5f1fa">
-<title>NavAI Voice Buddy</title>
+<meta name="theme-color" content="#f5eff8">
+<title>NavAI Buddy</title>
 <link rel="stylesheet" href="/oral-quiz.css">
-<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
-<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
-<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
-
-<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
-<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
-    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
-<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
-<link rel="stylesheet" href="/static/pearl-aurora.css">
-<link rel="stylesheet" href="/static/navai-feature-pearl-aurora.css?v=2">
-
-<link rel="stylesheet" href="/static/navai-pearl-lavender-force.css?v=20261104-205815">
-<link rel="stylesheet" href="/static/navai-pearl-final-override.css?v=1">
-
-<link rel="stylesheet" href="/static/navai-feature-unified-lavender.css?v=20261106">
 </head>
 <body>
-<main class="app">
+<main class="voice-app">
+
   <header class="topbar">
-    <a class="brand" href="/" aria-label="NavAI home"><span class="brand-dot"></span> NavAI <span class="brand-tag">VOICE</span></a>
-    <span class="live-status" id="connection"><i></i> READY</span>
-  </header>
-<section class="navai-oral-robot-showcase" aria-label="NavAI Voice Buddy">
-  <div class="navai-orbital navai-orbital-one"></div>
-  <div class="navai-orbital navai-orbital-two"></div>
-  <div class="navai-robot-copy">
-    <span class="navai-robot-eyebrow">NAVAI INTELLIGENT LEARNING</span>
-    <h1>Meet your NavAI Voice Buddy.</h1>
-    <p>Think it. Say it. Master it.</p>
-    <span class="navai-robot-status"><i></i> Your voice buddy is ready</span>
-  </div>
-  <div class="navai-robot-art" aria-hidden="true">
-    <div class="navai-robot-halo"></div>
-    <div class="navai-robot-ear navai-robot-ear-left"></div>
-    <div class="navai-robot-ear navai-robot-ear-right"></div>
-    <div class="navai-robot-head">
-      <div class="navai-robot-antenna"></div>
-      <div class="navai-robot-face">
-        <span class="navai-robot-eye"></span>
-        <span class="navai-robot-eye"></span>
-        <span class="navai-robot-mouth"></span>
-      </div>
-      <div class="navai-robot-cheek navai-robot-cheek-left"></div>
-      <div class="navai-robot-cheek navai-robot-cheek-right"></div>
-    </div>
-    <div class="navai-robot-neck"></div>
-    <div class="navai-robot-body">
-      <span class="navai-robot-core">N</span>
-      <span class="navai-robot-body-light"></span>
-    </div>
-  </div>
-</section>
+    <a class="top-icon" href="/" aria-label="Back to NavAI">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
 
+    <div class="top-brand">NavAI <span>BUDDY</span></div>
 
-  <section class="hero">
-    <div class="eyebrow"><span class="eyebrow-line"></span> YOUR VOICE BUDDY <span class="eyebrow-line"></span></div>
-    <h1>Meet your NavAI Voice Buddy.<br><span>Let's learn together.</span></h1>
-    <p class="subtitle">Your voice friend and study partner. Just talk to NavAI.</p>
-
-    <button class="orb-button" id="mic" aria-label="Start voice conversation">
-      <span class="orb-halo halo-one"></span>
-      <span class="orb-halo halo-two"></span>
-      <span class="orb-core">
-        <svg class="microphone" viewBox="0 0 120 150" aria-hidden="true">
-          <rect x="42" y="8" width="36" height="76" rx="18" fill="none" stroke="currentColor" stroke-width="7"/>
-          <path d="M26 64v8a34 34 0 0 0 68 0v-8M60 106v24M42 130h36" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-        </svg>
-      </span>
+    <button class="top-icon" id="historyToggle" aria-label="Conversation history">
+      <svg viewBox="0 0 24 24"><path d="M4 5h16v12H8l-4 3V5Z"/><path d="M8 9h8M8 13h5"/></svg>
     </button>
-    <div class="orb-caption" id="orbCaption">TAP TO START TALKING</div>
-    <p class="hint" id="hint">NavAI will listen, speak and guide you.</p>
+    <span id="connection" class="connection"><i></i> READY</span>
+  </header>
 
-    <div class="conversation" aria-live="polite">
-      <div class="conversation-label"><span class="sound-bars"><i></i><i></i><i></i></span> LIVE CONVERSATION</div>
-      <div id="transcript" class="transcript">Hey! I'm NavAI Voice Buddy. Speak in Hindi, Hinglish, or English, and I'll respond in the same language.</div>
+  <section class="voice-stage">
+    <div class="stage-label" id="orbCaption">READY WHEN YOU ARE</div>
+    <div class="stage-title" id="stageTitle">Hey, I'm NavAI Buddy.</div>
+    <div class="stage-subtitle" id="stageSubtitle">Your voice companion. Let's talk.</div>
+
+    <div class="orb-wrap">
+      <div class="orb-aura aura-one"></div>
+      <div class="orb-aura aura-two"></div>
+      <div class="orb-aura aura-three"></div>
+
+      <button id="mic" class="orb-button" aria-label="Start voice conversation">
+        <span class="orb-glass">
+          <span class="orb-shine"></span>
+          <span class="orb-inner"></span>
+        </span>
+        <span class="mic-symbol">
+          <svg viewBox="0 0 24 24">
+            <rect x="9" y="2" width="6" height="13" rx="3"/>
+            <path d="M5 11v1a7 7 0 0 0 14 0v-1M12 19v3M9 22h6"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <div class="conversation-text" aria-live="polite">
+      <div id="transcript" class="transcript">
+        Hey! I'm NavAI. Tap the microphone and tell me what's on your mind.
+      </div>
       <div id="reply" class="reply"></div>
     </div>
 
-    <div class="controls">
-      <button id="repeat" class="control"><span aria-hidden="true">&#8635;</span> Repeat</button>
-      <button id="unknown" class="control"><span aria-hidden="true">&#10024;</span> Explain it</button>
-      <button id="pause" class="control"><span aria-hidden="true">&#10074;&#10074;</span> Pause</button>
-    </div>
-    <div class="footer-status" id="status">Ready when you are.</div>
-    <div class="privacy-note">Your microphone is controlled by your browser. You can stop the session anytime.</div>
+    <p class="voice-status" id="status">Tap the microphone to start talking.</p>
+    <p class="voice-hint" id="hint">Speak naturally in Hindi, Hinglish or English.</p>
   </section>
+
+  <footer class="bottom-controls">
+    <button class="bottom-icon" id="searchToggle" aria-label="Type a message">
+      <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+    </button>
+
+    <button class="bottom-mic" id="micShortcut" aria-label="Start or stop listening">
+      <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 11v1a7 7 0 0 0 14 0v-1M12 19v3M9 22h6"/></svg>
+    </button>
+
+    <button class="bottom-icon close-icon" id="closeVoice" aria-label="Close voice assistant">
+      <svg viewBox="0 0 24 24"><path d="m18 6-12 12M6 6l12 12"/></svg>
+    </button>
+  </footer>
+
+  <section class="history-panel" id="historyPanel" hidden>
+    <div class="panel-heading">
+      <strong>Recent conversation</strong>
+      <button id="historyClose" aria-label="Close history">×</button>
+    </div>
+    <div id="historyItems" class="history-items">
+      <p>Your conversation will appear here.</p>
+    </div>
+  </section>
+
+  <section class="search-panel" id="searchPanel" hidden>
+    <form id="textForm">
+      <input id="textMessage" type="text" placeholder="Type something to NavAI..." autocomplete="off">
+      <button type="submit" aria-label="Send message">
+        <svg viewBox="0 0 24 24"><path d="m4 12 16-8-6 16-3-7-7-1Z"/></svg>
+      </button>
+    </form>
+  </section>
+
+  <!-- Compatibility elements retained for the existing voice engine -->
+  <div class="legacy-controls" aria-hidden="true">
+    <button id="repeat" type="button">Repeat</button>
+    <button id="unknown" type="button">Explain</button>
+    <button id="pause" type="button">Pause</button>
+  </div>
+
 </main>
 <script src="/oral-quiz.js"></script>
-<script src="/math-renderer.js"></script>
-
-<link rel="stylesheet" href="/static/navai-reference-mobile.css?v=1">
-
-<style>@import url('/static/navai-feature-final-lavender.css?v=1');</style>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

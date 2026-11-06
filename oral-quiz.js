@@ -644,4 +644,69 @@
   } else {
     status("Tap the microphone to chat with NavAI.");
   }
+
+// NAVAI_VOICE_SCREEN_CONTROLS_V1
+const historyToggle = document.getElementById("historyToggle");
+const historyPanel = document.getElementById("historyPanel");
+const historyItems = document.getElementById("historyItems");
+const searchToggle = document.getElementById("searchToggle");
+const searchPanel = document.getElementById("searchPanel");
+const textForm = document.getElementById("textForm");
+const textMessage = document.getElementById("textMessage");
+const micShortcut = document.getElementById("micShortcut");
+const closeVoice = document.getElementById("closeVoice");
+
+function renderVoiceHistory() {
+  if (!historyItems) return;
+  if (!history.length) {
+    historyItems.innerHTML = "<p>Your conversation will appear here.</p>";
+    return;
+  }
+  historyItems.replaceChildren();
+  history.slice().reverse().forEach(item => {
+    const entry = document.createElement("div");
+    entry.className = "history-entry";
+    const question = document.createElement("strong");
+    question.textContent = "You: " + (item.student || "");
+    const answer = document.createElement("div");
+    answer.textContent = "NavAI: " + (item.tutor || "");
+    entry.append(question, answer);
+    historyItems.appendChild(entry);
+  });
+}
+
+historyToggle?.addEventListener("click", () => {
+  renderVoiceHistory();
+  if (historyPanel) historyPanel.hidden = !historyPanel.hidden;
+  if (searchPanel) searchPanel.hidden = true;
+});
+document.getElementById("historyClose")?.addEventListener("click", () => {
+  if (historyPanel) historyPanel.hidden = true;
+});
+
+searchToggle?.addEventListener("click", () => {
+  if (searchPanel) searchPanel.hidden = !searchPanel.hidden;
+  if (historyPanel) historyPanel.hidden = true;
+  if (!searchPanel?.hidden) textMessage?.focus();
+});
+
+textForm?.addEventListener("submit", async event => {
+  event.preventDefault();
+  const message = textMessage?.value?.trim();
+  if (!message) return;
+  textMessage.value = "";
+  if (searchPanel) searchPanel.hidden = true;
+  if (!active) await startSession();
+  if (active) await askAI(message);
+});
+
+micShortcut?.addEventListener("click", () => {
+  ui.mic?.click();
+});
+
+closeVoice?.addEventListener("click", async () => {
+  await stopSession(false);
+  window.location.href = "/";
+});
+// NAVAI_VOICE_SCREEN_CONTROLS_V1_END
 })();
