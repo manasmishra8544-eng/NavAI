@@ -1,0 +1,141 @@
+:root {
+    color-scheme: light;
+    --navai-bg: #f6f2fb;
+    --navai-bg-soft: #f0eafa;
+    --navai-card: #ffffff;
+    --navai-card-soft: #faf8fd;
+    --navai-border: #e5dced;
+    --navai-text: #342b40;
+    --navai-muted: #82778f;
+    --navai-primary: #8060b5;
+    --navai-primary-dark: #684991;
+    --navai-accent: #ed955b;
+    --navai-shadow: 0 8px 28px rgba(75, 51, 105, .08);
+    --navai-radius: 18px;
+}
+
+html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--navai-bg);
+    color: var(--navai-text);
+    overflow-x: hidden;
+}
+
+body, button, input, textarea, select {
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--navai-text);
+    line-height: 1.3;
+    letter-spacing: -.02em;
+}
+
+p, label, small {
+    line-height: 1.65;
+}
+
+a {
+    color: var(--navai-primary);
+}
+
+input, textarea, select {
+    max-width: 100%;
+    border: 1px solid var(--navai-border);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--navai-text);
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--navai-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(128, 96, 181, .12);
+}
+
+textarea {
+    resize: vertical;
+}
+
+img, video, canvas, iframe {
+    max-width: 100%;
+}
+
+pre, code {
+    overflow-wrap: anywhere;
+}
+
+button:focus-visible, a:focus-visible,
+input:focus-visible, textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(128, 96, 181, .3);
+    outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+    main, .main-content, .page-content, .content,
+    .container, .app-container, .workspace {
+        max-width: 100%;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    main, .main-content, .page-content, .content,
+    .container, .app-container, .workspace {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: clamp(1.45rem, 6vw, 2rem);
+    }
+
+    h2 {
+        font-size: clamp(1.2rem, 5vw, 1.55rem);
+    }
+
+    input, textarea, select {
+        width: 100%;
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    button, .btn {
+        min-height: 42px;
+        max-width: 100%;
+    }
+
+    img, video, canvas, iframe {
+        height: auto;
+    }
+
+    table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
