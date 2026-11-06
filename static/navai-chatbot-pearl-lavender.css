@@ -192,3 +192,429 @@ button,
     scrollbar-color: #d8c8e5 transparent;
 }
 
+
+/* =====================================================
+   NAVAI CHAT — PREMIUM PEARL LAVENDER REDESIGN
+   UI ONLY — PRESERVES EXISTING CHAT FUNCTIONALITY
+   ===================================================== */
+
+:root {
+    --navai-pearl-bg: #f7f3fb;
+    --navai-pearl-panel: #fffaff;
+    --navai-pearl-border: #e9def1;
+    --navai-pearl-text: #352b42;
+    --navai-pearl-muted: #8d8099;
+    --navai-pearl-purple: #9472b9;
+    --navai-pearl-purple-dark: #76549e;
+}
+
+/* Main application */
+.main-area {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(218,195,239,.23), transparent 48%),
+        linear-gradient(145deg,#faf7fd,#f4eff9) !important;
+    min-width: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    background: rgba(255,251,255,.94) !important;
+    border-right: 1px solid #e8def0 !important;
+    box-shadow: 5px 0 28px rgba(83,58,109,.045) !important;
+}
+
+.brand-name {
+    color: #49365d !important;
+    font-weight: 800 !important;
+    letter-spacing: -.7px;
+}
+
+.new-chat-button {
+    min-height: 48px !important;
+    border: 1px solid #e5d8ef !important;
+    border-radius: 15px !important;
+    background: linear-gradient(120deg,#f1e8f8,#fff1eb) !important;
+    color: #634b79 !important;
+    box-shadow: 0 4px 14px rgba(105,76,133,.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.new-chat-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 20px rgba(105,76,133,.11);
+}
+
+.sidebar-action {
+    border-radius: 12px !important;
+    transition: background .2s ease;
+}
+
+.sidebar-action:hover {
+    background: #f0e8f7 !important;
+}
+
+.history-empty {
+    color: #a095aa !important;
+}
+
+/* Top navigation */
+.topbar {
+    height: 68px !important;
+    background: rgba(255,251,255,.82) !important;
+    border-bottom: 1px solid #e9e0f0 !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.page-title {
+    color: #4a3a59 !important;
+    font-weight: 750 !important;
+}
+
+.online-dot {
+    background: #9c80bd !important;
+    box-shadow: 0 0 0 4px rgba(156,128,189,.12);
+}
+
+/* Welcome screen */
+.welcome-screen {
+    background:
+        radial-gradient(ellipse at 50% 15%,rgba(220,199,241,.34),transparent 55%),
+        radial-gradient(ellipse at 90% 90%,rgba(255,220,204,.18),transparent 40%),
+        #f7f3fb !important;
+}
+
+.welcome-content {
+    max-width: 850px !important;
+}
+
+.welcome-content h1,
+.welcome-screen h1 {
+    color: #3d304b !important;
+    font-size: clamp(32px,4vw,48px) !important;
+    font-weight: 800 !important;
+    letter-spacing: -1.8px !important;
+    line-height: 1.16 !important;
+}
+
+.welcome-content h1 span {
+    color: #9875b9 !important;
+}
+
+.welcome-description {
+    color: #887b94 !important;
+    font-size: 16px !important;
+    line-height: 1.7 !important;
+}
+
+/* AI orb */
+.navai-orb {
+    width: 92px !important;
+    height: 92px !important;
+    border-radius: 50% !important;
+    background:
+        radial-gradient(circle at 32% 25%,#fff 0%,#f7e9ff 24%,#d8c0ed 55%,#a98ac9 100%) !important;
+    box-shadow:
+        0 0 0 10px rgba(207,183,230,.12),
+        0 12px 38px rgba(127,91,163,.22),
+        inset 0 3px 12px rgba(255,255,255,.9) !important;
+}
+
+.navai-orb span {
+    background: rgba(255,255,255,.75) !important;
+    box-shadow: 0 0 20px rgba(255,255,255,.85);
+}
+
+/* Suggestion prompts */
+.navai-reference-prompts {
+    gap: 11px !important;
+    margin-top: 28px !important;
+}
+
+.navai-reference-prompts button {
+    min-height: 43px !important;
+    padding: 10px 17px !important;
+    border-radius: 15px !important;
+    border: 1px solid #e5d8ee !important;
+    background: rgba(255,251,255,.82) !important;
+    color: #69577b !important;
+    box-shadow: 0 4px 14px rgba(89,65,111,.045);
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.navai-reference-prompts button:hover {
+    background: #f0e7f8 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(89,65,111,.09);
+}
+
+/* Conversation area */
+.conversation {
+    background: transparent !important;
+}
+
+.messages {
+    max-width: 900px !important;
+    gap: 29px !important;
+    padding-top: 32px !important;
+    padding-bottom: 25px !important;
+}
+
+/* Message rows */
+.message-row {
+    gap: 13px !important;
+    animation: navai-message-enter .3s ease both;
+}
+
+@keyframes navai-message-enter {
+    from { opacity: 0; transform: translateY(9px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Avatars */
+.message-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 13px !important;
+    background: linear-gradient(145deg,#e9dcf5,#f9e7e0) !important;
+    border: 1px solid #e4d5ed !important;
+    color: #765a91 !important;
+    box-shadow: 0 3px 10px rgba(87,62,110,.07);
+}
+
+.message-row.user .message-avatar {
+    background: linear-gradient(145deg,#f8e6df,#eee3f7) !important;
+    color: #80617f !important;
+}
+
+/* Message text */
+.message-author {
+    color: #8a7b96 !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    letter-spacing: .35px;
+    margin-bottom: 7px !important;
+}
+
+.message-bubble {
+    font-size: 15px !important;
+    line-height: 1.8 !important;
+    color: #40364c !important;
+}
+
+/* User bubble */
+.message-row.user .message-bubble {
+    display: inline-block !important;
+    padding: 13px 18px !important;
+    border: 1px solid #e5d7ee !important;
+    border-radius: 18px 18px 5px 18px !important;
+    background: linear-gradient(135deg,#eee5f7,#f9ebe7) !important;
+    color: #44364f !important;
+    box-shadow: 0 5px 17px rgba(98,72,121,.065) !important;
+}
+
+/* Assistant response */
+.message-row.assistant .message-bubble {
+    background: transparent !important;
+    border: 0 !important;
+    color: #40364c !important;
+    padding: 1px 0 !important;
+}
+
+.message-bubble strong {
+    color: #513d67 !important;
+}
+
+.message-bubble a {
+    color: #8561a8 !important;
+}
+
+.message-bubble pre,
+.message-bubble code {
+    background: #eee7f5 !important;
+    color: #51405f !important;
+    border: 1px solid #e3d8ec !important;
+    border-radius: 10px !important;
+}
+
+.message-bubble pre {
+    padding: 17px !important;
+}
+
+/* Copy and message actions */
+.message-actions {
+    opacity: .75;
+    transition: opacity .2s ease;
+}
+
+.message-row:hover .message-actions {
+    opacity: 1;
+}
+
+.message-action-button {
+    color: #826c96 !important;
+    border-radius: 9px !important;
+}
+
+/* Composer */
+.composer-area {
+    padding: 14px 25px 17px !important;
+    background: linear-gradient(180deg,rgba(247,243,251,0),#f7f3fb 35%) !important;
+}
+
+.composer-wrap {
+    max-width: 850px !important;
+}
+
+.composer {
+    min-height: 76px !important;
+    padding: 12px 14px !important;
+    gap: 12px !important;
+    border: 1px solid #e2d5ec !important;
+    border-radius: 23px !important;
+    background: rgba(255,252,255,.97) !important;
+    box-shadow:
+        0 9px 30px rgba(86,62,111,.075),
+        inset 0 1px 0 rgba(255,255,255,.95) !important;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.composer:focus-within {
+    border-color: #b99bd2 !important;
+    box-shadow:
+        0 0 0 4px rgba(160,127,192,.10),
+        0 10px 30px rgba(86,62,111,.08) !important;
+}
+
+.composer textarea {
+    color: #40364d !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    background: transparent !important;
+}
+
+.composer textarea::placeholder {
+    color: #a498b0 !important;
+}
+
+.composer-hint,
+.composer-disclaimer {
+    color: #9b8ea5 !important;
+    font-size: 11px !important;
+}
+
+.attach-button {
+    border-radius: 13px !important;
+    color: #85699d !important;
+}
+
+.send-button {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 15px !important;
+    background: linear-gradient(135deg,#a88ac8,#8564aa) !important;
+    color: #fff !important;
+    box-shadow: 0 5px 13px rgba(127,91,163,.20) !important;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.send-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(127,91,163,.28) !important;
+}
+
+/* Typing indicator */
+.typing-indicator {
+    color: #927da4 !important;
+}
+
+/* Attachment preview */
+.attachment-preview {
+    background: #fffaff !important;
+    border: 1px solid #e5d9ed !important;
+    border-radius: 14px !important;
+}
+
+/* Menus */
+.navai-tools-menu,
+.navai-plus-menu {
+    background: #fffaff !important;
+    color: #44364f !important;
+    border: 1px solid #e5d9ed !important;
+    border-radius: 17px !important;
+    box-shadow: 0 14px 38px rgba(77,53,99,.12) !important;
+}
+
+.navai-plus-menu-item:hover {
+    background: #f1e9f7 !important;
+}
+
+/* Scrollbar */
+.conversation,
+.sidebar {
+    scrollbar-color: #d8c8e5 transparent !important;
+}
+
+.conversation::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.conversation::-webkit-scrollbar-thumb,
+.sidebar::-webkit-scrollbar-thumb {
+    background: #d9c9e6;
+    border-radius: 20px;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+    .topbar {
+        height: 60px !important;
+    }
+
+    .welcome-content h1,
+    .welcome-screen h1 {
+        font-size: clamp(28px,7vw,38px) !important;
+        letter-spacing: -1px !important;
+    }
+
+    .navai-orb {
+        width: 76px !important;
+        height: 76px !important;
+    }
+
+    .messages {
+        gap: 22px !important;
+        padding: 22px 15px !important;
+    }
+
+    .composer-area {
+        padding: 9px 12px 12px !important;
+    }
+
+    .composer {
+        min-height: 64px !important;
+        border-radius: 19px !important;
+        padding: 9px 10px !important;
+    }
+
+    .navai-reference-prompts button {
+        font-size: 12px !important;
+        padding: 9px 12px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .message-row {
+        animation: none !important;
+    }
+
+    .composer,
+    .send-button,
+    .new-chat-button {
+        transition: none !important;
+    }
+}
+
+/* END PREMIUM PEARL LAVENDER REDESIGN */
