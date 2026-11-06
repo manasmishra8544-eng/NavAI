@@ -1,0 +1,543 @@
+﻿/* ==========================================
+   NAVAI PREMIUM PEARL LAVENDER DESIGN SYSTEM
+   Responsive | Typography | Layout | Surfaces
+========================================== */
+
+:root {
+    color-scheme: light;
+
+    --navai-bg: #f5f1fa;
+    --navai-bg-alt: #eee8f6;
+    --navai-surface: #ffffff;
+    --navai-surface-soft: #fbf9fd;
+
+    --navai-primary: #8060b5;
+    --navai-primary-dark: #684991;
+    --navai-primary-soft: #eee7f8;
+
+    --navai-accent: #df986f;
+
+    --navai-text: #342a40;
+    --navai-text-soft: #62566f;
+    --navai-muted: #897e94;
+
+    --navai-border: #e8dfef;
+    --navai-border-strong: #d9cbe6;
+
+    --navai-shadow:
+        0 12px 35px rgba(66, 43, 91, .075);
+
+    --navai-shadow-hover:
+        0 16px 42px rgba(66, 43, 91, .12);
+
+    --navai-radius: 20px;
+    --navai-radius-small: 13px;
+}
+
+/* ---------- FOUNDATION ---------- */
+
+html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--navai-text) !important;
+
+    background:
+        radial-gradient(
+            ellipse at 10% 0%,
+            rgba(220, 202, 242, .42),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 95% 15%,
+            rgba(248, 224, 210, .30),
+            transparent 32%
+        ),
+        var(--navai-bg) !important;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif !important;
+
+    line-height: 1.65;
+    overflow-x: clip;
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--navai-text);
+    line-height: 1.3;
+    letter-spacing: -.025em;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: auto;
+}
+
+h1 {
+    font-weight: 800;
+    letter-spacing: -.04em;
+}
+
+h2, h3 {
+    font-weight: 750;
+}
+
+p, label, small, li {
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+p {
+    color: var(--navai-text-soft);
+}
+
+small, .hint, .small {
+    color: var(--navai-muted);
+}
+
+.brand {
+    color: var(--navai-text);
+    font-weight: 800;
+}
+
+a {
+    color: var(--navai-primary);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+}
+
+/* ---------- PREVENT TEXT OVERFLOW ---------- */
+
+.layout > *,
+.wrap > *,
+main > *,
+.panel > *,
+.chat-card > *,
+.workspace > *,
+.result-head > *,
+.section-title > *,
+.answer-heading > *,
+.history-heading > *,
+header > *,
+.actions > * {
+    min-width: 0;
+}
+
+.panel,
+.chat-card,
+.workspace,
+.answer-panel,
+.history-panel,
+.main-panel,
+.form-panel,
+.result,
+.preview,
+.tip-card,
+.ask-panel,
+.board,
+.conversation,
+.paper-wrap {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+pre, code {
+    max-width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+img, video, canvas, iframe, svg {
+    max-width: 100%;
+}
+
+/* ---------- NAVIGATION ---------- */
+
+.topbar,
+.top,
+body > header {
+    background: rgba(255, 255, 255, .88);
+    border-bottom: 1px solid var(--navai-border);
+    box-shadow: 0 4px 20px rgba(66, 43, 91, .035);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.brand,
+.brand span {
+    letter-spacing: -.02em;
+}
+
+.back,
+.back-link,
+.navai-dashboard-back {
+    color: var(--navai-primary);
+}
+
+/* ---------- PREMIUM SURFACES ---------- */
+
+.panel,
+.chat-card,
+.workspace,
+.answer-panel,
+.history-panel,
+.main-panel,
+.form-panel,
+.result,
+.preview,
+.tip-card,
+.ask-panel,
+.board,
+.conversation,
+.paper-wrap {
+    background: var(--navai-surface) !important;
+    border: 1px solid var(--navai-border);
+    border-radius: var(--navai-radius);
+    box-shadow: var(--navai-shadow);
+}
+
+.panel,
+.chat-card,
+.workspace,
+.answer-panel,
+.history-panel {
+    padding: clamp(16px, 2.5vw, 25px);
+}
+
+.question {
+    border-color: var(--navai-border);
+}
+
+.answer {
+    background: var(--navai-primary-soft);
+    color: var(--navai-text);
+    border-radius: var(--navai-radius-small);
+}
+
+.tag,
+.pill,
+.date-pill {
+    border-radius: 999px;
+}
+
+/* ---------- INPUTS ---------- */
+
+input,
+select,
+textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    min-height: 46px;
+    padding: 12px 14px;
+
+    color: var(--navai-text) !important;
+    background: #fff !important;
+
+    border: 1px solid var(--navai-border) !important;
+    border-radius: var(--navai-radius-small) !important;
+
+    font-size: 15px;
+    line-height: 1.5;
+    box-shadow: 0 2px 5px rgba(66, 43, 91, .025);
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #a196aa;
+    opacity: 1;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--navai-primary) !important;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(128, 96, 181, .12);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* ---------- BUTTONS ---------- */
+
+button,
+.btn {
+    max-width: 100%;
+    min-height: 43px;
+    border-radius: 12px;
+    font-weight: 650;
+    cursor: pointer;
+    overflow-wrap: break-word;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        background-color .18s ease;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: .58;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(128, 96, 181, .28);
+    outline-offset: 3px;
+}
+
+/* ---------- BUTTON GROUPS ---------- */
+
+.actions,
+.result-actions,
+.answer-actions,
+.controls,
+.options-row {
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.actions > *,
+.result-actions > *,
+.answer-actions > * {
+    min-width: 0;
+}
+
+/* ---------- GRID AND FLEX ---------- */
+
+.layout,
+.fields,
+.form-grid {
+    min-width: 0;
+}
+
+.layout > *,
+.fields > *,
+.form-grid > * {
+    min-width: 0;
+}
+
+/* ---------- STATUS AND RESULTS ---------- */
+
+#status,
+.status,
+#results,
+#result,
+#answer,
+#history,
+#messages,
+#transcript,
+#reply {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.hidden,
+[hidden] {
+    display: none !important;
+}
+
+/* ---------- TABLES ---------- */
+
+table {
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    overflow-wrap: break-word;
+}
+
+/* ---------- DESKTOP ---------- */
+
+@media (min-width: 761px) {
+    body {
+        font-size: 15px;
+    }
+
+    .panel,
+    .chat-card,
+    .workspace {
+        box-shadow: var(--navai-shadow);
+    }
+
+    .panel:hover,
+    .chat-card:hover,
+    .workspace:hover {
+        box-shadow: var(--navai-shadow-hover);
+    }
+}
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 900px) {
+    main,
+    .wrap,
+    .layout,
+    .app {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 760px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        width: 100%;
+        overflow-x: clip;
+        font-size: 15px;
+    }
+
+    main,
+    main.wrap,
+    main.layout,
+    main.app,
+    .wrap,
+    .app {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 16px;
+    }
+
+    .panel,
+    .chat-card,
+    .workspace,
+    .answer-panel,
+    .history-panel,
+    .main-panel,
+    .form-panel,
+    .result,
+    .preview {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        border-radius: 17px;
+    }
+
+    header {
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    h1 {
+        font-size: clamp(26px, 7vw, 36px);
+    }
+
+    h2 {
+        font-size: clamp(20px, 5.5vw, 26px);
+    }
+
+    input,
+    select,
+    textarea {
+        min-height: 46px;
+        font-size: 16px !important;
+    }
+
+    button,
+    .btn {
+        min-height: 44px;
+    }
+
+    .actions,
+    .result-actions,
+    .answer-actions {
+        flex-wrap: wrap;
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+/* ---------- SMALL PHONES ---------- */
+
+@media (max-width: 420px) {
+    body {
+        font-size: 14px;
+    }
+
+    main,
+    main.wrap,
+    main.layout,
+    main.app {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    header {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .panel,
+    .chat-card,
+    .workspace {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .actions > button,
+    .result-actions > button {
+        max-width: 100%;
+    }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
