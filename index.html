@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -618,7 +618,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 <div class="navai-reference-header">
   <div class="navai-ref-logo">&#10022; Nav<span>AI</span></div>
   <input class="navai-ref-search" type="search" placeholder="&#128269;  Find tools, help..." aria-label="Find tools">
-  <div class="navai-ref-profile"><span class="navai-ref-avatar">M</span><span>NavAI User<br><small>Welcome back</small></span></div>
+  <button type="button" class="navai-ref-profile" id="navaiIdentityTrigger" aria-label="Open your NavAI account"><span class="navai-ref-avatar" id="navaiIdentityAvatar">?</span><span id="navaiIdentityLabel">Sign in<br><small>NavAI Account</small></span></button>
   <div class="navai-ref-tools" aria-hidden="true">&#9881; &#8942;</div>
 </div>
 <style id="navai-final-reference-design">
@@ -2313,3 +2313,194 @@ body.navai-dashboard-active #navai-tool-dashboard {
     }
 }
 </style>
+
+<!-- NAVAI_IDENTITY_FRONTEND_V1 -->
+<style>
+#navai-tool-dashboard #navaiIdentityTrigger {
+  display:flex !important; align-items:center !important; gap:10px !important;
+  border:1px solid #e5dcf5 !important; border-radius:30px !important;
+  padding:7px 13px !important; background:#fff !important; color:#32264d !important;
+  cursor:pointer !important; font:inherit !important; text-align:left !important;
+}
+#navai-tool-dashboard #navaiIdentityTrigger:hover { box-shadow:0 4px 16px #76539f20 !important; }
+#navaiIdentityTrigger #navaiIdentityLabel { display:block !important; }
+#navaiIdentityTrigger #navaiIdentityLabel small { color:#827393 !important; }
+#navaiIdentityModal {
+  display:none; position:fixed; inset:0; z-index:2000000;
+  align-items:center; justify-content:center; padding:18px;
+  background:rgba(22,15,39,.48); backdrop-filter:blur(8px);
+  font-family:Arial,Helvetica,sans-serif;
+}
+#navaiIdentityModal.open { display:flex; }
+#navaiIdentityModal .identity-panel {
+  width:min(420px,100%); box-sizing:border-box; padding:28px;
+  border:1px solid #e8ddf7; border-radius:24px; background:#fff;
+  color:#29213d; box-shadow:0 24px 80px #24133b30;
+}
+#navaiIdentityModal h2 { margin:0 0 7px; font-size:24px; }
+#navaiIdentityModal p { color:#766d85; font-size:13px; line-height:1.5; }
+#navaiIdentityModal .identity-tabs { display:flex; gap:8px; margin:20px 0; }
+#navaiIdentityModal .identity-tabs button,
+#navaiIdentityModal .identity-close {
+  border:1px solid #e8ddf7; border-radius:12px; background:#faf8ff;
+  color:#59447a; padding:10px 14px; cursor:pointer;
+}
+#navaiIdentityModal .identity-tabs button.active {
+  color:#fff; background:linear-gradient(120deg,#8755d8,#6575df); border-color:transparent;
+}
+#navaiIdentityModal label { display:block; margin:13px 0 6px; font-size:12px; font-weight:700; }
+#navaiIdentityModal input {
+  width:100%; box-sizing:border-box; padding:13px 14px; border:1px solid #e3d9ef;
+  border-radius:12px; outline:none; color:#302543; background:#fcfbff; font-size:15px;
+}
+#navaiIdentityModal input:focus { border-color:#9470dc; box-shadow:0 0 0 3px #9470dc20; }
+#navaiIdentityModal .identity-submit {
+  width:100%; margin-top:18px; padding:13px; border:0; border-radius:12px;
+  color:#fff; background:linear-gradient(120deg,#8755d8,#6575df);
+  font-size:14px; font-weight:700; cursor:pointer;
+}
+#navaiIdentityModal .identity-message { min-height:18px; color:#b04455; font-size:12px; }
+#navaiIdentityModal .identity-close { float:right; padding:6px 10px; }
+#navaiIdentityModal .identity-logout {
+  width:100%; margin-top:10px; padding:11px; border:1px solid #eadde9;
+  border-radius:12px; background:#fff; color:#9c4258; cursor:pointer;
+}
+@media(max-width:480px) {
+  #navai-tool-dashboard #navaiIdentityTrigger { padding:6px !important; }
+  #navai-tool-dashboard #navaiIdentityTrigger #navaiIdentityLabel { display:none !important; }
+  #navaiIdentityModal .identity-panel { padding:22px; }
+}
+</style>
+<div id="navaiIdentityModal" aria-hidden="true">
+  <div class="identity-panel">
+    <button type="button" class="identity-close" id="navaiIdentityClose" aria-label="Close">✕</button>
+    <h2 id="navaiIdentityTitle">Your NavAI Account</h2>
+    <p id="navaiIdentitySubtitle">Create an account to keep your identity across devices.</p>
+    <div class="identity-tabs" id="navaiIdentityTabs">
+      <button type="button" class="active" data-mode="login">Log in</button>
+      <button type="button" data-mode="register">Create account</button>
+    </div>
+    <form id="navaiIdentityForm">
+      <label for="navaiIdentityUsername">Username</label>
+      <input id="navaiIdentityUsername" autocomplete="username" minlength="3" maxlength="20" required placeholder="Choose a username">
+      <label for="navaiIdentityPin">6-digit PIN</label>
+      <input id="navaiIdentityPin" type="password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="current-password" required placeholder="Enter your 6-digit PIN">
+      <div class="identity-message" id="navaiIdentityMessage" role="status"></div>
+      <button class="identity-submit" id="navaiIdentitySubmit" type="submit">Log in</button>
+    </form>
+    <button type="button" class="identity-logout" id="navaiIdentityLogout" hidden>Log out</button>
+    <p>Use a unique PIN. NavAI stores a securely hashed PIN, not the original PIN.</p>
+  </div>
+</div>
+<script>
+(() => {
+  if (window.NAVAI_IDENTITY_FRONTEND_V1) return;
+  window.NAVAI_IDENTITY_FRONTEND_V1 = true;
+
+  const modal = document.getElementById("navaiIdentityModal");
+  const trigger = document.getElementById("navaiIdentityTrigger");
+  const avatar = document.getElementById("navaiIdentityAvatar");
+  const label = document.getElementById("navaiIdentityLabel");
+  const form = document.getElementById("navaiIdentityForm");
+  const username = document.getElementById("navaiIdentityUsername");
+  const pin = document.getElementById("navaiIdentityPin");
+  const message = document.getElementById("navaiIdentityMessage");
+  const submit = document.getElementById("navaiIdentitySubmit");
+  const logout = document.getElementById("navaiIdentityLogout");
+  const tabs = document.getElementById("navaiIdentityTabs");
+  let mode = "login";
+  let signedIn = false;
+
+  function setMode(next) {
+    mode = next;
+    tabs.hidden = signedIn;
+    tabs.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.mode === mode));
+    document.getElementById("navaiIdentityTitle").textContent = signedIn ? "Your NavAI Account" : (mode === "login" ? "Welcome back" : "Create your account");
+    document.getElementById("navaiIdentitySubtitle").textContent = signedIn ? "Your NavAI identity is active on this device." : (mode === "login" ? "Log in with your username and PIN." : "Choose a username and a 6-digit PIN.");
+    submit.textContent = mode === "login" ? "Log in" : "Create account";
+    form.hidden = signedIn;
+    logout.hidden = !signedIn;
+    message.textContent = "";
+    pin.value = "";
+  }
+
+  function showModal() {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    setMode(signedIn ? "login" : "login");
+  }
+  function hideModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+  function setUser(name) {
+    signedIn = Boolean(name);
+    if (signedIn) {
+      avatar.textContent = name.charAt(0).toUpperCase();
+      label.innerHTML = "";
+      const nameNode = document.createElement("span");
+      nameNode.textContent = name;
+      const sub = document.createElement("small");
+      sub.textContent = "Your account";
+      label.append(nameNode, document.createElement("br"), sub);
+    } else {
+      avatar.textContent = "?";
+      label.innerHTML = "Sign in<br><small>NavAI Account</small>";
+    }
+    setMode("login");
+  }
+
+  async function api(path, payload) {
+    const response = await fetch("/api/identity/" + path, {
+      method: payload ? "POST" : "GET",
+      headers: payload ? {"Content-Type":"application/json"} : {},
+      credentials: "same-origin",
+      body: payload ? JSON.stringify(payload) : undefined
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "Something went wrong.");
+    return data;
+  }
+
+  trigger?.addEventListener("click", showModal);
+  document.getElementById("navaiIdentityClose").addEventListener("click", hideModal);
+  modal.addEventListener("click", e => { if (e.target === modal) hideModal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") hideModal(); });
+
+  tabs.querySelectorAll("button").forEach(button => button.addEventListener("click", () => setMode(button.dataset.mode)));
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    message.textContent = "Please wait…";
+    submit.disabled = true;
+    try {
+      const result = await api(mode === "login" ? "login" : "register", {
+        username: username.value.trim(),
+        pin: pin.value
+      });
+      setUser(result.username);
+      message.style.color = "#27835c";
+      message.textContent = "Account ready!";
+      setTimeout(hideModal, 650);
+    } catch (error) {
+      message.style.color = "#b04455";
+      message.textContent = error.message;
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  logout.addEventListener("click", async () => {
+    try {
+      await api("logout", {});
+      setUser("");
+      message.style.color = "#27835c";
+      message.textContent = "You have logged out.";
+    } catch (error) {
+      message.textContent = error.message;
+    }
+  });
+
+  api("me").then(data => setUser(data.authenticated ? data.user.username : "")).catch(() => setUser(""));
+})();
+</script>

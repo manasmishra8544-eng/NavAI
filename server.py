@@ -27,6 +27,10 @@ if env_file.exists():
 
 app = Flask(__name__, static_folder=None)
 
+# NAVAI_IDENTITY_MODULE_V1
+from identity_auth import init_identity
+init_identity(app)
+
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 TEXT_MODEL = "openai/gpt-oss-20b"
 
@@ -132,7 +136,7 @@ RESPONSE RULES:
 - Be friendly, accurate, and useful.
 NAVAI_ALL_PURPOSE_CHAT_ADDON_V1
 - NavAI's main chatbot can discuss everyday life, jokes, hobbies, entertainment,
-  technology, coding, creative ideas, and general knowledgeâ€”not only schoolwork.
+  technology, coding, creative ideas, and general knowledgeÃ¢â‚¬â€not only schoolwork.
 - Follow the user's topic naturally and keep specialized NavAI features available.
 """
 
