@@ -2720,5 +2720,172 @@ body.navai-dashboard-active #navai-tool-dashboard {
     }
 })();
 </script>
+
+<!-- NAVAI_UPGRADE_DASHBOARD_V1 -->
+<style>
+#navai-tool-dashboard #navaiUpgradeTrigger {
+    position:absolute !important;
+    top:16px !important;
+    right:190px !important;
+    z-index:1000001 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:7px !important;
+    padding:10px 17px !important;
+    border:1px solid #d8c5fb !important;
+    border-radius:25px !important;
+    background:linear-gradient(110deg,#9868e8,#7553d2) !important;
+    color:#fff !important;
+    font-size:13px !important;
+    font-weight:750 !important;
+    box-shadow:0 5px 16px rgba(125,82,190,.20) !important;
+    cursor:pointer !important;
+    transition:transform .2s,box-shadow .2s !important;
+}
+#navai-tool-dashboard #navaiUpgradeTrigger:hover {
+    transform:translateY(-2px) !important;
+    box-shadow:0 8px 22px rgba(125,82,190,.28) !important;
+}
+#navaiUpgradeModal {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:2147483000;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(30,20,48,.48);
+    backdrop-filter:blur(9px);
+    font-family:Arial,Helvetica,sans-serif;
+}
+#navaiUpgradeModal.is-open { display:flex; }
+#navaiUpgradeModal .upgrade-panel {
+    width:min(440px,100%);
+    padding:27px;
+    border:1px solid #e7dafa;
+    border-radius:24px;
+    background:linear-gradient(145deg,#fff,#f8f3ff);
+    box-shadow:0 24px 75px rgba(43,25,75,.22);
+    color:#302047;
+    position:relative;
+    text-align:center;
+}
+#navaiUpgradeModal .upgrade-crown {
+    width:58px;height:58px;
+    margin:0 auto 14px;
+    display:grid;place-items:center;
+    border-radius:19px;
+    background:linear-gradient(135deg,#eee3ff,#e4eaff);
+    font-size:29px;
+}
+#navaiUpgradeModal h2 {
+    margin:0 0 9px;
+    font-size:24px;
+    color:#302047;
+}
+#navaiUpgradeModal p {
+    margin:0 0 19px;
+    color:#78698e;
+    font-size:13px;
+    line-height:1.65;
+}
+#navaiUpgradeModal .upgrade-benefits {
+    padding:15px;
+    margin:0 0 18px;
+    border:1px solid #eadff8;
+    border-radius:16px;
+    background:#fff;
+    text-align:left;
+    font-size:13px;
+    line-height:2;
+    color:#59466f;
+}
+#navaiUpgradeModal .upgrade-coming {
+    padding:12px;
+    border-radius:13px;
+    background:#eee7ff;
+    color:#7550c2;
+    font-size:12px;
+    font-weight:750;
+}
+#navaiUpgradeModal .upgrade-close {
+    position:absolute;
+    top:13px;right:15px;
+    width:34px;height:34px;
+    border:0;border-radius:50%;
+    background:#f0e9fa;
+    color:#604b7c;
+    font-size:21px;
+    cursor:pointer;
+}
+@media(max-width:600px) {
+    #navai-tool-dashboard #navaiUpgradeTrigger {
+        top:10px !important;
+        right:62px !important;
+        padding:9px 12px !important;
+        font-size:12px !important;
+    }
+}
+</style>
+
+<div id="navaiUpgradeModal" aria-hidden="true">
+  <div class="upgrade-panel" role="dialog" aria-modal="true" aria-labelledby="navaiUpgradeTitle">
+    <button class="upgrade-close" id="navaiUpgradeClose" aria-label="Close">&times;</button>
+    <div class="upgrade-crown">👑</div>
+    <h2 id="navaiUpgradeTitle">Upgrade NavAI</h2>
+    <p>Take your learning experience to the next level with NavAI Premium.</p>
+    <div class="upgrade-benefits">
+      ✨ Premium learning features<br>
+      🚀 More powerful study tools<br>
+      🎓 Enhanced student experience<br>
+      💜 Future premium benefits
+    </div>
+    <div class="upgrade-coming">Premium plans are coming soon</div>
+  </div>
+</div>
+
+<script>
+(function () {
+    const dashboard = document.getElementById("navai-tool-dashboard");
+    if (!dashboard || document.getElementById("navaiUpgradeTrigger")) return;
+
+    const signIn = document.getElementById("navaiIdentityTrigger");
+    if (!signIn) return;
+
+    const button = document.createElement("button");
+    button.id = "navaiUpgradeTrigger";
+    button.type = "button";
+    button.innerHTML = '<span aria-hidden="true">♛</span> Upgrade';
+
+    const modal = document.getElementById("navaiUpgradeModal");
+    const close = document.getElementById("navaiUpgradeClose");
+
+    dashboard.appendChild(button);
+
+    function openUpgrade() {
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeUpgrade() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+    }
+
+    button.addEventListener("click", openUpgrade);
+    close.addEventListener("click", closeUpgrade);
+
+    modal.addEventListener("click", function (event) {
+        if (event.target === modal) closeUpgrade();
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closeUpgrade();
+    });
+})();
+</script>
+<!-- END NAVAI_UPGRADE_DASHBOARD_V1 -->
+
 </body>
 </html>
