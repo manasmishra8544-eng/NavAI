@@ -196,6 +196,10 @@ function renderCurrentChat() {
     scrollToBottom();
 }
 
+window.addEventListener("navai:identity-updated", () => {
+    if (typeof renderCurrentChat === "function") renderCurrentChat();
+});
+
 /* SAFE TEXT AND MARKDOWN */
 
 function escapeHTML(value) {
@@ -301,20 +305,60 @@ function renderMarkdown(text) {
     return html;
 }
 
+(function addChatProfileAvatarStyles() {
+    if (document.getElementById("navai-chat-profile-avatar-styles")) return;
+    const style = document.createElement("style");
+    style.id = "navai-chat-profile-avatar-styles";
+    style.textContent = `
+        .message-avatar { overflow: hidden; flex-shrink: 0; }
+        .message-avatar img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    `;
+    document.head.appendChild(style);
+})();
+
 function renderMessage(message) {
     const row = document.createElement("article");
     row.className = `message-row ${message.role}`;
 
+    const identity = message.role === "user" &&
+        typeof window.NAVAI_CURRENT_IDENTITY === "function"
+        ? window.NAVAI_CURRENT_IDENTITY()
+        : null;
+
+    const displayName = identity
+        ? (identity.full_name || identity.username || "You")
+        : "You";
+
     const avatar = document.createElement("div");
     avatar.className = "message-avatar";
-    avatar.textContent = message.role === "user" ? "Y" : "N";
+
+    if (message.role === "user" && identity && identity.photo_url) {
+        const profileImg = document.createElement("img");
+        profileImg.src = identity.photo_url;
+        profileImg.alt = displayName + " profile photo";
+        profileImg.loading = "lazy";
+        profileImg.onerror = () => {
+            avatar.textContent = displayName.charAt(0).toUpperCase();
+        };
+        avatar.appendChild(profileImg);
+    } else {
+        avatar.textContent = message.role === "user"
+            ? displayName.charAt(0).toUpperCase()
+            : "N";
+    }
 
     const content = document.createElement("div");
     content.className = "message-content";
 
     const author = document.createElement("div");
     author.className = "message-author";
-    author.textContent = message.role === "user" ? "You" : "NavAI";
+    author.textContent = message.role === "user" ? displayName : "NavAI";
 
     const bubble = document.createElement("div");
     bubble.className = "message-bubble";

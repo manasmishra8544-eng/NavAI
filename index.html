@@ -2497,6 +2497,15 @@ body.navai-dashboard-active #navai-tool-dashboard {
   let mode = "login";
   let signedInUser = null;
 
+  window.NAVAI_CURRENT_IDENTITY = function () {
+    if (!signedInUser) return null;
+    return {
+      full_name: signedInUser.full_name || signedInUser.username || "",
+      username: signedInUser.username || "",
+      photo_url: signedInUser.photo_url || ""
+    };
+  };
+
   async function api(path, payload) {
     const isForm = payload instanceof FormData;
     const response = await fetch("/api/identity/" + path, {
@@ -2552,6 +2561,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
     }
 
     setMode(mode);
+    window.dispatchEvent(new CustomEvent("navai:identity-updated"));
   }
 
   function setMode(next) {
