@@ -1,4 +1,6 @@
 (() => {
+  const pagePath = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (pagePath !== "/" && pagePath.toLowerCase() !== "/index.html") return;
   const config = window.NAVAI_SUPABASE_CONFIG;
   const lib = window.supabase;
 
