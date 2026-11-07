@@ -2679,85 +2679,44 @@ body.navai-dashboard-active #navai-tool-dashboard {
 })();
 </script>
 <style id="navai-account-global-fix-v2">
-/* NAVAI_ACCOUNT_GLOBAL_FIX_V2 */
-#navaiIdentityTrigger {
-    display: flex !important;
-    position: fixed !important;
-    top: 16px !important;
-    right: 22px !important;
-    z-index: 2147483000 !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 9px !important;
-    min-height: 42px !important;
-    padding: 7px 15px !important;
-    border: 1px solid #ded1f5 !important;
-    border-radius: 24px !important;
-    background: #ffffff !important;
-    color: #30234a !important;
-    box-shadow: 0 4px 18px #55408020 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-}
-#navaiIdentityTrigger #navaiIdentityAvatar {
-    display: grid !important;
-    place-items: center !important;
-    width: 28px !important;
-    height: 28px !important;
-    border-radius: 50% !important;
-    background: #eee5ff !important;
-    color: #7950c9 !important;
-    font-weight: 800 !important;
-}
-#navaiIdentityTrigger #navaiIdentityLabel {
-    display: block !important;
-    color: #30234a !important;
-    font-size: 12px !important;
-}
-#navaiIdentityTrigger small {
-    color: #827393 !important;
+/* NAVAI_ACCOUNT_DASHBOARD_ONLY */
+#navai-tool-dashboard #navaiIdentityTrigger {
+    display:flex !important;
+    position:absolute !important;
+    top:16px !important;
+    right:22px !important;
+    z-index:1000000 !important;
 }
 #navaiIdentityModal {
-    z-index: 2147483001 !important;
+    z-index:2147483001 !important;
 }
 @media(max-width:600px) {
-    #navaiIdentityTrigger {
-        top: 10px !important;
-        right: 10px !important;
-        padding: 6px 10px !important;
+    #navai-tool-dashboard #navaiIdentityTrigger {
+        top:10px !important;
+        right:10px !important;
     }
 }
 </style>
 <script id="navai-account-global-mount-v2">
 (function () {
-    if (window.NAVAI_ACCOUNT_GLOBAL_FIX_V2) return;
-    window.NAVAI_ACCOUNT_GLOBAL_FIX_V2 = true;
+    if (window.NAVAI_ACCOUNT_DASHBOARD_ONLY_V3) return;
+    window.NAVAI_ACCOUNT_DASHBOARD_ONLY_V3 = true;
 
-    function mountAccount() {
+    function keepAccountOnDashboard() {
+        const dashboard = document.getElementById("navai-tool-dashboard");
         const trigger = document.getElementById("navaiIdentityTrigger");
         const modal = document.getElementById("navaiIdentityModal");
 
-        if (trigger && trigger.parentElement !== document.body) {
-            document.body.appendChild(trigger);
-        }
-        if (modal && modal.parentElement !== document.body) {
-            document.body.appendChild(modal);
-        }
+        if (!dashboard || !trigger || !modal) return;
 
-        if (!trigger || !modal) {
-            console.error("NavAI account elements could not be found.");
-            return;
-        }
-
-        console.log("NavAI account button and modal mounted globally.");
+        if (trigger.parentElement !== dashboard) dashboard.appendChild(trigger);
+        if (modal.parentElement !== dashboard) dashboard.appendChild(modal);
     }
 
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", mountAccount, { once: true });
+        document.addEventListener("DOMContentLoaded", keepAccountOnDashboard, { once:true });
     } else {
-        mountAccount();
+        keepAccountOnDashboard();
     }
 })();
 </script>
