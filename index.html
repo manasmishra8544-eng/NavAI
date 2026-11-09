@@ -511,6 +511,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 </style>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="stylesheet" href="/static/navai-pwa.css?v=1">
+<link rel="stylesheet" href="/static/navai-mobile-install.css?v=20261109-1">
 </head>
 
 <body>
@@ -2386,7 +2387,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 </style>
 <div id="navaiIdentityModal" aria-hidden="true">
   <div class="identity-panel">
-    <button type="button" class="identity-close" id="navaiIdentityClose" aria-label="Close">×</button>
+    <button type="button" class="identity-close" id="navaiIdentityClose" aria-label="Close">Ã—</button>
     <h2 id="navaiIdentityTitle">Your NavAI Account</h2>
     <p id="navaiIdentitySubtitle">Create your NavAI account.</p>
 
@@ -2401,7 +2402,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
         <input id="navaiIdentityFullName" maxlength="40" autocomplete="name" placeholder="Enter your full name">
         <label for="navaiIdentityPhoto">Profile photo (optional)</label>
         <input id="navaiIdentityPhoto" type="file" accept="image/png,image/jpeg,image/webp">
-        <small class="identity-hint">JPG, PNG or WebP · Maximum 3 MB</small>
+        <small class="identity-hint">JPG, PNG or WebP Â· Maximum 3 MB</small>
       </div>
 
       <label for="navaiIdentityUsername">Username</label>
@@ -2420,7 +2421,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
       <input id="navaiProfileName" maxlength="40" required>
       <label for="navaiProfilePhoto">Change profile photo</label>
       <input id="navaiProfilePhoto" type="file" accept="image/png,image/jpeg,image/webp">
-      <small class="identity-hint">JPG, PNG or WebP · Maximum 3 MB</small>
+      <small class="identity-hint">JPG, PNG or WebP Â· Maximum 3 MB</small>
       <div class="identity-message" id="navaiProfileMessage" role="status"></div>
       <button class="identity-submit" type="submit">Save profile</button>
     </form>
@@ -2618,7 +2619,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 
   form.addEventListener("submit", async event => {
     event.preventDefault();
-    message.textContent = "Please wait…";
+    message.textContent = "Please waitâ€¦";
     message.style.color = "#766d85";
     submit.disabled = true;
 
@@ -2653,7 +2654,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 
   profileForm.addEventListener("submit", async event => {
     event.preventDefault();
-    profileMessage.textContent = "Saving profile…";
+    profileMessage.textContent = "Saving profileâ€¦";
     profileMessage.style.color = "#766d85";
 
     const payload = new FormData();
@@ -2844,14 +2845,14 @@ body.navai-dashboard-active #navai-tool-dashboard {
 <div id="navaiUpgradeModal" aria-hidden="true">
   <div class="upgrade-panel" role="dialog" aria-modal="true" aria-labelledby="navaiUpgradeTitle">
     <button class="upgrade-close" id="navaiUpgradeClose" aria-label="Close">&times;</button>
-    <div class="upgrade-crown">👑</div>
+    <div class="upgrade-crown">ðŸ‘‘</div>
     <h2 id="navaiUpgradeTitle">Upgrade NavAI</h2>
     <p>Take your learning experience to the next level with NavAI Premium.</p>
     <div class="upgrade-benefits">
-      ✨ Premium learning features<br>
-      🚀 More powerful study tools<br>
-      🎓 Enhanced student experience<br>
-      💜 Future premium benefits
+      âœ¨ Premium learning features<br>
+      ðŸš€ More powerful study tools<br>
+      ðŸŽ“ Enhanced student experience<br>
+      ðŸ’œ Future premium benefits
     </div>
     <div class="upgrade-coming">Premium plans are coming soon</div>
   </div>
@@ -2868,7 +2869,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
     const button = document.createElement("button");
     button.id = "navaiUpgradeTrigger";
     button.type = "button";
-    button.innerHTML = '<span aria-hidden="true">♛</span> Upgrade';
+    button.innerHTML = '<span aria-hidden="true">â™›</span> Upgrade';
 
     const modal = document.getElementById("navaiUpgradeModal");
     const close = document.getElementById("navaiUpgradeClose");
@@ -2899,6 +2900,8 @@ body.navai-dashboard-active #navai-tool-dashboard {
 </script>
 <!-- END NAVAI_UPGRADE_DASHBOARD_V1 -->
 
-    <script src="/static/navai-pwa.js?v=1" defer></script></body>
+    <script src="/static/navai-pwa.js?v=1" defer></script><script src="/static/navai-mobile-install.js?v=20261109-1" defer></script>
+</body>
+<script src="/static/navai-mobile-install.js?v=20261109-1" defer></script>
 </body>
 </html>
