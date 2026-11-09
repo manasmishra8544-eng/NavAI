@@ -2844,20 +2844,44 @@ body.navai-dashboard-active #navai-tool-dashboard {
 
 <div id="navaiUpgradeModal" aria-hidden="true">
   <div class="upgrade-panel" role="dialog" aria-modal="true" aria-labelledby="navaiUpgradeTitle">
-    <button class="upgrade-close" id="navaiUpgradeClose" aria-label="Close">&times;</button>
-    <div class="upgrade-crown">ðŸ‘‘</div>
-    <h2 id="navaiUpgradeTitle">Upgrade NavAI</h2>
-    <p>Take your learning experience to the next level with NavAI Premium.</p>
-    <div class="upgrade-benefits">
-      âœ¨ Premium learning features<br>
-      ðŸš€ More powerful study tools<br>
-      ðŸŽ“ Enhanced student experience<br>
-      ðŸ’œ Future premium benefits
+    <button class="upgrade-close" id="navaiUpgradeClose" type="button" aria-label="Close">&times;</button>
+
+    <div class="upgrade-crown" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="34" height="34" fill="none">
+        <path d="M8 17L16 25L24 10L32 25L40 17L36 37H12L8 17Z" stroke="#8058C8" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M13 32H35" stroke="#8058C8" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="8" cy="14" r="3" fill="#C59AEF"/>
+        <circle cx="24" cy="7" r="3" fill="#C59AEF"/>
+        <circle cx="40" cy="14" r="3" fill="#C59AEF"/>
+      </svg>
     </div>
-    <div class="upgrade-coming">Premium plans are coming soon</div>
+
+    <span class="upgrade-eyebrow">THE NEXT CHAPTER</span>
+    <h2 id="navaiUpgradeTitle">Discover NavAI Premium</h2>
+    <p class="upgrade-description">A more powerful and personalised learning experience is on the way.</p>
+
+    <div class="upgrade-benefits">
+      <div class="upgrade-benefit">
+        <span class="benefit-icon">01</span>
+        <span><strong>Enhanced learning</strong><small>More ways to understand difficult topics.</small></span>
+      </div>
+      <div class="upgrade-benefit">
+        <span class="benefit-icon">02</span>
+        <span><strong>Advanced study tools</strong><small>Explore smarter ways to study and practise.</small></span>
+      </div>
+      <div class="upgrade-benefit">
+        <span class="benefit-icon">03</span>
+        <span><strong>A better NavAI experience</strong><small>More features designed around students.</small></span>
+      </div>
+    </div>
+
+    <div class="upgrade-coming">
+      <span class="coming-dot"></span>
+      Premium plans are coming soon
+    </div>
+    <p class="upgrade-footnote">No payment is being collected through this preview.</p>
   </div>
 </div>
-
 <script>
 (function () {
     const dashboard = document.getElementById("navai-tool-dashboard");
@@ -2869,7 +2893,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
     const button = document.createElement("button");
     button.id = "navaiUpgradeTrigger";
     button.type = "button";
-    button.innerHTML = '<span aria-hidden="true">â™›</span> Upgrade';
+    button.textContent = "Upgrade";
 
     const modal = document.getElementById("navaiUpgradeModal");
     const close = document.getElementById("navaiUpgradeClose");
@@ -2901,7 +2925,175 @@ body.navai-dashboard-active #navai-tool-dashboard {
 <!-- END NAVAI_UPGRADE_DASHBOARD_V1 -->
 
     <script src="/static/navai-pwa.js?v=1" defer></script><script src="/static/navai-mobile-install.js?v=20261109-1" defer></script>
+
+<style id="navai-upgrade-final-polish">
+#navaiUpgradeModal { padding:18px !important; box-sizing:border-box !important; }
+#navaiUpgradeModal .upgrade-panel {
+  width:min(460px,100%) !important;
+  max-height:88vh !important;
+  overflow-y:auto !important;
+  box-sizing:border-box !important;
+  padding:34px 28px 24px !important;
+  border:1px solid #e8dcfa !important;
+  border-radius:26px !important;
+  background:linear-gradient(145deg,#fff 0%,#fbf8ff 60%,#fff5fa 100%) !important;
+  box-shadow:0 25px 90px rgba(69,45,105,.24) !important;
+}
+#navaiUpgradeModal .upgrade-crown {
+  width:68px !important;height:68px !important;
+  display:grid !important;place-items:center !important;
+  margin:0 auto 16px !important;
+  border-radius:22px !important;
+  background:linear-gradient(145deg,#eee4ff,#fce8f3) !important;
+  border:1px solid #e8dafa !important;
+}
+#navaiUpgradeModal .upgrade-eyebrow {
+  display:block !important;margin-bottom:9px !important;
+  color:#9572c5 !important;font-size:10px !important;
+  font-weight:800 !important;letter-spacing:2px !important;
+}
+#navaiUpgradeModal h2 {
+  color:#352346 !important;font-size:25px !important;
+  line-height:1.25 !important;font-weight:800 !important;
+}
+#navaiUpgradeModal .upgrade-description {
+  color:#81728f !important;font-size:13px !important;
+  line-height:1.7 !important;margin:0 0 20px !important;
+}
+#navaiUpgradeModal .upgrade-benefits {
+  display:grid !important;gap:9px !important;
+  padding:12px !important;border:1px solid #eee5f8 !important;
+  border-radius:17px !important;background:#fff !important;
+}
+#navaiUpgradeModal .upgrade-benefit {
+  display:flex !important;align-items:center !important;
+  gap:12px !important;padding:10px !important;
+  border-radius:12px !important;background:#fbf8ff !important;
+}
+#navaiUpgradeModal .benefit-icon {
+  flex:0 0 35px !important;width:35px !important;height:35px !important;
+  display:grid !important;place-items:center !important;
+  border-radius:11px !important;background:#eee5ff !important;
+  color:#7953b6 !important;font-size:11px !important;font-weight:800 !important;
+}
+#navaiUpgradeModal .upgrade-benefit strong {
+  display:block !important;color:#49345f !important;font-size:12px !important;
+}
+#navaiUpgradeModal .upgrade-benefit small {
+  display:block !important;margin-top:4px !important;
+  color:#91839e !important;font-size:10px !important;line-height:1.5 !important;
+}
+#navaiUpgradeModal .upgrade-coming {
+  display:flex !important;align-items:center !important;justify-content:center !important;
+  gap:9px !important;margin-top:16px !important;padding:13px !important;
+  border:1px solid #e8dcfa !important;border-radius:13px !important;
+  background:linear-gradient(100deg,#f0e9ff,#fff0f7) !important;
+  color:#7653a6 !important;font-size:12px !important;font-weight:750 !important;
+}
+#navaiUpgradeModal .coming-dot {
+  width:8px !important;height:8px !important;border-radius:50% !important;
+  background:#a77bd7 !important;
+}
+#navaiUpgradeModal .upgrade-footnote {
+  margin:11px 0 0 !important;color:#a195ac !important;
+  font-size:10px !important;line-height:1.5 !important;
+}
+#navaiUpgradeModal .upgrade-close {
+  color:#72558d !important;background:#f2eafb !important;
+  font-size:23px !important;
+}
+@media(max-width:600px) {
+  #navaiUpgradeModal { padding:12px !important; }
+  #navaiUpgradeModal .upgrade-panel {
+    padding:30px 18px 21px !important;border-radius:22px !important;
+  }
+}
+</style>
 </body>
 <script src="/static/navai-mobile-install.js?v=20261109-1" defer></script>
+
+<style id="navai-upgrade-final-polish">
+#navaiUpgradeModal { padding:18px !important; box-sizing:border-box !important; }
+#navaiUpgradeModal .upgrade-panel {
+  width:min(460px,100%) !important;
+  max-height:88vh !important;
+  overflow-y:auto !important;
+  box-sizing:border-box !important;
+  padding:34px 28px 24px !important;
+  border:1px solid #e8dcfa !important;
+  border-radius:26px !important;
+  background:linear-gradient(145deg,#fff 0%,#fbf8ff 60%,#fff5fa 100%) !important;
+  box-shadow:0 25px 90px rgba(69,45,105,.24) !important;
+}
+#navaiUpgradeModal .upgrade-crown {
+  width:68px !important;height:68px !important;
+  display:grid !important;place-items:center !important;
+  margin:0 auto 16px !important;
+  border-radius:22px !important;
+  background:linear-gradient(145deg,#eee4ff,#fce8f3) !important;
+  border:1px solid #e8dafa !important;
+}
+#navaiUpgradeModal .upgrade-eyebrow {
+  display:block !important;margin-bottom:9px !important;
+  color:#9572c5 !important;font-size:10px !important;
+  font-weight:800 !important;letter-spacing:2px !important;
+}
+#navaiUpgradeModal h2 {
+  color:#352346 !important;font-size:25px !important;
+  line-height:1.25 !important;font-weight:800 !important;
+}
+#navaiUpgradeModal .upgrade-description {
+  color:#81728f !important;font-size:13px !important;
+  line-height:1.7 !important;margin:0 0 20px !important;
+}
+#navaiUpgradeModal .upgrade-benefits {
+  display:grid !important;gap:9px !important;
+  padding:12px !important;border:1px solid #eee5f8 !important;
+  border-radius:17px !important;background:#fff !important;
+}
+#navaiUpgradeModal .upgrade-benefit {
+  display:flex !important;align-items:center !important;
+  gap:12px !important;padding:10px !important;
+  border-radius:12px !important;background:#fbf8ff !important;
+}
+#navaiUpgradeModal .benefit-icon {
+  flex:0 0 35px !important;width:35px !important;height:35px !important;
+  display:grid !important;place-items:center !important;
+  border-radius:11px !important;background:#eee5ff !important;
+  color:#7953b6 !important;font-size:11px !important;font-weight:800 !important;
+}
+#navaiUpgradeModal .upgrade-benefit strong {
+  display:block !important;color:#49345f !important;font-size:12px !important;
+}
+#navaiUpgradeModal .upgrade-benefit small {
+  display:block !important;margin-top:4px !important;
+  color:#91839e !important;font-size:10px !important;line-height:1.5 !important;
+}
+#navaiUpgradeModal .upgrade-coming {
+  display:flex !important;align-items:center !important;justify-content:center !important;
+  gap:9px !important;margin-top:16px !important;padding:13px !important;
+  border:1px solid #e8dcfa !important;border-radius:13px !important;
+  background:linear-gradient(100deg,#f0e9ff,#fff0f7) !important;
+  color:#7653a6 !important;font-size:12px !important;font-weight:750 !important;
+}
+#navaiUpgradeModal .coming-dot {
+  width:8px !important;height:8px !important;border-radius:50% !important;
+  background:#a77bd7 !important;
+}
+#navaiUpgradeModal .upgrade-footnote {
+  margin:11px 0 0 !important;color:#a195ac !important;
+  font-size:10px !important;line-height:1.5 !important;
+}
+#navaiUpgradeModal .upgrade-close {
+  color:#72558d !important;background:#f2eafb !important;
+  font-size:23px !important;
+}
+@media(max-width:600px) {
+  #navaiUpgradeModal { padding:12px !important; }
+  #navaiUpgradeModal .upgrade-panel {
+    padding:30px 18px 21px !important;border-radius:22px !important;
+  }
+}
+</style>
 </body>
 </html>
