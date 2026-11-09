@@ -1,7 +1,4 @@
-﻿{
-    "id":  "/",
-    "short_name":  "NavAI",
-    "background_color":  "#17142F",
+{
     "icons":  [
                   {
                       "purpose":  "any",
@@ -23,14 +20,18 @@
                   }
               ],
     "description":  "NavAI - Intelligent Learning Platform",
-    "theme_color":  "#49316F",
-    "display":  "standalone",
-    "name":  "NavAI",
     "categories":  [
                        "education",
                        "productivity"
                    ],
-    "scope":  "/",
+    "orientation":  "any",
+    "id":  "/",
+    "name":  "NavAI",
+    "short_name":  "NavAI",
     "start_url":  "/",
-    "orientation":  "any"
+    "scope":  "/",
+    "display":  "standalone",
+    "theme_color":  "#49316F",
+    "background_color":  "#17142F",
+    "prefer_related_applications":  false
 }
