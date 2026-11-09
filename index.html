@@ -2733,111 +2733,160 @@ body.navai-dashboard-active #navai-tool-dashboard {
 })();
 </script>
 
-<!-- NAVAI_UPGRADE_DASHBOARD_V1 -->
-<style>
+<!-- NAVAI_UPGRADE_DASHBOARD_V2 -->
+<style id="navai-upgrade-v2-style">
+#navai-tool-dashboard .navai-reference-header { position:relative !important; }
 #navai-tool-dashboard #navaiUpgradeTrigger {
-    position:absolute !important;
-    top:16px !important;
-    right:190px !important;
-    z-index:1000001 !important;
-    display:inline-flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:7px !important;
-    padding:10px 17px !important;
-    border:1px solid #d8c5fb !important;
-    border-radius:25px !important;
-    background:linear-gradient(110deg,#9868e8,#7553d2) !important;
-    color:#fff !important;
-    font-size:13px !important;
-    font-weight:750 !important;
-    box-shadow:0 5px 16px rgba(125,82,190,.20) !important;
-    cursor:pointer !important;
-    transition:transform .2s,box-shadow .2s !important;
+  position:absolute !important; right:170px !important; top:50% !important;
+  transform:translateY(-50%) !important; z-index:1000002 !important;
+  display:inline-flex !important; align-items:center !important; gap:7px !important;
+  padding:10px 17px !important; border:1px solid #d9c5fa !important;
+  border-radius:30px !important; color:#fff !important;
+  background:linear-gradient(115deg,#9866e8,#7450cf) !important;
+  font-size:12px !important; font-weight:800 !important;
+  box-shadow:0 6px 18px #7951bb30 !important; cursor:pointer !important;
 }
 #navai-tool-dashboard #navaiUpgradeTrigger:hover {
-    transform:translateY(-2px) !important;
-    box-shadow:0 8px 22px rgba(125,82,190,.28) !important;
+  filter:brightness(1.07); box-shadow:0 9px 23px #7951bb45 !important;
 }
 #navaiUpgradeModal {
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:2147483000;
-    align-items:center;
-    justify-content:center;
-    padding:18px;
-    background:rgba(30,20,48,.48);
-    backdrop-filter:blur(9px);
-    font-family:Arial,Helvetica,sans-serif;
+  display:none; position:fixed; inset:0; z-index:2147483000;
+  align-items:center; justify-content:center; padding:16px;
+  background:rgba(25,17,43,.62); backdrop-filter:blur(12px);
+  font-family:inherit; box-sizing:border-box;
 }
 #navaiUpgradeModal.is-open { display:flex; }
+#navaiUpgradeModal * { box-sizing:border-box; }
 #navaiUpgradeModal .upgrade-panel {
-    width:min(440px,100%);
-    padding:27px;
-    border:1px solid #e7dafa;
-    border-radius:24px;
-    background:linear-gradient(145deg,#fff,#f8f3ff);
-    box-shadow:0 24px 75px rgba(43,25,75,.22);
-    color:#302047;
-    position:relative;
-    text-align:center;
-}
-#navaiUpgradeModal .upgrade-crown {
-    width:58px;height:58px;
-    margin:0 auto 14px;
-    display:grid;place-items:center;
-    border-radius:19px;
-    background:linear-gradient(135deg,#eee3ff,#e4eaff);
-    font-size:29px;
-}
-#navaiUpgradeModal h2 {
-    margin:0 0 9px;
-    font-size:24px;
-    color:#302047;
-}
-#navaiUpgradeModal p {
-    margin:0 0 19px;
-    color:#78698e;
-    font-size:13px;
-    line-height:1.65;
-}
-#navaiUpgradeModal .upgrade-benefits {
-    padding:15px;
-    margin:0 0 18px;
-    border:1px solid #eadff8;
-    border-radius:16px;
-    background:#fff;
-    text-align:left;
-    font-size:13px;
-    line-height:2;
-    color:#59466f;
-}
-#navaiUpgradeModal .upgrade-coming {
-    padding:12px;
-    border-radius:13px;
-    background:#eee7ff;
-    color:#7550c2;
-    font-size:12px;
-    font-weight:750;
+  position:relative; width:min(820px,100%); max-height:92vh;
+  overflow-y:auto; padding:30px;
+  border:1px solid #e6d9f7; border-radius:25px;
+  background:linear-gradient(145deg,#fff 0%,#fbf8ff 65%,#fff7fb 100%);
+  color:#302047; box-shadow:0 28px 90px #160d2b55;
 }
 #navaiUpgradeModal .upgrade-close {
-    position:absolute;
-    top:13px;right:15px;
-    width:34px;height:34px;
-    border:0;border-radius:50%;
-    background:#f0e9fa;
-    color:#604b7c;
-    font-size:21px;
-    cursor:pointer;
+  position:sticky; float:right; top:0; z-index:5;
+  width:36px; height:36px; margin:-8px -8px 0 10px;
+  border:1px solid #eadff7; border-radius:50%;
+  background:#f4edfc; color:#634b82; font-size:23px;
+  cursor:pointer;
+}
+#navaiUpgradeModal .upgrade-heading { text-align:center; padding:8px 20px 22px; }
+#navaiUpgradeModal .upgrade-crown {
+  width:58px; height:58px; margin:0 auto 13px;
+  display:grid; place-items:center; border-radius:19px;
+  background:linear-gradient(135deg,#eee2ff,#ffe9f3);
+  font-size:28px;
+}
+#navaiUpgradeModal .upgrade-eyebrow {
+  color:#9369c4; font-size:10px; font-weight:850;
+  letter-spacing:2px; text-transform:uppercase;
+}
+#navaiUpgradeModal .upgrade-heading h2 {
+  margin:9px 0 8px; color:#302047;
+  font-size:clamp(23px,4vw,31px); font-weight:850;
+}
+#navaiUpgradeModal .upgrade-heading p {
+  margin:0; color:#81728f; font-size:13px; line-height:1.65;
+}
+#navaiUpgradeModal .upgrade-plans {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px;
+}
+#navaiUpgradeModal .upgrade-plan {
+  position:relative; padding:21px; border:1px solid #e9e0f3;
+  border-radius:19px; background:#fff; min-width:0;
+}
+#navaiUpgradeModal .upgrade-plan.premium {
+  border:1.5px solid #c8a6f0;
+  background:linear-gradient(145deg,#fff,#f7f0ff);
+  box-shadow:0 9px 25px #9060bd13;
+}
+#navaiUpgradeModal .upgrade-plan h3 {
+  margin:0 0 7px; color:#392653; font-size:17px;
+}
+#navaiUpgradeModal .upgrade-plan p {
+  min-height:36px; margin:0 0 15px;
+  color:#887a96; font-size:11px; line-height:1.55;
+}
+#navaiUpgradeModal .upgrade-price {
+  margin:0 0 5px; color:#493265; font-size:25px; font-weight:850;
+}
+#navaiUpgradeModal .upgrade-price small {
+  font-size:11px; font-weight:600; color:#9385a0;
+}
+#navaiUpgradeModal .upgrade-plan ul {
+  display:grid; gap:10px; padding:14px 0 0; margin:14px 0 0;
+  border-top:1px solid #eee7f5; list-style:none;
+}
+#navaiUpgradeModal .upgrade-plan li {
+  color:#625372; font-size:11px; line-height:1.5;
+}
+#navaiUpgradeModal .upgrade-plan li::before {
+  content:"✓"; margin-right:8px; color:#8a5acb; font-weight:900;
+}
+#navaiUpgradeModal .upgrade-plan-status {
+  display:inline-block; margin-top:15px; padding:8px 12px;
+  border-radius:20px; background:#f0e9fb; color:#7954a8;
+  font-size:10px; font-weight:800;
+}
+#navaiUpgradeModal .upgrade-plan.premium .upgrade-plan-status {
+  background:linear-gradient(90deg,#eee3ff,#ffeaf3);
+}
+#navaiUpgradeModal .upgrade-section-title {
+  margin:27px 0 12px; color:#392653; font-size:15px; font-weight:850;
+}
+#navaiUpgradeModal .upgrade-compare {
+  overflow-x:auto; border:1px solid #ebe2f4;
+  border-radius:15px; background:#fff;
+}
+#navaiUpgradeModal .upgrade-compare table {
+  width:100%; border-collapse:collapse; min-width:420px;
+  font-size:11px; text-align:left;
+}
+#navaiUpgradeModal .upgrade-compare th,
+#navaiUpgradeModal .upgrade-compare td {
+  padding:12px 14px; border-bottom:1px solid #f0eaf5;
+  color:#675777;
+}
+#navaiUpgradeModal .upgrade-compare th {
+  background:#f8f3ff; color:#513b6c; font-weight:800;
+}
+#navaiUpgradeModal .upgrade-compare tr:last-child td { border-bottom:0; }
+#navaiUpgradeModal .upgrade-faq {
+  display:grid; gap:8px;
+}
+#navaiUpgradeModal .upgrade-faq details {
+  padding:13px 15px; border:1px solid #ebe2f4;
+  border-radius:12px; background:#fff;
+}
+#navaiUpgradeModal .upgrade-faq summary {
+  color:#49345f; font-size:12px; font-weight:800; cursor:pointer;
+}
+#navaiUpgradeModal .upgrade-faq details p {
+  margin:9px 0 0; color:#82748e; font-size:11px; line-height:1.65;
+}
+#navaiUpgradeModal .upgrade-notice {
+  margin-top:18px; padding:14px; border:1px solid #e8dcfa;
+  border-radius:13px; background:linear-gradient(100deg,#f1eaff,#fff0f7);
+  color:#70528e; text-align:center; font-size:11px; line-height:1.6;
+}
+#navaiUpgradeModal .upgrade-footer {
+  margin:12px 0 0; color:#a092ac; text-align:center;
+  font-size:10px; line-height:1.6;
 }
 @media(max-width:600px) {
-    #navai-tool-dashboard #navaiUpgradeTrigger {
-        top:10px !important;
-        right:62px !important;
-        padding:9px 12px !important;
-        font-size:12px !important;
-    }
+  #navai-tool-dashboard #navaiUpgradeTrigger {
+    right:65px !important; padding:8px 11px !important;
+    font-size:10px !important;
+  }
+  #navaiUpgradeModal { padding:9px; }
+  #navaiUpgradeModal .upgrade-panel {
+    max-height:94vh; padding:19px 14px; border-radius:19px;
+  }
+  #navaiUpgradeModal .upgrade-heading { padding:8px 5px 18px; }
+  #navaiUpgradeModal .upgrade-plans { grid-template-columns:1fr; }
+  #navaiUpgradeModal .upgrade-plan { padding:17px; }
+  #navaiUpgradeModal .upgrade-plan p { min-height:0; }
 }
 </style>
 
@@ -2845,257 +2894,137 @@ body.navai-dashboard-active #navai-tool-dashboard {
   <div class="upgrade-panel" role="dialog" aria-modal="true" aria-labelledby="navaiUpgradeTitle">
     <button class="upgrade-close" id="navaiUpgradeClose" type="button" aria-label="Close">&times;</button>
 
-    <div class="upgrade-crown" aria-hidden="true">
-      <svg viewBox="0 0 48 48" width="34" height="34" fill="none">
-        <path d="M8 17L16 25L24 10L32 25L40 17L36 37H12L8 17Z" stroke="#8058C8" stroke-width="2.6" stroke-linejoin="round"/>
-        <path d="M13 32H35" stroke="#8058C8" stroke-width="2.6" stroke-linecap="round"/>
-        <circle cx="8" cy="14" r="3" fill="#C59AEF"/>
-        <circle cx="24" cy="7" r="3" fill="#C59AEF"/>
-        <circle cx="40" cy="14" r="3" fill="#C59AEF"/>
-      </svg>
+    <div class="upgrade-heading">
+      <div class="upgrade-crown" aria-hidden="true">♛</div>
+      <span class="upgrade-eyebrow">THE NAVAI EXPERIENCE</span>
+      <h2 id="navaiUpgradeTitle">Choose your learning journey</h2>
+      <p>Explore NavAI plans and discover what's being prepared for the future.</p>
     </div>
 
-    <span class="upgrade-eyebrow">THE NEXT CHAPTER</span>
-    <h2 id="navaiUpgradeTitle">Discover NavAI Premium</h2>
-    <p class="upgrade-description">A more powerful and personalised learning experience is on the way.</p>
+    <div class="upgrade-plans">
+      <section class="upgrade-plan">
+        <h3>NavAI Free</h3>
+        <p>Your everyday student toolkit.</p>
+        <div class="upgrade-price">Free <small>/ currently</small></div>
+        <ul>
+          <li>Access to currently available study tools</li>
+          <li>Homework and doubt-solving support</li>
+          <li>Study planning and learning resources</li>
+          <li>Available features without a subscription</li>
+        </ul>
+        <span class="upgrade-plan-status">CURRENT ACCESS</span>
+      </section>
 
-    <div class="upgrade-benefits">
-      <div class="upgrade-benefit">
-        <span class="benefit-icon">01</span>
-        <span><strong>Enhanced learning</strong><small>More ways to understand difficult topics.</small></span>
-      </div>
-      <div class="upgrade-benefit">
-        <span class="benefit-icon">02</span>
-        <span><strong>Advanced study tools</strong><small>Explore smarter ways to study and practise.</small></span>
-      </div>
-      <div class="upgrade-benefit">
-        <span class="benefit-icon">03</span>
-        <span><strong>A better NavAI experience</strong><small>More features designed around students.</small></span>
-      </div>
-      <div class="upgrade-benefit">
-        <span class="benefit-icon">04</span>
-        <span><strong>NavAI Saathi</strong><small>Your AI companion for everyday conversations, voice and personal guidance.</small></span>
-      </div>
+      <section class="upgrade-plan premium">
+        <h3>NavAI Premium</h3>
+        <p>A future enhanced learning experience.</p>
+        <div class="upgrade-price">Coming soon</div>
+        <ul>
+          <li>Planned advanced learning tools</li>
+          <li>Enhanced study and practice experiences</li>
+          <li>More personalised learning options</li>
+          <li>Future NavAI Saathi enhancements</li>
+        </ul>
+        <span class="upgrade-plan-status">NOT AVAILABLE YET</span>
+      </section>
     </div>
 
-    <div class="upgrade-coming">
-      <span class="coming-dot"></span>
-      Premium plans are coming soon
+    <h3 class="upgrade-section-title">Plan comparison</h3>
+    <div class="upgrade-compare">
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>Free</th><th>Premium</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Currently available study tools</td><td>Available</td><td>To be announced</td></tr>
+          <tr><td>Homework support</td><td>Available</td><td>To be announced</td></tr>
+          <tr><td>Advanced learning tools</td><td>—</td><td>Planned</td></tr>
+          <tr><td>Enhanced personalisation</td><td>—</td><td>Planned</td></tr>
+          <tr><td>Subscription billing</td><td>Not required</td><td>Not enabled</td></tr>
+        </tbody>
+      </table>
     </div>
-    <p class="upgrade-footnote">No payment is being collected through this preview.</p>
+
+    <h3 class="upgrade-section-title">Frequently asked questions</h3>
+    <div class="upgrade-faq">
+      <details>
+        <summary>Do I need to pay to use NavAI right now?</summary>
+        <p>No. Currently available NavAI features remain accessible without purchasing a Premium plan.</p>
+      </details>
+      <details>
+        <summary>Can I buy Premium today?</summary>
+        <p>No. Premium is a planned offering and is not available for purchase yet.</p>
+      </details>
+      <details>
+        <summary>Will my existing features stop working?</summary>
+        <p>This Upgrade preview does not change access to your existing NavAI features.</p>
+      </details>
+      <details>
+        <summary>Which payment methods will be supported?</summary>
+        <p>Payment options, prices, billing and subscription terms will be announced only after a secure payment system is implemented.</p>
+      </details>
+    </div>
+
+    <div class="upgrade-notice">
+      ✦ Premium plans are being prepared. No payment is collected here, and no Premium subscription is activated.
+    </div>
+    <p class="upgrade-footer">Plan details and availability may change before launch.</p>
   </div>
 </div>
+
 <script>
 (function () {
-    const dashboard = document.getElementById("navai-tool-dashboard");
-    if (!dashboard || document.getElementById("navaiUpgradeTrigger")) return;
+  const dashboard = document.getElementById("navai-tool-dashboard");
+  const header = dashboard && dashboard.querySelector(".navai-reference-header");
+  const account = document.getElementById("navaiIdentityTrigger");
+  const modal = document.getElementById("navaiUpgradeModal");
+  const close = document.getElementById("navaiUpgradeClose");
 
-    const signIn = document.getElementById("navaiIdentityTrigger");
-    if (!signIn) return;
+  if (!dashboard || !header || !account || !modal || !close) return;
+  if (document.getElementById("navaiUpgradeTrigger")) return;
 
-    const button = document.createElement("button");
-    button.id = "navaiUpgradeTrigger";
-    button.type = "button";
-    button.textContent = "Upgrade";
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "navaiUpgradeTrigger";
+  button.setAttribute("aria-label", "Explore NavAI plans");
+  button.textContent = "✦ Upgrade";
+  header.insertBefore(button, account);
 
-    const modal = document.getElementById("navaiUpgradeModal");
-    const close = document.getElementById("navaiUpgradeClose");
+  let previousFocus = null;
 
-    dashboard.appendChild(button);
+  function openUpgrade() {
+    previousFocus = document.activeElement;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    close.focus();
+  }
 
-    function openUpgrade() {
-        modal.classList.add("is-open");
-        modal.setAttribute("aria-hidden", "false");
+  function closeUpgrade() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (previousFocus && typeof previousFocus.focus === "function") {
+      previousFocus.focus();
     }
+  }
 
-    function closeUpgrade() {
-        modal.classList.remove("is-open");
-        modal.setAttribute("aria-hidden", "true");
+  button.addEventListener("click", openUpgrade);
+  close.addEventListener("click", closeUpgrade);
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) closeUpgrade();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && modal.classList.contains("is-open")) {
+      closeUpgrade();
     }
-
-    button.addEventListener("click", openUpgrade);
-    close.addEventListener("click", closeUpgrade);
-
-    modal.addEventListener("click", function (event) {
-        if (event.target === modal) closeUpgrade();
-    });
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") closeUpgrade();
-    });
+  });
 })();
 </script>
-<!-- END NAVAI_UPGRADE_DASHBOARD_V1 -->
+<!-- END NAVAI_UPGRADE_DASHBOARD_V2 -->
 
-
-<style id="navai-upgrade-final-polish">
-#navaiUpgradeModal { padding:18px !important; box-sizing:border-box !important; }
-#navaiUpgradeModal .upgrade-panel {
-  width:min(460px,100%) !important;
-  max-height:88vh !important;
-  overflow-y:auto !important;
-  box-sizing:border-box !important;
-  padding:34px 28px 24px !important;
-  border:1px solid #e8dcfa !important;
-  border-radius:26px !important;
-  background:linear-gradient(145deg,#fff 0%,#fbf8ff 60%,#fff5fa 100%) !important;
-  box-shadow:0 25px 90px rgba(69,45,105,.24) !important;
-}
-#navaiUpgradeModal .upgrade-crown {
-  width:68px !important;height:68px !important;
-  display:grid !important;place-items:center !important;
-  margin:0 auto 16px !important;
-  border-radius:22px !important;
-  background:linear-gradient(145deg,#eee4ff,#fce8f3) !important;
-  border:1px solid #e8dafa !important;
-}
-#navaiUpgradeModal .upgrade-eyebrow {
-  display:block !important;margin-bottom:9px !important;
-  color:#9572c5 !important;font-size:10px !important;
-  font-weight:800 !important;letter-spacing:2px !important;
-}
-#navaiUpgradeModal h2 {
-  color:#352346 !important;font-size:25px !important;
-  line-height:1.25 !important;font-weight:800 !important;
-}
-#navaiUpgradeModal .upgrade-description {
-  color:#81728f !important;font-size:13px !important;
-  line-height:1.7 !important;margin:0 0 20px !important;
-}
-#navaiUpgradeModal .upgrade-benefits {
-  display:grid !important;gap:9px !important;
-  padding:12px !important;border:1px solid #eee5f8 !important;
-  border-radius:17px !important;background:#fff !important;
-}
-#navaiUpgradeModal .upgrade-benefit {
-  display:flex !important;align-items:center !important;
-  gap:12px !important;padding:10px !important;
-  border-radius:12px !important;background:#fbf8ff !important;
-}
-#navaiUpgradeModal .benefit-icon {
-  flex:0 0 35px !important;width:35px !important;height:35px !important;
-  display:grid !important;place-items:center !important;
-  border-radius:11px !important;background:#eee5ff !important;
-  color:#7953b6 !important;font-size:11px !important;font-weight:800 !important;
-}
-#navaiUpgradeModal .upgrade-benefit strong {
-  display:block !important;color:#49345f !important;font-size:12px !important;
-}
-#navaiUpgradeModal .upgrade-benefit small {
-  display:block !important;margin-top:4px !important;
-  color:#91839e !important;font-size:10px !important;line-height:1.5 !important;
-}
-#navaiUpgradeModal .upgrade-coming {
-  display:flex !important;align-items:center !important;justify-content:center !important;
-  gap:9px !important;margin-top:16px !important;padding:13px !important;
-  border:1px solid #e8dcfa !important;border-radius:13px !important;
-  background:linear-gradient(100deg,#f0e9ff,#fff0f7) !important;
-  color:#7653a6 !important;font-size:12px !important;font-weight:750 !important;
-}
-#navaiUpgradeModal .coming-dot {
-  width:8px !important;height:8px !important;border-radius:50% !important;
-  background:#a77bd7 !important;
-}
-#navaiUpgradeModal .upgrade-footnote {
-  margin:11px 0 0 !important;color:#a195ac !important;
-  font-size:10px !important;line-height:1.5 !important;
-}
-#navaiUpgradeModal .upgrade-close {
-  color:#72558d !important;background:#f2eafb !important;
-  font-size:23px !important;
-}
-@media(max-width:600px) {
-  #navaiUpgradeModal { padding:12px !important; }
-  #navaiUpgradeModal .upgrade-panel {
-    padding:30px 18px 21px !important;border-radius:22px !important;
-  }
-}
-</style>
-</body>
-
-<style id="navai-upgrade-final-polish">
-#navaiUpgradeModal { padding:18px !important; box-sizing:border-box !important; }
-#navaiUpgradeModal .upgrade-panel {
-  width:min(460px,100%) !important;
-  max-height:88vh !important;
-  overflow-y:auto !important;
-  box-sizing:border-box !important;
-  padding:34px 28px 24px !important;
-  border:1px solid #e8dcfa !important;
-  border-radius:26px !important;
-  background:linear-gradient(145deg,#fff 0%,#fbf8ff 60%,#fff5fa 100%) !important;
-  box-shadow:0 25px 90px rgba(69,45,105,.24) !important;
-}
-#navaiUpgradeModal .upgrade-crown {
-  width:68px !important;height:68px !important;
-  display:grid !important;place-items:center !important;
-  margin:0 auto 16px !important;
-  border-radius:22px !important;
-  background:linear-gradient(145deg,#eee4ff,#fce8f3) !important;
-  border:1px solid #e8dafa !important;
-}
-#navaiUpgradeModal .upgrade-eyebrow {
-  display:block !important;margin-bottom:9px !important;
-  color:#9572c5 !important;font-size:10px !important;
-  font-weight:800 !important;letter-spacing:2px !important;
-}
-#navaiUpgradeModal h2 {
-  color:#352346 !important;font-size:25px !important;
-  line-height:1.25 !important;font-weight:800 !important;
-}
-#navaiUpgradeModal .upgrade-description {
-  color:#81728f !important;font-size:13px !important;
-  line-height:1.7 !important;margin:0 0 20px !important;
-}
-#navaiUpgradeModal .upgrade-benefits {
-  display:grid !important;gap:9px !important;
-  padding:12px !important;border:1px solid #eee5f8 !important;
-  border-radius:17px !important;background:#fff !important;
-}
-#navaiUpgradeModal .upgrade-benefit {
-  display:flex !important;align-items:center !important;
-  gap:12px !important;padding:10px !important;
-  border-radius:12px !important;background:#fbf8ff !important;
-}
-#navaiUpgradeModal .benefit-icon {
-  flex:0 0 35px !important;width:35px !important;height:35px !important;
-  display:grid !important;place-items:center !important;
-  border-radius:11px !important;background:#eee5ff !important;
-  color:#7953b6 !important;font-size:11px !important;font-weight:800 !important;
-}
-#navaiUpgradeModal .upgrade-benefit strong {
-  display:block !important;color:#49345f !important;font-size:12px !important;
-}
-#navaiUpgradeModal .upgrade-benefit small {
-  display:block !important;margin-top:4px !important;
-  color:#91839e !important;font-size:10px !important;line-height:1.5 !important;
-}
-#navaiUpgradeModal .upgrade-coming {
-  display:flex !important;align-items:center !important;justify-content:center !important;
-  gap:9px !important;margin-top:16px !important;padding:13px !important;
-  border:1px solid #e8dcfa !important;border-radius:13px !important;
-  background:linear-gradient(100deg,#f0e9ff,#fff0f7) !important;
-  color:#7653a6 !important;font-size:12px !important;font-weight:750 !important;
-}
-#navaiUpgradeModal .coming-dot {
-  width:8px !important;height:8px !important;border-radius:50% !important;
-  background:#a77bd7 !important;
-}
-#navaiUpgradeModal .upgrade-footnote {
-  margin:11px 0 0 !important;color:#a195ac !important;
-  font-size:10px !important;line-height:1.5 !important;
-}
-#navaiUpgradeModal .upgrade-close {
-  color:#72558d !important;background:#f2eafb !important;
-  font-size:23px !important;
-}
-@media(max-width:600px) {
-  #navaiUpgradeModal { padding:12px !important; }
-  #navaiUpgradeModal .upgrade-panel {
-    padding:30px 18px 21px !important;border-radius:22px !important;
-  }
-}
-</style>
 <script src="/static/navai-install-v2.js?v=6" defer></script>
 </body>
 </html>
