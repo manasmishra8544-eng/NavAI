@@ -1,0 +1,116 @@
+﻿#navai-install-v2 {
+    position: fixed;
+    z-index: 999999;
+    left: 50%;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(430px, calc(100% - 28px));
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255,255,255,.65);
+    border-radius: 22px;
+    background: rgba(255,255,255,.96);
+    box-shadow: 0 12px 40px rgba(54,35,90,.19);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    font-family: inherit;
+    color: #30234a;
+}
+
+#navai-install-v2[hidden] {
+    display: none !important;
+}
+
+#navai-install-v2 .navai-install-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 14px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+#navai-install-v2 .navai-install-copy {
+    flex: 1;
+    min-width: 0;
+}
+
+#navai-install-v2 .navai-install-title {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 3px;
+}
+
+#navai-install-v2 .navai-install-subtitle {
+    font-size: 11px;
+    color: #81738f;
+}
+
+#navai-install-v2 .navai-install-button {
+    border: 0;
+    border-radius: 13px;
+    padding: 12px 17px;
+    background: linear-gradient(135deg,#7951b9,#a66ad4);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 5px 14px rgba(121,81,185,.23);
+}
+
+#navai-install-v2 .navai-install-button:active {
+    transform: scale(.96);
+}
+
+#navai-install-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000000;
+    background: rgba(28,20,43,.48);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+#navai-install-overlay[hidden] {
+    display: none !important;
+}
+
+#navai-install-overlay .navai-install-modal {
+    width: min(360px,100%);
+    padding: 25px;
+    border-radius: 25px;
+    background: #fff;
+    color: #30234a;
+    box-shadow: 0 20px 65px rgba(0,0,0,.2);
+}
+
+#navai-install-overlay h3 {
+    margin: 0 0 12px;
+    font-size: 20px;
+}
+
+#navai-install-overlay p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #6f637d;
+}
+
+#navai-install-overlay button {
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 18px;
+    background: #7951b9;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+@media (display-mode: standalone) {
+    #navai-install-v2 {
+        display: none !important;
+    }
+}
