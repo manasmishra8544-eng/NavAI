@@ -1125,6 +1125,56 @@ def oral_quiz_js():
     from flask import send_from_directory
     import os
     return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "oral-quiz.js")
+
+# NAVAI PWA SERVICE WORKER ROUTE
+def _navai_pwa_service_worker():
+    from pathlib import Path
+
+    sw_path = Path(app.root_path) / "service-worker.js"
+
+    if not sw_path.exists():
+        return "Service worker not found", 404
+
+    response = app.response_class(
+        sw_path.read_text(encoding="utf-8"),
+        mimetype="application/javascript"
+    )
+    response.headers["Service-Worker-Allowed"] = "/"
+    response.headers["Cache-Control"] = "no-cache"
+    return response
+
+
+app.add_url_rule(
+    "/service-worker.js",
+    endpoint="navai_pwa_service_worker",
+    view_func=_navai_pwa_service_worker
+)
+
+
+# NAVAI PWA MANIFEST ROUTE
+def _navai_pwa_manifest():
+    from pathlib import Path
+    from flask import send_file
+
+    manifest_path = Path(app.root_path) / "manifest.webmanifest"
+
+    if not manifest_path.exists():
+        return "Manifest not found", 404
+
+    return send_file(
+        manifest_path,
+        mimetype="application/manifest+json",
+        max_age=0
+    )
+
+
+app.add_url_rule(
+    "/manifest.webmanifest",
+    endpoint="navai_pwa_manifest",
+    view_func=_navai_pwa_manifest
+)
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)

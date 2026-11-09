@@ -1,0 +1,80 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#17142F"/>
+    <stop offset=".48" stop-color="#49316F"/>
+    <stop offset="1" stop-color="#A35F91"/>
+  </linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#FFFFFF" stop-opacity=".19"/>
+    <stop offset="1" stop-color="#DDA8FF" stop-opacity=".035"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#FFF1D5"/>
+    <stop offset=".45" stop-color="#D8AD80"/>
+    <stop offset="1" stop-color="#FFF0D1"/>
+  </linearGradient>
+  <radialGradient id="glow">
+    <stop stop-color="#DCA8FF" stop-opacity=".36"/>
+    <stop offset="1" stop-color="#DCA8FF" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="18"/>
+  </filter>
+</defs>
+
+<rect width="1024" height="1024" fill="url(#bg)"/>
+<circle cx="512" cy="490" r="450" fill="url(#glow)"/>
+
+<rect x="115" y="115" width="794" height="794" rx="205"
+ fill="#000000" opacity=".20" filter="url(#shadow)"/>
+
+<rect x="112" y="112" width="800" height="800" rx="205"
+ fill="url(#glass)" stroke="#FFFFFF" stroke-opacity=".28" stroke-width="4"/>
+
+<rect x="132" y="132" width="760" height="760" rx="185"
+ fill="none" stroke="url(#gold)" stroke-opacity=".52" stroke-width="3"/>
+
+<!-- Decorative neural orbit -->
+<circle cx="512" cy="510" r="285" fill="none"
+ stroke="#F5DCCB" stroke-opacity=".15" stroke-width="3"/>
+
+<circle cx="512" cy="510" r="245" fill="none"
+ stroke="#FFFFFF" stroke-opacity=".10" stroke-width="2"
+ stroke-dasharray="5 18"/>
+
+<!-- Signature N monogram -->
+<path d="M340 690 L340 330 L684 690 L684 330"
+ fill="none" stroke="#2A1D42" stroke-opacity=".55"
+ stroke-width="112" stroke-linecap="round" stroke-linejoin="round"
+ transform="translate(0 13)"/>
+
+<path d="M340 690 L340 330 L684 690 L684 330"
+ fill="none" stroke="url(#gold)"
+ stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+
+<!-- Inner light reflection -->
+<path d="M340 340 L340 690"
+ fill="none" stroke="#FFFFFF" stroke-opacity=".42"
+ stroke-width="8" stroke-linecap="round"/>
+
+<!-- Neural nodes -->
+<circle cx="340" cy="330" r="31" fill="#FFF0D6"/>
+<circle cx="684" cy="690" r="31" fill="#FFF0D6"/>
+<circle cx="684" cy="330" r="31" fill="#E8B9DC"/>
+
+<circle cx="340" cy="330" r="12" fill="#80569B"/>
+<circle cx="684" cy="690" r="12" fill="#80569B"/>
+<circle cx="684" cy="330" r="12" fill="#80569B"/>
+
+<!-- Floating connection points -->
+<circle cx="512" cy="220" r="9" fill="#FFF0D6"/>
+<circle cx="785" cy="510" r="9" fill="#FFF0D6"/>
+<circle cx="239" cy="510" r="9" fill="#FFF0D6"/>
+<circle cx="512" cy="800" r="9" fill="#FFF0D6"/>
+
+<!-- Tiny premium highlight -->
+<path d="M250 230 Q512 120 774 230"
+ fill="none" stroke="#FFFFFF" stroke-opacity=".20"
+ stroke-width="5" stroke-linecap="round"/>
+</svg>
