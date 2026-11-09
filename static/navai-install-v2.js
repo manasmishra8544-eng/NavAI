@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
     "use strict";
 
     if (window.__NAVAI_INSTALL_V2__) return;
