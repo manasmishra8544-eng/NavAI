@@ -1,0 +1,85 @@
+﻿#navai-mobile-install {
+  position: fixed;
+  right: 16px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(265px, calc(100vw - 32px));
+  min-height: 68px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 19px;
+  background: linear-gradient(135deg, #7656d9 0%, #a17be9 55%, #d18bdc 100%);
+  color: #fff;
+  box-shadow: 0 12px 34px rgba(92, 62, 170, .32),
+              inset 0 1px 0 rgba(255,255,255,.28);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: navaiInstallIn .35s ease-out both;
+}
+
+#navai-mobile-install:active {
+  transform: scale(.97);
+}
+
+#navai-mobile-install:disabled {
+  opacity: .75;
+}
+
+#navai-mobile-install .navai-install-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 43px;
+  width: 43px;
+  height: 43px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.19);
+  border: 1px solid rgba(255,255,255,.27);
+}
+
+#navai-mobile-install .navai-install-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+#navai-mobile-install .navai-install-copy {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+#navai-mobile-install .navai-install-copy strong {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: .1px;
+}
+
+#navai-mobile-install .navai-install-copy small {
+  color: rgba(255,255,255,.86);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+#navai-mobile-install .navai-install-arrow {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+@keyframes navaiInstallIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+  #navai-mobile-install {
+    display: none !important;
+  }
+}
