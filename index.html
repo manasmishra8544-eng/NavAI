@@ -512,6 +512,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="stylesheet" href="/static/navai-pwa.css?v=1">
 <link rel="stylesheet" href="/static/navai-mobile-install.css?v=20261109-1">
+<link id="navai-install-v2-css" rel="stylesheet" href="/static/navai-install-v2.css?v=2">
 </head>
 
 <body>
@@ -2387,7 +2388,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 </style>
 <div id="navaiIdentityModal" aria-hidden="true">
   <div class="identity-panel">
-    <button type="button" class="identity-close" id="navaiIdentityClose" aria-label="Close">Ã—</button>
+    <button type="button" class="identity-close" id="navaiIdentityClose" aria-label="Close">Ãƒâ€”</button>
     <h2 id="navaiIdentityTitle">Your NavAI Account</h2>
     <p id="navaiIdentitySubtitle">Create your NavAI account.</p>
 
@@ -2402,7 +2403,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
         <input id="navaiIdentityFullName" maxlength="40" autocomplete="name" placeholder="Enter your full name">
         <label for="navaiIdentityPhoto">Profile photo (optional)</label>
         <input id="navaiIdentityPhoto" type="file" accept="image/png,image/jpeg,image/webp">
-        <small class="identity-hint">JPG, PNG or WebP Â· Maximum 3 MB</small>
+        <small class="identity-hint">JPG, PNG or WebP Ã‚Â· Maximum 3 MB</small>
       </div>
 
       <label for="navaiIdentityUsername">Username</label>
@@ -2421,7 +2422,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
       <input id="navaiProfileName" maxlength="40" required>
       <label for="navaiProfilePhoto">Change profile photo</label>
       <input id="navaiProfilePhoto" type="file" accept="image/png,image/jpeg,image/webp">
-      <small class="identity-hint">JPG, PNG or WebP Â· Maximum 3 MB</small>
+      <small class="identity-hint">JPG, PNG or WebP Ã‚Â· Maximum 3 MB</small>
       <div class="identity-message" id="navaiProfileMessage" role="status"></div>
       <button class="identity-submit" type="submit">Save profile</button>
     </form>
@@ -2619,7 +2620,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 
   form.addEventListener("submit", async event => {
     event.preventDefault();
-    message.textContent = "Please waitâ€¦";
+    message.textContent = "Please waitÃ¢â‚¬Â¦";
     message.style.color = "#766d85";
     submit.disabled = true;
 
@@ -2654,7 +2655,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 
   profileForm.addEventListener("submit", async event => {
     event.preventDefault();
-    profileMessage.textContent = "Saving profileâ€¦";
+    profileMessage.textContent = "Saving profileÃ¢â‚¬Â¦";
     profileMessage.style.color = "#766d85";
 
     const payload = new FormData();
@@ -3009,6 +3010,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
   }
 }
 </style>
+<script src="/static/navai-install-v2.js?v=2" defer></script>
 </body>
 <script src="/static/navai-mobile-install.js?v=20261109-1" defer></script>
 
@@ -3095,5 +3097,6 @@ body.navai-dashboard-active #navai-tool-dashboard {
   }
 }
 </style>
+<script src="/static/navai-install-v2.js?v=2" defer></script>
 </body>
 </html>
