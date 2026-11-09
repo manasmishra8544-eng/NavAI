@@ -509,11 +509,11 @@ body.navai-dashboard-active #navai-tool-dashboard {
     }
 }
 </style>
-    <link rel="manifest" href="/manifest.webmanifest">
 
 
 
-<link id="navai-install-v2-css" rel="stylesheet" href="/static/navai-install-v2.css?v=6">
+
+
 </head>
 
 <body>
@@ -3012,6 +3012,21 @@ body.navai-dashboard-active #navai-tool-dashboard {
 }
 </style>
 
+
+<script>
+/* NavAI PWA removal: unregister old service workers */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.getRegistrations()
+      .then(function (registrations) {
+        return Promise.all(registrations.map(function (registration) {
+          return registration.unregister();
+        }));
+      })
+      .catch(function () {});
+  });
+}
+</script>
 </body>
 
 
@@ -3099,6 +3114,21 @@ body.navai-dashboard-active #navai-tool-dashboard {
 }
 </style>
 
-<script src="/static/navai-install-v2.js?v=6" defer></script>
+
+
+<script>
+/* NavAI PWA removal: unregister old service workers */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.getRegistrations()
+      .then(function (registrations) {
+        return Promise.all(registrations.map(function (registration) {
+          return registration.unregister();
+        }));
+      })
+      .catch(function () {});
+  });
+}
+</script>
 </body>
 </html>
