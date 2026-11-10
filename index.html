@@ -2845,43 +2845,93 @@ body.navai-dashboard-active #navai-tool-dashboard {
 </style>
 
 <div id="navaiUpgradeModal" aria-hidden="true">
-  <div class="upgrade-panel" role="dialog" aria-modal="true" aria-labelledby="navaiUpgradeTitle">
+  <div class="upgrade-panel navai-gemini-panel" role="dialog" aria-modal="true" aria-labelledby="navaiUpgradeTitle">
     <button class="upgrade-close" id="navaiUpgradeClose" type="button" aria-label="Close">&times;</button>
 
-    <div class="upgrade-crown" aria-hidden="true">
-      <svg viewBox="0 0 48 48" width="34" height="34" fill="none">
-        <path d="M8 17L16 25L24 10L32 25L40 17L36 37H12L8 17Z" stroke="#8058C8" stroke-width="2.6" stroke-linejoin="round"/>
-        <path d="M13 32H35" stroke="#8058C8" stroke-width="2.6" stroke-linecap="round"/>
-        <circle cx="8" cy="14" r="3" fill="#C59AEF"/>
-        <circle cx="24" cy="7" r="3" fill="#C59AEF"/>
-        <circle cx="40" cy="14" r="3" fill="#C59AEF"/>
-      </svg>
+    <div class="upgrade-heading">
+      <div class="upgrade-crown" aria-hidden="true">&#10022;</div>
+      <span class="upgrade-eyebrow">THE NAVAI EXPERIENCE</span>
+      <h2 id="navaiUpgradeTitle">Choose your NavAI plan</h2>
+      <p>Unlock more possibilities with NavAI.</p>
     </div>
 
-    <span class="upgrade-eyebrow">THE NEXT CHAPTER</span>
-    <h2 id="navaiUpgradeTitle">Discover NavAI Premium</h2>
-    <p class="upgrade-description">A more powerful and personalised learning experience is on the way.</p>
+    <div class="upgrade-plans navai-gemini-plans">
 
-    <div class="upgrade-benefits">
-      <div class="upgrade-benefit">
-        <span class="benefit-icon">01</span>
-        <span><strong>Enhanced learning</strong><small>More ways to understand difficult topics.</small></span>
-      </div>
-      <div class="upgrade-benefit">
-        <span class="benefit-icon">02</span>
-        <span><strong>Advanced study tools</strong><small>Explore smarter ways to study and practise.</small></span>
-      </div>
-      <div class="upgrade-benefit">
-        <span class="benefit-icon">03</span>
-        <span><strong>A better NavAI experience</strong><small>More features designed around students.</small></span>
-      </div>
+      <section class="upgrade-plan navai-price-card">
+        <span class="navai-plan-tag">CURRENT PLAN</span>
+        <h3>NavAI Free</h3>
+        <p>Everyday learning essentials.</p>
+        <div class="upgrade-price">$0 <small>/ forever</small></div>
+        <button class="navai-plan-buy free" type="button" disabled>Current access</button>
+        <ul>
+          <li>Available study tools</li>
+          <li>Homework support</li>
+          <li>Doubt solving</li>
+          <li>Study planning</li>
+        </ul>
+      </section>
+
+      <section class="upgrade-plan premium navai-price-card recommended">
+        <span class="navai-plan-tag">RECOMMENDED</span>
+        <h3>NavAI <span>Plus</span></h3>
+        <p>More possibilities for everyday learning.</p>
+        <div class="upgrade-price">$0.99 <small>/ selected plan</small></div>
+        <button class="navai-plan-buy" type="button" data-plan="NavAI Plus" data-amount="$0.99">Choose NavAI Plus</button>
+        <ul>
+          <li>All Free features</li>
+          <li>Planned advanced learning tools</li>
+          <li>Enhanced study experiences</li>
+          <li>More practice options</li>
+        </ul>
+      </section>
+
+      <section class="upgrade-plan premium navai-price-card">
+        <h3>NavAI <span>Pro</span></h3>
+        <p>Enhanced learning and productivity.</p>
+        <div class="upgrade-price">$1.99 <small>/ selected plan</small></div>
+        <button class="navai-plan-buy" type="button" data-plan="NavAI Pro" data-amount="$1.99">Choose NavAI Pro</button>
+        <ul>
+          <li>All Plus features</li>
+          <li>Planned advanced capabilities</li>
+          <li>Enhanced practice experiences</li>
+          <li>More personalised learning</li>
+        </ul>
+      </section>
+
+      <section class="upgrade-plan premium navai-price-card">
+        <h3>NavAI <span>Ultra</span></h3>
+        <p>An enhanced future NavAI experience.</p>
+        <div class="upgrade-price">$2.99 <small>/ selected plan</small></div>
+        <button class="navai-plan-buy" type="button" data-plan="NavAI Ultra" data-amount="$2.99">Choose NavAI Ultra</button>
+        <ul>
+          <li>All Pro features</li>
+          <li>Planned premium experiences</li>
+          <li>Future NavAI Saathi enhancements</li>
+          <li>More advanced learning options</li>
+        </ul>
+      </section>
     </div>
 
-    <div class="upgrade-coming">
-      <span class="coming-dot"></span>
-      Premium plans are coming soon
+    <h3 class="upgrade-section-title">Frequently asked questions</h3>
+    <div class="upgrade-faq">
+      <details>
+        <summary>Can I use NavAI Free?</summary>
+        <p>Yes. Currently available features remain accessible without a subscription.</p>
+      </details>
+      <details>
+        <summary>Are paid plans active?</summary>
+        <p>No. Paid plans are a preview and are not yet activated.</p>
+      </details>
+      <details>
+        <summary>Does scanning the QR activate Premium?</summary>
+        <p>No. Payment verification and a secure subscription system are required before activation.</p>
+      </details>
     </div>
-    <p class="upgrade-footnote">No payment is being collected through this preview.</p>
+
+    <div class="upgrade-notice">
+      Paid plans are planned offerings. Prices and features are illustrative and may change before launch.
+    </div>
+    <p class="upgrade-footer">NavAI Free remains available. No automatic subscription is activated.</p>
   </div>
 </div>
 <script>
@@ -3471,5 +3521,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
-
