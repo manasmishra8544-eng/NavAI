@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -3130,5 +3130,346 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+
+<!-- NAVAI DESKTOP UPGRADE FIX START -->
+<style id="navai-desktop-upgrade-fix">
+#navaiUpgradeTrigger {
+    display: inline-flex !important;
+    position: fixed !important;
+    top: 16px !important;
+    right: 245px !important;
+    z-index: 2147483646 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 100px !important;
+    min-height: 42px !important;
+    padding: 10px 18px !important;
+    margin: 0 !important;
+    border: 1px solid #c9b5ec !important;
+    border-radius: 13px !important;
+    background: linear-gradient(135deg,#eee5ff,#fce8f3) !important;
+    color: #49336e !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    clip: auto !important;
+    transform: none !important;
+}
+@media(max-width:600px) {
+    #navaiUpgradeTrigger {
+        top: 12px !important;
+        right: 175px !important;
+        min-width: 78px !important;
+        min-height: 36px !important;
+        padding: 7px 10px !important;
+        font-size: 12px !important;
+    }
+}
+</style>
+
+<script id="navai-desktop-upgrade-fix-js">
+(function () {
+    function installUpgradeButton() {
+        const modal = document.getElementById("navaiUpgradeModal");
+        if (!modal || !document.body) return;
+
+        let button = document.getElementById("navaiUpgradeTrigger");
+
+        if (!button) {
+            button = document.createElement("button");
+            button.id = "navaiUpgradeTrigger";
+            button.type = "button";
+            button.textContent = "Γ£ª Upgrade";
+            button.setAttribute("aria-label", "Explore NavAI plans");
+        }
+
+        // Keep the button outside dashboard/header containers.
+        if (button.parentElement !== document.body) {
+            document.body.appendChild(button);
+        }
+
+        button.onclick = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            modal.classList.add("navai-upgrade-force-open");
+            modal.style.setProperty("display", "flex", "important");
+            modal.style.setProperty("visibility", "visible", "important");
+            modal.style.setProperty("opacity", "1", "important");
+            modal.style.setProperty("z-index", "2147483647", "important");
+            document.body.style.overflow = "hidden";
+        };
+
+        const close = document.getElementById("navaiUpgradeClose");
+
+        function closeModal() {
+            modal.classList.remove("navai-upgrade-force-open");
+            modal.style.removeProperty("display");
+            modal.style.removeProperty("visibility");
+            modal.style.removeProperty("opacity");
+            modal.style.removeProperty("z-index");
+            document.body.style.overflow = "";
+        }
+
+        if (close) close.onclick = closeModal;
+
+        if (!modal.dataset.desktopUpgradeCloseReady) {
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) closeModal();
+            });
+            modal.dataset.desktopUpgradeCloseReady = "true";
+        }
+
+        console.log("NavAI Upgrade fixed button installed:", button.parentElement === document.body);
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", installUpgradeButton, { once: true });
+    } else {
+        installUpgradeButton();
+    }
+})();
+</script>
+<!-- NAVAI DESKTOP UPGRADE FIX END -->
+<style id="navai-support-qr-style">
+.navai-support-qr {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  align-items: center;
+  gap: 24px;
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid #e8ddf7;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #fbf8ff, #fff5fa);
+  color: #30263d;
+}
+.navai-support-eyebrow {
+  color: #8052b5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+.navai-support-copy h3 {
+  margin: 8px 0;
+  font-size: 23px;
+}
+.navai-support-copy p {
+  line-height: 1.6;
+}
+.navai-support-note {
+  font-size: 13px;
+  color: #695d75;
+}
+.navai-support-qr-frame {
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #eee5f5;
+  border-radius: 16px;
+  text-align: center;
+}
+.navai-support-qr-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+@media(max-width:650px) {
+  .navai-support-qr {
+    grid-template-columns: 1fr;
+    padding: 17px;
+  }
+  .navai-support-qr-frame {
+    width: min(100%, 280px);
+    margin: 0 auto;
+  }
+}
+</style>
+<style id="navai-gemini-upgrade-style">
+#navaiUpgradeModal .upgrade-panel.navai-gemini-panel {
+  width: min(1500px, 96vw) !important;
+  max-width: 1500px !important;
+  padding: 38px !important;
+  background: #101114 !important;
+  color: #f3f3f5 !important;
+  border: 1px solid #303137 !important;
+  border-radius: 22px !important;
+}
+#navaiUpgradeModal .upgrade-heading { text-align:left !important; margin-bottom:30px !important; }
+#navaiUpgradeModal .upgrade-heading h2 { color:#fff !important; font-size:clamp(27px,4vw,40px) !important; }
+#navaiUpgradeModal .upgrade-heading p { color:#b9bac2 !important; }
+#navaiUpgradeModal .upgrade-crown { display:none !important; }
+#navaiUpgradeModal .upgrade-plans.navai-gemini-plans {
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:16px !important;
+}
+#navaiUpgradeModal .navai-price-card {
+  background:#151619 !important;
+  color:#f3f3f5 !important;
+  border:1px solid #383a40 !important;
+  border-radius:17px !important;
+  padding:24px !important;
+  min-width:0 !important;
+  position:relative !important;
+}
+#navaiUpgradeModal .navai-price-card.recommended { border:2px solid #438bff !important; }
+#navaiUpgradeModal .navai-price-card h3 { color:#f5f5f7 !important; font-size:24px !important; }
+#navaiUpgradeModal .navai-price-card h3 span { color:#70aaff !important; }
+#navaiUpgradeModal .navai-price-card p { color:#b9bac2 !important; }
+#navaiUpgradeModal .navai-plan-tag { color:#7eb1ff; font-size:11px; font-weight:800; letter-spacing:1px; }
+#navaiUpgradeModal .navai-price-card .upgrade-price { color:#fff !important; font-size:34px !important; font-weight:750 !important; margin:24px 0 !important; }
+#navaiUpgradeModal .navai-price-card .upgrade-price small { color:#aaa !important; font-size:13px !important; font-weight:400 !important; }
+#navaiUpgradeModal .navai-price-card ul { padding-left:19px !important; }
+#navaiUpgradeModal .navai-price-card li { color:#d1d1d6 !important; margin:12px 0 !important; line-height:1.5 !important; }
+#navaiUpgradeModal .navai-plan-buy {
+  display:block !important;
+  width:100% !important;
+  border:0 !important;
+  border-radius:30px !important;
+  padding:13px 10px !important;
+  background:#a8c8ff !important;
+  color:#142c50 !important;
+  font-weight:700 !important;
+  cursor:pointer !important;
+}
+#navaiUpgradeModal .navai-plan-buy:disabled { opacity:.65; cursor:default !important; }
+#navaiUpgradeModal .upgrade-section-title { color:#fff !important; margin:34px 0 15px !important; }
+#navaiUpgradeModal .upgrade-compare { overflow-x:auto !important; }
+#navaiUpgradeModal .upgrade-compare table { min-width:650px; width:100%; border-collapse:collapse; color:#ddd; }
+#navaiUpgradeModal .upgrade-compare th, #navaiUpgradeModal .upgrade-compare td { padding:13px; border-bottom:1px solid #383a40; text-align:left; }
+#navaiUpgradeModal .upgrade-compare th { color:#fff; }
+#navaiUpgradeModal .upgrade-faq details { padding:15px 0; border-bottom:1px solid #383a40; color:#eee; }
+#navaiUpgradeModal .upgrade-faq p { color:#b9bac2; }
+#navaiUpgradeModal .upgrade-notice { color:#d2c4ed !important; margin-top:25px !important; }
+#navaiUpgradeModal .upgrade-footer { color:#a9a9b0 !important; }
+#navaiPaymentOverlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:2147483647;
+  background:rgba(0,0,0,.82);
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+#navaiPaymentOverlay.is-open { display:flex; }
+#navaiPaymentOverlay .navai-payment-box {
+  width:min(430px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  position:relative;
+  padding:27px;
+  border-radius:22px;
+  border:1px solid #444;
+  background:#151619;
+  color:#fff;
+  text-align:center;
+}
+#navaiPaymentOverlay .navai-payment-close {
+  position:absolute; right:14px; top:10px;
+  background:transparent; color:#fff; border:0;
+  font-size:30px; cursor:pointer;
+}
+#navaiPaymentTitle { margin:18px 0 8px; }
+#navaiPaymentPlan { color:#b9bac2; }
+#navaiPaymentAmount { font-size:36px; font-weight:800; margin:12px; color:#83d9a0; }
+#navaiPaymentOverlay .navai-payment-instruction { color:#ddd; }
+#navaiPaymentOverlay .navai-payment-qr {
+  display:block; width:min(280px,100%); height:auto;
+  margin:18px auto; border-radius:10px; background:#fff;
+}
+#navaiPaymentOverlay .navai-payment-warning { color:#c6bdce; font-size:12px; line-height:1.55; }
+@media(max-width:900px) {
+  #navaiUpgradeModal .upgrade-plans.navai-gemini-plans { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+}
+@media(max-width:600px) {
+  #navaiUpgradeModal .upgrade-panel.navai-gemini-panel { padding:55px 15px 22px !important; width:96vw !important; }
+  #navaiUpgradeModal .upgrade-plans.navai-gemini-plans { grid-template-columns:1fr !important; }
+  #navaiUpgradeModal .navai-price-card { padding:20px !important; }
+}
+</style>
+<style id="navai-only-qr-working">
+#navaiPaymentOverlay .navai-payment-box > :not(.navai-payment-qr):not(.navai-payment-close) {
+    display: none !important;
+}
+#navaiPaymentOverlay .navai-payment-box {
+    width: min(420px, 94vw) !important;
+    max-height: 94vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    overflow: auto !important;
+}
+#navaiPaymentOverlay .navai-payment-qr {
+    display: block !important;
+    width: min(340px, 82vw) !important;
+    max-height: 82vh !important;
+    height: auto !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+    background: #fff !important;
+    padding: 10px !important;
+    border-radius: 14px !important;
+}
+#navaiPaymentOverlay .navai-payment-close {
+    display: block !important;
+}
+</style>
+
+<div class="navai-payment-overlay" id="navaiPaymentOverlay" aria-hidden="true">
+    <div class="navai-payment-box" role="dialog" aria-modal="true" aria-labelledby="navaiPaymentTitle">
+      <button type="button" class="navai-payment-close" id="navaiPaymentClose" aria-label="Close">&times;</button>
+      <span class="navai-support-eyebrow">NAVAI PLAN SELECTION</span>
+      <h2 id="navaiPaymentTitle">Continue with plan</h2>
+      <p id="navaiPaymentPlan">Selected plan</p>
+      <div class="navai-payment-amount" id="navaiPaymentAmount">$0.99</div>
+      <p class="navai-payment-instruction">Scan this PhonePe QR using your payment app.</p>
+      <img class="navai-payment-qr" src="/static/images/navai-phonepe-support-qr.png" alt="PhonePe QR code">
+      <p class="navai-payment-warning">This QR may not contain the selected plan amount. Confirm the amount and recipient before paying. Payment does not automatically activate a subscription.</p>
+    </div>
+  </div>
+
+<script id="navai-gemini-upgrade-actions">
+(function () {
+  const overlay = document.getElementById("navaiPaymentOverlay");
+  if (!overlay) return;
+
+  const plan = document.getElementById("navaiPaymentPlan");
+  const amount = document.getElementById("navaiPaymentAmount");
+  const title = document.getElementById("navaiPaymentTitle");
+  const close = document.getElementById("navaiPaymentClose");
+
+  document.querySelectorAll("#navaiUpgradeModal .navai-plan-buy[data-plan]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      const selectedPlan = button.getAttribute("data-plan");
+      const selectedAmount = button.getAttribute("data-amount");
+      plan.textContent = selectedPlan;
+      amount.textContent = selectedAmount;
+      title.textContent = "Continue with " + selectedPlan;
+      overlay.classList.add("is-open");
+      overlay.setAttribute("aria-hidden", "false");
+    });
+  });
+
+  function closePayment() {
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  if (close) close.addEventListener("click", closePayment);
+  overlay.addEventListener("click", function (event) {
+    if (event.target === overlay) closePayment();
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closePayment();
+  });
+})();
+</script>
 </body>
 </html>
+
+
