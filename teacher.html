@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -112,114 +112,171 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <script>
 const $ = id => document.getElementById(id);
 let currentLesson = null;
-let currentStep = 0;
-let timer = null;
-let paused = false;
 let language = "Simple English";
 
-function stopBoard(){
-  if(timer){clearInterval(timer);timer=null;}
+function showError(message) {
+  $("error").textContent = message;
 }
-function renderSteps(){
-    const host = $("steps");
-    host.innerHTML = "";
 
-    const steps = Array.isArray(currentLesson?.steps) ? currentLesson.steps : [];
+function renderLesson(lesson) {
+  currentLesson = lesson;
+  $("lessonTitle").textContent = lesson.title || "Your lesson";
+  $("lessonSubject").textContent = lesson.subject || $("subject").value;
+  $("intro").textContent = lesson.intro || "";
+  $("given").textContent = Array.isArray(lesson.given) ? lesson.given.join("\n") : String(lesson.given || "");
+  $("required").textContent = lesson.required || "";
+  $("concept").textContent = lesson.concept || "";
+  $("formula").textContent = lesson.formula || "No formula required.";
 
-    if (!steps.length) {
-      const empty = document.createElement("p");
-      empty.textContent = "No solution steps were returned. Please try again.";
-      host.appendChild(empty);
-      return;
+  const host = $("steps");
+  host.innerHTML = "";
+
+  lesson.steps.forEach((step, index) => {
+    const card = document.createElement("article");
+    card.className = "step";
+
+    const top = document.createElement("div");
+    top.className = "step-top";
+
+    const number = document.createElement("div");
+    number.className = "number";
+    number.textContent = String(index + 1);
+
+    const heading = document.createElement("h3");
+    heading.textContent = step.heading || ("Step " + (index + 1));
+
+    top.append(number, heading);
+    card.appendChild(top);
+
+    const explanation = document.createElement("p");
+    explanation.textContent = step.explanation || "";
+    card.appendChild(explanation);
+
+    if (step.equation) {
+      const equation = document.createElement("div");
+      equation.className = "equation";
+      equation.textContent = step.equation;
+      card.appendChild(equation);
     }
 
-    steps.forEach((step, index) => {
-      const card = document.createElement("article");
-      card.className = "step";
+    card.addEventListener("click", () => openDetail(index));
+    card.title = "Click for a deeper explanation";
+    host.appendChild(card);
+  });
 
-      const top = document.createElement("div");
-      top.className = "step-top";
+  const visuals = $("visuals");
+  visuals.innerHTML = "";
+  (Array.isArray(lesson.visuals) ? lesson.visuals : []).forEach(item => {
+    const visual = document.createElement("pre");
+    visual.className = "visual";
+    visual.textContent = item;
+    visuals.appendChild(visual);
+  });
 
-      const number = document.createElement("div");
-      number.className = "number";
-      number.textContent = String(index + 1);
+  $("finalAnswer").textContent = lesson.final_answer || "No final answer was returned.";
+  $("verification").textContent = lesson.verification || "No verification was provided.";
+  $("takeaway").textContent = lesson.takeaway || "";
 
-      const heading = document.createElement("h3");
-      heading.textContent = step.heading || ("Step " + (index + 1));
+  $("lesson").style.display = "block";
+  $("lesson").scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
-      top.append(number, heading);
-      card.appendChild(top);
+async function teachQuestion() {
+  const question = $("question").value.trim();
 
-      const explanation = document.createElement("p");
-      explanation.textContent = step.explanation || "";
-      card.appendChild(explanation);
+  if (!question) {
+    showError("Please type your question first.");
+    $("question").focus();
+    return;
+  }
 
-      if (step.equation) {
-        const equation = document.createElement("div");
-        equation.className = "equation";
-        equation.textContent = step.equation;
-        card.appendChild(equation);
-      }
+  const button = $("solve");
+  button.disabled = true;
+  button.textContent = "Preparing your lesson...";
+  $("loading").style.display = "block";
+  showError("");
+  $("lesson").style.display = "none";
 
-      card.addEventListener("click", () => openDetail(index));
-      card.title = "Click for a deeper explanation";
-      host.appendChild(card);
+  language = $("language").value;
+
+  try {
+    const response = await fetch("/api/teacher/lesson", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: question,
+        subject: $("subject").value,
+        level: $("level").value,
+        language: language
+      })
     });
 
-    const progress = $("progressBar");
-    if (progress) progress.style.width = "100%";
-  }
+    const data = await response.json();
 
-
-function openDetail(index){
-  const step=currentLesson.steps[index];
-  $("detailTitle").textContent=step.heading||"Step explanation";
-  $("detailText").textContent=step.detail||step.explanation||"";
-  $("extraExplanation").innerHTML="";
-  $("detail").style.display="flex";
-  fetch("/api/teacher/followup",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      question:$("question").value,
-      subject:currentLesson.subject,
-      heading:step.heading,
-      explanation:step.explanation,
-      language
-    })
-  }).then(r=>r.json()).then(data=>{
-    if(data.explanation){
-      const box=document.createElement("div");
-      box.className="info";
-      const label=document.createElement("label");
-      label.textContent="TEACHER'S DEEPER EXPLANATION";
-      const p=document.createElement("p");
-      p.textContent=data.explanation;
-      box.append(label,p);
-      $("extraExplanation").appendChild(box);
+    if (!response.ok) {
+      throw new Error(data.error || "The AI could not create your lesson.");
     }
-  }).catch(()=>{});
-}
-function showStep(index){
-  const max=currentLesson.steps.length-1;
-  currentStep=Math.max(0,Math.min(index,max));
-  renderSteps();
-}
-function startBoard(){
-    stopBoard();
-    renderSteps();
+
+    if (!data.lesson || !Array.isArray(data.lesson.steps) || !data.lesson.steps.length) {
+      throw new Error("The AI response did not contain valid teaching steps.");
+    }
+
+    renderLesson(data.lesson);
+  } catch (error) {
+    showError(error.message || "Something went wrong. Please try again.");
+  } finally {
+    $("loading").style.display = "none";
+    button.disabled = false;
+    button.textContent = "Teach me this question";
   }
+}
 
+async function openDetail(index) {
+  if (!currentLesson || !currentLesson.steps[index]) return;
 
-$("pause").addEventListener("click",()=>{
-  paused=!paused;
-  $("pause").textContent=paused?"Resume":"Pause";
+  const step = currentLesson.steps[index];
+  $("detailTitle").textContent = step.heading || "Step explanation";
+  $("detailText").textContent = step.detail || step.explanation || "";
+  $("extraExplanation").textContent = "Getting a deeper explanation...";
+  $("detail").style.display = "flex";
+
+  try {
+    const response = await fetch("/api/teacher/followup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: $("question").value.trim(),
+        subject: currentLesson.subject || $("subject").value,
+        heading: step.heading || "",
+        explanation: step.explanation || "",
+        language: language
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Could not load deeper explanation.");
+
+    $("extraExplanation").textContent = data.explanation || "No additional explanation was returned.";
+  } catch (error) {
+    $("extraExplanation").textContent = error.message;
+  }
+}
+
+$("solve").addEventListener("click", teachQuestion);
+
+$("question").addEventListener("keydown", event => {
+  if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+    teachQuestion();
+  }
 });
-$("previous").addEventListener("click",()=>{paused=true;$("pause").textContent="Resume";showStep(currentStep-1);});
-$("next").addEventListener("click",()=>{paused=true;$("pause").textContent="Resume";showStep(currentStep+1);});
-$("replay").addEventListener("click",startBoard);
-$("closeDetail").addEventListener("click",()=>$("detail").style.display="none");
-$("detail").addEventListener("click",e=>{if(e.target===$("detail"))$("detail").style.display="none";});
+
+$("closeDetail").addEventListener("click", () => {
+  $("detail").style.display = "none";
+});
+
+$("detail").addEventListener("click", event => {
+  if (event.target === $("detail")) $("detail").style.display = "none";
+});
 </script>
 </body>
 </html>
