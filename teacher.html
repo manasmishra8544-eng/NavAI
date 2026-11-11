@@ -3,259 +3,369 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f7f2ff">
+<meta name="theme-color" content="#f8f4ff">
 <title>NavAI Teacher</title>
 <style>
-:root{--ink:#29243b;--muted:#77718c;--purple:#8063c7;--pink:#f3dff0;--line:#e9e1f1;--paper:#fff;--bg:#f8f5fc}
+:root {
+  --ink:#302344;--muted:#81758f;--purple:#8055d9;
+  --purple2:#a16cf1;--pink:#f4c9e6;--line:#eadff5;
+  --surface:#fff;--soft:#f8f3ff;--shadow:0 18px 55px rgba(83,54,116,.10);
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}
-header{padding:18px 5%;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.brand{font-weight:850;font-size:21px;color:#7455b8}.brand span{color:#d28bb7}
-header small{color:var(--muted)}
-main{max-width:1050px;margin:30px auto;padding:0 18px}
-.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 8px 35px #5540780b;margin-bottom:20px}
-h1{font-size:28px;margin:0 0 8px}h2{font-size:20px;margin:0 0 14px}
-.sub{color:var(--muted);line-height:1.6;margin:0 0 20px}
-textarea,select{width:100%;border:1px solid #e5dcec;background:#fdfbff;border-radius:12px;padding:13px;color:var(--ink);font:inherit;outline:none}
-textarea{min-height:115px;resize:vertical}
-select:focus,textarea:focus{border-color:var(--purple)}
-.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
-label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px}
-button{border:0;border-radius:11px;padding:11px 16px;font-weight:750;cursor:pointer;font-size:14px}
-.primary{background:linear-gradient(120deg,#8766ce,#b77fbd);color:white;padding:14px 22px}
-.secondary{background:#f0eafa;color:#604b91}
-button:disabled{opacity:.5;cursor:not-allowed}
-#error{color:#b33b58;margin-top:12px;white-space:pre-wrap}
+body{
+ margin:0;color:var(--ink);
+ font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+ background:
+ radial-gradient(ellipse at 8% 8%,#eee1ff 0,transparent 32%),
+ radial-gradient(ellipse at 95% 20%,#ffe9f4 0,transparent 30%),
+ #faf8fd;
+ min-height:100vh;
+}
+button,input,textarea,select{font:inherit}
+.topbar{
+ height:76px;background:rgba(255,255,255,.82);
+ border-bottom:1px solid rgba(226,213,240,.8);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 max(calc((100vw - 1180px)/2),24px);
+ position:sticky;top:0;z-index:10;backdrop-filter:blur(18px);
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:850;font-size:18px;letter-spacing:-.5px}
+.brand-mark{
+ width:39px;height:39px;border-radius:13px;display:grid;place-items:center;
+ color:white;background:linear-gradient(135deg,#a979ef,#7650c7);
+ box-shadow:0 7px 18px #a47bd54a;font-size:21px
+}
+.status{font-size:11px;letter-spacing:2px;color:#9872c8;font-weight:800}
+.status:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#73cba9;margin-right:9px}
+main{max-width:1120px;margin:42px auto 80px;padding:0 22px}
+.hero{
+ position:relative;overflow:hidden;border-radius:30px;padding:48px;
+ background:linear-gradient(115deg,#fff 0%,#f8f0ff 58%,#fff0f7 100%);
+ border:1px solid #eee2f7;box-shadow:var(--shadow);
+ display:grid;grid-template-columns:1fr 300px;align-items:center;gap:30px;
+}
+.hero:after{
+ content:"";position:absolute;width:330px;height:330px;border-radius:50%;
+ background:linear-gradient(135deg,#d9c1ff66,#ffc9e366);
+ right:-100px;top:-170px;filter:blur(2px)
+}
+.eyebrow{font-size:11px;letter-spacing:2.6px;font-weight:850;color:#9a70cb;text-transform:uppercase}
+.hero h1{font-size:clamp(38px,5.5vw,64px);line-height:1.06;letter-spacing:-2.8px;margin:15px 0 16px;max-width:690px}
+.hero h1 span{background:linear-gradient(100deg,#8052d4,#b25de7,#dc83bd);background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:16px;line-height:1.8;max-width:610px;margin:0}
+.hero-art{position:relative;z-index:1;display:grid;place-items:center}
+.orbit{
+ width:220px;height:220px;border-radius:50%;display:grid;place-items:center;
+ background:radial-gradient(circle,#fff 0 35%,#f0e3ff 36% 62%,#e5d3ff 63% 100%);
+ box-shadow:inset 0 0 30px #fff,0 20px 50px #a888ca35;
+}
+.orbit span{font-size:92px;filter:drop-shadow(0 12px 10px #8061a744)}
+.hero-chip{position:absolute;bottom:4px;right:0;background:white;border:1px solid var(--line);border-radius:30px;padding:10px 15px;font-size:11px;color:#7955b6;font-weight:750;box-shadow:0 8px 25px #74509b18}
+.workspace{margin-top:26px;display:grid;grid-template-columns:1fr;gap:22px}
+.panel{background:rgba(255,255,255,.92);border:1px solid #eee4f6;border-radius:26px;padding:30px;box-shadow:var(--shadow)}
+.section-label{font-size:11px;letter-spacing:2px;color:#9875bb;font-weight:850;text-transform:uppercase;margin-bottom:13px}
+.panel h2{font-size:23px;letter-spacing:-.7px;margin:0 0 8px}
+.sub{font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 22px}
+textarea{
+ width:100%;min-height:132px;resize:vertical;padding:19px 20px;
+ border:1.5px solid #e8ddf1;border-radius:17px;outline:none;
+ background:#fdfbff;color:var(--ink);font-size:15px;line-height:1.7;
+ transition:.2s;
+}
+textarea:focus,select:focus{border-color:#a47ae0;box-shadow:0 0 0 4px #a47ae01c}
+textarea::placeholder{color:#b0a4bc}
+.controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:17px}
+.field label{display:block;font-size:11px;font-weight:800;color:#82748f;margin:0 0 8px 3px}
+select{
+ width:100%;height:49px;border:1.5px solid #e9dff2;border-radius:13px;
+ padding:0 13px;background:#fff;color:#514263;outline:none;
+}
+.actions{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:21px}
+.hint{font-size:12px;color:#a094ae}
+.primary{
+ border:0;border-radius:14px;padding:15px 25px;color:#fff;font-weight:800;
+ background:linear-gradient(110deg,#8e5be0,#7451cb);
+ box-shadow:0 9px 22px #8055d940;cursor:pointer;transition:.2s;
+}
+.primary:hover{transform:translateY(-2px);box-shadow:0 13px 26px #8055d950}
+.primary:disabled{opacity:.6;cursor:wait;transform:none}
+.error{display:none;margin-top:16px;padding:13px 16px;border-radius:12px;background:#fff0f2;color:#b43d5c;font-size:13px}
+.loading{display:none;margin-top:17px;color:#8055c9;font-size:13px;font-weight:750}
+.loading:before{content:"";display:inline-block;width:13px;height:13px;border:2px solid #d9c5f3;border-top-color:#8055c9;border-radius:50%;vertical-align:-3px;margin-right:9px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 #lesson{display:none}
-.lesson-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
-.pill{background:#f2eafa;color:#7656ae;border-radius:30px;padding:7px 12px;font-size:12px;font-weight:750}
-.intro{line-height:1.7;color:#514b60}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.info{background:#fbf8ff;border:1px solid var(--line);border-radius:14px;padding:15px}
-.info p{margin:7px 0 0;line-height:1.6;white-space:pre-wrap}
-.board{background:#fffdf8;border:1px solid #eee5d6;border-radius:16px;padding:18px;margin-top:16px}
-.board-title{font-size:13px;color:#927a55;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-.steps{display:grid;gap:12px;margin-top:14px}
-.step{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff;cursor:pointer;transition:.2s}
-.step:hover{border-color:#bca7e3;transform:translateY(-1px)}
-.step.active{border-color:#9473ce;background:#fcf9ff;box-shadow:0 5px 18px #8063c71a}
-.step-top{display:flex;gap:12px;align-items:center}
-.number{width:30px;height:30px;border-radius:50%;background:#eee6fa;color:#7252b0;display:grid;place-items:center;font-weight:800;flex-shrink:0}
-.step h3{font-size:16px;margin:0}.step p{line-height:1.65;white-space:pre-wrap;margin:12px 0 0;color:#514b60}
-.equation{margin-top:12px;padding:12px;border-radius:9px;background:#f7f2ff;font-family:Consolas,monospace;white-space:pre-wrap;color:#61469c}
-.board-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
-.progress{height:6px;border-radius:20px;background:#eee8f4;margin-top:14px;overflow:hidden}
-.progress div{height:100%;width:0;background:#9875ce;transition:width .25s}
-.final{background:#f4fbf6;border:1px solid #dcefe1;border-radius:15px;padding:18px;margin-top:16px}
-.final p{white-space:pre-wrap;line-height:1.7}
-.visual{font-family:Consolas,monospace;white-space:pre-wrap;background:#f8f6fc;padding:13px;border-radius:10px;line-height:1.6;overflow:auto}
-#detail{display:none;position:fixed;inset:0;background:#21172e88;z-index:10;align-items:center;justify-content:center;padding:18px}
-.modal{max-width:600px;width:100%;background:white;border-radius:18px;padding:22px;max-height:80vh;overflow:auto}
-.modal p{line-height:1.7;white-space:pre-wrap}
-.spinner{display:none;color:var(--purple);margin:12px 0}
-@media(max-width:650px){main{margin:16px auto}.panel{padding:17px}.controls,.info-grid{grid-template-columns:1fr}h1{font-size:24px}header{padding:15px 18px}}
+.lesson-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.lesson-head h2{font-size:clamp(23px,3vw,32px);margin:8px 0}
+.tag{display:inline-flex;padding:7px 11px;border-radius:30px;background:#f1e8ff;color:#8056c4;font-size:11px;font-weight:800}
+.board-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.board-card{border:1px solid var(--line);background:linear-gradient(145deg,#fff,#fcf9ff);border-radius:18px;padding:20px;min-width:0}
+.board-card h3{margin:0 0 12px;font-size:14px;letter-spacing:-.2px}
+.board-card p,.board-card li{font-size:13px;line-height:1.8;color:#71647f;overflow-wrap:anywhere}
+.board-card p{margin:0;white-space:pre-wrap}
+.board-card ul{padding-left:19px;margin:0}
+.wide{grid-column:1/-1}
+.steps{display:grid;gap:12px}
+.step{display:grid;grid-template-columns:38px 1fr;gap:13px;padding:16px;border-radius:15px;background:#faf6ff;border:1px solid #eee3f8}
+.step-num{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#eadfff;color:#7950c1;font-weight:900}
+.step h4{margin:2px 0 7px;font-size:14px}
+.step p{margin:0;font-size:13px;line-height:1.75;color:#756981;white-space:pre-wrap}
+.step .equation{margin-top:9px;padding:10px 12px;border-radius:10px;background:#fff;color:#6948a0;font-weight:750;white-space:pre-wrap}
+.step button{margin-top:10px;border:0;background:transparent;color:#8757ce;font-size:12px;font-weight:800;cursor:pointer;padding:0}
+.answer{background:linear-gradient(120deg,#f2eaff,#fff0f7);border-color:#e7d6f7}
+.answer p{font-size:16px;font-weight:750;color:#52366f}
+#detail{display:none;position:fixed;inset:0;background:#251a35a8;z-index:30;align-items:center;justify-content:center;padding:20px}
+.modal{width:min(560px,100%);max-height:85vh;overflow:auto;background:white;border-radius:23px;padding:27px;box-shadow:0 25px 80px #20122c55}
+.modal h3{margin:0 0 13px;font-size:21px}
+.modal p{font-size:14px;line-height:1.8;color:#746781;white-space:pre-wrap}
+.modal button{margin-top:15px}
+@media(max-width:760px){
+ main{margin:20px auto 50px;padding:0 13px}
+ .topbar{height:65px;padding:0 17px}
+ .hero{padding:30px 24px;grid-template-columns:1fr;text-align:center;gap:22px;border-radius:23px}
+ .hero p{margin:auto}.hero-art{grid-row:1}.orbit{width:145px;height:145px}.orbit span{font-size:65px}
+ .hero-chip{right:calc(50% - 115px);bottom:-4px}
+ .hero h1{letter-spacing:-1.7px}
+ .panel{padding:21px 17px;border-radius:21px}
+ .controls{grid-template-columns:1fr}
+ .actions{align-items:stretch;flex-direction:column}
+ .primary{width:100%}
+ .hint{text-align:center}
+ .board-grid{grid-template-columns:1fr}
+ .wide{grid-column:auto}
+ .lesson-head{flex-direction:column}
+}
 </style>
-<link rel="stylesheet" href="/static/navai-teacher-premium.css?v=20261111-1">
 </head>
 <body>
-<header><div class="brand">NavAI<span> Teacher</span></div><small>Learn it. Understand it. Master it.</small></header>
-<main>
-<section class="panel">
-<h1>Your classroom, powered by AI</h1>
-<p class="sub">Ask a question from any subject. NavAI Teacher will explain the concept and build the solution step by step, like a teacher at the board.</p>
-<textarea id="question" placeholder="Type your complete question here..."></textarea>
-<div class="controls">
-<div><label for="subject">SUBJECT</label><select id="subject"><option>Auto Detect</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Science</option><option>English</option><option>History</option><option>Geography</option><option>Civics</option><option>Economics</option><option>Social Science</option><option>Other</option></select></div>
-<div><label for="level">CLASS / LEVEL</label><select id="level"><option>Class 9</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 10</option><option>Class 11</option><option>Class 12</option><option>Beginner</option><option>Advanced</option></select></div>
-<div><label for="language">EXPLANATION LANGUAGE</label><select id="language"><option>Simple English</option><option>Hindi</option><option>Hinglish</option></select></div>
-</div>
-<button class="primary" id="solve">Teach me this question</button>
-<div class="spinner" id="loading">Preparing your lesson and board steps...</div>
-<div id="error"></div>
-</section>
+<header class="topbar">
+ <div class="brand"><div class="brand-mark">N</div>NavAI Teacher</div>
+ <div class="status">AI TEACHER</div>
+</header>
 
-<section id="lesson" class="panel">
-<div class="lesson-head"><h2 id="lessonTitle">Your lesson</h2><span class="pill" id="lessonSubject"></span></div>
-<p class="intro" id="intro"></p>
-<div class="info-grid">
-<div class="info"><label>GIVEN INFORMATION</label><p id="given"></p></div>
-<div class="info"><label>WHAT WE NEED TO FIND</label><p id="required"></p></div>
-</div>
-<div class="info" style="margin-top:12px"><label>CONCEPT / WHY IT WORKS</label><p id="concept"></p></div>
-<div class="info" style="margin-top:12px"><label>FORMULA</label><p id="formula"></p></div>
-<div class="board">
-<div class="board-title">Complete classroom board - full solution</div>
-<div class="steps" id="steps"></div>
-<div hidden aria-hidden="true">
-<div class="progress"><div id="progressBar"></div></div>
-<button class="secondary" id="previous" type="button"></button>
-<button class="secondary" id="pause" type="button"></button>
-<button class="secondary" id="next" type="button"></button>
-<button class="secondary" id="replay" type="button"></button>
-</div>
-</div>
-<div id="visuals"></div>
-<div class="final"><label>FINAL ANSWER</label><p id="finalAnswer"></p></div>
-<div class="info" style="margin-top:12px"><label>VERIFICATION / CHECK</label><p id="verification"></p></div>
-<div class="info" style="margin-top:12px"><label>QUICK RECAP</label><p id="takeaway"></p></div>
-</section>
+<main>
+ <section class="hero">
+  <div>
+   <div class="eyebrow">Your personal learning space</div>
+   <h1>Understand more.<br><span>Learn with clarity.</span></h1>
+   <p>Ask any school question. Get a complete classroom-style explanation with concepts, formulas, clear steps and a final answer — all in one place.</p>
+  </div>
+  <div class="hero-art">
+   <div class="orbit"><span>🎓</span></div>
+   <div class="hero-chip">Learn at your own pace</div>
+  </div>
+ </section>
+
+ <div class="workspace">
+  <section class="panel">
+   <div class="section-label">Start a lesson</div>
+   <h2>What would you like to understand?</h2>
+   <p class="sub">Write your question below. Your AI teacher will build a complete lesson for you.</p>
+   <textarea id="question" placeholder="Example: Explain photosynthesis step by step, or solve 3x + 7 = 22 with full working..."></textarea>
+   <div class="controls">
+    <div class="field"><label for="subject">SUBJECT</label>
+     <select id="subject">
+      <option>Science</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>English</option><option>Social Science</option><option>History</option><option>Geography</option><option>Computer Science</option><option>Other</option>
+     </select>
+    </div>
+    <div class="field"><label for="level">YOUR CLASS</label>
+     <select id="level">
+      <option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option selected>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option><option>College</option>
+     </select>
+    </div>
+    <div class="field"><label for="language">LESSON LANGUAGE</label>
+     <select id="language"><option>English</option><option>Hinglish</option><option>Hindi</option></select>
+    </div>
+   </div>
+   <div class="actions">
+    <span class="hint">Complete explanations · Clear working · No step skipped</span>
+    <button class="primary" id="solve">Create my lesson&nbsp; →</button>
+   </div>
+   <div class="loading" id="loading">Your AI teacher is preparing the lesson...</div>
+   <div class="error" id="error"></div>
+  </section>
+
+  <section class="panel" id="lesson">
+   <div class="lesson-head">
+    <div><div class="section-label">Your classroom board</div><h2 id="lessonTitle">Your lesson</h2><span class="tag" id="lessonSubject"></span></div>
+    <span class="tag">LESSON READY</span>
+   </div>
+   <div class="board-grid">
+    <article class="board-card wide"><h3>✦ Introduction</h3><p id="intro"></p></article>
+    <article class="board-card"><h3>Given / Key information</h3><div id="given"></div></article>
+    <article class="board-card"><h3>What we need to find</h3><p id="required"></p></article>
+    <article class="board-card wide"><h3>Concept explained</h3><p id="concept"></p></article>
+    <article class="board-card wide" id="formulaCard"><h3>Formula / Important rule</h3><p id="formula"></p></article>
+    <article class="board-card wide"><h3>Step-by-step classroom solution</h3><div class="steps" id="steps"></div></article>
+    <article class="board-card wide" id="visualsCard"><h3>Visual learning</h3><div id="visuals"></div></article>
+    <article class="board-card wide answer"><h3>Final answer</h3><p id="finalAnswer"></p></article>
+    <article class="board-card"><h3>Check your answer</h3><p id="verification"></p></article>
+    <article class="board-card"><h3>Remember this</h3><p id="takeaway"></p></article>
+   </div>
+  </section>
+ </div>
 </main>
 
 <div id="detail">
-<div class="modal">
-<div class="lesson-head"><h2 id="detailTitle">Step explanation</h2><button class="secondary" id="closeDetail">Close</button></div>
-<p id="detailText"></p>
-<div id="extraExplanation"></div>
-</div>
+ <div class="modal">
+  <div class="section-label">Explore this step</div>
+  <h3 id="detailTitle"></h3>
+  <p id="detailText"></p>
+  <div class="section-label">Deeper explanation</div>
+  <p id="extraExplanation">Loading...</p>
+  <button class="primary" id="closeDetail">Close</button>
+ </div>
 </div>
 
 <script>
 const $ = id => document.getElementById(id);
 let currentLesson = null;
-let language = "Simple English";
+let currentLanguage = "English";
 
 function showError(message) {
   $("error").textContent = message;
+  $("error").style.display = message ? "block" : "none";
 }
-
+function putText(id, value) {
+  $(id).textContent = value == null || value === "" ? "Not provided for this question." : String(value);
+}
+function renderList(host, values) {
+  host.replaceChildren();
+  if (!Array.isArray(values) || !values.length) {
+    const p = document.createElement("p");
+    p.textContent = "No separate items provided.";
+    host.appendChild(p);
+    return;
+  }
+  const ul = document.createElement("ul");
+  values.forEach(value => {
+    const li = document.createElement("li");
+    li.textContent = typeof value === "string" ? value : JSON.stringify(value);
+    ul.appendChild(li);
+  });
+  host.appendChild(ul);
+}
 function renderLesson(lesson) {
   currentLesson = lesson;
-  $("lessonTitle").textContent = lesson.title || "Your lesson";
-  $("lessonSubject").textContent = lesson.subject || $("subject").value;
-  $("intro").textContent = lesson.intro || "";
-  $("given").textContent = Array.isArray(lesson.given) ? lesson.given.join("\n") : String(lesson.given || "");
-  $("required").textContent = lesson.required || "";
-  $("concept").textContent = lesson.concept || "";
-  $("formula").textContent = lesson.formula || "No formula required.";
+  putText("lessonTitle", lesson.title);
+  putText("lessonSubject", [lesson.subject || $("subject").value, $("level").value].join(" · "));
+  putText("intro", lesson.intro);
+  renderList($("given"), lesson.given);
+  putText("required", lesson.required);
+  putText("concept", lesson.concept);
+  putText("formula", lesson.formula);
+  putText("finalAnswer", lesson.final_answer);
+  putText("verification", lesson.verification);
+  putText("takeaway", lesson.takeaway);
 
-  const host = $("steps");
-  host.innerHTML = "";
-
-  lesson.steps.forEach((step, index) => {
-    const card = document.createElement("article");
+  const steps = $("steps");
+  steps.replaceChildren();
+  lesson.steps.forEach((item, index) => {
+    const card = document.createElement("div");
     card.className = "step";
-
-    const top = document.createElement("div");
-    top.className = "step-top";
-
     const number = document.createElement("div");
-    number.className = "number";
+    number.className = "step-num";
     number.textContent = String(index + 1);
-
-    const heading = document.createElement("h3");
-    heading.textContent = step.heading || ("Step " + (index + 1));
-
-    top.append(number, heading);
-    card.appendChild(top);
-
+    const content = document.createElement("div");
+    const heading = document.createElement("h4");
+    heading.textContent = item.heading || "Step " + (index + 1);
     const explanation = document.createElement("p");
-    explanation.textContent = step.explanation || "";
-    card.appendChild(explanation);
-
-    if (step.equation) {
+    explanation.textContent = item.explanation || "";
+    content.append(heading, explanation);
+    if (item.equation) {
       const equation = document.createElement("div");
       equation.className = "equation";
-      equation.textContent = step.equation;
-      card.appendChild(equation);
+      equation.textContent = item.equation;
+      content.appendChild(equation);
     }
-
-    card.addEventListener("click", () => openDetail(index));
-    card.title = "Click for a deeper explanation";
-    host.appendChild(card);
+    if (item.detail) {
+      const more = document.createElement("button");
+      more.type = "button";
+      more.textContent = "Explore this step →";
+      more.addEventListener("click", () => openDetail(index));
+      content.appendChild(more);
+    }
+    card.append(number, content);
+    steps.appendChild(card);
   });
 
   const visuals = $("visuals");
-  visuals.innerHTML = "";
-  (Array.isArray(lesson.visuals) ? lesson.visuals : []).forEach(item => {
-    const visual = document.createElement("pre");
-    visual.className = "visual";
-    visual.textContent = item;
-    visuals.appendChild(visual);
-  });
-
-  $("finalAnswer").textContent = lesson.final_answer || "No final answer was returned.";
-  $("verification").textContent = lesson.verification || "No verification was provided.";
-  $("takeaway").textContent = lesson.takeaway || "";
-
+  visuals.replaceChildren();
+  if (Array.isArray(lesson.visuals) && lesson.visuals.length) {
+    lesson.visuals.forEach(item => {
+      const p = document.createElement("p");
+      p.textContent = typeof item === "string" ? item : JSON.stringify(item);
+      visuals.appendChild(p);
+    });
+    $("visualsCard").style.display = "";
+  } else {
+    $("visualsCard").style.display = "none";
+  }
   $("lesson").style.display = "block";
-  $("lesson").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("lesson").scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 async function teachQuestion() {
   const question = $("question").value.trim();
-
   if (!question) {
-    showError("Please type your question first.");
+    showError("Please enter a question first.");
     $("question").focus();
     return;
   }
-
   const button = $("solve");
   button.disabled = true;
   button.textContent = "Preparing your lesson...";
   $("loading").style.display = "block";
-  showError("");
   $("lesson").style.display = "none";
-
-  language = $("language").value;
+  showError("");
+  currentLanguage = $("language").value;
 
   try {
     const response = await fetch("/api/teacher/lesson", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        question: question,
-        subject: $("subject").value,
-        level: $("level").value,
-        language: language
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        question,
+        subject:$("subject").value,
+        level:$("level").value,
+        language:currentLanguage
       })
     });
-
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "The AI could not create your lesson.");
-    }
-
+    if (!response.ok) throw new Error(data.error || "Your lesson could not be generated.");
     if (!data.lesson || !Array.isArray(data.lesson.steps) || !data.lesson.steps.length) {
-      throw new Error("The AI response did not contain valid teaching steps.");
+      throw new Error("The AI response did not contain complete teaching steps.");
     }
-
     renderLesson(data.lesson);
   } catch (error) {
     showError(error.message || "Something went wrong. Please try again.");
   } finally {
     $("loading").style.display = "none";
     button.disabled = false;
-    button.textContent = "Teach me this question";
+    button.textContent = "Create my lesson  →";
   }
 }
 
 async function openDetail(index) {
-  if (!currentLesson || !currentLesson.steps[index]) return;
-
-  const step = currentLesson.steps[index];
+  const step = currentLesson && currentLesson.steps[index];
+  if (!step) return;
   $("detailTitle").textContent = step.heading || "Step explanation";
   $("detailText").textContent = step.detail || step.explanation || "";
   $("extraExplanation").textContent = "Getting a deeper explanation...";
   $("detail").style.display = "flex";
-
   try {
     const response = await fetch("/api/teacher/followup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        question: $("question").value.trim(),
-        subject: currentLesson.subject || $("subject").value,
-        heading: step.heading || "",
-        explanation: step.explanation || "",
-        language: language
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        question:$("question").value.trim(),
+        subject:currentLesson.subject || $("subject").value,
+        heading:step.heading || "",
+        explanation:step.explanation || "",
+        language:currentLanguage
       })
     });
-
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Could not load deeper explanation.");
-
+    if (!response.ok) throw new Error(data.error || "Could not load the deeper explanation.");
     $("extraExplanation").textContent = data.explanation || "No additional explanation was returned.";
   } catch (error) {
     $("extraExplanation").textContent = error.message;
@@ -263,17 +373,10 @@ async function openDetail(index) {
 }
 
 $("solve").addEventListener("click", teachQuestion);
-
 $("question").addEventListener("keydown", event => {
-  if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
-    teachQuestion();
-  }
+  if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) teachQuestion();
 });
-
-$("closeDetail").addEventListener("click", () => {
-  $("detail").style.display = "none";
-});
-
+$("closeDetail").addEventListener("click", () => $("detail").style.display = "none");
 $("detail").addEventListener("click", event => {
   if (event.target === $("detail")) $("detail").style.display = "none";
 });
