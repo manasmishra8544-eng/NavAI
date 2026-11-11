@@ -13,6 +13,28 @@ from flask import Flask, request, jsonify, send_from_directory
 
 BASE_DIR = Path(__file__).resolve().parent
 
+# NAVAI_DOTENV_LOADER_V1
+# Load local .env values without overriding existing system variables.
+_NAVAI_ENV_FILE = BASE_DIR / ".env"
+if _NAVAI_ENV_FILE.is_file():
+    for _line in _NAVAI_ENV_FILE.read_text(encoding="utf-8-sig").splitlines():
+        _line = _line.strip()
+        if not _line or _line.startswith("#"):
+            continue
+        if _line.startswith("export "):
+            _line = _line[7:].lstrip()
+        if "=" not in _line:
+            continue
+        _key, _value = _line.split("=", 1)
+        _key = _key.strip()
+        _value = _value.strip()
+        if len(_value) >= 2 and _value[0] == _value[-1] and _value[0] in ("'", '"'):
+            _value = _value[1:-1]
+        if _key and _key not in os.environ:
+            os.environ[_key] = _value
+# NAVAI_DOTENV_LOADER_V1_END
+
+
 # Load .env without printing secrets.
 env_file = BASE_DIR / ".env"
 if env_file.exists():
@@ -136,7 +158,7 @@ RESPONSE RULES:
 - Be friendly, accurate, and useful.
 NAVAI_ALL_PURPOSE_CHAT_ADDON_V1
 - NavAI's main chatbot can discuss everyday life, jokes, hobbies, entertainment,
-  technology, coding, creative ideas, and general knowledgeÃ¢â‚¬â€not only schoolwork.
+  technology, coding, creative ideas, and general knowledgeÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Ânot only schoolwork.
 - Follow the user's topic naturally and keep specialized NavAI features available.
 """
 
@@ -232,95 +254,258 @@ def home():
     return send_from_directory(BASE_DIR, "index.html")
 
 
-@app.route("/classroom")
-def classroom_page():
-    return send_from_directory(BASE_DIR, "classroom.html")
+
+# NAVAI_UNIVERSAL_TEACHER_V1
+def _teacher_extract_json(raw):
+    """Safely extract a JSON object from the model response."""
+    raw = str(raw or "").strip()
+    raw = re.sub(r"^```(?:json)?\s*", "", raw, flags=re.I)
+    raw = re.sub(r"\s*```$", "", raw)
+
+    decoder = json.JSONDecoder()
+    for index, char in enumerate(raw):
+        if char == "{":
+            try:
+                value, _ = decoder.raw_decode(raw[index:])
+                if isinstance(value, dict):
+                    return value
+            except ValueError:
+                continue
+    return None
 
 
-@app.route("/api/classroom/explain", methods=["POST"])
-def classroom_explain():
+def _teacher_call(messages, temperature=0.2, tokens=5000):
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
-        return jsonify({"error": "GROQ_API_KEY is missing from the server environment."}), 500
+        raise RuntimeError("GROQ_KEY_MISSING")
 
+    response = requests.post(
+        GROQ_URL,
+        headers={
+            "Authorization": "Bearer " + api_key,
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": TEXT_MODEL,
+            "messages": messages,
+            "temperature": temperature,
+            "max_completion_tokens": tokens
+        },
+        timeout=100
+    )
+
+    if response.status_code != 200:
+        if response.status_code == 429:
+            raise RuntimeError("GROQ_RATE_LIMIT")
+        print("Teacher AI error:", response.status_code, response.text[:400])
+        raise RuntimeError("GROQ_REQUEST_FAILED")
+
+    choices = response.json().get("choices", [])
+    answer = choices[0].get("message", {}).get("content", "") if choices else ""
+
+    if not isinstance(answer, str) or not answer.strip():
+        raise RuntimeError("EMPTY_AI_RESPONSE")
+
+    return answer.strip()
+
+
+@app.route("/teacher")
+def navai_teacher_page():
+    return send_from_directory(BASE_DIR, "teacher.html")
+
+
+@app.route("/api/teacher/lesson", methods=["POST"])
+def navai_teacher_lesson():
     data = request.get_json(silent=True) or {}
+
     question = data.get("question", "")
     if not isinstance(question, str):
         question = str(question)
-    question = question.strip()[:1200]
+
+    question = question.strip()[:5000]
     if not question:
-        return jsonify({"error": "Please enter a topic or question."}), 400
+        return jsonify({"error": "Please enter your question."}), 400
 
-    level = str(data.get("level", "Beginner"))[:40]
-    language = str(data.get("language", "simple English"))[:40]
-    messages = [{
-        "role": "system",
-        "content": (
-            "You are Pico, a patient and excellent AI teacher inside NavAI Classroom. "
-            "Your goal is to make the student truly understand, not just give a short answer. "
-            "Start from basics and explain why and how the idea works. Use natural, friendly "
-            "language matching the requested language. Give a relatable real-life example. "
-            "For maths, show each calculation and explain every step. For science, explain "
-            "the process, causes and effects. For other subjects, define terms and connect "
-            "ideas. Answer the exact question fully. For broad topics, give a complete "
-            "mini-lesson. Use 5 to 8 meaningful steps when suitable, with 2 to 4 clear "
-            "sentences per step. Include a text diagram or concept labels when useful. "
-            "End with a recap and one practice question. Avoid filler and invented facts. "
-            "Return ONLY valid JSON, without markdown fences, using this exact shape: "
-            '{"title":"lesson title","intro":"clear introduction",'
-            '"steps":[{"heading":"step title","explanation":"detailed explanation",'
-            '"equation":"equation or empty string"}],'
-            '"visuals":["concept label"],"takeaway":"recap and practice question"}. '
-            "All fields must use correct JSON types and quotation marks must be escaped."
-        )
-    }]
+    subject = str(data.get("subject", "Auto Detect")).strip()[:60]
+    level = str(data.get("level", "Class 9")).strip()[:60]
+    language = str(data.get("language", "Simple English")).strip()[:60]
 
-    history = data.get("history", [])
-    if isinstance(history, list):
-        for item in history[-6:]:
-            if not isinstance(item, dict):
-                continue
-            role = item.get("role")
-            content = item.get("content", "")
-            if role in ("user", "assistant") and isinstance(content, str) and content.strip():
-                messages.append({"role": role, "content": content.strip()[:1800]})
+    system_prompt = """
+You are NavAI Teacher, an outstanding patient school teacher.
+Teach the student's exact question as if solving it on a classroom board.
 
-    messages.append({
-        "role": "user",
-        "content": f"Level: {level}\nLanguage: {language}\nTeach this topic/question: {question}"
-    })
+Support Mathematics, Science, Physics, Chemistry, Biology, English,
+Social Science, History, Geography, Civics, Economics and other subjects.
+
+First identify the subject and the actual question. Never assume missing
+values. If the question is ambiguous or incomplete, explain what is missing.
+
+For numerical problems:
+- Identify GIVEN information.
+- Identify WHAT IS REQUIRED.
+- State the relevant concept and formula.
+- Explain why that formula or concept applies.
+- Substitute values carefully.
+- Show each calculation on its own logical step.
+- Include units and a verification wherever possible.
+
+For theory questions:
+- Explain the core concept in simple language.
+- Define important terms.
+- Organise the explanation into a logical teaching sequence.
+- Include examples where useful.
+
+For geometry, physics, chemistry and geography, provide a simple labelled
+text diagram or visual description when it genuinely helps. Never invent
+a diagram or claim a diagram is to scale.
+
+Return ONLY valid JSON. Do not use Markdown code fences.
+Use this exact structure:
+
+{
+  "title": "Short lesson title",
+  "subject": "Detected subject",
+  "intro": "What the question is asking",
+  "given": ["Known information"],
+  "required": "What must be found or explained",
+  "concept": "Relevant concept and why it applies",
+  "formula": "Formula or empty string",
+  "steps": [
+    {
+      "heading": "Step heading",
+      "explanation": "Clear explanation for the board",
+      "equation": "Calculation or important line, or empty string",
+      "detail": "More detailed explanation of this step"
+    }
+  ],
+  "visuals": ["Simple labelled text diagram or visual description"],
+  "final_answer": "Clear final answer with units if needed",
+  "verification": "Check the answer or explain how it can be verified",
+  "takeaway": "Short recap"
+}
+
+Include enough meaningful steps to teach the problem properly.
+Do not skip important calculations.
+Do not invent given values, facts, sources or results.
+Use the requested language and school level.
+Every step must be useful and understandable.
+"""
+
+    user_prompt = (
+        "Subject: " + subject +
+        "\nStudent level: " + level +
+        "\nLanguage: " + language +
+        "\nQuestion:\n" + question
+    )
 
     try:
-        response = requests.post(
-            GROQ_URL,
-            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-            json={"model": TEXT_MODEL, "messages": messages, "temperature": 0.4, "max_completion_tokens": 4096},
-            timeout=90
-        )
-        if response.status_code != 200:
-            if response.status_code in (401, 403):
-                message = "Groq rejected the API key. Check the server environment."
-            elif response.status_code == 429:
-                message = "Groq is busy or its usage limit has been reached. Please try again shortly."
-            else:
-                message = f"The AI service returned an error (HTTP {response.status_code})."
-            print("Classroom Groq error:", response.status_code, response.text[:500])
-            return jsonify({"error": message}), 502
+        raw = _teacher_call([
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ])
 
-        choices = response.json().get("choices", [])
-        answer = choices[0].get("message", {}).get("content", "") if choices else ""
-        if not isinstance(answer, str) or not answer.strip():
-            return jsonify({"error": "The AI returned an empty lesson. Please try again."}), 502
-        return jsonify({"lesson": answer.strip()})
+        lesson = _teacher_extract_json(raw)
+
+        if not lesson:
+            return jsonify({
+                "error": "The AI returned an invalid lesson format. Please try again."
+            }), 502
+
+        steps = lesson.get("steps")
+        if not isinstance(steps, list) or not steps:
+            return jsonify({
+                "error": "The AI did not provide proper teaching steps. Please retry."
+            }), 502
+
+        clean_steps = []
+        for step in steps[:25]:
+            if not isinstance(step, dict):
+                continue
+            clean_steps.append({
+                "heading": str(step.get("heading", "Explanation"))[:200],
+                "explanation": str(step.get("explanation", ""))[:3000],
+                "equation": str(step.get("equation", ""))[:1000],
+                "detail": str(step.get("detail", step.get("explanation", "")))[:4000]
+            })
+
+        lesson["steps"] = clean_steps
+        lesson["title"] = str(lesson.get("title", "Your Lesson"))[:200]
+        lesson["subject"] = str(lesson.get("subject", subject))[:100]
+        lesson["intro"] = str(lesson.get("intro", ""))[:3000]
+        lesson["given"] = [
+            str(x)[:500] for x in lesson.get("given", [])
+            if isinstance(x, (str, int, float))
+        ][:20] if isinstance(lesson.get("given"), list) else []
+        lesson["required"] = str(lesson.get("required", ""))[:2000]
+        lesson["concept"] = str(lesson.get("concept", ""))[:3000]
+        lesson["formula"] = str(lesson.get("formula", ""))[:1000]
+        lesson["visuals"] = [
+            str(x)[:1000] for x in lesson.get("visuals", [])
+            if isinstance(x, (str, int, float))
+        ][:10] if isinstance(lesson.get("visuals"), list) else []
+        lesson["final_answer"] = str(lesson.get("final_answer", ""))[:3000]
+        lesson["verification"] = str(lesson.get("verification", ""))[:3000]
+        lesson["takeaway"] = str(lesson.get("takeaway", ""))[:2000]
+
+        return jsonify({"success": True, "lesson": lesson})
+
     except requests.Timeout:
-        return jsonify({"error": "The lesson took too long to generate. Please try again."}), 504
+        return jsonify({"error": "The lesson took too long. Please try again."}), 504
+    except RuntimeError as exc:
+        reason = str(exc)
+        if reason == "GROQ_KEY_MISSING":
+            return jsonify({"error": "GROQ_API_KEY is missing from the server environment."}), 500
+        if reason == "GROQ_RATE_LIMIT":
+            return jsonify({"error": "AI usage limit reached. Please try again later."}), 502
+        print("Teacher error:", reason)
+        return jsonify({"error": "The AI could not create the lesson. Please retry."}), 502
     except requests.RequestException:
-        return jsonify({"error": "Could not connect to the AI service. Please try again."}), 502
+        return jsonify({"error": "Could not connect to the AI service."}), 502
     except Exception as exc:
-        print("Classroom error:", type(exc).__name__)
+        print("Teacher lesson error:", type(exc).__name__)
         return jsonify({"error": "Something went wrong while creating the lesson."}), 500
 
 
+@app.route("/api/teacher/followup", methods=["POST"])
+def navai_teacher_followup():
+    data = request.get_json(silent=True) or {}
+
+    question = str(data.get("question", "")).strip()[:3000]
+    heading = str(data.get("heading", "")).strip()[:300]
+    explanation = str(data.get("explanation", "")).strip()[:3000]
+    subject = str(data.get("subject", "General")).strip()[:100]
+    language = str(data.get("language", "Simple English")).strip()[:60]
+
+    if not question or not explanation:
+        return jsonify({"error": "Step information is missing."}), 400
+
+    prompt = (
+        "You are NavAI Teacher. A student clicked a lesson step and wants "
+        "a deeper explanation. Explain patiently, in simple school-level "
+        "language. Explain WHY and HOW, define difficult terms and use a "
+        "small example if useful. Do not change the original question or "
+        "invent facts. Respond in " + language + ".\n\n"
+        "Subject: " + subject +
+        "\nQuestion: " + question +
+        "\nClicked step: " + heading +
+        "\nOriginal explanation: " + explanation
+    )
+
+    try:
+        answer = _teacher_call([
+            {"role": "system", "content": "You are a patient classroom teacher."},
+            {"role": "user", "content": prompt}
+        ], temperature=0.3, tokens=1800)
+
+        return jsonify({"success": True, "explanation": answer})
+
+    except requests.Timeout:
+        return jsonify({"error": "The explanation took too long. Please retry."}), 504
+    except Exception as exc:
+        print("Teacher follow-up error:", type(exc).__name__)
+        return jsonify({"error": "Could not explain this step right now."}), 502
+
+# NAVAI_UNIVERSAL_TEACHER_V1_END
 
 @app.route("/homework")
 def homework_page():
@@ -1173,6 +1358,8 @@ app.add_url_rule(
     endpoint="navai_pwa_manifest",
     view_func=_navai_pwa_manifest
 )
+
+
 
 
 if __name__ == "__main__":

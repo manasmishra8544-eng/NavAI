@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f2ff">
+<title>NavAI Teacher</title>
+<style>
+:root{--ink:#29243b;--muted:#77718c;--purple:#8063c7;--pink:#f3dff0;--line:#e9e1f1;--paper:#fff;--bg:#f8f5fc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}
+header{padding:18px 5%;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:850;font-size:21px;color:#7455b8}.brand span{color:#d28bb7}
+header small{color:var(--muted)}
+main{max-width:1050px;margin:30px auto;padding:0 18px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 8px 35px #5540780b;margin-bottom:20px}
+h1{font-size:28px;margin:0 0 8px}h2{font-size:20px;margin:0 0 14px}
+.sub{color:var(--muted);line-height:1.6;margin:0 0 20px}
+textarea,select{width:100%;border:1px solid #e5dcec;background:#fdfbff;border-radius:12px;padding:13px;color:var(--ink);font:inherit;outline:none}
+textarea{min-height:115px;resize:vertical}
+select:focus,textarea:focus{border-color:var(--purple)}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px}
+button{border:0;border-radius:11px;padding:11px 16px;font-weight:750;cursor:pointer;font-size:14px}
+.primary{background:linear-gradient(120deg,#8766ce,#b77fbd);color:white;padding:14px 22px}
+.secondary{background:#f0eafa;color:#604b91}
+button:disabled{opacity:.5;cursor:not-allowed}
+#error{color:#b33b58;margin-top:12px;white-space:pre-wrap}
+#lesson{display:none}
+.lesson-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.pill{background:#f2eafa;color:#7656ae;border-radius:30px;padding:7px 12px;font-size:12px;font-weight:750}
+.intro{line-height:1.7;color:#514b60}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info{background:#fbf8ff;border:1px solid var(--line);border-radius:14px;padding:15px}
+.info p{margin:7px 0 0;line-height:1.6;white-space:pre-wrap}
+.board{background:#fffdf8;border:1px solid #eee5d6;border-radius:16px;padding:18px;margin-top:16px}
+.board-title{font-size:13px;color:#927a55;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.steps{display:grid;gap:12px;margin-top:14px}
+.step{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff;cursor:pointer;transition:.2s}
+.step:hover{border-color:#bca7e3;transform:translateY(-1px)}
+.step.active{border-color:#9473ce;background:#fcf9ff;box-shadow:0 5px 18px #8063c71a}
+.step-top{display:flex;gap:12px;align-items:center}
+.number{width:30px;height:30px;border-radius:50%;background:#eee6fa;color:#7252b0;display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.step h3{font-size:16px;margin:0}.step p{line-height:1.65;white-space:pre-wrap;margin:12px 0 0;color:#514b60}
+.equation{margin-top:12px;padding:12px;border-radius:9px;background:#f7f2ff;font-family:Consolas,monospace;white-space:pre-wrap;color:#61469c}
+.board-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.progress{height:6px;border-radius:20px;background:#eee8f4;margin-top:14px;overflow:hidden}
+.progress div{height:100%;width:0;background:#9875ce;transition:width .25s}
+.final{background:#f4fbf6;border:1px solid #dcefe1;border-radius:15px;padding:18px;margin-top:16px}
+.final p{white-space:pre-wrap;line-height:1.7}
+.visual{font-family:Consolas,monospace;white-space:pre-wrap;background:#f8f6fc;padding:13px;border-radius:10px;line-height:1.6;overflow:auto}
+#detail{display:none;position:fixed;inset:0;background:#21172e88;z-index:10;align-items:center;justify-content:center;padding:18px}
+.modal{max-width:600px;width:100%;background:white;border-radius:18px;padding:22px;max-height:80vh;overflow:auto}
+.modal p{line-height:1.7;white-space:pre-wrap}
+.spinner{display:none;color:var(--purple);margin:12px 0}
+@media(max-width:650px){main{margin:16px auto}.panel{padding:17px}.controls,.info-grid{grid-template-columns:1fr}h1{font-size:24px}header{padding:15px 18px}}
+</style>
+</head>
+<body>
+<header><div class="brand">NavAI<span> Teacher</span></div><small>Learn it. Understand it. Master it.</small></header>
+<main>
+<section class="panel">
+<h1>Your classroom, powered by AI</h1>
+<p class="sub">Ask a question from any subject. NavAI Teacher will explain the concept and build the solution step by step, like a teacher at the board.</p>
+<textarea id="question" placeholder="Type your complete question here..."></textarea>
+<div class="controls">
+<div><label for="subject">SUBJECT</label><select id="subject"><option>Auto Detect</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Science</option><option>English</option><option>History</option><option>Geography</option><option>Civics</option><option>Economics</option><option>Social Science</option><option>Other</option></select></div>
+<div><label for="level">CLASS / LEVEL</label><select id="level"><option>Class 9</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 10</option><option>Class 11</option><option>Class 12</option><option>Beginner</option><option>Advanced</option></select></div>
+<div><label for="language">EXPLANATION LANGUAGE</label><select id="language"><option>Simple English</option><option>Hindi</option><option>Hinglish</option></select></div>
+</div>
+<button class="primary" id="solve">Teach me this question</button>
+<div class="spinner" id="loading">Preparing your lesson and board steps...</div>
+<div id="error"></div>
+</section>
+
+<section id="lesson" class="panel">
+<div class="lesson-head"><h2 id="lessonTitle">Your lesson</h2><span class="pill" id="lessonSubject"></span></div>
+<p class="intro" id="intro"></p>
+<div class="info-grid">
+<div class="info"><label>GIVEN INFORMATION</label><p id="given"></p></div>
+<div class="info"><label>WHAT WE NEED TO FIND</label><p id="required"></p></div>
+</div>
+<div class="info" style="margin-top:12px"><label>CONCEPT / WHY IT WORKS</label><p id="concept"></p></div>
+<div class="info" style="margin-top:12px"><label>FORMULA</label><p id="formula"></p></div>
+<div class="board">
+<div class="board-title">Complete classroom board ? full solution</div>
+<div class="steps" id="steps"></div>
+<div hidden aria-hidden="true">
+<div class="progress"><div id="progressBar"></div></div>
+<button class="secondary" id="previous" type="button"></button>
+<button class="secondary" id="pause" type="button"></button>
+<button class="secondary" id="next" type="button"></button>
+<button class="secondary" id="replay" type="button"></button>
+</div>
+</div>
+<div id="visuals"></div>
+<div class="final"><label>FINAL ANSWER</label><p id="finalAnswer"></p></div>
+<div class="info" style="margin-top:12px"><label>VERIFICATION / CHECK</label><p id="verification"></p></div>
+<div class="info" style="margin-top:12px"><label>QUICK RECAP</label><p id="takeaway"></p></div>
+</section>
+</main>
+
+<div id="detail">
+<div class="modal">
+<div class="lesson-head"><h2 id="detailTitle">Step explanation</h2><button class="secondary" id="closeDetail">Close</button></div>
+<p id="detailText"></p>
+<div id="extraExplanation"></div>
+</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let currentLesson = null;
+let currentStep = 0;
+let timer = null;
+let paused = false;
+let language = "Simple English";
+
+function stopBoard(){
+  if(timer){clearInterval(timer);timer=null;}
+}
+function renderSteps(){
+    const host = $("steps");
+    host.innerHTML = "";
+
+    const steps = Array.isArray(currentLesson?.steps) ? currentLesson.steps : [];
+
+    if (!steps.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "No solution steps were returned. Please try again.";
+      host.appendChild(empty);
+      return;
+    }
+
+    steps.forEach((step, index) => {
+      const card = document.createElement("article");
+      card.className = "step";
+
+      const top = document.createElement("div");
+      top.className = "step-top";
+
+      const number = document.createElement("div");
+      number.className = "number";
+      number.textContent = String(index + 1);
+
+      const heading = document.createElement("h3");
+      heading.textContent = step.heading || ("Step " + (index + 1));
+
+      top.append(number, heading);
+      card.appendChild(top);
+
+      const explanation = document.createElement("p");
+      explanation.textContent = step.explanation || "";
+      card.appendChild(explanation);
+
+      if (step.equation) {
+        const equation = document.createElement("div");
+        equation.className = "equation";
+        equation.textContent = step.equation;
+        card.appendChild(equation);
+      }
+
+      card.addEventListener("click", () => openDetail(index));
+      card.title = "Click for a deeper explanation";
+      host.appendChild(card);
+    });
+
+    const progress = $("progressBar");
+    if (progress) progress.style.width = "100%";
+  }
+
+
+function openDetail(index){
+  const step=currentLesson.steps[index];
+  $("detailTitle").textContent=step.heading||"Step explanation";
+  $("detailText").textContent=step.detail||step.explanation||"";
+  $("extraExplanation").innerHTML="";
+  $("detail").style.display="flex";
+  fetch("/api/teacher/followup",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      question:$("question").value,
+      subject:currentLesson.subject,
+      heading:step.heading,
+      explanation:step.explanation,
+      language
+    })
+  }).then(r=>r.json()).then(data=>{
+    if(data.explanation){
+      const box=document.createElement("div");
+      box.className="info";
+      const label=document.createElement("label");
+      label.textContent="TEACHER'S DEEPER EXPLANATION";
+      const p=document.createElement("p");
+      p.textContent=data.explanation;
+      box.append(label,p);
+      $("extraExplanation").appendChild(box);
+    }
+  }).catch(()=>{});
+}
+function showStep(index){
+  const max=currentLesson.steps.length-1;
+  currentStep=Math.max(0,Math.min(index,max));
+  renderSteps();
+}
+function startBoard(){
+    stopBoard();
+    renderSteps();
+  }
+
+
+$("pause").addEventListener("click",()=>{
+  paused=!paused;
+  $("pause").textContent=paused?"Resume":"Pause";
+});
+$("previous").addEventListener("click",()=>{paused=true;$("pause").textContent="Resume";showStep(currentStep-1);});
+$("next").addEventListener("click",()=>{paused=true;$("pause").textContent="Resume";showStep(currentStep+1);});
+$("replay").addEventListener("click",startBoard);
+$("closeDetail").addEventListener("click",()=>$("detail").style.display="none");
+$("detail").addEventListener("click",e=>{if(e.target===$("detail"))$("detail").style.display="none";});
+</script>
+</body>
+</html>
