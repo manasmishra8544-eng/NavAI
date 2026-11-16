@@ -5,12 +5,19 @@ const $ = id => document.getElementById(id);
 const KEY = "navai.saathi.v1";
 
 const defaults = {
-  profile:{name:"",age:"",occupation:"",interests:"",schedule:"",goals:"",food:"",tone:"warm and friendly"},
+  profile:{name:"",age:"",occupation:"",interests:"",schedule:"",goals:"",food:"",tone:"warm and friendly",language:"hinglish",voiceName:"auto"},
   tasks:[],routines:[],moods:[],settings:{voice:false,notifications:false,auto:false,quietStart:"22:00",quietEnd:"07:00"},
   mode:"companion",messages:[]
 };
 
+const VALID_MODES = new Set(["companion", "care", "mentor", "friend", "manager"]);
+
 let data = load();
+
+if (!VALID_MODES.has(data.mode)) {
+  data.mode = "companion";
+  save();
+}
 let busy = false;
 let recognition = null;
 
@@ -18,7 +25,44 @@ function load(){
   try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||"{}")};}
   catch{return structuredClone(defaults);}
 }
-function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function save(){
+  if(data.chats && VALID_MODES.has(data.mode)){
+    data.chats[data.mode] = data.messages;
+  }
+  localStorage.setItem(KEY,JSON.stringify(data));
+}
+
+function initializeModeChats(){
+  const oldMessages = Array.isArray(data.messages) ? data.messages : [];
+  const hadChats = data.chats &&
+    typeof data.chats === "object" &&
+    !Array.isArray(data.chats);
+
+  if(!hadChats){
+    data.chats = {};
+    for(const mode of VALID_MODES){
+      data.chats[mode] = [];
+    }
+    if(VALID_MODES.has(data.mode)){
+      data.chats[data.mode] = oldMessages;
+    }
+  }
+
+  for(const mode of VALID_MODES){
+    if(!Array.isArray(data.chats[mode])){
+      data.chats[mode] = [];
+    }
+  }
+
+  if(!VALID_MODES.has(data.mode)){
+    data.mode = "companion";
+  }
+
+  data.messages = data.chats[data.mode];
+  save();
+}
+
+initializeModeChats();
 function toast(message){
   $("toast").textContent=message;
   $("toast").classList.add("show");
@@ -49,14 +93,30 @@ function showView(name){
   if(name==="memory")fillProfile();
   if(name==="chat")setTimeout(()=>$("chatInput").focus(),100);
 }
-const modeNames={
-  companion:"NavAI Saathi",care:"Caring guide",teacher:"Teacher",
-  mentor:"Mentor",friend:"Best friend",manager:"Life manager"
+const modeNames = {
+  companion: "NavAI Saathi",
+  care: "Caring guide",
+  mentor: "Mentor",
+  friend: "Friend",
+  manager: "Life manager"
 };
-function setMode(mode){
-  data.mode=mode;save();
-  $("chatModeName").textContent=modeNames[mode];
-  document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+
+function setMode(mode) {
+  if (!VALID_MODES.has(mode)) mode = "companion";
+
+  data.chats[data.mode] = data.messages;
+  data.mode = mode;
+  data.messages = data.chats[mode];
+
+  save();
+
+  $("chatModeName").textContent = modeNames[mode];
+
+  document.querySelectorAll(".mode").forEach(button => {
+    button.classList.toggle("active", button.dataset.mode === mode);
+  });
+
+  renderMessages();
   showView("chat");
 }
 function addMessage(role,text){
@@ -74,7 +134,7 @@ function renderMessages(){
   el.scrollTop=el.scrollHeight;
 }
 function loadChat(){
-  if(data.messages.length)renderMessages();
+  renderMessages();
 }
 function buildContext(){
   const p=data.profile;
@@ -137,31 +197,134 @@ async function sendMessage(text){
     busy=false;$("sendBtn").disabled=false;
   }
 }
+function getSaathiLanguage(){
+  const language = data.profile.language || "hinglish";
+  if(language === "hindi") return "hi-IN";
+  if(language === "english") return "en-IN";
+  return "hi-IN";
+}
+
+function getPreferredSaathiVoice(){
+  if(!("speechSynthesis" in window)) return null;
+
+  const voices = window.speechSynthesis.getVoices();
+  if(!voices || !voices.length) return null;
+
+  const selected = data.profile.voiceName || "auto";
+
+  if(selected !== "auto"){
+    const exact = voices.find(v => v.voiceURI === selected);
+    if(exact) return exact;
+  }
+
+  const language = getSaathiLanguage();
+  const matching = voices.filter(v =>
+    (v.lang || "").toLowerCase().startsWith(language.slice(0,2).toLowerCase())
+  );
+
+  const femaleName = /(female|woman|swara|aditi|heera|kalpana|veena|raveena|priya|neerja|pallavi|sangeeta|lekha|kavya|ananya|sneha|manisha)/i;
+
+  return matching.find(v => femaleName.test(v.name)) ||
+    matching[0] ||
+    voices.find(v => femaleName.test(v.name)) ||
+    null;
+}
+
+function populateVoiceOptions(){
+  const select = $("profileVoice");
+  if(!select || !("speechSynthesis" in window)) return;
+
+  const previous = data.profile.voiceName || "auto";
+  const voices = window.speechSynthesis.getVoices();
+
+  select.innerHTML = '<option value="auto">Automatic available voice</option>';
+
+  voices.forEach(voice => {
+    const option = document.createElement("option");
+    option.value = voice.voiceURI;
+    option.textContent = voice.name + " (" + voice.lang + ")";
+    select.appendChild(option);
+  });
+
+  if(previous === "auto" || voices.some(v => v.voiceURI === previous)){
+    select.value = previous;
+  }else{
+    select.value = "auto";
+  }
+}
+
 function speak(text){
-  if(!data.settings.voice||!("speechSynthesis" in window))return;
-  speechSynthesis.cancel();
-  const utterance=new SpeechSynthesisUtterance(text);
-  utterance.lang="en-IN";utterance.rate=1;
-  speechSynthesis.speak(utterance);
+  if(
+    !data.settings.voice ||
+    !("speechSynthesis" in window) ||
+    !("SpeechSynthesisUtterance" in window)
+  ) return;
+
+  try {
+    const synth = window.speechSynthesis;
+    synth.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(String(text));
+    const voice = getPreferredSaathiVoice();
+
+    utterance.lang = voice ? voice.lang : getSaathiLanguage();
+    if(voice) utterance.voice = voice;
+
+    utterance.rate = 0.94;
+    utterance.pitch = 1.05;
+    utterance.volume = 1;
+
+    synth.speak(utterance);
+  } catch(error) {
+    console.error("Saathi speech error:",error);
+  }
 }
 function startVoice(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast("Voice input is not supported in this browser.");return;}
-  if(recognition){recognition.stop();recognition=null;return;}
-  recognition=new SR();
-  recognition.lang="en-IN";
-  recognition.interimResults=false;
-  recognition.onresult=e=>{
-    $("chatInput").value=e.results[0][0].transcript;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if(!SR){
+    toast("Is browser mein voice input supported nahi hai.");
+    return;
+  }
+
+  if(recognition){
+    recognition.stop();
+    recognition = null;
+    return;
+  }
+
+  recognition = new SR();
+  recognition.lang = getSaathiLanguage();
+  recognition.interimResults = false;
+  recognition.continuous = false;
+  recognition.maxAlternatives = 3;
+
+  recognition.onresult = e => {
+    $("chatInput").value = e.results[0][0].transcript || "";
     $("chatInput").focus();
   };
-  recognition.onerror=()=>toast("Voice input could not start.");
-  recognition.onend=()=>{recognition=null;$("voiceBtn").classList.remove("recording");};
-  recognition.start();$("voiceBtn").classList.add("recording");
+
+  recognition.onerror = () => {
+    toast("Voice input start nahi ho paya. Dobara try karo.");
+  };
+
+  recognition.onend = () => {
+    recognition = null;
+    $("voiceBtn").classList.remove("recording");
+  };
+
+  try {
+    recognition.start();
+    $("voiceBtn").classList.add("recording");
+  } catch(error) {
+    recognition = null;
+    $("voiceBtn").classList.remove("recording");
+    toast("Microphone start nahi ho paya.");
+  }
 }
 function fillProfile(){
   const p=data.profile;
-  const fields={profileName:"name",profileAge:"age",profileOccupation:"occupation",profileInterests:"interests",profileSchedule:"schedule",profileGoals:"goals",profileFood:"food",profileTone:"tone"};
+  const fields={profileName:"name",profileAge:"age",profileOccupation:"occupation",profileInterests:"interests",profileSchedule:"schedule",profileGoals:"goals",profileFood:"food",profileTone:"tone",profileLanguage:"language"};
   Object.entries(fields).forEach(([id,key])=>$(id).value=p[key]||"");
 }
 function renderTasks(){
@@ -202,33 +365,402 @@ function inQuietHours(){
   const start=sh*60+sm,end=eh*60+em;
   return start>end?(current>=start||current<end):(current>=start&&current<end);
 }
-async function notify(title,body){
-  if(!data.settings.notifications||!("Notification" in window)||Notification.permission!=="granted"||inQuietHours())return;
-  new Notification(title,{body,icon:""});
+function notify(title,body,tag){
+  if(
+    !data.settings.notifications ||
+    !("Notification" in window) ||
+    Notification.permission !== "granted" ||
+    inQuietHours()
+  ) return false;
+
+  try {
+    const notice = new Notification(title,{
+      body: body,
+      tag: tag || "navai-saathi",
+      requireInteraction: true,
+      renotify: false
+    });
+
+    if(tag && tag.indexOf("navai-routine-") === 0){
+      routineReminderState.notification = notice;
+
+      notice.onclose = () => {
+        if(routineReminderState.active){
+          stopRoutineReminder();
+        }
+      };
+    }
+
+    notice.onclick = () => {
+      window.focus();
+      notice.close();
+      showView("routine");
+    };
+
+    return true;
+  } catch(error) {
+    console.error("Saathi notification error:",error);
+    return false;
+  }
+}
+
+const routineReminderState = {
+  active: null,
+  timer: null,
+  panel: null
+};
+
+function getRoutineReminderLanguage(){
+  const language = String(data.profile?.language || "hinglish").toLowerCase();
+  return ["hindi","english","hinglish"].includes(language)
+    ? language
+    : "hinglish";
+}
+
+function getRoutineReminderMessage(title){
+  const language = getRoutineReminderLanguage();
+  const safeTitle = String(title || "your activity");
+
+  if(language === "hindi"){
+    return "नमस्ते! " + safeTitle +
+      " का समय हो गया है। ठीक है, कर लो।";
+  }
+
+  if(language === "english"){
+    return "Hello! It's time for " + safeTitle +
+      ". You can do this.";
+  }
+
+  return "Hey! " + safeTitle +
+    " ka time ho gaya hai. Theek hai, kar lo.";
+}
+function createRoutineReminderPanel(){
+  if(routineReminderState.panel &&
+     document.body.contains(routineReminderState.panel)){
+    return routineReminderState.panel;
+  }
+
+  const style = document.createElement("style");
+  style.id = "navai-routine-reminder-style";
+  style.textContent = `
+    #navaiActiveRoutineReminder {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 99999;
+      width: min(390px, calc(100vw - 28px));
+      padding: 20px;
+      border: 1px solid #e6d8f3;
+      border-radius: 20px;
+      background: #fffaff;
+      color: #40334f;
+      box-shadow: 0 16px 48px rgba(65, 43, 91, .18);
+      font-family: inherit;
+    }
+    #navaiActiveRoutineReminder .navai-reminder-heading {
+      font-size: 16px;
+      font-weight: 750;
+      margin-bottom: 8px;
+      color: #65458b;
+    }
+    #navaiActiveRoutineReminder .navai-reminder-message {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 16px;
+      color: #594d66;
+      overflow-wrap: anywhere;
+    }
+    #navaiActiveRoutineReminder .navai-reminder-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    #navaiActiveRoutineReminder button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 15px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #navaiReminderDone {
+      flex: 1;
+      color: white;
+      background: #8966b3;
+    }
+    #navaiReminderClose {
+      color: #65458b;
+      background: #f0e8f8;
+    }
+    @media(max-width:520px){
+      #navaiActiveRoutineReminder {
+        right: 14px;
+        bottom: 14px;
+      }
+    }
+  `;
+
+  if(!document.getElementById("navai-routine-reminder-style")){
+    document.head.appendChild(style);
+  }
+
+  const panel = document.createElement("div");
+  panel.id = "navaiActiveRoutineReminder";
+  panel.setAttribute("role","alertdialog");
+  panel.setAttribute("aria-live","polite");
+
+  const heading = document.createElement("div");
+  heading.className = "navai-reminder-heading";
+  heading.textContent = "✦ NavAI Saathi · Gentle reminder";
+
+  const message = document.createElement("div");
+  message.className = "navai-reminder-message";
+  message.id = "navaiReminderMessage";
+
+  const actions = document.createElement("div");
+  actions.className = "navai-reminder-actions";
+
+  const done = document.createElement("button");
+  done.type = "button";
+  done.id = "navaiReminderDone";
+  done.textContent = "ठीक है ✓";
+
+  const close = document.createElement("button");
+  close.type = "button";
+  close.id = "navaiReminderClose";
+  close.textContent = "Close";
+
+  done.addEventListener("click", stopRoutineReminder);
+  close.addEventListener("click", stopRoutineReminder);
+
+  actions.append(done,close);
+  panel.append(heading,message,actions);
+  document.body.appendChild(panel);
+
+  routineReminderState.panel = panel;
+  return panel;
+}
+
+function stopRoutineReminder(){
+  const active = routineReminderState.active;
+
+  if(routineReminderState.timer){
+    clearTimeout(routineReminderState.timer);
+    routineReminderState.timer = null;
+  }
+
+  if("speechSynthesis" in window){
+    window.speechSynthesis.cancel();
+  }
+
+  if(active && active.key){
+    localStorage.setItem(active.key,"done");
+  }
+
+  routineReminderState.active = null;
+
+  const notification = routineReminderState.notification;
+  routineReminderState.notification = null;
+
+  if(notification){
+    notification.close();
+  }
+
+  if(routineReminderState.panel){
+    routineReminderState.panel.remove();
+    routineReminderState.panel = null;
+  }
+
+  toast("Reminder stopped. Well done!");
+}
+
+function speakRoutineReminder(){
+  const active = routineReminderState.active;
+  if(!active) return;
+
+  if(!("speechSynthesis" in window) ||
+     !("SpeechSynthesisUtterance" in window)){
+    routineReminderState.timer = setTimeout(
+      speakRoutineReminder, 2000
+    );
+    return;
+  }
+
+  try {
+    window.speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(
+      getRoutineReminderMessage(active.title)
+    );
+
+    const voice = getPreferredSaathiVoice();
+    const language = getRoutineReminderLanguage();
+
+    if(voice){
+      speech.voice = voice;
+      speech.lang = voice.lang || (
+        language === "english" ? "en-IN" : "hi-IN"
+      );
+    }else{
+      speech.lang = language === "english" ? "en-IN" : "hi-IN";
+    }
+
+    speech.rate = 0.88;
+    speech.pitch = 1.03;
+    speech.volume = 1;
+
+    let repeatScheduled = false;
+
+    const scheduleNextRepeat = () => {
+      if(repeatScheduled) return;
+      repeatScheduled = true;
+
+      if(!routineReminderState.active ||
+         routineReminderState.active.key !== active.key){
+        return;
+      }
+
+      if(routineReminderState.timer){
+        clearTimeout(routineReminderState.timer);
+      }
+
+      routineReminderState.timer = setTimeout(() => {
+        routineReminderState.timer = null;
+
+        if(routineReminderState.active &&
+           routineReminderState.active.key === active.key){
+          speakRoutineReminder();
+        }
+      },2000);
+    };
+
+    speech.onend = scheduleNextRepeat;
+    speech.onerror = scheduleNextRepeat;
+
+    window.speechSynthesis.speak(speech);
+  } catch(error) {
+    console.error("Saathi routine voice error:",error);
+
+    if(routineReminderState.active &&
+       routineReminderState.active.key === active.key){
+      routineReminderState.timer = setTimeout(
+        speakRoutineReminder, 2000
+      );
+    }
+  }
+}
+
+function startRoutineReminder(routine,today){
+  if(routineReminderState.active) return;
+
+  const reminderKey =
+    KEY + ".routineReminder." + routine.id + "." + today;
+
+  if(localStorage.getItem(reminderKey) === "done") return;
+
+  routineReminderState.active = {
+    id: routine.id,
+    title: String(routine.title),
+    key: reminderKey
+  };
+
+  const panel = createRoutineReminderPanel();
+  const message = panel.querySelector("#navaiReminderMessage");
+
+  if(message){
+    message.textContent = getRoutineReminderMessage(routine.title);
+  }
+
+  // Browser notification is optional; voice reminder works independently.
+  notify(
+    "NavAI Saathi - Routine reminder",
+    "It's time for: " + routine.title,
+    "navai-routine-" + routine.id + "-" + today
+  );
+
+  speakRoutineReminder();
+}
+
+function checkRoutineReminders(){
+  if(routineReminderState.active) return;
+  if(!Array.isArray(data.routines) || !data.routines.length) return;
+  if(inQuietHours()) return;
+
+  const now = new Date();
+  const today = now.getFullYear() + "-" +
+    String(now.getMonth()+1).padStart(2,"0") + "-" +
+    String(now.getDate()).padStart(2,"0");
+
+  const currentMinutes = now.getHours()*60 + now.getMinutes();
+  const weekday = now.getDay();
+
+  for(const routine of data.routines){
+    if(!routine || !routine.id || !routine.time || !routine.title) continue;
+
+    if(
+      routine.repeat === "weekdays" &&
+      (weekday === 0 || weekday === 6)
+    ) continue;
+
+    const parts = routine.time.split(":").map(Number);
+
+    if(
+      parts.length !== 2 ||
+      parts.some(n => !Number.isFinite(n)) ||
+      parts[0] < 0 || parts[0] > 23 ||
+      parts[1] < 0 || parts[1] > 59
+    ) continue;
+
+    const targetMinutes = parts[0]*60 + parts[1];
+    const difference = currentMinutes - targetMinutes;
+
+    if(difference < 0 || difference > 10) continue;
+
+    const reminderKey =
+      KEY + ".routineReminder." + routine.id + "." + today;
+
+    if(localStorage.getItem(reminderKey) === "done") continue;
+
+    startRoutineReminder(routine,today);
+    break;
+  }
 }
 function scheduleCheck(){
   const today=new Date().toDateString();
   const last=localStorage.getItem(KEY+".lastCheckin");
-  if(data.settings.auto&&last!==today){
+
+  if(data.settings.auto && last!==today){
     const hour=new Date().getHours();
-    if(hour>=8&&hour<11){
+
+    if(hour>=8 && hour<11){
+      notify(
+        "NavAI Saathi",
+        "Good morning! What would you like to focus on today?",
+        "navai-daily-checkin-" + today
+      );
       localStorage.setItem(KEY+".lastCheckin",today);
-      notify("NavAI Saathi","Good morning! What would you like to focus on today?");
     }
   }
+
+  checkRoutineReminders();
 }
 function init(){
-  updateProfile();loadChat();renderTasks();renderRoutines();fillSettings();
+  updateProfile();loadChat();renderTasks();renderRoutines();fillSettings();populateVoiceOptions();
 
   document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
   document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
 
   $("newChat").onclick=()=>{
-    data.messages=[];save();renderMessages();setMode("companion");
+    data.messages=[];
+    data.chats[data.mode]=[];
+    save();
+    renderMessages();
     addMessage("assistant","Hello! I'm here. What would you like to talk about?");
   };
   $("startChat").onclick=()=>setMode("companion");
   $("openProfile").onclick=()=>showView("memory");
+  $("routineReminderBtn").onclick=()=>{showView("routine");$("sidebar").classList.remove("open");};
   $("settingsBtn").onclick=()=>showView("settings");
   $("menuToggle").onclick=()=>$("sidebar").classList.toggle("open");
   $("viewTasks").onclick=()=>showView("tasks");
@@ -237,7 +769,10 @@ function init(){
   $("voiceBtn").onclick=startVoice;
   $("clearChat").onclick=()=>{
     if(confirm("Clear this conversation?")){
-      data.messages=[];save();renderMessages();
+      data.messages=[];
+      data.chats[data.mode]=[];
+      save();
+      renderMessages();
     }
   };
   $("suggestions").onclick=e=>{
@@ -249,7 +784,7 @@ function init(){
       name:$("profileName").value.trim(),age:$("profileAge").value,
       occupation:$("profileOccupation").value.trim(),interests:$("profileInterests").value.trim(),
       schedule:$("profileSchedule").value.trim(),goals:$("profileGoals").value.trim(),
-      food:$("profileFood").value.trim(),tone:$("profileTone").value
+      food:$("profileFood").value.trim(),tone:$("profileTone").value,language:$("profileLanguage").value,voiceName:$("profileVoice").value
     };
     save();updateProfile();toast("Your profile has been saved.");
   };
@@ -296,6 +831,7 @@ function init(){
   };
   document.querySelectorAll(".suggestions button").forEach(b=>b.addEventListener("click",()=>{}));
   scheduleCheck();
-  setInterval(scheduleCheck,60000);
+  setInterval(scheduleCheck,10000);
 }
+if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=populateVoiceOptions;}
 init();

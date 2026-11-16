@@ -306,3 +306,74 @@ pre, .code-block {
   background: #d6c7e7;
   border-radius: 10px;
 }
+
+/* NavAI Saathi - Header routine reminder shortcut */
+.top-actions .reminder-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 38px;
+  padding: 0;
+  color: #8066bd;
+  background: linear-gradient(145deg, #ffffff, #f5efff);
+  border: 1px solid rgba(142, 116, 197, .24);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease,
+              box-shadow .2s ease, transform .2s ease;
+}
+
+.top-actions .reminder-icon-btn:hover {
+  background: #eee6ff;
+  border-color: rgba(126, 98, 184, .48);
+  box-shadow: 0 4px 13px rgba(126, 98, 184, .13);
+  transform: translateY(-1px);
+}
+
+.top-actions .reminder-icon-btn:focus-visible {
+  outline: 3px solid rgba(142, 116, 197, .3);
+  outline-offset: 2px;
+}
+
+.top-actions .reminder-icon-btn svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
+@media(max-width:650px) {
+  .top-actions {
+    gap: 7px;
+  }
+
+  .top-actions .reminder-icon-btn,
+  .top-actions #settingsBtn {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+}
+
+/* NavAI Saathi - Sidebar reminder shortcut */
+.sidebar .reminder-sidebar-item {
+  width: 100%;
+  min-height: 46px;
+  margin: 0 0 16px;
+  padding: 12px 13px;
+  border: 1px solid rgba(137, 119, 210, 0.18);
+  border-radius: 12px;
+  background: linear-gradient(110deg, #f2efff, #f9f3ff);
+  color: #7665c5;
+  gap: 13px;
+  font-weight: 700;
+}
+
+.sidebar .reminder-sidebar-item svg {
+  flex: 0 0 20px;
+}
+
+.sidebar .reminder-sidebar-item:hover,
+.sidebar .reminder-sidebar-item.active {
+  background: linear-gradient(110deg, #e9e2ff, #f3eaff);
+  color: #6754b8;
+  border-color: #d9cef7;
+}
