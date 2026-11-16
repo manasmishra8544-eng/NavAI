@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -514,6 +514,7 @@ body.navai-dashboard-active #navai-tool-dashboard {
 
 
 
+<link id="navaiSaathiWidgetCSS" rel="stylesheet" href="/static/saathi-widget.css">
 </head>
 
 <body>
@@ -944,6 +945,18 @@ body.navai-dashboard-active {
       <p>Ask school-related questions, understand key concepts and build confidence solving problems step by step.</p>
       <div class="tool-bottom"><span>Ask a question</span></div>
     </a>
+<a class="tool" href="/saathi" id="navai-saathi-dashboard-card" aria-label="Open NavAI Saathi">
+  <div class="tool-icon">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3.2a7.2 7.2 0 0 0-7.2 7.2v3.1a2.5 2.5 0 0 0 2.5 2.5h.8v-5.2H6.8a5.2 5.2 0 0 1 10.4 0h-1.3V16h1.3a2.5 2.5 0 0 0 2.5-2.5v-3.1A7.2 7.2 0 0 0 12 3.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.1 17.1c.8 1.5 2.1 2.3 3.9 2.3h1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="14.8" cy="19.4" r="1" fill="currentColor"/>
+    </svg>
+  </div>
+  <h2>NavAI Saathi</h2>
+  <p>Your everyday AI companion for conversations, reminders, routines and guidance.</p>
+  <div class="tool-bottom"><span>Open Saathi</span></div>
+</a>
 <a class="tool" href="/time-table-maker.html" id="navai-time-table-maker-card">
   <div class="tool-icon"><span aria-hidden="true">&#128197;</span></div>
   <h2>Time Table Maker</h2>
@@ -3077,6 +3090,7 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+<script id="navaiSaathiWidgetJS" src="/static/saathi-widget.js"></script>
 </body>
 
 
