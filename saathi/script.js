@@ -349,7 +349,9 @@ function saveSettings(){
     quietStart:$("quietStart").value,
     quietEnd:$("quietEnd").value
   };
-  save();toast("Settings saved.");
+  save();
+  if(data.settings.notifications) syncNativeRoutineReminders();
+  toast("Settings saved.");
 }
 function fillSettings(){
   $("voiceReplies").checked=data.settings.voice;
@@ -726,6 +728,40 @@ function checkRoutineReminders(){
     break;
   }
 }
+
+// Native Android reminders: AlarmManager continues after the app is swiped away.
+function scheduleNativeRoutine(routine){
+  if(!window.NavAIAndroid || typeof window.NavAIAndroid.scheduleReminder !== "function") return false;
+  if(!routine || !routine.id || !routine.time || !routine.title) return false;
+
+  const parts = routine.time.split(":").map(Number);
+  if(parts.length !== 2 || parts[0] < 0 || parts[0] > 23 || parts[1] < 0 || parts[1] > 59) return false;
+
+  const now = new Date();
+  let scheduled = 0;
+  // Keep a rolling 14-day schedule on Android, including weekday-only routines.
+  for(let dayOffset = 0; dayOffset < 14; dayOffset++){
+    const target = new Date(now.getFullYear(), now.getMonth(), now.getDate() + dayOffset, parts[0], parts[1], 0, 0);
+    if(target.getTime() <= Date.now() + 5000) continue;
+    if(routine.repeat === "weekdays" && (target.getDay() === 0 || target.getDay() === 6)) continue;
+    const dateKey = target.getFullYear() + "-" +
+      String(target.getMonth()+1).padStart(2,"0") + "-" +
+      String(target.getDate()).padStart(2,"0");
+    const nativeId = String(routine.id) + "-" + dateKey;
+    try{
+      window.NavAIAndroid.scheduleReminder(nativeId, String(routine.title), target.getTime());
+      scheduled++;
+    }catch(error){ console.error("Native reminder scheduling failed", error); }
+  }
+  return scheduled > 0;
+}
+
+function syncNativeRoutineReminders(){
+  if(!window.NavAIAndroid) return;
+  if(!data.settings.notifications) return;
+  (data.routines || []).forEach(scheduleNativeRoutine);
+}
+
 function scheduleCheck(){
   const today=new Date().toDateString();
   const last=localStorage.getItem(KEY+".lastCheckin");
@@ -804,19 +840,41 @@ function init(){
   };
   $("routineForm").onsubmit=e=>{
     e.preventDefault();
-    data.routines.push({id:Date.now(),title:$("routineTitle").value.trim(),time:$("routineTime").value,repeat:$("routineRepeat").value});
-    save();e.target.reset();renderRoutines();toast("Routine added.");
+    const routine={id:Date.now(),title:$("routineTitle").value.trim(),time:$("routineTime").value,repeat:$("routineRepeat").value};
+    data.routines.push(routine);
+    save();e.target.reset();renderRoutines();
+    if(data.settings.notifications) scheduleNativeRoutine(routine);
+    toast("Routine added.");
   };
   $("routineList").onclick=e=>{
     const id=Number(e.target.dataset.deleteRoutine);
-    if(id){data.routines=data.routines.filter(r=>r.id!==id);save();renderRoutines();}
+    if(id){
+      if(window.NavAIAndroid && window.NavAIAndroid.cancelReminder){
+        for(let offset=0; offset<14; offset++){
+          const d=new Date(); d.setDate(d.getDate()+offset);
+          const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+          try{window.NavAIAndroid.cancelReminder(String(id)+"-"+key);}catch(error){}
+        }
+      }
+      data.routines=data.routines.filter(r=>r.id!==id);save();renderRoutines();
+    }
   };
   $("saveSettings").onclick=saveSettings;
   $("enableNotifications").onclick=async()=>{
-    if(!("Notification" in window)){toast("Notifications are unavailable.");return;}
+    if(window.NavAIAndroid && window.NavAIAndroid.requestNotificationPermission){
+      window.NavAIAndroid.requestNotificationPermission();
+      data.settings.notifications=true;
+      save();fillSettings();
+      syncNativeRoutineReminders();
+      toast("Android permission prompt opened. Allow notifications to receive reminders.");
+      return;
+    }
+    if(!("Notification" in window)){toast("Browser notifications are unavailable here. Open Saathi in the NavAI Android app.");return;}
     const permission=await Notification.requestPermission();
     data.settings.notifications=permission==="granted";
-    save();fillSettings();toast(permission==="granted"?"Notifications enabled.":"Permission not granted.");
+    save();fillSettings();
+    if(permission==="granted") syncNativeRoutineReminders();
+    toast(permission==="granted"?"Browser notifications enabled.":"Permission not granted.");
   };
   $("moodResult").textContent=data.moods.length?"Last check-in: "+data.moods[data.moods.length-1].mood:"";
   document.querySelector(".mood-list").onclick=e=>{
@@ -831,6 +889,7 @@ function init(){
   };
   document.querySelectorAll(".suggestions button").forEach(b=>b.addEventListener("click",()=>{}));
   scheduleCheck();
+  syncNativeRoutineReminders();
   setInterval(scheduleCheck,10000);
 }
 if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=populateVoiceOptions;}
