@@ -7,24 +7,26 @@
         const launcher = document.createElement("a");
         launcher.id = "navai-saathi-launcher";
         launcher.href = "/saathi";
-        launcher.title = "Open NavAI Saathi";
+        launcher.title = "NavAI Saathi";
         launcher.setAttribute("aria-label", "Open NavAI Saathi");
-
         launcher.innerHTML = `
-            <svg viewBox="0 0 24 24" width="30" height="30"
-                 aria-hidden="true" focusable="false">
-                <path d="M12 3.2a7.2 7.2 0 0 0-7.2 7.2v3.1a2.5 2.5 0 0 0 2.5 2.5h.8v-5.2H6.8a5.2 5.2 0 0 1 10.4 0h-1.3V16h1.3a2.5 2.5 0 0 0 2.5-2.5v-3.1A7.2 7.2 0 0 0 12 3.2Z"
-                      fill="none" stroke="currentColor" stroke-width="1.6"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8.1 17.1c.8 1.5 2.1 2.3 3.9 2.3h1.4"
-                      fill="none" stroke="currentColor" stroke-width="1.6"
+            <svg viewBox="0 0 48 48" role="img" aria-hidden="true">
+                <path d="M24 5v5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="24" cy="4" r="2.5" fill="#fff"/>
+                <rect x="8" y="11" width="32" height="29" rx="11"
+                      fill="none" stroke="currentColor" stroke-width="2.5"/>
+                <path d="M16 22h.2M31.8 22h.2"
+                      stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                <path d="M17 30c2 3 4.2 4.5 7 4.5s5-1.5 7-4.5"
+                      fill="none" stroke="currentColor" stroke-width="2.4"
                       stroke-linecap="round"/>
-                <circle cx="14.8" cy="19.4" r="1" fill="currentColor"/>
+                <path d="M5 17l2 2m36-2-2 2"
+                      stroke="#fff" stroke-width="2" stroke-linecap="round"/>
             </svg>
+            <span class="navai-saathi-pulse" aria-hidden="true"></span>
         `;
 
         document.body.appendChild(launcher);
-        console.info("NavAI Saathi launcher initialized.");
     }
 
     if (document.readyState === "loading") {

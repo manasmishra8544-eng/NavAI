@@ -1,43 +1,80 @@
 #navai-saathi-launcher {
     position: fixed !important;
-    right: 24px !important;
-    bottom: 24px !important;
+    top: 92px !important;
+    left: 22px !important;
+    right: auto !important;
+    bottom: auto !important;
     z-index: 2147483000 !important;
-    width: 60px !important;
-    height: 60px !important;
+
+    width: 58px !important;
+    height: 58px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+
     box-sizing: border-box !important;
-    border: 2px solid #ffffff !important;
-    border-radius: 50% !important;
-    background: linear-gradient(145deg, #c4a9ef, #8965c4) !important;
-    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,.9) !important;
+    border-radius: 19px !important;
+    background: linear-gradient(145deg, #b98aff 0%, #8151d8 55%, #6240b8 100%) !important;
+    color: #fff !important;
     text-decoration: none !important;
+
+    box-shadow:
+        0 8px 24px rgba(100, 65, 170, .30),
+        inset 0 1px 0 rgba(255,255,255,.38) !important;
+
     cursor: pointer !important;
-    box-shadow: 0 8px 30px rgba(90, 60, 140, .35) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transition: transform .2s ease, box-shadow .2s ease !important;
+    transition: transform .22s ease, box-shadow .22s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
 }
 
 #navai-saathi-launcher:hover {
-    transform: translateY(-3px) scale(1.04) !important;
-    box-shadow: 0 12px 34px rgba(90, 60, 140, .42) !important;
+    transform: translateY(-3px) scale(1.045) !important;
+    box-shadow:
+        0 13px 30px rgba(100, 65, 170, .40),
+        inset 0 1px 0 rgba(255,255,255,.45) !important;
+}
+
+#navai-saathi-launcher:focus-visible {
+    outline: 3px solid #d8c1ff !important;
+    outline-offset: 4px !important;
 }
 
 #navai-saathi-launcher svg {
     display: block !important;
-    width: 30px !important;
-    height: 30px !important;
+    width: 34px !important;
+    height: 34px !important;
 }
 
-@media (max-width: 600px) {
+#navai-saathi-launcher .navai-saathi-pulse {
+    position: absolute !important;
+    top: 5px !important;
+    right: 5px !important;
+    width: 9px !important;
+    height: 9px !important;
+    border: 2px solid #fff !important;
+    border-radius: 50% !important;
+    background: #52d69a !important;
+    box-shadow: 0 0 0 3px rgba(255,255,255,.16) !important;
+}
+
+@media (max-width: 700px) {
     #navai-saathi-launcher {
-        right: 16px !important;
-        bottom: 18px !important;
-        width: 56px !important;
-        height: 56px !important;
+        top: 68px !important;
+        left: 12px !important;
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 16px !important;
+    }
+
+    #navai-saathi-launcher svg {
+        width: 29px !important;
+        height: 29px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #navai-saathi-launcher {
+        transition: none !important;
     }
 }
