@@ -36,6 +36,29 @@ TEXT_MODEL = "openai/gpt-oss-20b"
 
 
 
+
+# NAVAI_MARKDOWN_RESPONSE_CLEANUP_V2
+def clean_markdown_response(value):
+    """Preserve useful Markdown while removing accidental outer code fences."""
+    if not isinstance(value, str):
+        return value
+
+    text = value.replace("\r\n", "\n").replace("\r", "\n").strip()
+
+    # Remove only a code fence wrapping the entire response.
+    match = re.match(
+        r"^```(?:markdown|md|text)?[ \t]*\n([\s\S]*?)\n```[ \t]*$",
+        text,
+        flags=re.IGNORECASE
+    )
+    if match:
+        text = match.group(1).strip()
+
+    # Normalize excessive blank lines without removing Markdown formatting.
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
 # NAVAI_PLAIN_TEXT_RESPONSE_CLEANUP_V1
 def clean_plain_text_response(value):
     """Remove visible Markdown markers while preserving answer content."""
@@ -139,6 +162,47 @@ NAVAI_ALL_PURPOSE_CHAT_ADDON_V1
   technology, coding, creative ideas, and general knowledgeÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Ânot only schoolwork.
 - Follow the user's topic naturally and keep specialized NavAI features available.
 """
+
+
+NAVAI_CHATBOT_IMPROVEMENT_V1 = """
+CHATBOT QUALITY RULES:
+- Answer the user's actual question directly.
+- Follow the language explicitly requested by the user.
+- If no language is requested, use natural Roman Hinglish.
+- If the user writes in English, English is also acceptable.
+- Use readable Markdown for headings, lists, tables and code when useful.
+- Keep simple answers concise and explain complex topics step by step.
+- For coding, provide complete, valid and consistent solutions.
+- Never invent facts, citations, URLs or completed actions.
+- Use supplied live search results carefully and identify uncertainty.
+- Do not repeat the same point unnecessarily.
+- Maintain relevant context from earlier messages.
+- Be natural, respectful, accurate and helpful.
+"""
+
+
+NAVAI_RESPONSE_QUALITY_V2 = """
+RESPONSE QUALITY RULES ? IMPORTANT:
+- Understand the user's actual question and answer it directly.
+- DEFAULT LANGUAGE: Always reply in natural Roman Hinglish by default, even if the user writes in English or Hindi.
+- LANGUAGE OVERRIDE: Switch to another language only when the user explicitly requests that language, for example, "Answer in English", "Hindi mein jawab do", or "Explain in French". Continue using that requested language until the user asks to change it or the conversation clearly returns to the default.
+- Keep answers short, clear, direct and easy to understand. Answer the actual question first.
+- For simple questions, prefer a concise answer. Do not add unnecessary introductions, repeated conclusions or filler.
+- For complex questions, use only the detail needed to explain the topic properly, with clear steps or useful headings.
+- Write polished, natural sentences with correct grammar, spelling, punctuation and spacing. Avoid awkward wording, broken formatting and unnecessary repetition.
+- Use Markdown headings, bullets and bold text only when they improve readability. Never display raw formatting markers unnecessarily.
+- Do not sacrifice accuracy for brevity. If an important detail or uncertainty matters, mention it clearly.
+- Sound natural, clear, helpful and conversational. Avoid robotic openings, repetitive conclusions and unnecessary filler.
+- Give a concise answer for a simple question. Give structured, step-by-step explanations when the task is complex.
+- Use Markdown when it improves readability: short headings, bullet lists, numbered steps, bold emphasis and code blocks where appropriate.
+- Do not expose Markdown symbols as raw text when formatted Markdown is supported.
+- Use emojis sparingly and only when they genuinely help the conversation.
+- Never invent facts, sources, actions, features, dates, prices or personal details. Clearly say when something is uncertain or unavailable.
+- Follow the user's requested format and preserve important context from the conversation.
+- For coding help, prioritize correctness, compatibility with the existing project, safe changes and clear instructions.
+- Do not claim that an action was completed unless it was actually completed.
+"""
+
 
 
 def needs_web_search(question):
@@ -688,13 +752,14 @@ def saathi_chat():
             "Never claim that you sent notifications, performed actions "
             "outside this chat, or will proactively work while offline. "
             + language_instruction
-            + " Give direct answers to simple questions and clear, helpful step-by-step explanations to complex questions. Avoid robotic wording, unnecessary repetition and unsupported claims. Keep spoken answers conversational and easy to pronounce."
+            + " Give direct answers to simple questions and clear, helpful step-by-step explanations to complex questions. Avoid robotic wording, unnecessary repetition and unsupported claims. Keep spoken answers conversational and easy to pronounce.\n\n"
+            + NAVAI_RESPONSE_QUALITY_V2
         )
     }]
 
     history = data.get("history", [])
     if isinstance(history, list):
-        for item in history[-8:]:
+        for item in history[-12:]:
             if not isinstance(item, dict):
                 continue
 
@@ -743,7 +808,7 @@ def saathi_chat():
         if not isinstance(answer, str) or not answer.strip():
             return jsonify({"error": "AI returned an empty response."}), 502
 
-        answer = clean_plain_text_response(answer)
+        answer = clean_markdown_response(answer)
         return jsonify({
             "reply": answer,
             "response": answer,
@@ -898,6 +963,8 @@ def chat():
         "role": "system",
         "content": (
             SYSTEM_PROMPT
+            + "\n\n" + NAVAI_RESPONSE_QUALITY_V2
+            + "\n\n" + NAVAI_CHATBOT_IMPROVEMENT_V1
             + "\nToday's date in India is "
             + india_date()
             + "."
@@ -907,7 +974,7 @@ def chat():
     # Keep recent conversation context; never accept browser-supplied
     # system or developer messages.
     if isinstance(history, list):
-        for index, item in enumerate(history[-8:]):
+        for index, item in enumerate(history[-12:]):
             if not isinstance(item, dict):
                 continue
 
@@ -1050,7 +1117,7 @@ def chat():
                 "error": "The AI returned an empty response."
             }), 502
 
-        answer = clean_plain_text_response(answer)
+        answer = clean_markdown_response(answer)
 
         return jsonify({
             "response": answer,

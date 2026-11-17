@@ -476,7 +476,7 @@ chatForm.addEventListener("submit", async event => {
 
     if (!chat) chat = createChat(text || "Image question");
 
-    const history = chat.messages.slice(-8).map(m => ({
+    const history = chat.messages.slice(-12).map(m => ({
         role: m.role,
         content: m.content || ""
     }));
@@ -564,7 +564,7 @@ chatForm.addEventListener("submit", async event => {
 
         const errorMessage = {
             role: "assistant",
-            content: `I couldn't complete that request. ${error.message || "Check that NavAI and Ollama are running, then try again."}`,
+            content: `I couldn't complete that request. ${error.message || "Check your internet connection and try again."}`,
             image: null,
             time: Date.now()
         };

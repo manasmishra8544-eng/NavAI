@@ -395,3 +395,22 @@ pre, .code-block {
   .content { overflow-wrap: anywhere; }
   .chat-messages { -webkit-overflow-scrolling: touch; }
 }
+
+
+/* NAVAI_SAATHI_RESPONSE_MARKDOWN_V2 */
+.message.assistant .bubble p{margin:0 0 10px}
+.message.assistant .bubble p:last-child{margin-bottom:0}
+.message.assistant .bubble h1,
+.message.assistant .bubble h2,
+.message.assistant .bubble h3{margin:12px 0 7px;line-height:1.35;font-weight:700}
+.message.assistant .bubble h1{font-size:1.2em}
+.message.assistant .bubble h2{font-size:1.1em}
+.message.assistant .bubble h3{font-size:1.03em}
+.message.assistant .bubble ul,
+.message.assistant .bubble ol{padding-left:22px;margin:7px 0 11px}
+.message.assistant .bubble li{margin:4px 0}
+.message.assistant .bubble strong{font-weight:700}
+.message.assistant .bubble blockquote{margin:9px 0;padding:7px 11px;border-left:3px solid #b7a9df;background:#f7f4fc;border-radius:5px}
+.message.assistant .bubble code{padding:2px 5px;border-radius:5px;background:#f0edf7;font-family:Consolas,monospace;font-size:.92em}
+.message.assistant .bubble pre{margin:9px 0;padding:12px;overflow-x:auto;border-radius:9px;background:#242333;color:#f5f2ff;white-space:pre}
+.message.assistant .bubble pre code{padding:0;background:transparent;color:inherit}

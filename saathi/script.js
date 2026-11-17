@@ -125,13 +125,119 @@ function addMessage(role,text){
   save();
   renderMessages();
 }
+
+function renderAssistantMarkdown(value) {
+  const source = String(value ?? "").replace(/\r\n?/g, "\n");
+  const codeBlocks = [];
+
+  let prepared = source.replace(
+    /```(?:[a-zA-Z0-9_+-]+)?[ \t]*\n([\s\S]*?)```/g,
+    (_, code) => {
+      const index = codeBlocks.length;
+      codeBlocks.push(
+        `<pre><code>${escapeHTML(code.replace(/\n$/, ""))}</code></pre>`
+      );
+      return `NAVAI_CODE_BLOCK_${index}_PLACEHOLDER`;
+    }
+  );
+
+  let safe = escapeHTML(prepared);
+
+  safe = safe
+    .replace(/`([^`\n]+)`/g, "<code>$1</code>")
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/__(.+?)__/g, "<strong>$1</strong>")
+    .replace(/\*([^*\n]+)\*/g, "<em>$1</em>")
+    .replace(/_([^_\n]+)_/g, "<em>$1</em>");
+
+  const lines = safe.split("\n");
+  const output = [];
+  let paragraph = [];
+  let listType = null;
+  let listItems = [];
+
+  function flushParagraph() {
+    if (paragraph.length) {
+      output.push(`<p>${paragraph.join("<br>")}</p>`);
+      paragraph = [];
+    }
+  }
+
+  function flushList() {
+    if (listType && listItems.length) {
+      output.push(
+        `<${listType}>${listItems.map(item => `<li>${item}</li>`).join("")}</${listType}>`
+      );
+    }
+    listType = null;
+    listItems = [];
+  }
+
+  for (const line of lines) {
+    const codeMatch = line.match(/^NAVAI_CODE_BLOCK_(\d+)_PLACEHOLDER$/);
+    if (codeMatch) {
+      flushParagraph();
+      flushList();
+      output.push(codeBlocks[Number(codeMatch[1])]);
+      continue;
+    }
+
+    if (!line.trim()) {
+      flushParagraph();
+      flushList();
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,3})\s+(.+)$/);
+    if (heading) {
+      flushParagraph();
+      flushList();
+      const level = heading[1].length;
+      output.push(`<h${level}>${heading[2]}</h${level}>`);
+      continue;
+    }
+
+    const quote = line.match(/^&gt;\s?(.*)$/);
+    if (quote) {
+      flushParagraph();
+      flushList();
+      output.push(`<blockquote>${quote[1]}</blockquote>`);
+      continue;
+    }
+
+    const unordered = line.match(/^\s*[-*]\s+(.+)$/);
+    const ordered = line.match(/^\s*\d+[.)]\s+(.+)$/);
+
+    if (unordered || ordered) {
+      flushParagraph();
+      const nextType = unordered ? "ul" : "ol";
+      if (listType && listType !== nextType) flushList();
+      listType = nextType;
+      listItems.push((unordered || ordered)[1]);
+      continue;
+    }
+
+    flushList();
+    paragraph.push(line);
+  }
+
+  flushParagraph();
+  flushList();
+
+  return output.join("");
+}
+
 function renderMessages(){
-  const el=$("messages");
-  el.innerHTML=data.messages.map(m=>`
-    <div class="message ${m.role==="user"?"user":"assistant"}">
-      <div class="bubble">${escapeHTML(m.text)}</div>
-    </div>`).join("");
-  el.scrollTop=el.scrollHeight;
+    const el = $("messages");
+    el.innerHTML = data.messages.map(m => `
+      <div class="message ${m.role === "user" ? "user" : "assistant"}">
+        <div class="bubble">${
+          m.role === "user"
+            ? escapeHTML(m.text).replace(/\n/g, "<br>")
+            : renderAssistantMarkdown(m.text)
+        }</div>
+      </div>`).join("");
+    el.scrollTop = el.scrollHeight;
 }
 function loadChat(){
   renderMessages();
