@@ -136,7 +136,7 @@ RESPONSE RULES:
 - Be friendly, accurate, and useful.
 NAVAI_ALL_PURPOSE_CHAT_ADDON_V1
 - NavAI's main chatbot can discuss everyday life, jokes, hobbies, entertainment,
-  technology, coding, creative ideas, and general knowledgeÃ¢â‚¬â€not only schoolwork.
+  technology, coding, creative ideas, and general knowledgeÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Ânot only schoolwork.
 - Follow the user's topic naturally and keep specialized NavAI features available.
 """
 
@@ -600,18 +600,77 @@ def saathi_chat():
     except (TypeError, ValueError):
         context_text = "{}"
 
+    allowed_modes = {"companion", "care", "mentor", "friend", "manager"}
     mode = data.get("mode", "companion")
+
+    if not isinstance(mode, str) or mode not in allowed_modes:
+        mode = "companion"
+
     mode_instructions = {
-        "companion": "Be a supportive, balanced everyday life companion.",
-        "care": "Use a gentle, caring and considerate guidance style.",
-        "teacher": "Explain concepts patiently and clearly, like a helpful tutor.",
-        "mentor": "Offer practical guidance, thoughtful questions and realistic next steps.",
-        "friend": "Use a friendly, relaxed and respectful conversational tone.",
-        "manager": "Help organise tasks, priorities, routines and plans efficiently."
+        "companion": (
+            "You are in ALL-IN-ONE SAATHI mode. Handle everyday questions "
+            "across general guidance, wellbeing, learning, goals, casual "
+            "conversation, tasks and planning. Choose the appropriate "
+            "approach for each request."
+        ),
+        "care": (
+            "You are in CARING GUIDE mode. Your scope is emotional support, "
+            "everyday wellbeing, healthy habits, encouragement and gentle "
+            "self-care guidance. Do not act as a tutor, career consultant "
+            "or task-management assistant. If a request is mainly about "
+            "another mode, briefly explain that Mentor, Friend, Life manager "
+            "or All-in-one Saathi is more suitable."
+        ),
+        "mentor": (
+            "You are in MENTOR mode. Your scope is goals, personal growth, "
+            "career exploration, decision-making, motivation and developing "
+            "skills. Do not turn this mode into detailed subject tutoring, "
+            "casual entertainment chat or routine/task management. Redirect "
+            "out-of-scope requests to the appropriate mode."
+        ),
+        "friend": (
+            "You are in FRIEND mode. Your scope is relaxed, respectful "
+            "everyday conversation, sharing ideas, light discussions and "
+            "creative brainstorming. Do not provide detailed tutoring, "
+            "career counselling or manage schedules and tasks. Redirect "
+            "out-of-scope requests to the appropriate mode. Never pretend "
+            "to be a human friend or romantic partner."
+        ),
+        "manager": (
+            "You are in LIFE MANAGER mode. Your scope is organising tasks, "
+            "priorities, schedules, routines, reminders and practical plans. "
+            "Do not provide detailed academic lessons, career counselling "
+            "or act as a casual entertainment companion. Redirect "
+            "out-of-scope requests to the appropriate mode. Never claim "
+            "that an actual alarm, notification or external action was set."
+        )
     }
-    mode_instruction = mode_instructions.get(
-        mode, mode_instructions["companion"]
-    )
+
+    mode_instruction = mode_instructions[mode]
+
+    profile_data = context.get("profile", {})
+    if not isinstance(profile_data, dict):
+        profile_data = {}
+
+    preferred_language = str(
+        profile_data.get("language", "hinglish")
+    ).lower()
+
+    if preferred_language == "hindi":
+        language_instruction = (
+            "Reply in natural Hindi using Devanagari script. "
+            "Use simple, clear Hindi and familiar English terms only when useful."
+        )
+    elif preferred_language == "english":
+        language_instruction = (
+            "Reply in clear, natural English. Do not switch to Hindi "
+            "unless the user explicitly asks."
+        )
+    else:
+        language_instruction = (
+            "Reply in natural, friendly Hinglish using Roman script. "
+            "Mix Hindi and familiar English naturally."
+        )
 
     messages = [{
         "role": "system",
@@ -628,8 +687,8 @@ def saathi_chat():
             "real parent, teacher, human friend, doctor or romantic partner. "
             "Never claim that you sent notifications, performed actions "
             "outside this chat, or will proactively work while offline. "
-            "Give practical, safe and respectful advice. Match the user's "
-            "language and communication style."
+            + language_instruction
+            + " Give direct answers to simple questions and clear, helpful step-by-step explanations to complex questions. Avoid robotic wording, unnecessary repetition and unsupported claims. Keep spoken answers conversational and easy to pronounce."
         )
     }]
 
@@ -1175,6 +1234,17 @@ app.add_url_rule(
 )
 
 
+
+# SAATHI_STATIC_INTEGRATION
+@app.route("/saathi/")
+def navai_saathi_home():
+    return send_from_directory(str(BASE_DIR / "saathi"), "index.html")
+
+@app.route("/saathi/<path:filename>")
+def navai_saathi_assets(filename):
+    return send_from_directory(str(BASE_DIR / "saathi"), filename)
+
+# SAATHI_STATIC_INTEGRATION_END
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)

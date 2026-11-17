@@ -3,269 +3,102 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080d1b">
-<title>NavAI Teacher ? Learn Visually</title>
-<link rel="stylesheet" href="/classroom.css">
+<meta name="theme-color" content="#f7f4ff">
+<title>NavAI Teacher | Your AI Classroom</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="stylesheet" href="/navai-shared-theme.css">
-<link rel="stylesheet" href="/static/navai-obsidian-premium.css?v=3">
-<link rel="stylesheet" href="/static/navai-feature-dark.css?v=1">
-<link rel="stylesheet" href="/static/navai-lavender-features.css?v=1">
-
-<link rel="stylesheet" href="/static/navai-lavender-unified.css?v=1">
-<link rel="stylesheet" href="/static/navai-pearl-lavender-final.css?v=20261103">
-    <link rel="stylesheet" href="/static/navai-pearl-global.css?v=20261104-arctic1">
-<link rel="stylesheet" href="/static/navai-lavender-ultimate.css?v=20261104-1">
-<link rel="stylesheet" href="/static/pearl-aurora.css">
-<link rel="stylesheet" href="/static/navai-feature-pearl-aurora.css?v=2">
-
-<link rel="stylesheet" href="/static/navai-pearl-lavender-force.css?v=20261104-205815">
-<link id="navai-teacher-pearl-lavender" rel="stylesheet" href="{{ url_for('static', filename='navai-teacher-pearl-lavender.css') }}">
-
-<link rel="stylesheet" href="/static/navai-feature-unified-lavender.css?v=20261106">
+<link rel="stylesheet" href="/classroom.css">
+<link rel="stylesheet" href="/static/navai-teacher-complete.css?v=20261107-3">
+<link id="navaiSaathiWidgetCSS" rel="stylesheet" href="/saathi-widget.css">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="/" aria-label="Back to NavAI">
-    <span class="brand-icon">N</span><span>NavAI <b>Teacher</b></span>
-  </a>
-  <span class="live"><i></i> AI TEACHER</span>
-
+  <a class="brand" href="/" aria-label="Back to NavAI"><span class="brand-icon">N</span><span>NavAI <b>Teacher</b></span></a>
+  <div class="topbar-center"><span class="topbar-mark"></span> YOUR PERSONAL LEARNING STUDIO</div>
+  <div class="topbar-right"><span class="live"><i></i> PICO IS READY</span><a class="back" href="/">← Dashboard</a></div>
 </header>
 
-<main class="layout">
-  <section class="welcome">
-    <div class="mascot-wrap" aria-label="Pico, your friendly robot teacher">
-      <div class="spark s1">?</div><div class="spark s2">?</div>
-      <div class="pico">
-        <div class="antenna"><i></i></div>
-        <div class="ear ear-left"></div><div class="ear ear-right"></div>
-        <div class="face">
-          <div class="eye eye-left"><i></i></div>
-          <div class="eye eye-right"><i></i></div>
-          <div class="cheek cheek-left"></div><div class="cheek cheek-right"></div>
-          <div class="smile"></div>
+<div class="app-shell">
+  <aside class="teacher-sidebar">
+    <div class="sidebar-label">WORKSPACE</div>
+    <a class="side-link active" href="#lessonForm"><span class="side-icon">✦</span><span>New lesson</span></a>
+    <a class="side-link" href="#board-section"><span class="side-icon">▤</span><span>Learning board</span></a>
+    <a class="side-link" href="#navai-teacher-history"><span class="side-icon">◷</span><span>Saved lessons</span></a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-label">QUICK START</div>
+    <button class="side-topic" type="button" data-topic="Explain photosynthesis with a simple diagram"><span>🌱</span> Photosynthesis</button>
+    <button class="side-topic" type="button" data-topic="Explain Newton's laws of motion with examples"><span>🚀</span> Newton's laws</button>
+    <button class="side-topic" type="button" data-topic="Explain atoms and molecules simply"><span>⚛</span> Atoms & molecules</button>
+    <button class="side-topic" type="button" data-topic="Explain linear equations step by step"><span>𝑥</span> Linear equations</button>
+    <div class="sidebar-pico"><div class="sidebar-pico-orb">✦</div><b>Pico is here</b><p>Ask a question. Learn at your own pace.</p></div>
+  </aside>
+
+  <main class="layout">
+    <section class="welcome">
+      <div class="welcome-copy">
+        <p class="eyebrow">YOUR AI-POWERED CLASSROOM</p>
+        <h1>Big ideas, made<br><span>easy to understand.</span></h1>
+        <p class="welcome-description">Meet Pico — your visual AI teacher. Explore any topic through clear explanations, guided steps and voice teaching.</p>
+        <div class="mini-tags"><span>✦ Step-by-step lessons</span><span>◖ Voice teaching</span><span>↗ Ask follow-ups</span></div>
+      </div>
+      <div class="mascot-wrap" aria-label="Pico, your friendly robot teacher">
+        <div class="mascot-glow"></div><div class="spark s1">✦</div><div class="spark s2">?</div>
+        <div class="pico"><div class="antenna"><i></i></div><div class="ear ear-left"></div><div class="ear ear-right"></div>
+          <div class="face"><div class="eye eye-left"><i></i></div><div class="eye eye-right"><i></i></div><div class="cheek cheek-left"></div><div class="cheek cheek-right"></div><div class="smile"></div></div>
+          <div class="collar"></div><div class="body"><span>✦</span></div></div>
+        <span class="mascot-name">PICO</span><span class="mascot-caption">Your learning companion</span>
+      </div>
+    </section>
+
+    <section class="ask-panel" id="new-lesson">
+      <div class="section-kicker"><span>01</span><div><p class="eyebrow">LESSON STUDIO</p><h2>What shall we learn today?</h2></div></div>
+      <form id="lessonForm">
+        <label class="topic-label" for="topic">ENTER A TOPIC OR ASK A QUESTION</label>
+        <div class="ask-row">
+          <div class="topic-input-wrap"><span class="topic-search-icon">⌕</span><input id="topic" maxlength="1200" placeholder="Try “Explain photosynthesis with a simple diagram…”" autocomplete="off" required></div>
+          <button class="voice-entry" type="button" id="voiceAskBtn"><span>🎙</span> Ask by voice</button>
         </div>
-        <div class="collar"></div>
-        <div class="body"><span>?</span></div>
-      </div>
-      <span class="mascot-name">PICO</span>
-    </div>
-    <div class="welcome-copy">
-      <p class="eyebrow">YOUR PERSONAL AI TEACHER</p>
-      <h1>Big questions.<br><span>Clear explanations.</span></h1>
-      <p>Meet your AI teacher! Ask any topic and watch your lesson come to life on the board, one step at a time.</p>
-      <div class="mini-tags"><span>? Visual learning</span><span>? Audio lessons</span><span>? Follow-up questions</span></div>
-    </div>
-  </section>
-
-  <section class="ask-panel">
-    <form id="lessonForm">
-      <label for="topic">WHAT DO YOU WANT TO LEARN?</label>
-      <div class="ask-row">
-        <input id="topic" maxlength="1200" placeholder="e.g. Explain photosynthesis simply..." autocomplete="off" required>
-        <button id="teachBtn" type="submit"><span>Teach me</span><span>?</span></button>
-      </div>
-      <div class="options-row">
-        <label class="select-label">Level
-          <select id="level">
-            <option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option>
-            <option>Class 9</option><option>Class 6</option><option>Class 7</option>
-            <option>Class 8</option><option>Class 10</option><option>Beginner</option>
-            <option>Advanced</option><option>Class 11</option><option>Class 12</option>
-          </select>
-        </label>
-        <label class="select-label">Language
-          <select id="language"><option value="simple Hinglish">Hinglish</option><option value="simple English">English</option><option value="simple Hindi">Hindi</option></select>
-        </label>
-        <span class="free-note">? Uses your existing NavAI AI connection</span>
-      </div>
-    </form>
-    <div class="suggestions">
-      <span>TRY A TOPIC</span>
-      <button type="button" data-topic="Explain photosynthesis with a simple diagram">?? Photosynthesis</button>
-      <button type="button" data-topic="Explain Newton's laws of motion with examples">?? Newton's laws</button>
-      <button type="button" data-topic="Explain atoms and molecules simply">? Atoms</button>
-      <button type="button" data-topic="Explain linear equations step by step">?? Linear equations</button>
-    </div>
-  </section>
-
-  <section class="board-section">
-    <div class="board-top">
-      <div><p class="eyebrow">THE LEARNING SPACE</p><h2>Today's lesson <span class="board-dot"></span></h2></div>
-      <div class="board-controls">
-        <button id="prevBtn" class="icon-btn" disabled aria-label="Previous step">?</button>
-        <span id="stepCounter">Ready when you are</span>
-        <button id="nextBtn" class="icon-btn" disabled aria-label="Next step">?</button>
-      </div>
-    </div>
-    <div id="status" class="status" role="status">Choose a topic above and let Pico teach you.</div>
-    <div id="board" class="board">
-      <div class="empty-board">
-        <div class="board-doodle">? <span>?</span> ?</div>
-        <div class="empty-orb">?</div>
-        <h3>Your digital board is ready.</h3>
-        <p>Your lesson, examples and visual explanations will appear here.</p>
-      </div>
-    </div>
-    <div id="lessonActions" class="lesson-actions" hidden>
-      <button id="speakBtn" class="action-primary">? Listen to lesson</button>
-      <button id="pauseBtn" class="action-secondary">? Pause voice</button>
-      <button id="stopBtn" class="action-secondary">? Stop</button>
-    </div>
-  </section>
-
-  <section class="followup">
-    <div class="followup-icon">?</div>
-    <div class="followup-content">
-      <h3>Still curious?</h3><p>Ask Pico a follow-up question about your lesson.</p>
-      <form id="followForm" class="follow-row">
-        <input id="followInput" maxlength="1200" placeholder="Why does this happen? Give me another example..." required>
-        <button type="submit" aria-label="Ask follow-up">Send ?</button>
+        <div class="composer-bottom">
+          <div class="options-row">
+            <label class="select-label"><span>LEVEL</span><select id="level"><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 9</option><option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 10</option><option>Beginner</option><option>Advanced</option><option>Class 11</option><option>Class 12</option></select></label>
+            <label class="select-label"><span>LANGUAGE</span><select id="language"><option value="simple Hinglish">Hinglish</option><option value="simple English">English</option><option value="simple Hindi">Hindi</option></select></label>
+          </div>
+          <button id="teachBtn" type="submit"><span>Teach me</span><span class="teach-arrow">→</span></button>
+        </div>
+        <div class="free-note"><i>✓</i> Personalised explanations · Connected to NavAI</div>
       </form>
-    </div>
-  </section>
-  <footer>Made for curious minds ? NavAI Teacher <span>Learn at your own pace ?</span></footer>
-</main>
-<script src="/classroom.js"></script>
- <script src="/classroom-diagrams.js"></script>
-<style id="navai-small-back-style">
-#navai-small-back{position:fixed;top:14px;left:14px;z-index:1000001;width:35px;height:35px;display:grid;place-items:center;border:1px solid rgba(145,170,255,.38);border-radius:11px;background:rgba(13,23,44,.88);color:#e4ebff;text-decoration:none;font:22px/1 Arial,sans-serif;box-shadow:0 5px 20px #0004;backdrop-filter:blur(12px);transition:background .18s,border-color .18s}
-#navai-small-back:hover{background:#25385c;border-color:#a8bcff}
-</style>
+      <div class="suggestions"><div class="suggestion-heading"><span>QUICK INSPIRATION</span><small>Choose a topic to get started</small></div><div class="suggestion-chips">
+        <button type="button" data-topic="Explain photosynthesis with a simple diagram">🌱 Photosynthesis</button><button type="button" data-topic="Explain Newton's laws of motion with examples">🚀 Newton's laws</button><button type="button" data-topic="Explain atoms and molecules simply">⚛ Atoms & molecules</button><button type="button" data-topic="Explain linear equations step by step">𝑥 Linear equations</button>
+      </div></div>
+    </section>
 
-<script src="/classroom-history.js"></script>
-<script src="/math-renderer.js"></script>
+    <section class="board-section" id="board-section">
+      <div class="board-top"><div class="board-title-group"><div class="section-kicker compact"><span>02</span><div><p class="eyebrow">YOUR INTERACTIVE SPACE</p><h2>Learning board</h2></div></div><p class="board-subtitle">Your lesson unfolds here, one clear idea at a time.</p></div>
+        <div class="board-controls"><button id="prevBtn" class="icon-btn" disabled aria-label="Previous step">←</button><span id="stepCounter">Ready when you are</span><button id="nextBtn" class="icon-btn" disabled aria-label="Next step">→</button></div>
+      </div>
+      <div id="status" class="status" role="status"><span class="status-pulse"></span> Your classroom is ready. Start a lesson above.</div>
+      <div id="board" class="board"><div class="empty-board"><div class="empty-illustration"><span class="empty-spark">✦</span><div class="empty-board-icon">▤</div><span class="empty-equation">a + b = ?</span></div><h3>Your learning board is ready</h3><p>Start a lesson and watch Pico break it into simple, visual steps.</p></div></div>
+      <div id="lessonActions" class="lesson-actions" hidden><button id="speakBtn" class="action-primary">▶ Start teaching aloud</button><button id="pauseBtn" class="action-secondary">Ⅱ Pause</button><button id="stopBtn" class="action-secondary">■ Stop</button></div>
+    </section>
 
+    <section class="followup"><div class="followup-icon">✦</div><div class="followup-content"><div><p class="eyebrow">GO ONE STEP FURTHER</p><h3>Still curious?</h3><p>Ask Pico to explain a tricky part, give another example or quiz you.</p></div><form id="followForm" class="follow-row"><input id="followInput" maxlength="1200" placeholder="Ask a follow-up about this lesson..." required><button type="submit" aria-label="Ask follow-up">Send <span>→</span></button></form></div></section>
+    <footer><span>✦ NavAI Teacher · Made for curious minds</span><span>Learn at your own pace.</span></footer>
+  </main>
+</div>
 
-
-<style id="navai-teacher-pearl-safe">
-/* NAVAI TEACHER — FULL LIGHT PEARL LAVENDER */
-
-/* Page background */
-html, body {
-    background: #f5f0fa !important;
-    background-color: #f5f0fa !important;
-    background-image: none !important;
-    color: #514064 !important;
-    color-scheme: light !important;
-}
-
-/* Every layout/container surface — remove black and navy */
-body div,
-body main,
-body section,
-body article,
-body aside,
-body header,
-body footer,
-body nav,
-body form {
-    background-color: #f5f0fa !important;
-    background-image: none !important;
-    border-color: #e3d8ed !important;
-    color: #514064 !important;
-}
-
-/* Teacher command area, input area and chat workspace */
-textarea,
-input,
-select,
-[contenteditable="true"],
-[class*="input"],
-[class*="composer"],
-[class*="prompt"],
-[class*="command"],
-[class*="chat"],
-[class*="message"],
-[class*="workspace"] {
-    background-color: #fffaff !important;
-    background-image: none !important;
-    color: #514064 !important;
-    border-color: #dfd1eb !important;
-}
-
-/* Pico surroundings — keep robot artwork untouched */
-[class*="pico"],
-[class*="robot"],
-[class*="mascot"],
-[class*="avatar"] {
-    background-color: #f5f0fa !important;
-    background-image: none !important;
-    border-color: #e3d8ed !important;
-}
-
-/* Preserve robot images, SVG artwork, canvas and animation */
-img, svg, canvas, video,
-svg *, canvas *, video * {
-    background-color: transparent !important;
-    background-image: none !important;
-}
-
-/* Cards and panels */
-[class*="card"],
-[class*="panel"],
-[class*="box"],
-[class*="container"] {
-    background-color: #fffaff !important;
-    border-color: #e5d9ee !important;
-    color: #514064 !important;
-}
-
-/* Headings and text */
-h1, h2, h3, h4, h5, h6, strong, b {
-    color: #514064 !important;
-    text-shadow: none !important;
-}
-
-p, label, small, li, span {
-    color: #796b88 !important;
-}
-
-/* Buttons */
-button, .btn, [role="button"] {
-    background: #eee6f6 !important;
-    color: #604b79 !important;
-    border-color: #dfd1ec !important;
-    box-shadow: none !important;
-}
-
-button.primary, .btn-primary, .primary-button,
-button[type="submit"] {
-    background: linear-gradient(110deg, #b99cda, #e9bcae) !important;
-    color: #ffffff !important;
-    border-color: transparent !important;
-}
-
-/* Popups */
-[role="dialog"], [role="menu"], .modal, .popup {
-    background: #fffaff !important;
-    color: #514064 !important;
-    border-color: #e3d8ed !important;
-}
-
-input::placeholder, textarea::placeholder {
-    color: #a495b2 !important;
-}
-
-hr {
-    border-color: #e3d8ed !important;
-}
-</style>
-
-<style>@import url('/static/navai-feature-final-lavender.css?v=1');</style>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script src="/classroom.js"></script><script src="/classroom-diagrams.js"></script><script src="/classroom-history.js"></script><script src="/math-renderer.js"></script>
+<script>
+(() => {
+ const button=document.getElementById("voiceAskBtn"),input=document.getElementById("topic");
+ if(!button||!input)return;
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){button.title="Voice input is not supported in this browser";button.addEventListener("click",()=>{const s=document.getElementById("status");if(s)s.textContent="Voice input is not supported in this browser. Type your question instead.";});return;}
+ const recognition=new SR();recognition.lang="en-IN";recognition.interimResults=false;recognition.maxAlternatives=1;let listening=false;
+ button.addEventListener("click",()=>{if(listening){recognition.stop();return;}try{recognition.start();}catch(_){}});
+ recognition.onstart=()=>{listening=true;button.innerHTML="<span>●</span> Listening…";button.classList.add("is-listening");const s=document.getElementById("status");if(s)s.textContent="Listening — say your lesson topic now.";};
+ recognition.onresult=e=>{input.value=e.results[0][0].transcript;input.focus();};
+ recognition.onerror=()=>{const s=document.getElementById("status");if(s)s.textContent="Couldn't hear that clearly. Try again or type your question.";};
+ recognition.onend=()=>{listening=false;button.innerHTML="<span>🎙</span> Ask by voice";button.classList.remove("is-listening");};
+})();
+</script>
+<script id="navaiSaathiWidgetJS" src="/saathi-widget.js"></script>
+</body></html>
