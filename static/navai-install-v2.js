@@ -1,10 +1,22 @@
-﻿(() => {
+(() => {
     "use strict";
 
     if (window.__NAVAI_INSTALL_V2__) return;
     window.__NAVAI_INSTALL_V2__ = true;
 
-    const installed = () =>
+    function isNativeNavAI() {
+        try {
+            return !!(
+                window.NavAIAndroid &&
+                typeof window.NavAIAndroid.isNativeApp === "function" &&
+                window.NavAIAndroid.isNativeApp() === true
+            );
+        } catch (error) {
+            return false;
+        }
+    }
+
+    const installed = () => isNativeNavAI() ||
         window.matchMedia("(display-mode: standalone)").matches ||
         window.matchMedia("(display-mode: fullscreen)").matches ||
         navigator.standalone === true ||
@@ -13,6 +25,7 @@
     let deferredPrompt = null;
 
     function createUI() {
+        if (isNativeNavAI()) return;
         if (document.getElementById("navai-install-v2")) return;
 
         const bar = document.createElement("div");
@@ -111,6 +124,9 @@
 
     window.addEventListener("beforeinstallprompt", event => {
         event.preventDefault();
+
+        if (isNativeNavAI()) return;
+
         deferredPrompt = event;
 
         if (!installed()) {
