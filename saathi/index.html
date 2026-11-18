@@ -290,10 +290,22 @@
 
 <script>
 (function () {
-  // The Android app loads its bundled page using file://.
-  // Do not show the website download gate inside the installed app.
-  if (location.protocol === "file:" ||
-      (window.SaathiAndroid && typeof window.SaathiAndroid === "object")) {
+  // Detect the installed full NavAI Android application.
+  // The native Android bridge is registered as NavAIAndroid.
+  var isNativeNavAI = false;
+
+  try {
+    isNativeNavAI = !!(
+      window.NavAIAndroid &&
+      typeof window.NavAIAndroid.isNativeApp === "function" &&
+      window.NavAIAndroid.isNativeApp() === true
+    );
+  } catch (error) {
+    isNativeNavAI = false;
+  }
+
+  // Never show the APK download gate inside the installed NavAI app.
+  if (location.protocol === "file:" || isNativeNavAI) {
     var gate = document.getElementById("navai-saathi-download-gate");
     if (gate) gate.remove();
     return;
@@ -312,3 +324,4 @@
 
 </body>
 </html>
+
