@@ -783,7 +783,7 @@ function startRoutineReminder(routine,today){
   // Browser notification is optional; voice reminder works independently.
   notify(
     "NavAI Saathi - Routine reminder",
-    "It's time for: " + routine.title,
+    getRoutineReminderMessage(routine.title),
     "navai-routine-" + routine.id + "-" + today
   );
 
@@ -855,7 +855,7 @@ function scheduleNativeRoutine(routine){
       String(target.getDate()).padStart(2,"0");
     const nativeId = String(routine.id) + "-" + dateKey;
     try{
-      window.NavAIAndroid.scheduleReminder(nativeId, String(routine.title), getRoutineReminderLanguage(), target.getTime());
+      window.NavAIAndroid.scheduleReminder(nativeId, String(routine.title), getRoutineReminderMessage(routine.title), getRoutineReminderLanguage(), target.getTime());
       scheduled++;
     }catch(error){ console.error("Native reminder scheduling failed", error); }
   }
