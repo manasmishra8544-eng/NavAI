@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f4fc">
   <title>NavAI Saathi — Your Personal Companion</title>
+<link rel="icon" type="image/png" sizes="48x48" href="/static/navai-favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/static/navai-apple-touch-icon.png">
   <link rel="stylesheet" href="/saathi/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -212,5 +214,104 @@
   </div>
   <div class="toast" id="toast"></div>
   <script src="/saathi/script.js"></script>
+
+<!-- NAVAI SAATHI DOWNLOAD GATE -->
+<style id="navai-saathi-download-gate-style">
+#navai-saathi-download-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: rgba(245, 241, 255, .97);
+  backdrop-filter: blur(16px);
+  font-family: inherit;
+}
+#navai-saathi-download-gate .gate-card {
+  width: min(440px, 100%);
+  padding: 30px 24px;
+  text-align: center;
+  border: 1px solid #e7dcfa;
+  border-radius: 25px;
+  background: #fff;
+  box-shadow: 0 20px 70px rgba(83, 55, 130, .13);
+}
+#navai-saathi-download-gate h2 {
+  margin: 0 0 12px;
+  color: #302344;
+  font-size: 25px;
+}
+#navai-saathi-download-gate p {
+  color: #71677f;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+#navai-saathi-download-gate a,
+#navai-saathi-download-gate button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 14px;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+#navai-saathi-download-gate .download-btn {
+  color: #fff;
+  background: linear-gradient(120deg,#9275d5,#c18bc9);
+}
+#navai-saathi-download-gate .continue-btn {
+  color: #604b80;
+  background: #f3edfc;
+}
+</style>
+
+<div id="navai-saathi-download-gate">
+  <div class="gate-card">
+    <h2>Welcome to NavAI Saathi</h2>
+    <p>Download the NavAI website app package to use NavAI Saathi on your Android device.</p>
+    <a class="download-btn"
+       href="/static/downloads/navai-saathi.apk"
+       download="NavAI-Saathi.apk">
+       Download Website
+    </a>
+    <button class="continue-btn" id="navai-saathi-continue" type="button">
+      Continue to Saathi
+    </button>
+    <p style="font-size:12px;margin:16px 0 0">
+      Android APK download. Install it from your device's downloads when ready.
+    </p>
+  </div>
+</div>
+
+<script>
+(function () {
+  // The Android app loads its bundled page using file://.
+  // Do not show the website download gate inside the installed app.
+  if (location.protocol === "file:" ||
+      (window.SaathiAndroid && typeof window.SaathiAndroid === "object")) {
+    var gate = document.getElementById("navai-saathi-download-gate");
+    if (gate) gate.remove();
+    return;
+  }
+
+  var continueButton = document.getElementById("navai-saathi-continue");
+  if (continueButton) {
+    continueButton.addEventListener("click", function () {
+      var gate = document.getElementById("navai-saathi-download-gate");
+      if (gate) gate.remove();
+    });
+  }
+})();
+</script>
+<!-- END NAVAI SAATHI DOWNLOAD GATE -->
+
 </body>
 </html>
+

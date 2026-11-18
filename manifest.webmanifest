@@ -1,24 +1,4 @@
-{
-    "icons":  [
-                  {
-                      "purpose":  "any",
-                      "type":  "image/png",
-                      "sizes":  "192x192",
-                      "src":  "/static/pwa/navai-icon-192.png"
-                  },
-                  {
-                      "purpose":  "any",
-                      "type":  "image/png",
-                      "sizes":  "512x512",
-                      "src":  "/static/pwa/navai-icon-512.png"
-                  },
-                  {
-                      "purpose":  "maskable",
-                      "type":  "image/png",
-                      "sizes":  "512x512",
-                      "src":  "/static/pwa/navai-icon-maskable-512.png"
-                  }
-              ],
+﻿{
     "description":  "NavAI - Intelligent Learning Platform",
     "categories":  [
                        "education",
@@ -33,5 +13,19 @@
     "display":  "standalone",
     "theme_color":  "#49316F",
     "background_color":  "#17142F",
-    "prefer_related_applications":  false
+    "prefer_related_applications":  false,
+    "icons":  [
+                  {
+                      "purpose":  "any",
+                      "type":  "image/png",
+                      "sizes":  "192x192",
+                      "src":  "/static/navai-icon-192.png"
+                  },
+                  {
+                      "purpose":  "any",
+                      "type":  "image/png",
+                      "sizes":  "512x512",
+                      "src":  "/static/navai-icon-512.png"
+                  }
+              ]
 }
