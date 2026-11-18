@@ -855,7 +855,7 @@ function scheduleNativeRoutine(routine){
       String(target.getDate()).padStart(2,"0");
     const nativeId = String(routine.id) + "-" + dateKey;
     try{
-      window.NavAIAndroid.scheduleReminder(nativeId, String(routine.title), target.getTime());
+      window.NavAIAndroid.scheduleReminder(nativeId, String(routine.title), getRoutineReminderLanguage(), target.getTime());
       scheduled++;
     }catch(error){ console.error("Native reminder scheduling failed", error); }
   }
