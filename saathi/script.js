@@ -579,7 +579,7 @@ function getRoutineReminderMessage(title){
 
   let category = "";
 
-  if(/wake[\s-]*up|wakeup|morning|uthna|uthne|subah|उठने|उठना|सुबह/.test(task)){
+  if(/wake[\s-]*up|wakeup|wake|morning|get[\s-]*up|rise|uthna|uthne|utho|uth|subah|jago|jaago|उठ|जाग|सुबह/.test(task)){
     category = "wake";
   }else if(/sleep|bedtime|go to bed|sona|sone|सोना|सोने|नींद/.test(task)){
     category = "sleep";
