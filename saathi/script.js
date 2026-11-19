@@ -385,6 +385,43 @@ function speak(text){
     console.error("Saathi speech error:",error);
   }
 }
+function getOpenAppCommand(transcript){
+  const value = String(transcript || "")
+    .toLowerCase()
+    .replace(/[.,!?]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const openIntent =
+    /\b(open|launch|start|chalao|khol|kholo|kholna)\b|खोलो|खोल|चालू करो|ओपन/i;
+
+  if(!openIntent.test(value)) return null;
+
+  if(/whats?app|व्हाट्स.?एप|व्हाट्सएप|व्हाट्स अप/i.test(value)){
+    return "WhatsApp";
+  }
+
+  if(/youtube|यूट्यूब/i.test(value)){
+    return "YouTube";
+  }
+
+  if(/calculator|कैलकुलेटर/i.test(value)){
+    return "Calculator";
+  }
+
+  if(/chrome|क्रोम/i.test(value)){
+    return "Chrome";
+  }
+
+  let name = value
+    .replace(/^(please\s+)?(open|launch|start)\s+/i, "")
+    .replace(/\s+(please\s+)?(open|launch|start|khol|kholo|kholna|chalao|open karo)$/i, "")
+    .replace(/\s+(खोलो|खोल|खोलना|ओपन करो)$/i, "")
+    .trim();
+
+  return name || null;
+}
+
 function startVoice(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -406,7 +443,27 @@ function startVoice(){
   recognition.maxAlternatives = 3;
 
   recognition.onresult = e => {
-    $("chatInput").value = e.results[0][0].transcript || "";
+    const transcript = e.results[0][0].transcript || "";
+    const appName = getOpenAppCommand(transcript);
+
+    if (
+      appName &&
+      window.NavAIAndroid &&
+      typeof window.NavAIAndroid.openApp === "function"
+    ) {
+      const opened = window.NavAIAndroid.openApp(appName);
+
+      if(opened){
+        addMessage("user", transcript);
+        const reply = "Theek hai, " + appName + " khol raha hoon.";
+        addMessage("assistant", reply);
+        speak(reply);
+        $("chatInput").value = "";
+        return;
+      }
+    }
+
+    $("chatInput").value = transcript;
     $("chatInput").focus();
   };
 
