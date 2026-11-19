@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   if (window.__navAIVoiceInstalled) return;
   window.__navAIVoiceInstalled = true;
 
@@ -101,6 +101,26 @@
     const mic = panel.querySelector("#navai-mic");
     const setStatus = text => { status.textContent = text; };
 
+    document.addEventListener("navai:assistant-reply", event => {
+      const answer = String(event.detail?.text || "").trim();
+
+      if (!answer || !window.speechSynthesis ||
+          typeof SpeechSynthesisUtterance === "undefined") {
+        setStatus("Voice playback is unavailable in this browser.");
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(answer.slice(0, 8000));
+      utterance.lang = language.value || "en-IN";
+      utterance.onstart = () => setStatus("Speaking NavAI's answer...");
+      utterance.onend = () => setStatus("Finished speaking.");
+      utterance.onerror = () => setStatus("Could not play voice.");
+
+      window.speechSynthesis.speak(utterance);
+    });
+
     // Use the existing + button to open the menu.
     plus.addEventListener("click", event => {
       event.preventDefault();
@@ -152,8 +172,16 @@
         ).set;
         setter.call(input, text);
         input.dispatchEvent(new Event("input", { bubbles: true }));
-        input.focus();
-        setStatus("Text added. Check it and press Send.");
+        form.dataset.navaiVoiceSubmission = "true";
+        setStatus("Sending your voice message to NavAI...");
+        if (typeof form.requestSubmit === "function") {
+          form.requestSubmit();
+        } else {
+          form.dispatchEvent(new Event("submit", {
+            bubbles: true,
+            cancelable: true
+          }));
+        }
       };
 
       recognition.onerror = event => {

@@ -463,8 +463,9 @@ function startVoice(){
       }
     }
 
-    $("chatInput").value = transcript;
-    $("chatInput").focus();
+    if(transcript.trim()){
+      sendMessage(transcript);
+    }
   };
 
   recognition.onerror = () => {

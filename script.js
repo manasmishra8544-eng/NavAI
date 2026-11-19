@@ -558,9 +558,17 @@ chatForm.addEventListener("submit", async event => {
             typingRow.remove();
             renderMessage(assistantMessage);
             scrollToBottom();
+
+            if (chatForm.dataset.navaiVoiceSubmission === "true") {
+                delete chatForm.dataset.navaiVoiceSubmission;
+                document.dispatchEvent(new CustomEvent("navai:assistant-reply", {
+                    detail: { text: aiReply }
+                }));
+            }
         }
     } catch (error) {
         console.error("NavAI request failed:", error);
+        delete chatForm.dataset.navaiVoiceSubmission;
 
         const errorMessage = {
             role: "assistant",
