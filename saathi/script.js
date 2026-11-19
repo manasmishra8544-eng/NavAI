@@ -527,20 +527,94 @@ function getRoutineReminderLanguage(){
 
 function getRoutineReminderMessage(title){
   const language = getRoutineReminderLanguage();
-  const safeTitle = String(title || "your activity");
+  const task = String(title || "").trim().toLowerCase();
+
+  const messages = {
+    wake: {
+      hindi: "सुप्रभात…\n\nउठने का समय हो गया है ना… चलो, अब आराम से उठ जाओ। सुबह हो गई है।",
+      hinglish: "सुप्रभात…\n\nउठने का समय हो गया है ना… चलो, अब आराम से उठ जाओ। सुबह हो गई है।",
+      english: "Good morning… It's time to wake up. Take your time and get up gently."
+    },
+    sleep: {
+      hindi: "सोने का समय हो गया है… चलो, अब आराम से सो जाओ।",
+      hinglish: "सोने का समय हो गया है… चलो, अब आराम से सो जाओ।",
+      english: "It's time to sleep… Let's get some good rest now."
+    },
+    food: {
+      hindi: "खाने का समय हो गया है… चलो, अब थोड़ा खाना खा लो।",
+      hinglish: "खाने का समय हो गया है… चलो, अब थोड़ा खाना खा लो।",
+      english: "It's time to eat… Come on, have something to eat."
+    },
+    rest: {
+      hindi: "अब थोड़ा आराम कर लो… आज थक गए होगे।",
+      hinglish: "अब थोड़ा आराम कर लो… आज थक गए होगे।",
+      english: "Take a little rest now… You must have had a tiring day."
+    },
+    gym: {
+      hindi: "चलो, अब जिम चलने का समय हो गया है… आराम से तैयार हो जाओ।",
+      hinglish: "चलो, अब जिम चलने का समय हो गया है… आराम से तैयार हो जाओ।",
+      english: "It's time for the gym… Get ready at your own pace."
+    },
+    study: {
+      hindi: "चलो, अब पढ़ाई शुरू करने का समय हो गया है… आराम से बैठो और शुरू करो।",
+      hinglish: "चलो, अब पढ़ाई शुरू करने का समय हो गया है… आराम से बैठो और शुरू करो।",
+      english: "It's time to study… Get comfortable and let's get started."
+    },
+    homework: {
+      hindi: "अब होमवर्क करने का समय हो गया है… चलो, आराम से शुरू करो।",
+      hinglish: "अब होमवर्क करने का समय हो गया है… चलो, आराम से शुरू करो।",
+      english: "It's time for homework… Let's get started calmly."
+    },
+    school: {
+      hindi: "स्कूल जाने का समय हो गया है… चलो, अब तैयार हो जाओ।",
+      hinglish: "स्कूल जाने का समय हो गया है… चलो, अब तैयार हो जाओ।",
+      english: "It's time for school… Come on, get ready."
+    },
+    water: {
+      hindi: "पानी पीने का समय हो गया है… चलो, थोड़ा पानी पी लो।",
+      hinglish: "पानी पीने का समय हो गया है… चलो, थोड़ा पानी पी लो।",
+      english: "Time to drink some water… Have a little water."
+    }
+  };
+
+  let category = "";
+
+  if(/wake[\s-]*up|wakeup|morning|uthna|uthne|subah|उठने|उठना|सुबह/.test(task)){
+    category = "wake";
+  }else if(/sleep|bedtime|go to bed|sona|sone|सोना|सोने|नींद/.test(task)){
+    category = "sleep";
+  }else if(/breakfast|lunch|dinner|food|eat|meal|khana|khana khana|खाना|नाश्ता|भोजन/.test(task)){
+    category = "food";
+  }else if(/rest|relax|break|aaram|आराम|विश्राम/.test(task)){
+    category = "rest";
+  }else if(/gym|workout|exercise|व्यायाम|जिम|कसरत/.test(task)){
+    category = "gym";
+  }else if(/homework|assignment|होमवर्क|गृहकार्य/.test(task)){
+    category = "homework";
+  }else if(/study|studying|revision|padhai|पढ़ाई|अध्ययन/.test(task)){
+    category = "study";
+  }else if(/school|विद्यालय|स्कूल/.test(task)){
+    category = "school";
+  }else if(/water|drink water|paani|पानी/.test(task)){
+    category = "water";
+  }
+
+  const selectedLanguage = messages[category];
+  if(selectedLanguage){
+    return selectedLanguage[language] || selectedLanguage.hinglish;
+  }
+
+  const safeTitle = String(title || "your activity").trim();
 
   if(language === "hindi"){
-    return "नमस्ते! " + safeTitle +
-      " का समय हो गया है। ठीक है, कर लो।";
+    return "अब " + safeTitle + " का समय है… चलो, आराम से शुरू करो।";
   }
 
   if(language === "english"){
-    return "Hello! It's time for " + safeTitle +
-      ". You can do this.";
+    return "It's time for " + safeTitle + "… Take your time and get started.";
   }
 
-  return "Hey! " + safeTitle +
-    " ka time ho gaya hai. Theek hai, kar lo.";
+  return "अब " + safeTitle + " का समय है… चलो, आराम से शुरू करो।";
 }
 function createRoutineReminderPanel(){
   if(routineReminderState.panel &&
