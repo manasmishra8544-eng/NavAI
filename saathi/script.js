@@ -998,5 +998,512 @@ function init(){
   syncNativeRoutineReminders();
   setInterval(scheduleCheck,10000);
 }
+
+// NAVAI_SMART_REMINDER_UPGRADE_V1
+// Smart language, time greeting, AI message generation and one-notification voice loop.
+
+const NAVAI_REMINDER_SEPARATOR = "\n---NAVAI-SAATHI-NEXT---\n";
+
+function navaiReminderLanguage(){
+  return getRoutineReminderLanguage();
+}
+
+function navaiReminderGreeting(language){
+  const hour = new Date().getHours();
+
+  if(language === "hindi"){
+    if(hour >= 4 && hour < 12) return "सुप्रभात!";
+    if(hour >= 12 && hour < 17) return "नमस्ते!";
+    if(hour >= 17 && hour < 21) return "शुभ संध्या!";
+    return "शुभ रात्रि!";
+  }
+
+  if(language === "english"){
+    if(hour >= 4 && hour < 12) return "Good morning!";
+    if(hour >= 12 && hour < 17) return "Hello!";
+    if(hour >= 17 && hour < 21) return "Good evening!";
+    return "Good night!";
+  }
+
+  if(hour >= 4 && hour < 12) return "Namaste! Good morning!";
+  if(hour >= 12 && hour < 17) return "Namaste!";
+  if(hour >= 17 && hour < 21) return "Namaste! Good evening!";
+  return "Namaste! Good night!";
+}
+
+const NAVAI_REMINDER_ACTIVITIES = [
+  {
+    words: ["play","playing","game","gaming","khel","khelna","khelne","खेल","खेलना","खेलने","खेलकूद","cricket","football","badminton","basketball","hockey","tennis","outdoor","ground"],
+    hindi: "खेलने",
+    hinglish: "khelne",
+    english: "play",
+    lines: {
+      hindi: ["खेलने का समय हो गया है। चलो, अब खेलने चलते हैं।","चलो, थोड़ा खेल लेते हैं।","तुम्हारा खेलने का समय है। तैयार हो जाओ।","अरे, खेलना है ना? चलो, अब चलते हैं।","अब खेल का समय है। चलो शुरू करते हैं।"],
+      hinglish: ["Khelne ka time ho gaya hai. Chalo, ab khelne chalte hain.","Chalo, thoda khel lete hain.","Tumhara play time hai. Ready ho jao.","Arey, khelna hai na? Chalo ab chalte hain.","Ab game time hai. Chalo shuru karte hain."],
+      english: ["It's time to play. Come on, let's go.","Let's enjoy some playtime.","Your playtime is here. Get ready.","Come on, it's time to play.","Let's get started with your game."]
+    }
+  },
+  {
+    words: ["wake","wakeup","getup","uth","uthna","uthne","जाग","जागना","उठ","उठना","उठने","morning walk"],
+    hindi: "उठने",
+    hinglish: "uthne",
+    english: "wake up",
+    lines: {
+      hindi: ["उठने का समय हो गया है। चलो, अब उठ जाओ।","सुप्रभात! अब दिन की शुरुआत करते हैं।","चलो, बिस्तर छोड़ने का समय हो गया है।","अरे, अब उठ भी जाओ। दिन शुरू करते हैं।","चलो, आज का दिन अच्छे से शुरू करते हैं।"],
+      hinglish: ["Uthne ka time ho gaya hai. Chalo, ab uth jao.","Good morning! Ab din shuru karte hain.","Chalo, bed se uthne ka time ho gaya.","Arey, ab uth bhi jao. Din shuru karte hain.","Chalo, aaj ka din achhe se shuru karte hain."],
+      english: ["It's time to wake up. Come on, get up.","Good morning! Let's start the day.","Time to get out of bed.","Come on, let's get your day started.","Let's make a fresh start today."]
+    }
+  },
+  {
+    words: ["sleep","sleeping","bedtime","sona","sone","soja","सोना","सोने","नींद","rest at night"],
+    hindi: "सोने",
+    hinglish: "sone",
+    english: "sleep",
+    lines: {
+      hindi: ["सोने का समय हो गया है। अब आराम करो।","चलो, अब दिन खत्म करके आराम करते हैं।","अब फोन रखकर सोने की तैयारी करो।","काफी हो गया, अब आराम का समय है।","शुभ रात्रि! अच्छे से आराम करना।"],
+      hinglish: ["Sone ka time ho gaya hai. Ab aaram karo.","Chalo, ab din khatam karke rest karte hain.","Ab phone rakhkar sone ki taiyari karo.","Kaafi ho gaya, ab rest ka time hai.","Good night! Achhe se aaram karna."],
+      english: ["It's bedtime. Time to get some rest.","Let's wind down and get some sleep.","Put your phone aside and get ready for bed.","It's time to rest now.","Good night! Sleep well."]
+    }
+  },
+  {
+    words: ["dinner","raat ka khana","night meal","डिनर","रात का खाना"],
+    hindi: "रात का खाना खाने",
+    hinglish: "dinner karne",
+    english: "have dinner",
+    lines: {
+      hindi: ["रात का खाना खाने का समय हो गया है। चलो, खाना खा लो।","चलो, अब डिनर कर लेते हैं।","खाने का समय है। आराम से खाना खाओ।","अरे, डिनर तैयार है तो चलो खाना खाते हैं।","अब खाना खाने का समय है।"],
+      hinglish: ["Dinner ka time ho gaya hai. Chalo, khana kha lo.","Chalo, ab dinner kar lete hain.","Khaane ka time hai. Aaram se khana khao.","Arey, dinner ka time hai. Chalo khate hain.","Ab dinner karne ka time hai."],
+      english: ["It's dinner time. Come and have your meal.","Let's have dinner now.","It's time to sit down for dinner.","Come on, dinner time!","Time to have your evening meal."]
+    }
+  },
+  {
+    words: ["breakfast","nashta","nasta","सुबह का खाना","नाश्ता"],
+    hindi: "नाश्ता करने",
+    hinglish: "nashta karne",
+    english: "have breakfast",
+    lines: {
+      hindi: ["नाश्ते का समय हो गया है। चलो, नाश्ता कर लो।","चलो, सुबह का नाश्ता कर लेते हैं।","दिन की शुरुआत नाश्ते से करते हैं।","अरे, नाश्ता करना मत भूलना।","अब कुछ खा लेने का समय है।"],
+      hinglish: ["Nashta ka time ho gaya hai. Chalo, nashta kar lo.","Chalo, subah ka nashta kar lete hain.","Din ki shuruaat nashta karke karte hain.","Arey, nashta karna mat bhoolna.","Ab kuch kha lene ka time hai."],
+      english: ["It's breakfast time. Come and eat.","Let's have breakfast.","Start your day with breakfast.","Don't forget your breakfast.","It's time to eat something."]
+    }
+  },
+  {
+    words: ["lunch","dopehar ka khana","दोपहर का खाना","लंच"],
+    hindi: "दोपहर का खाना खाने",
+    hinglish: "lunch karne",
+    english: "have lunch",
+    lines: {
+      hindi: ["दोपहर के खाने का समय हो गया है। चलो, खाना खा लो।","चलो, अब लंच कर लेते हैं।","काम थोड़ी देर रोककर खाना खा लो।","खाने का समय है।","अब लंच करने चलते हैं।"],
+      hinglish: ["Lunch ka time ho gaya hai. Chalo, khana kha lo.","Chalo, ab lunch kar lete hain.","Kaam thodi der rok kar khana kha lo.","Khaane ka time ho gaya hai.","Ab lunch karne chalte hain."],
+      english: ["It's lunchtime. Come and eat.","Let's have lunch now.","Take a break and enjoy your lunch.","It's time for your midday meal.","Come on, let's have lunch."]
+    }
+  },
+  {
+    words: ["study","studying","padhai","padhna","पढ़ाई","पढ़ना","books","book reading","revision","revise","रिवीजन","अध्ययन"],
+    hindi: "पढ़ाई करने",
+    hinglish: "padhai karne",
+    english: "study",
+    lines: {
+      hindi: ["पढ़ाई का समय हो गया है। चलो, शुरू करते हैं।","चलो, आज थोड़ा मन लगाकर पढ़ते हैं।","किताबें खोलने का समय हो गया है।","अब ध्यान से पढ़ाई शुरू करते हैं।","चलो, अपने लक्ष्य की तरफ एक कदम बढ़ाते हैं।"],
+      hinglish: ["Padhai ka time ho gaya hai. Chalo, shuru karte hain.","Chalo, aaj thoda mann lagakar padhte hain.","Books kholne ka time ho gaya hai.","Ab focus ke saath padhai shuru karte hain.","Chalo, apne goal ki taraf ek step badhate hain."],
+      english: ["It's study time. Let's get started.","Let's focus and study for a while.","Time to open your books.","Let's begin your study session.","One step closer to your goals. Let's study."]
+    }
+  },
+  {
+    words: ["homework","home work","गृहकार्य","होमवर्क","assignment","असाइनमेंट"],
+    hindi: "होमवर्क करने",
+    hinglish: "homework karne",
+    english: "do your homework",
+    lines: {
+      hindi: ["होमवर्क करने का समय हो गया है। चलो शुरू करो।","चलो, आज का काम पूरा कर लेते हैं।","होमवर्क थोड़ा-थोड़ा करके पूरा करते हैं।","अब असाइनमेंट पर ध्यान देने का समय है।","चलो, काम पूरा करके फिर आराम करेंगे।"],
+      hinglish: ["Homework ka time ho gaya hai. Chalo shuru karo.","Chalo, aaj ka kaam poora kar lete hain.","Homework thoda-thoda karke complete karte hain.","Ab assignment par focus karne ka time hai.","Chalo, kaam poora karke phir aaram karenge."],
+      english: ["It's homework time. Let's begin.","Let's finish today's work.","Time to work on your homework.","Let's focus on your assignment.","Finish your work and then take a break."]
+    }
+  },
+  {
+    words: ["exercise","workout","gym","yoga","व्यायाम","कसरत","योग","running","jogging"," दौड़"," दौड़ना","walk","walking","टहलना","टहलने"],
+    hindi: "व्यायाम करने",
+    hinglish: "exercise karne",
+    english: "exercise",
+    lines: {
+      hindi: ["व्यायाम का समय हो गया है। चलो, शुरुआत करते हैं।","थोड़ा चलने-फिरने का समय है।","चलो, आज की एक्सरसाइज कर लेते हैं।","अब शरीर को सक्रिय करने का समय है।","चलो, अपनी सुविधा के हिसाब से हल्की कसरत करते हैं।"],
+      hinglish: ["Exercise ka time ho gaya hai. Chalo shuru karte hain.","Thoda walk karne ka time hai.","Chalo, aaj ki workout kar lete hain.","Ab body ko active karne ka time hai.","Chalo, apni comfort ke hisaab se exercise karte hain."],
+      english: ["It's time to exercise. Let's get started.","Time for a little walk.","Let's do your planned workout.","Time to get moving.","Let's do some comfortable, gentle exercise."]
+    }
+  },
+  {
+    words: ["water","paani","पानी","drink water","hydrate","hydration","जल"],
+    hindi: "पानी पीने",
+    hinglish: "paani peene",
+    english: "drink water",
+    lines: {
+      hindi: ["पानी पीने का समय है। थोड़ा पानी पी लो।","चलो, पानी पीना याद रखते हैं।","एक गिलास पानी पी लो।","पानी पास में रखो और थोड़ा पी लो।","अपना ध्यान रखना, पानी पी लेना।"],
+      hinglish: ["Paani peene ka time hai. Thoda paani pee lo.","Chalo, paani peena yaad rakhte hain.","Ek glass paani pee lo.","Paani paas rakho aur thoda pee lo.","Apna dhyan rakhna, paani pee lena."],
+      english: ["It's time to drink some water.","Remember to have some water.","Have a glass of water.","Keep some water nearby and take a drink.","Take care and remember to hydrate."]
+    }
+  },
+  {
+    words: ["brush","brushing","brush teeth","दांत साफ","दाँत साफ","ब्रश","toothbrush"],
+    hindi: "दाँत साफ करने",
+    hinglish: "brush karne",
+    english: "brush your teeth",
+    lines: {
+      hindi: ["दाँत साफ करने का समय हो गया है।","चलो, अब ब्रश कर लो।","अपनी सुबह या रात की सफाई पूरी कर लो।","ब्रश करना मत भूलना।","चलो, अब दाँत साफ कर लेते हैं।"],
+      hinglish: ["Brush karne ka time ho gaya hai.","Chalo, ab brush kar lo.","Apni morning ya night routine complete kar lo.","Brush karna mat bhoolna.","Chalo, ab teeth clean kar lete hain."],
+      english: ["It's time to brush your teeth.","Come on, brush your teeth now.","Time for your dental routine.","Don't forget to brush.","Let's get your teeth clean."]
+    }
+  },
+  {
+    words: ["bath","bathing","shower","nahana","स्नान","नहाना","नहाने"],
+    hindi: "नहाने",
+    hinglish: "nahane",
+    english: "take a bath",
+    lines: {
+      hindi: ["नहाने का समय हो गया है। चलो, तैयार हो जाओ।","चलो, अब नहा लेते हैं।","ताज़ा होने का समय है।","अब अपनी सफाई की दिनचर्या पूरी कर लो।","चलो, अब नहाने चलते हैं।"],
+      hinglish: ["Nahane ka time ho gaya hai. Chalo ready ho jao.","Chalo, ab naha lete hain.","Fresh hone ka time hai.","Ab apni hygiene routine complete kar lo.","Chalo, ab nahane chalte hain."],
+      english: ["It's time to take a bath.","Let's get ready for a shower.","Time to freshen up.","Time for your personal care routine.","Come on, let's get ready."]
+    }
+  },
+  {
+    words: ["school","school bus","स्कूल","विद्यालय","school jaana","school जाना"],
+    hindi: "स्कूल जाने",
+    hinglish: "school jaane",
+    english: "go to school",
+    lines: {
+      hindi: ["स्कूल जाने का समय हो गया है। अपना बैग देख लो।","चलो, स्कूल के लिए तैयार हो जाओ।","अब निकलने की तैयारी करते हैं।","किताबें और जरूरी सामान रख लिया?","चलो, समय पर स्कूल चलते हैं।"],
+      hinglish: ["School jaane ka time ho gaya hai. Bag check kar lo.","Chalo, school ke liye ready ho jao.","Ab nikalne ki taiyari karte hain.","Books aur zaroori samaan rakh liya?","Chalo, time par school chalte hain."],
+      english: ["It's time to go to school. Check your bag.","Get ready for school.","Time to prepare to leave.","Have you packed your books and essentials?","Let's get to school on time."]
+    }
+  },
+  {
+    words: ["call","phone","mummy","mom","mother","मम्मी","माँ","मां","papa","dad","father","पापा","पिताजी","friend","दोस्त","दादी","नानी"],
+    hindi: "फ़ोन करने",
+    hinglish: "call karne",
+    english: "make your call",
+    lines: {
+      hindi: ["फ़ोन करने का समय हो गया है। चलो, कॉल कर लो।","जिसे फ़ोन करना था, उसे कॉल कर लो।","चलो, अब बात कर लेते हैं।","तुम्हारी कॉल वाली याद दिलाने आया हूँ।","अब फ़ोन करने का सही समय है।"],
+      hinglish: ["Call karne ka time ho gaya hai. Chalo, call kar lo.","Jise phone karna tha, unhe call kar lo.","Chalo, ab baat kar lete hain.","Tumhari call yaad dilane aaya hoon.","Ab phone karne ka time hai."],
+      english: ["It's time to make your call.","Remember to call the person you planned to.","Let's make that call now.","Here's your reminder to make a call.","It's time for your planned phone call."]
+    }
+  },
+  {
+    words: ["clean","cleaning","room","safai","सफाई","कमरा","कमरे","tidy","organize","organise","dusting","laundry","कपड़े धोना","washing clothes"],
+    hindi: "सफाई करने",
+    hinglish: "safai karne",
+    english: "clean up",
+    lines: {
+      hindi: ["सफाई का समय हो गया है। चलो, थोड़ा व्यवस्थित करते हैं।","चलो, अपना कमरा साफ कर लेते हैं।","थोड़ा-थोड़ा करके सब ठीक हो जाएगा।","अब सामान अपनी जगह रखने का समय है।","चलो, सफाई शुरू करते हैं।"],
+      hinglish: ["Safai ka time ho gaya hai. Chalo, thoda organize karte hain.","Chalo, apna room saaf kar lete hain.","Thoda-thoda karke sab theek ho jayega.","Ab samaan apni jagah rakhne ka time hai.","Chalo, cleaning shuru karte hain."],
+      english: ["It's time to tidy up.","Let's clean your room.","A little at a time will get it done.","Time to put things back in place.","Let's get started with cleaning."]
+    }
+  },
+  {
+    words: ["break","rest","आराम","विश्राम","ब्रेक","relax","relaxation"],
+    hindi: "आराम करने",
+    hinglish: "rest karne",
+    english: "take a break",
+    lines: {
+      hindi: ["थोड़ा आराम करने का समय हो गया है।","चलो, कुछ देर का ब्रेक लेते हैं।","अपना काम रोककर थोड़ा आराम कर लो।","थोड़ी देर खुद को समय दो।","चलो, अब थोड़ा रिलैक्स करते हैं।"],
+      hinglish: ["Thoda rest karne ka time ho gaya hai.","Chalo, kuch der ka break lete hain.","Kaam rok kar thoda aaram kar lo.","Thodi der khud ko time do.","Chalo, ab relax karte hain."],
+      english: ["It's time to take a break.","Let's pause for a little while.","Take a moment to rest.","Give yourself a little time.","Let's relax for a bit."]
+    }
+  }
+];
+
+function navaiDetectReminderActivity(title){
+  const value = String(title || "").toLowerCase().trim();
+  for(const activity of NAVAI_REMINDER_ACTIVITIES){
+    if(activity.words.some(word => value.includes(String(word).toLowerCase()))){
+      return activity;
+    }
+  }
+  return null;
+}
+
+function navaiLocalReminderMessages(title, language){
+  const activity = navaiDetectReminderActivity(title);
+
+  if(activity){
+    return activity.lines[language] || activity.lines.hinglish;
+  }
+
+  const safeTitle = String(title || "your activity").trim().slice(0,120);
+
+  if(language === "hindi"){
+    return [
+      "अब " + safeTitle + " का समय हो गया है। चलो, शुरू करते हैं।",
+      "याद है ना, तुम्हें " + safeTitle + " करना था।",
+      "चलो, अब " + safeTitle + " पर ध्यान देते हैं।",
+      "तुम्हारा रिमाइंडर है। " + safeTitle + " कर लेना।",
+      "अरे, अब " + safeTitle + " करने का समय है।"
+    ];
+  }
+
+  if(language === "english"){
+    return [
+      "It's time for " + safeTitle + ". Let's get started.",
+      "Just a reminder about " + safeTitle + ".",
+      "Let's focus on " + safeTitle + " now.",
+      "Don't forget your planned activity: " + safeTitle + ".",
+      "Come on, it's time for " + safeTitle + "."
+    ];
+  }
+
+  return [
+    safeTitle + " ka time ho gaya hai. Chalo shuru karte hain.",
+    "Yaad hai na, tumhe " + safeTitle + " karna tha.",
+    "Chalo, ab " + safeTitle + " par focus karte hain.",
+    "Tumhara reminder hai. " + safeTitle + " kar lena.",
+    "Arey, ab " + safeTitle + " ka time hai."
+  ];
+}
+
+function navaiGetRoutineMessages(routine){
+  if(routine && Array.isArray(routine.reminderMessages) &&
+     routine.reminderMessages.length >= 2){
+    return routine.reminderMessages.slice(0,6);
+  }
+
+  return navaiLocalReminderMessages(
+    routine && routine.title ? routine.title : routine,
+    navaiReminderLanguage()
+  );
+}
+
+async function navaiGenerateAIMessages(routine){
+  if(!routine || !routine.title || routine._navaiAiPending ||
+     routine._navaiAiDone) return;
+
+  routine._navaiAiPending = true;
+
+  try{
+    const language = navaiReminderLanguage();
+    const prompt =
+      "Create exactly 5 short, natural, different reminder voice sentences. " +
+      "The reminder title is: " + String(routine.title).slice(0,150) + ". " +
+      "Interpret and translate the meaning of the title into the selected language. " +
+      "Selected language: " + language + ". " +
+      "Do not merely repeat the original English title if a natural translation exists. " +
+      "For Hindi, use natural Hindi script. For Hinglish, use natural Roman Hinglish. " +
+      "For English, use natural English. " +
+      "Use warm, caring, family-like language, never romantic language. " +
+      "Make each sentence different, with gentle variation in tone. " +
+      "Do not include a time greeting; the app adds it at reminder time. " +
+      "Do not invent facts or extra actions. " +
+      "Return ONLY a JSON array of 5 strings.";
+
+    const response = await fetch("/api/saathi/chat",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        message:prompt,
+        mode:"chat",
+        context:"Generate reminder voice messages only.",
+        history:[]
+      })
+    });
+
+    if(!response.ok) throw new Error("AI request failed: " + response.status);
+
+    const result = await response.json();
+    let reply = String(result.reply || "").trim();
+
+    reply = reply.replace(/^```(?:json)?\s*/i,"").replace(/\s*```$/,"");
+
+    const first = reply.indexOf("[");
+    const last = reply.lastIndexOf("]");
+    if(first < 0 || last <= first) throw new Error("AI did not return a JSON array.");
+
+    const parsed = JSON.parse(reply.slice(first,last + 1));
+    if(!Array.isArray(parsed)) throw new Error("Invalid AI messages.");
+
+    const messages = parsed
+      .filter(item => typeof item === "string")
+      .map(item => item.trim())
+      .filter(item => item.length > 2 && item.length < 240);
+
+    if(messages.length < 3) throw new Error("Not enough AI messages.");
+
+    routine.reminderMessages = messages.slice(0,6);
+    routine._navaiAiDone = true;
+    routine._navaiAiPending = false;
+
+    save();
+
+    // Update already scheduled future alarms with AI-generated messages.
+    scheduleNativeRoutine(routine);
+  }catch(error){
+    routine._navaiAiPending = false;
+    console.warn("NavAI reminder AI fallback is active:",error);
+  }
+}
+
+function getRoutineReminderMessage(title){
+  const language = navaiReminderLanguage();
+  const messages = navaiLocalReminderMessages(title,language);
+  return navaiReminderGreeting(language) + " " + messages[0];
+}
+
+function speakRoutineReminder(){
+  const active = routineReminderState.active;
+  if(!active) return;
+
+  const messages = Array.isArray(active.messages) && active.messages.length
+    ? active.messages
+    : navaiLocalReminderMessages(active.title,navaiReminderLanguage());
+
+  const index = active.messageIndex || 0;
+  const language = navaiReminderLanguage();
+  let message = messages[index % messages.length];
+
+  if(index === 0){
+    message = navaiReminderGreeting(language) + " " + message;
+  }
+
+  active.messageIndex = index + 1;
+
+  const panel = createRoutineReminderPanel();
+  const panelMessage = panel.querySelector("#navaiReminderMessage");
+  if(panelMessage) panelMessage.textContent = message;
+
+  if(!("speechSynthesis" in window) ||
+     !("SpeechSynthesisUtterance" in window)){
+    routineReminderState.timer = setTimeout(speakRoutineReminder,2500);
+    return;
+  }
+
+  try{
+    window.speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(message);
+    speech.lang = language === "hindi" ? "hi-IN" :
+      language === "english" ? "en-IN" : "hi-IN";
+    speech.rate = 0.92;
+    speech.pitch = 1.03;
+
+    if(typeof getPreferredSaathiVoice === "function"){
+      const voice = getPreferredSaathiVoice();
+      if(voice) speech.voice = voice;
+    }
+
+    const activeKey = active.key;
+
+    const repeat = () => {
+      if(!routineReminderState.active ||
+         routineReminderState.active.key !== activeKey) return;
+
+      routineReminderState.timer = setTimeout(() => {
+        routineReminderState.timer = null;
+        speakRoutineReminder();
+      },1800);
+    };
+
+    speech.onend = repeat;
+    speech.onerror = repeat;
+
+    window.speechSynthesis.speak(speech);
+  }catch(error){
+    console.warn("Reminder voice error:",error);
+    routineReminderState.timer = setTimeout(speakRoutineReminder,2500);
+  }
+}
+
+function startRoutineReminder(routine,today){
+  if(routineReminderState.active) return;
+
+  const reminderKey =
+    KEY + ".routineReminder." + routine.id + "." + today;
+
+  if(localStorage.getItem(reminderKey) === "done") return;
+
+  const messages = navaiGetRoutineMessages(routine);
+
+  routineReminderState.active = {
+    id:routine.id,
+    title:String(routine.title),
+    key:reminderKey,
+    messages:messages,
+    messageIndex:0
+  };
+
+  const panel = createRoutineReminderPanel();
+  const message = panel.querySelector("#navaiReminderMessage");
+
+  if(message){
+    message.textContent =
+      navaiReminderGreeting(navaiReminderLanguage()) + " " + messages[0];
+  }
+
+  // Only one browser notification is created for this reminder.
+  notify(
+    "NavAI Saathi - Routine reminder",
+    navaiReminderGreeting(navaiReminderLanguage()) + " " + messages[0],
+    "navai-routine-" + routine.id + "-" + today
+  );
+
+  speakRoutineReminder();
+}
+
+function scheduleNativeRoutine(routine){
+  if(!window.NavAIAndroid ||
+     typeof window.NavAIAndroid.scheduleReminder !== "function") return false;
+
+  if(!routine || !routine.id || !routine.time || !routine.title) return false;
+
+  const parts = routine.time.split(":").map(Number);
+  if(parts.length !== 2 ||
+     parts[0] < 0 || parts[0] > 23 ||
+     parts[1] < 0 || parts[1] > 59) return false;
+
+  const messages = navaiGetRoutineMessages(routine);
+  const messagePayload = messages.join(NAVAI_REMINDER_SEPARATOR);
+  const now = new Date();
+  let scheduled = 0;
+
+  for(let dayOffset = 0; dayOffset < 14; dayOffset++){
+    const target = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + dayOffset,
+      parts[0],
+      parts[1],
+      0,
+      0
+    );
+
+    if(target.getTime() <= Date.now() + 5000) continue;
+
+    if(routine.repeat === "weekdays" &&
+       (target.getDay() === 0 || target.getDay() === 6)) continue;
+
+    const dateKey = target.getFullYear() + "-" +
+      String(target.getMonth()+1).padStart(2,"0") + "-" +
+      String(target.getDate()).padStart(2,"0");
+
+    const nativeId = String(routine.id) + "-" + dateKey;
+
+    try{
+      window.NavAIAndroid.scheduleReminder(
+        nativeId,
+        String(routine.title),
+        messagePayload,
+        navaiReminderLanguage(),
+        target.getTime()
+      );
+      scheduled++;
+    }catch(error){
+      console.error("Native reminder scheduling failed",error);
+    }
+  }
+
+  // Schedule local messages immediately. AI can replace them later.
+  if(!routine._navaiAiDone && !routine._navaiAiPending){
+    navaiGenerateAIMessages(routine);
+  }
+
+  return scheduled > 0;
+}
+// END NAVAI_SMART_REMINDER_UPGRADE_V1
+
 if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=populateVoiceOptions;}
 init();
