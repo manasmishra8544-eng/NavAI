@@ -865,6 +865,10 @@ function scheduleNativeRoutine(routine){
 function syncNativeRoutineReminders(){
   if(!window.NavAIAndroid) return;
   if(!data.settings.notifications) return;
+
+  if(typeof window.NavAIAndroid.hasReminderPermissions === "function" &&
+     !window.NavAIAndroid.hasReminderPermissions()) return;
+
   (data.routines || []).forEach(scheduleNativeRoutine);
 }
 
@@ -967,19 +971,26 @@ function init(){
   };
   $("saveSettings").onclick=saveSettings;
   $("enableNotifications").onclick=async()=>{
-    if(window.NavAIAndroid && window.NavAIAndroid.requestNotificationPermission){
-      window.NavAIAndroid.requestNotificationPermission();
-      data.settings.notifications=true;
-      save();fillSettings();
-      syncNativeRoutineReminders();
-      toast("Android permission prompt opened. Allow notifications to receive reminders.");
+    if(window.NavAIAndroid &&
+       typeof window.NavAIAndroid.requestReminderPermissions === "function"){
+      window.navaiPermissionRequestPending=true;
+      window.NavAIAndroid.requestReminderPermissions();
+      toast("Allow notification and exact alarm permissions for Saathi.");
       return;
     }
-    if(!("Notification" in window)){toast("Browser notifications are unavailable here. Open Saathi in the NavAI Android app.");return;}
+
+    if(!("Notification" in window)){
+      toast("Browser notifications are unavailable here. Open Saathi in the NavAI Android app.");
+      return;
+    }
+
     const permission=await Notification.requestPermission();
     data.settings.notifications=permission==="granted";
-    save();fillSettings();
+    save();
+    fillSettings();
+
     if(permission==="granted") syncNativeRoutineReminders();
+
     toast(permission==="granted"?"Browser notifications enabled.":"Permission not granted.");
   };
   $("moodResult").textContent=data.moods.length?"Last check-in: "+data.moods[data.moods.length-1].mood:"";
@@ -1505,5 +1516,26 @@ function scheduleNativeRoutine(routine){
 }
 // END NAVAI_SMART_REMINDER_UPGRADE_V1
 
+
+// Android permission result callback.
+window.navaiPermissionRequestPending = false;
+
+window.navaiNativePermissionsChanged = function(granted){
+  const allowed = granted === true;
+  const wasPending = window.navaiPermissionRequestPending;
+
+  window.navaiPermissionRequestPending = false;
+
+  data.settings.notifications = allowed;
+  save();
+  fillSettings();
+
+  if(allowed){
+    syncNativeRoutineReminders();
+    if(wasPending) toast("Saathi notifications and exact alarms are enabled.");
+  }else if(wasPending){
+    toast("Please allow both notification and exact alarm permissions.");
+  }
+};
 if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=populateVoiceOptions;}
 init();
