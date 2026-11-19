@@ -510,7 +510,8 @@ function saveSettings(){
     notifications:$("notifications").checked,
     auto:$("autoCheckin").checked,
     quietStart:$("quietStart").value,
-    quietEnd:$("quietEnd").value
+    quietEnd:$("quietEnd").value,
+    wakeWord:!!data.settings.wakeWord
   };
   save();
   if(data.settings.notifications) syncNativeRoutineReminders();
@@ -522,6 +523,7 @@ function fillSettings(){
   $("autoCheckin").checked=data.settings.auto;
   $("quietStart").value=data.settings.quietStart;
   $("quietEnd").value=data.settings.quietEnd;
+  $("wakeWordListening").checked=!!data.settings.wakeWord;
 }
 function inQuietHours(){
   const [sh,sm]=data.settings.quietStart.split(":").map(Number);
@@ -1018,6 +1020,14 @@ function scheduleCheck(){
 
   checkRoutineReminders();
 }
+window.navaiWakeWordStateChanged = function(enabled, message){
+  data.settings = {...data.settings, wakeWord:!!enabled};
+  const toggle = $("wakeWordListening");
+  if(toggle) toggle.checked = !!enabled;
+  save();
+  if(message) toast(message);
+};
+
 function init(){
   updateProfile();loadChat();renderTasks();renderRoutines();fillSettings();populateVoiceOptions();
 
@@ -1097,6 +1107,38 @@ function init(){
     }
   };
   $("saveSettings").onclick=saveSettings;
+
+  $("wakeWordListening").addEventListener("change",()=>{
+    const toggle = $("wakeWordListening");
+
+    if(toggle.checked){
+      toggle.checked = false;
+
+      if(!window.NavAIAndroid ||
+         typeof window.NavAIAndroid.startWakeWordListening !== "function"){
+        toast("Wake-word control is available in the NavAI Android app only.");
+        return;
+      }
+
+      try{
+        window.NavAIAndroid.startWakeWordListening();
+        toast("Microphone permission may be requested. Allow it to continue.");
+      }catch(error){
+        console.error("Wake-word start request failed", error);
+        toast("Could not start wake-word listening.");
+      }
+      return;
+    }
+
+    if(window.NavAIAndroid &&
+       typeof window.NavAIAndroid.stopWakeWordListening === "function"){
+      window.NavAIAndroid.stopWakeWordListening();
+    }
+
+    data.settings = {...data.settings, wakeWord:false};
+    save();
+    toast("Hey Jarvis listening is off.");
+  });
   $("enableNotifications").onclick=async()=>{
     if(window.NavAIAndroid && window.NavAIAndroid.requestNotificationPermission){
       window.NavAIAndroid.requestNotificationPermission();
