@@ -1,328 +1,142 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f4fc">
-  <title>NavAI Saathi — Your Personal Companion</title>
-<link rel="icon" type="image/png" sizes="48x48" href="/static/navai-favicon-48.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/static/navai-apple-touch-icon.png">
-  <link rel="stylesheet" href="/saathi/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f4ff">
+  <meta name="description" content="NavAI Saathi — your voice-first personal AI companion.">
+  <title>NavAI Saathi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/saathi/style.css?v=20261120-v3">
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-icon">✦</div>
-        <div><strong>NavAI</strong><span>SAATHI</span></div>
+<div class="app-shell">
+  <div class="scrim" id="scrim"></div>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#home" aria-label="NavAI Saathi home"><span class="brand-symbol">✦</span><span><b>NavAI</b><small>SAATHI</small></span></a>
+    <div class="nav-label">YOUR SPACE</div>
+    <button class="nav-item active" data-page="home"><span>⌂</span>Home</button>
+    <button class="nav-item" data-page="day"><span>◷</span>My day</button>
+    <button class="nav-item" data-page="memory"><span>◈</span>Personal memory</button>
+    <button class="nav-item" data-page="reminders"><span>♧</span>Reminders</button>
+    <button class="nav-item" data-page="phone"><span>⌁</span>Phone actions</button>
+    <div class="sidebar-bottom">
+      <div class="profile-chip"><div class="avatar" id="sideAvatar">S</div><div class="profile-chip-copy"><b id="sideName">Your Saathi</b><small>Personal profile</small></div><button class="mini-icon" data-go="memory" aria-label="Edit profile">↗</button></div>
+      <button class="nav-item" data-page="settings"><span>⚙</span>Settings</button>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    <header class="topbar">
+      <div class="topbar-left"><button class="menu-button" id="menuButton" aria-label="Open menu">☰</button><div class="breadcrumb">NavAI <span>/</span> <b id="pageTitle">Home</b></div></div>
+      <div class="topbar-right"><span class="status-indicator" id="statusDot"></span><span id="statusText">Ready when you are</span><button class="top-icon" data-go="settings" aria-label="Settings">⚙</button></div>
+    </header>
+
+    <section class="page" id="homePage">
+      <div class="welcome-row"><div><div class="eyebrow">YOUR PERSONAL AI COMPANION</div><h1 id="greeting">Hello there <span>✦</span></h1><p class="subheading">Think clearly. Stay organised. Speak naturally.</p></div><div class="date-chip"><span>◷</span><span id="todayLabel">Today</span></div></div>
+      <div class="hero-card">
+        <div class="hero-copy"><span class="overline"><i></i> NAVAI SAATHI</span><h2>Your day,<br><em>your Saathi.</em></h2><p>Talk about your plans, ask questions, organise your day or simply tell me what you need.</p>
+          <div class="hero-buttons"><button class="button-primary" id="talkButton"><span class="mic-symbol">♩</span><span id="talkLabel">Tap to speak</span></button><button class="button-soft" id="stopButton" type="button">Stop voice</button></div>
+          <div class="listening-state"><span class="pulse-dot"></span><span id="liveText">Assistant is ready</span></div>
+        </div>
+        <div class="orb-stage" id="orbStage" aria-label="Animated NavAI Saathi orb"><div class="orb-halo"></div><div class="orb-ring ring-a"></div><div class="orb-ring ring-b"></div><div class="orb-core"><span>✦</span></div><i class="spark spark-a">✧</i><i class="spark spark-b">·</i></div>
       </div>
-
-      <button class="nav-item reminder-sidebar-item" id="routineReminderBtn" data-view="routine" type="button" title="Daily reminders">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-          <path d="M10 21h4"/>
-          <circle cx="18.2" cy="17.8" r="3.5" fill="currentColor" stroke="none"/>
-          <path d="M18.2 16v1.9l1.1.7" stroke="white" stroke-width="1.2"/>
-        </svg>
-        <span>Daily reminders</span>
-      </button>
-      <button class="new-chat" id="newChat">＋ New conversation</button>
-
-      <p class="side-label">YOUR SPACE</p>
-      <button class="nav-item active" data-view="home">⌂ <span>Home</span></button>
-      <button class="nav-item" data-view="chat">◉ <span>Conversations</span></button>
-      <button class="nav-item" data-view="tasks">☷ <span>My tasks</span></button>
-      <button class="nav-item" data-view="memory">♡ <span>My profile</span></button>
-
-      <p class="side-label">YOUR COMPANION</p>
-      <div class="modes">
-        <button class="mode active" data-mode="companion">✦ <span>Saathi</span></button>
-        <button class="mode" data-mode="care">♡ <span>Caring guide</span></button>
-        <button class="mode" data-mode="mentor">◇ <span>Mentor</span></button>
-        <button class="mode" data-mode="friend">☻ <span>Friend</span></button>
-        <button class="mode" data-mode="manager">◷ <span>Life manager</span></button>
+      <div class="command-card"><div class="section-label">OR TYPE A MESSAGE</div><form id="commandForm" class="command-row"><span class="command-icon">⌕</span><input id="commandInput" maxlength="2000" autocomplete="off" placeholder="Ask Saathi anything…" aria-label="Type a message"><button class="send-button" type="submit">Send <span>↗</span></button></form><p>Voice is the main experience. Typing is available whenever you prefer.</p></div>
+      <div class="response-card" aria-live="polite"><div class="response-heading"><div><span class="response-star">✦</span><span class="section-label">SAATHI RESPONSE</span></div><span id="responseTime">—</span></div><div class="response-text" id="responseText">Your assistant is ready. Tap the microphone or type a message to begin.</div><div class="heard-text" id="heardText"></div><div class="response-tools"><button class="text-button" id="repeatButton" type="button" disabled>↻ Speak again</button><button class="text-button" id="copyButton" type="button" disabled>▢ Copy reply</button></div></div>
+      <div class="section-heading"><div><div class="section-label">QUICK ACCESS</div><h3>What would you like to do?</h3></div><span class="muted">A little help, right away</span></div>
+      <div class="quick-grid">
+        <button class="quick-card" data-prompt="Help me plan my day"><span class="quick-icon lavender">◷</span><b>Plan my day</b><small>Sort today's priorities</small><i>↗</i></button>
+        <button class="quick-card" data-go="reminders"><span class="quick-icon pink">♧</span><b>My reminders</b><small>See what's scheduled</small><i>↗</i></button>
+        <button class="quick-card" data-go="memory"><span class="quick-icon blue">◈</span><b>My memory</b><small>Manage saved details</small><i>↗</i></button>
+        <button class="quick-card" data-go="phone"><span class="quick-icon peach">⌁</span><b>Phone actions</b><small>Open supported apps</small><i>↗</i></button>
       </div>
+      <div class="disclaimer">AI can make mistakes. Check important information and confirm actions on your device.</div>
+    </section>
 
-      <div class="sidebar-bottom">
-        <div class="user-mini">
-          <div class="avatar" id="miniAvatar">U</div>
-          <div><strong id="miniName">Your profile</strong><small>Personal space</small></div>
-          <button id="openProfile" title="Profile">⚙</button>
-        </div>
+    <section class="page hidden" id="dayPage">
+      <div class="page-intro"><div class="eyebrow">ONE STEP AT A TIME</div><h1>My day</h1><p>Keep your priorities in one simple place. Your list stays on this device.</p></div>
+      <div class="day-overview"><div class="overview-tile"><span class="overview-icon lavender">✧</span><div><b id="taskProgress">0 / 0</b><small>Tasks completed</small></div></div><div class="overview-tile"><span class="overview-icon pink">◷</span><div><b id="taskRemaining">0</b><small>Still on your list</small></div></div></div>
+      <div class="surface-card"><div class="surface-heading"><div><h2>Today's priorities</h2><p>Add a task and tick it off when you're done.</p></div><span class="surface-badge" id="dayDateBadge">TODAY</span></div>
+        <form class="task-form" id="taskForm"><input id="taskInput" maxlength="140" placeholder="What would you like to get done?" required><button class="button-primary" type="submit">＋ Add task</button></form>
+        <div class="progress-track"><span id="taskProgressBar"></span></div><div id="taskList" class="task-list"><div class="empty-state">Your day is open. Add your first priority above.</div></div>
+        <div class="surface-footer"><button class="text-button" id="clearCompleted" type="button">Clear completed</button><button class="text-button" data-prompt="Help me choose the three most important priorities for today">Ask Saathi to prioritise ↗</button></div>
       </div>
-    </aside>
+      <div class="tip-card"><span>✦</span><div><b>Keep it realistic</b><p>A short, doable list is often more useful than a packed schedule. You can change your plan at any time.</p></div></div>
+    </section>
 
-    <main class="main">
-      <header class="topbar">
-        <button class="mobile-menu" id="menuToggle">☰</button>
-        <div class="breadcrumb">NavAI <span>/</span> <strong id="pageName">Home</strong></div>
-        <div class="top-actions">
-          <span class="online-dot"></span><span class="online-text">Companion ready</span>
-        <button class="icon-btn" id="settingsBtn" title="Settings">⚙</button>
+    <section class="page hidden" id="memoryPage">
+      <div class="page-intro"><div class="eyebrow">YOUR DETAILS, YOUR CONTROL</div><h1>Personal memory</h1><p>Save details that help Saathi personalise its replies. Everything here is stored locally in this browser/app.</p></div>
+      <form class="surface-card profile-form" id="profileForm">
+        <div class="surface-heading"><div><h2>Your profile</h2><p>Only add information you're comfortable saving on this device.</p></div><span class="surface-mark">◈</span></div>
+        <div class="field-grid">
+          <label>Your name<input id="pName" maxlength="60" autocomplete="name" placeholder="What should Saathi call you?"></label>
+          <label>Preferred language<select id="pLanguage"><option value="hinglish">Hinglish</option><option value="hindi">Hindi</option><option value="english">English</option></select></label>
+          <label class="wide-field">About you<input id="pAbout" maxlength="240" placeholder="A short introduction (optional)"></label>
+          <label>Interests<textarea id="pInterests" rows="3" maxlength="500" placeholder="Topics and hobbies you enjoy"></textarea></label>
+          <label>Goals<textarea id="pGoals" rows="3" maxlength="700" placeholder="What are you working towards?"></textarea></label>
+          <label>Daily routine<textarea id="pRoutine" rows="3" maxlength="700" placeholder="Your usual routine"></textarea></label>
+          <label>Preferences<textarea id="pPreferences" rows="3" maxlength="700" placeholder="Communication style and useful preferences"></textarea></label>
+          <label class="wide-field">Important dates<textarea id="pDates" rows="2" maxlength="500" placeholder="Dates you want to keep in mind"></textarea></label>
         </div>
-      </header>
+        <div class="surface-footer"><span class="muted">Saved on this device only</span><div class="button-group"><button class="button-soft" id="exportData" type="button">Export my data</button><button class="button-primary" type="submit">Save profile</button></div></div>
+      </form>
+      <div class="surface-card memory-notes"><div class="surface-heading"><div><h2>Personal notes</h2><p>Save small details you want to keep available to Saathi.</p></div><span class="surface-mark">✧</span></div>
+        <form class="note-form" id="noteForm"><input id="noteInput" maxlength="300" placeholder="Add a note or preference…" required><button class="button-primary" type="submit">Save note</button></form>
+        <div id="memoryNotes" class="note-list"><div class="empty-state">No personal notes saved yet.</div></div>
+      </div>
+      <div class="danger-zone"><div><b>Clear local personal data</b><p>Clears your profile, notes and saved day tasks on this device. Reminders and settings are managed separately.</p></div><button class="danger-button" id="clearMemory" type="button">Clear personal data</button></div>
+    </section>
 
-      <section class="content" id="homeView">
-        <div class="welcome">
-          <div>
-            <span class="eyebrow">YOUR PERSONAL AI COMPANION</span>
-            <h1 id="greeting">Hello, there. <span>✦</span></h1>
-            <p>One companion. Many roles. Here whenever you need guidance.</p>
-          </div>
-          <div class="date-chip" id="todayDate"></div>
-        </div>
+    <section class="page hidden" id="remindersPage">
+      <div class="page-intro"><div class="eyebrow">DON'T RELY ON MEMORY ALONE</div><h1>Reminders</h1><p>Create a reminder and send it to the Android app when its native bridge is available.</p></div>
+      <div class="day-overview"><div class="overview-tile"><span class="overview-icon lavender">♧</span><div><b id="reminderCount">0</b><small>Saved reminders</small></div></div><div class="overview-tile"><span class="overview-icon pink">◷</span><div><b id="nextReminder">Nothing scheduled</b><small>Next reminder time</small></div></div></div>
+      <div class="surface-card"><div class="surface-heading"><div><h2>Create a reminder</h2><p>Choose a time and repeat preference.</p></div><span class="surface-mark">＋</span></div>
+        <form id="reminderForm" class="reminder-form"><label>Reminder title<input id="rTitle" maxlength="100" placeholder="e.g. Take a break" required></label><label>Time<input id="rTime" type="time" required></label><label>Repeat<select id="rRepeat"><option value="once">One time</option><option value="daily">Daily</option></select></label><button class="button-primary" type="submit">＋ Add reminder</button></form>
+        <p class="helper-note">Daily reminders are queued for the next 14 days when Android scheduling is available. Open Saathi again to refresh the upcoming schedule. Device permissions and battery settings can affect delivery.</p>
+      </div>
+      <div class="surface-card reminders-surface"><div class="surface-heading"><div><h2>Your reminders</h2><p>Remove reminders when plans change.</p></div><span class="count-pill" id="reminderCountPill">0</span></div><div id="reminderList" class="reminder-list"><div class="empty-state">No reminders yet. Add one above.</div></div></div>
+    </section>
 
-        <div class="hero">
-          <div class="hero-copy">
-            <span class="hero-tag">✦ YOUR SAATHI IS HERE</span>
-            <h2>A little guidance.<br>A lot of understanding.</h2>
-            <p>Talk about your day, plan your goals, learn something new, or simply have a conversation.</p>
-            <button class="primary-btn" id="startChat">Start a conversation <span>→</span></button>
-          </div>
-          <div class="orb-scene">
-            <div class="orb-ring ring-one"></div>
-            <div class="orb-ring ring-two"></div>
-            <div class="orb">✦</div>
-            <span class="orb-caption">NAVAI SAATHI</span>
-          </div>
-        </div>
+    <section class="page hidden" id="phonePage">
+      <div class="page-intro"><div class="eyebrow">SUPPORTED ANDROID ACTIONS</div><h1>Phone actions</h1><p>Open apps installed on your Android phone using the existing NavAI bridge.</p></div>
+      <div class="phone-status" id="phoneStatus"><span class="status-indicator"></span><div><b>Checking Android connection…</b><small>App shortcuts work only inside the supported NavAI Android app.</small></div></div>
+      <div class="section-heading"><div><div class="section-label">APP SHORTCUTS</div><h3>Open an app</h3></div></div>
+      <div class="app-grid">
+        <button class="app-shortcut" data-app="WhatsApp"><span class="app-icon app-green">◉</span><b>WhatsApp</b><small>Open app</small></button>
+        <button class="app-shortcut" data-app="YouTube"><span class="app-icon app-red">▶</span><b>YouTube</b><small>Open app</small></button>
+        <button class="app-shortcut" data-app="Chrome"><span class="app-icon app-blue">◉</span><b>Chrome</b><small>Open app</small></button>
+        <button class="app-shortcut" data-app="Camera"><span class="app-icon app-violet">▣</span><b>Camera</b><small>Open app</small></button>
+        <button class="app-shortcut" data-app="Maps"><span class="app-icon app-yellow">⌖</span><b>Maps</b><small>Open app</small></button>
+        <button class="app-shortcut" data-app="Settings"><span class="app-icon app-grey">⚙</span><b>Settings</b><small>Open app</small></button>
+        <button class="app-shortcut" data-app="Phone"><span class="app-icon app-green">⌕</span><b>Phone</b><small>Open app</small></button>
+        <button class="app-shortcut" data-app="Messages"><span class="app-icon app-pink">▤</span><b>Messages</b><small>Open app</small></button>
+      </div>
+      <div class="tip-card"><span>ⓘ</span><div><b>What works right now?</b><p>Opening an installed app is supported by the current Android bridge. Placing calls, sending SMS, ordering items and other sensitive actions need additional Android integration and explicit confirmation; this website does not pretend those actions are enabled.</p></div></div>
+    </section>
 
-        <div class="section-heading">
-          <div><span class="eyebrow">CHOOSE YOUR EXPERIENCE</span></div>
-        </div>
+    <section class="page hidden" id="settingsPage">
+      <div class="page-intro"><div class="eyebrow">SET UP YOUR EXPERIENCE</div><h1>Settings</h1><p>Choose how Saathi speaks and how Android features are requested.</p></div>
+      <div class="surface-card settings-surface"><div class="surface-heading"><div><h2>Voice & assistant</h2><p>Controls for voice interaction and Android wake word.</p></div><span class="surface-mark">⚙</span></div>
+        <label class="setting-row"><span><b>Spoken replies</b><small>Read AI responses aloud when supported.</small></span><input type="checkbox" id="sVoice"></label>
+        <label class="setting-row"><span><b>Hey Jarvis wake word</b><small>Request the Android wake-word service. Availability depends on permissions, battery settings and Android restrictions.</small></span><input type="checkbox" id="sWake"></label>
+        <label class="setting-row"><span><b>Daily check-in preference</b><small>Save your preference. Automated AI check-ins need a separate native scheduler and are not activated by this switch alone.</small></span><input type="checkbox" id="sCheckin"></label>
+      </div>
+      <div class="surface-card settings-surface"><div class="surface-heading"><div><h2>Notifications & quiet hours</h2><p>Browser notification permission and preferred quiet period.</p></div><span class="surface-mark">◷</span></div>
+        <label class="setting-row"><span><b>Browser notifications</b><small>Notifications while the website is open and permission is granted.</small></span><input type="checkbox" id="sNotifications"></label>
+        <div class="setting-row"><span><b>Quiet hours start</b><small>Preferred time to begin quiet hours.</small></span><input type="time" id="sQuietStart" value="22:00"></div>
+        <div class="setting-row"><span><b>Quiet hours end</b><small>Preferred time to end quiet hours.</small></span><input type="time" id="sQuietEnd" value="07:00"></div>
+        <div class="surface-footer"><span class="muted" id="notificationState">Notification permission not checked.</span><div class="button-group"><button class="button-soft" id="allowNotifications" type="button">Allow notifications</button><button class="button-primary" id="saveSettings" type="button">Save settings</button></div></div>
+      </div>
+      <div class="surface-card privacy-settings"><div class="surface-heading"><div><h2>Data & privacy</h2><p>Manage the personal information stored in this app.</p></div></div><div class="privacy-row"><span><b>Local storage</b><small>Your profile, notes, tasks and reminder list are stored on this device. Profile context is sent to the AI backend when you ask Saathi a question.</small></span><button class="button-soft" id="exportSettings" type="button">Export data</button></div><div class="privacy-row"><span><b>Clear all local data</b><small>Remove the locally stored profile, notes, tasks, reminders and settings.</small></span><button class="danger-button" id="clearAllData" type="button">Clear all</button></div></div>
+      <div class="disclaimer">Wake-word availability and scheduled reminders depend on Android permissions and device behaviour. Force-stop can stop background services.</div>
+    </section>
 
-        <div class="mode-grid">
-          <button class="mode-card" data-mode="care"><span class="card-icon pink">♡</span><strong>Caring guide</strong><small>Wellbeing, habits & encouragement</small><span class="card-arrow">↗</span></button>
-          <button class="mode-card" data-mode="mentor"><span class="card-icon purple">◇</span><strong>Mentor</strong><small>Career, decisions & ambitions</small><span class="card-arrow">↗</span></button>
-          <button class="mode-card" data-mode="friend"><span class="card-icon orange">☻</span><strong>Best friend</strong><small>Conversations, ideas & fun</small><span class="card-arrow">↗</span></button>
-          <button class="mode-card" data-mode="manager"><span class="card-icon green">◷</span><strong>Life manager</strong><small>Tasks, schedule & planning</small><span class="card-arrow">↗</span></button>
-          <button class="mode-card" data-mode="companion"><span class="card-icon violet">✦</span><strong>All-in-one Saathi</strong><small>Personalised everyday guidance</small><span class="card-arrow">↗</span></button>
-        </div>
-
-        <div class="dashboard-grid">
-          <div class="panel">
-            <div class="panel-heading"><div><span class="eyebrow">YOUR DAY</span><h3>Today's tasks</h3></div><button id="viewTasks">View all →</button></div>
-            <div id="taskPreview" class="task-preview"><p class="empty">Your day starts with one small step.</p></div>
-            <button class="add-task" id="addTask">＋ Add a task</button>
-          </div>
-          <div class="panel">
-            <div class="panel-heading"><div><span class="eyebrow">YOUR COMPANION</span><h3>Daily check-in</h3></div><span class="heart">♡</span></div>
-            <p class="checkin-text">How are you feeling today?</p>
-            <div class="mood-list">
-              <button data-mood="Great">😊<small>Great</small></button>
-              <button data-mood="Good">🙂<small>Good</small></button>
-              <button data-mood="Okay">😐<small>Okay</small></button>
-              <button data-mood="Low">😔<small>Low</small></button>
-            </div>
-            <p class="mood-result" id="moodResult"></p>
-          </div>
-        </div>
-      </section>
-
-      <section class="content hidden" id="chatView">
-        <div class="chat-header">
-          <div class="chat-avatar">✦</div>
-          <div><h2 id="chatModeName">NavAI Saathi</h2><small>Here to listen and help</small></div>
-          <button class="icon-btn" id="clearChat">↺</button>
-        </div>
-        <div class="chat-messages" id="messages">
-          <div class="message assistant"><div class="bubble">Hello! I'm your NavAI Saathi. What's on your mind today?</div></div>
-        </div>
-        <div class="suggestions" id="suggestions">
-          <button>Help me plan my day</button>
-          <button>I want to learn something</button>
-          <button>Let's talk</button>
-        </div>
-        <form class="composer" id="chatForm">
-          <textarea id="chatInput" placeholder="Talk to your Saathi..." rows="1"></textarea>
-          <button type="button" class="icon-btn" id="voiceBtn" title="Voice input">🎙</button>
-          <button type="submit" class="send-btn" id="sendBtn">↑</button>
-        </form>
-        <p class="privacy-note">AI can make mistakes. For important decisions, use your own judgement.</p>
-      </section>
-
-      <section class="content hidden" id="tasksView">
-        <div class="page-title"><span class="eyebrow">STAY ON TRACK</span><h1>My tasks</h1><p>Small steps make meaningful progress.</p></div>
-        <div class="panel">
-          <form id="taskForm" class="task-form"><input id="taskInput" placeholder="What would you like to do?" required><input id="taskTime" type="time"><button class="primary-btn">Add task +</button></form>
-          <div id="allTasks"></div>
-        </div>
-      </section>
-
-      <section class="content hidden" id="routineView">
-        <div class="page-title"><span class="eyebrow">YOUR EVERYDAY LIFE</span><h1>Daily routine</h1><p>Build a routine that works for your life.</p></div>
-        <div class="panel">
-          <form id="routineForm" class="routine-form">
-            <input id="routineTitle" placeholder="Activity (e.g. Morning walk)" required>
-            <input id="routineTime" type="time" required>
-            <select id="routineRepeat"><option value="daily">Every day</option><option value="weekdays">Weekdays</option></select>
-            <button class="primary-btn">Add routine +</button>
-          </form>
-          <div id="routineList"></div>
-        </div>
-      </section>
-
-      <section class="content hidden" id="memoryView">
-        <div class="page-title"><span class="eyebrow">GET TO KNOW YOU</span><h1>Your personal profile</h1><p>Your companion can use these details to give more relevant guidance.</p></div>
-        <div class="panel profile-panel">
-          <form id="profileForm">
-            <div class="profile-fields">
-              <label>Full name<input id="profileName" placeholder="Your name"></label>
-              <label>Age<input id="profileAge" type="number" min="1" max="120" placeholder="Your age"></label>
-              <label>Occupation<input id="profileOccupation" placeholder="Student, professional, business owner..."></label>
-              <label>Interests<input id="profileInterests" placeholder="Technology, music, reading..."></label>
-              <label>Daily schedule<textarea id="profileSchedule" placeholder="Tell us about your daily routine"></textarea></label>
-              <label>Goals<textarea id="profileGoals" placeholder="What would you like to achieve?"></textarea></label>
-              <label>Food preferences<input id="profileFood" placeholder="Optional"></label>
-              <label>How should Saathi talk to you?<select id="profileTone"><option value="warm and friendly">Warm and friendly</option><option value="professional and direct">Professional and direct</option><option value="simple and encouraging">Simple and encouraging</option></select></label>
-              <label>Preferred reply language
-                <select id="profileLanguage">
-                  <option value="hinglish">Hinglish</option>
-                  <option value="hindi">Hindi</option>
-                  <option value="english">English</option>
-                </select>
-              </label>
-              <label>Saathi voice
-                <select id="profileVoice">
-                  <option value="auto">Automatic available voice</option>
-                </select>
-              </label>
-              <button type="button" class="secondary-btn" id="previewVoice">Preview selected voice</button>
-            </div>
-            <button class="primary-btn">Save my profile</button>
-          </form>
-        </div>
-      </section>
-
-      <section class="content hidden" id="settingsView">
-        <div class="page-title"><span class="eyebrow">PERSONALISE YOUR EXPERIENCE</span><h1>Settings</h1></div>
-        <div class="panel settings-panel">
-          <label><span><strong>Voice responses</strong><small>Speak replies aloud</small></span><input type="checkbox" id="voiceReplies"></label>
-          <label><span><strong>Hey Jarvis</strong><small>Enable wake-word listening while the service is active</small></span><input type="checkbox" id="wakeWordListening"></label>
-          <label><span><strong>Daily notifications</strong><small>Allow scheduled reminder alerts</small></span><input type="checkbox" id="notifications"></label>
-          <label><span><strong>Automatic check-in</strong><small>Enable your daily check-in schedule</small></span><input type="checkbox" id="autoCheckin"></label>
-          <label><span><strong>Quiet hours</strong><small>Don't send reminders during these hours</small></span><span><input type="time" id="quietStart" value="22:00"> – <input type="time" id="quietEnd" value="07:00"></span></label>
-          <button class="primary-btn" id="saveSettings">Save settings</button>
-          <button class="secondary-btn" id="enableNotifications">Enable browser notifications</button>
-        </div>
-      </section>
-
-      <footer>✦ NavAI Saathi <span>Made to support your everyday life.</span></footer>
-    </main>
-  </div>
-  <div class="toast" id="toast"></div>
-  <script src="/saathi/script.js"></script>
-
-<!-- NAVAI SAATHI DOWNLOAD GATE -->
-<style id="navai-saathi-download-gate-style">
-#navai-saathi-download-gate {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-  background: rgba(245, 241, 255, .97);
-  backdrop-filter: blur(16px);
-  font-family: inherit;
-}
-#navai-saathi-download-gate .gate-card {
-  width: min(440px, 100%);
-  padding: 30px 24px;
-  text-align: center;
-  border: 1px solid #e7dcfa;
-  border-radius: 25px;
-  background: #fff;
-  box-shadow: 0 20px 70px rgba(83, 55, 130, .13);
-}
-#navai-saathi-download-gate h2 {
-  margin: 0 0 12px;
-  color: #302344;
-  font-size: 25px;
-}
-#navai-saathi-download-gate p {
-  color: #71677f;
-  line-height: 1.6;
-  margin: 0 0 22px;
-}
-#navai-saathi-download-gate a,
-#navai-saathi-download-gate button {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 14px 18px;
-  margin-top: 12px;
-  border: 0;
-  border-radius: 14px;
-  font: inherit;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-}
-#navai-saathi-download-gate .download-btn {
-  color: #fff;
-  background: linear-gradient(120deg,#9275d5,#c18bc9);
-}
-#navai-saathi-download-gate .continue-btn {
-  color: #604b80;
-  background: #f3edfc;
-}
-</style>
-
-<div id="navai-saathi-download-gate">
-  <div class="gate-card">
-    <h2>Download NavAI</h2>
-    <p>Download and install the full NavAI Android app to access NavAI and NavAI Saathi together.</p>
-    <a class="download-btn"
-       href="/static/downloads/NavAI.apk"
-       download="NavAI.apk">
-       Download Website
-    </a>
-
-    <p style="font-size:12px;margin:16px 0 0">
-      Android APK download. Install it from your device's downloads when ready.
-    </p>
-  </div>
+    <footer class="app-footer"><span>NAVAI SAATHI</span><span>Personal companion · Your data, your control</span></footer>
+  </main>
 </div>
-
-<script>
-(function () {
-  // Detect the installed full NavAI Android application.
-  // The native Android bridge is registered as NavAIAndroid.
-  var isNativeNavAI = false;
-
-  try {
-    isNativeNavAI = !!(
-      window.NavAIAndroid &&
-      typeof window.NavAIAndroid.isNativeApp === "function" &&
-      window.NavAIAndroid.isNativeApp() === true
-    );
-  } catch (error) {
-    isNativeNavAI = false;
-  }
-
-  // Never show the APK download gate inside the installed NavAI app.
-  if (location.protocol === "file:" || isNativeNavAI) {
-    var gate = document.getElementById("navai-saathi-download-gate");
-    if (gate) gate.remove();
-    return;
-  }
-
-  var continueButton = document.getElementById("navai-saathi-continue");
-  if (continueButton) {
-    continueButton.addEventListener("click", function () {
-      var gate = document.getElementById("navai-saathi-download-gate");
-      if (gate) gate.remove();
-    });
-  }
-})();
-</script>
-<!-- END NAVAI SAATHI DOWNLOAD GATE -->
-
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/saathi/script.js?v=20261120-v3" defer></script>
 </body>
 </html>
-

@@ -1,1205 +1,500 @@
-
 "use strict";
-
-const $ = id => document.getElementById(id);
-const KEY = "navai.saathi.v1";
-
-const defaults = {
-  profile:{name:"",age:"",occupation:"",interests:"",schedule:"",goals:"",food:"",tone:"warm and friendly",language:"hinglish",voiceName:"auto"},
-  tasks:[],routines:[],moods:[],settings:{voice:false,notifications:false,auto:false,quietStart:"22:00",quietEnd:"07:00"},
-  mode:"companion",messages:[]
-};
-
-const VALID_MODES = new Set(["companion", "care", "mentor", "friend", "manager"]);
-
-let data = load();
-
-if (!VALID_MODES.has(data.mode)) {
-  data.mode = "companion";
-  save();
-}
-let busy = false;
-let recognition = null;
-
-function load(){
-  try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||"{}")};}
-  catch{return structuredClone(defaults);}
-}
-function save(){
-  if(data.chats && VALID_MODES.has(data.mode)){
-    data.chats[data.mode] = data.messages;
-  }
-  localStorage.setItem(KEY,JSON.stringify(data));
-}
-
-function initializeModeChats(){
-  const oldMessages = Array.isArray(data.messages) ? data.messages : [];
-  const hadChats = data.chats &&
-    typeof data.chats === "object" &&
-    !Array.isArray(data.chats);
-
-  if(!hadChats){
-    data.chats = {};
-    for(const mode of VALID_MODES){
-      data.chats[mode] = [];
-    }
-    if(VALID_MODES.has(data.mode)){
-      data.chats[data.mode] = oldMessages;
-    }
-  }
-
-  for(const mode of VALID_MODES){
-    if(!Array.isArray(data.chats[mode])){
-      data.chats[mode] = [];
-    }
-  }
-
-  if(!VALID_MODES.has(data.mode)){
-    data.mode = "companion";
-  }
-
-  data.messages = data.chats[data.mode];
-  save();
-}
-
-initializeModeChats();
-function toast(message){
-  $("toast").textContent=message;
-  $("toast").classList.add("show");
-  setTimeout(()=>$("toast").classList.remove("show"),2600);
-}
-function escapeHTML(s){
-  return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function getTime(){
-  return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
-}
-function updateProfile(){
-  const p=data.profile;
-  $("greeting").innerHTML=`Hello, ${escapeHTML(p.name||"there")}. <span>✦</span>`;
-  $("miniName").textContent=p.name||"Your profile";
-  $("miniAvatar").textContent=(p.name||"U")[0].toUpperCase();
-  $("todayDate").textContent=new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long"});
-}
-function showView(name){
-  ["home","chat","tasks","routine","memory","settings"].forEach(v=>{
-    $(v+"View").classList.toggle("hidden",v!==name);
-  });
-  $("pageName").textContent=name==="memory"?"My profile":name.charAt(0).toUpperCase()+name.slice(1);
-  document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
-  $("sidebar").classList.remove("open");
-  if(name==="tasks")renderTasks();
-  if(name==="routine")renderRoutines();
-  if(name==="memory")fillProfile();
-  if(name==="chat")setTimeout(()=>$("chatInput").focus(),100);
-}
-const modeNames = {
-  companion: "NavAI Saathi",
-  care: "Caring guide",
-  mentor: "Mentor",
-  friend: "Friend",
-  manager: "Life manager"
-};
-
-function setMode(mode) {
-  if (!VALID_MODES.has(mode)) mode = "companion";
-
-  data.chats[data.mode] = data.messages;
-  data.mode = mode;
-  data.messages = data.chats[mode];
-
-  save();
-
-  $("chatModeName").textContent = modeNames[mode];
-
-  document.querySelectorAll(".mode").forEach(button => {
-    button.classList.toggle("active", button.dataset.mode === mode);
-  });
-
-  renderMessages();
-  showView("chat");
-}
-function addMessage(role,text){
-  data.messages.push({role,text,time:Date.now()});
-  if(data.messages.length>100)data.messages=data.messages.slice(-100);
-  save();
-  renderMessages();
-}
-
-function renderAssistantMarkdown(value) {
-  const source = String(value ?? "").replace(/\r\n?/g, "\n");
-  const codeBlocks = [];
-
-  let prepared = source.replace(
-    /```(?:[a-zA-Z0-9_+-]+)?[ \t]*\n([\s\S]*?)```/g,
-    (_, code) => {
-      const index = codeBlocks.length;
-      codeBlocks.push(
-        `<pre><code>${escapeHTML(code.replace(/\n$/, ""))}</code></pre>`
-      );
-      return `NAVAI_CODE_BLOCK_${index}_PLACEHOLDER`;
-    }
-  );
-
-  let safe = escapeHTML(prepared);
-
-  safe = safe
-    .replace(/`([^`\n]+)`/g, "<code>$1</code>")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/__(.+?)__/g, "<strong>$1</strong>")
-    .replace(/\*([^*\n]+)\*/g, "<em>$1</em>")
-    .replace(/_([^_\n]+)_/g, "<em>$1</em>");
-
-  const lines = safe.split("\n");
-  const output = [];
-  let paragraph = [];
-  let listType = null;
-  let listItems = [];
-
-  function flushParagraph() {
-    if (paragraph.length) {
-      output.push(`<p>${paragraph.join("<br>")}</p>`);
-      paragraph = [];
-    }
-  }
-
-  function flushList() {
-    if (listType && listItems.length) {
-      output.push(
-        `<${listType}>${listItems.map(item => `<li>${item}</li>`).join("")}</${listType}>`
-      );
-    }
-    listType = null;
-    listItems = [];
-  }
-
-  for (const line of lines) {
-    const codeMatch = line.match(/^NAVAI_CODE_BLOCK_(\d+)_PLACEHOLDER$/);
-    if (codeMatch) {
-      flushParagraph();
-      flushList();
-      output.push(codeBlocks[Number(codeMatch[1])]);
-      continue;
-    }
-
-    if (!line.trim()) {
-      flushParagraph();
-      flushList();
-      continue;
-    }
-
-    const heading = line.match(/^(#{1,3})\s+(.+)$/);
-    if (heading) {
-      flushParagraph();
-      flushList();
-      const level = heading[1].length;
-      output.push(`<h${level}>${heading[2]}</h${level}>`);
-      continue;
-    }
-
-    const quote = line.match(/^&gt;\s?(.*)$/);
-    if (quote) {
-      flushParagraph();
-      flushList();
-      output.push(`<blockquote>${quote[1]}</blockquote>`);
-      continue;
-    }
-
-    const unordered = line.match(/^\s*[-*]\s+(.+)$/);
-    const ordered = line.match(/^\s*\d+[.)]\s+(.+)$/);
-
-    if (unordered || ordered) {
-      flushParagraph();
-      const nextType = unordered ? "ul" : "ol";
-      if (listType && listType !== nextType) flushList();
-      listType = nextType;
-      listItems.push((unordered || ordered)[1]);
-      continue;
-    }
-
-    flushList();
-    paragraph.push(line);
-  }
-
-  flushParagraph();
-  flushList();
-
-  return output.join("");
-}
-
-function renderMessages(){
-    const el = $("messages");
-    el.innerHTML = data.messages.map(m => `
-      <div class="message ${m.role === "user" ? "user" : "assistant"}">
-        <div class="bubble">${
-          m.role === "user"
-            ? escapeHTML(m.text).replace(/\n/g, "<br>")
-            : renderAssistantMarkdown(m.text)
-        }</div>
-      </div>`).join("");
-    el.scrollTop = el.scrollHeight;
-}
-function loadChat(){
-  renderMessages();
-}
-function buildContext(){
-  const p=data.profile;
-  const pending=data.tasks.filter(t=>!t.done);
-  return {
-    profile:p,
-    currentTime:new Date().toLocaleString(),
-    mode:data.mode,
-    pendingTasks:pending,
-    routines:data.routines,
-    recentMoods:data.moods.slice(-5),
-    instructions:"Use this information only to personalise assistance. Do not claim to be a real parent, teacher, human friend or romantic partner. Be supportive, respectful and honest. Never invent personal facts or claim to have sent a notification."
+(() => {
+  const $ = id => document.getElementById(id);
+  const STORE = "navai.saathi.voicefirst.v3";
+  const LEGACY_KEYS = ["navai.saathi.voicefirst.v2", "navai.saathi.voicefirst.v1"];
+  const DEFAULT = {
+    profile: { name:"", language:"hinglish", about:"", interests:"", goals:"", routine:"", preferences:"", dates:"" },
+    settings: { voice:true, wake:false, checkin:false, notifications:false, quietStart:"22:00", quietEnd:"07:00" },
+    reminders: [], tasks: [], notes: [], chatHistory: [], pendingReminder: null
   };
-}
+  const PROFILE_FIELDS = { pName:"name", pLanguage:"language", pAbout:"about", pInterests:"interests", pGoals:"goals", pRoutine:"routine", pPreferences:"preferences", pDates:"dates" };
+  const SETTING_FIELDS = { sVoice:"voice", sWake:"wake", sCheckin:"checkin", sNotifications:"notifications" };
+  let state = loadState(), recognition = null, listening = false, busy = false, lastReply = "", toastTimer = 0;
 
-/*
-  IMPORTANT:
-  Set this endpoint to the actual NavAI backend route.
-  Expected request/response contract:
-  POST /api/saathi/chat
-  JSON: {message, mode, context, history}
-  Response JSON: {reply:"..."}
-  Create this route in your existing Flask backend before enabling API chat.
-*/
-const API_ENDPOINT="/api/saathi/chat";
-
-async function sendMessage(text){
-  text=text.trim();
-  if(!text||busy)return;
-  $("chatInput").value="";
-  addMessage("user",text);
-  busy=true;$("sendBtn").disabled=true;
-  const wait=document.createElement("div");
-  wait.className="message assistant";
-  wait.innerHTML='<div class="bubble">Saathi is thinking…</div>';
-  $("messages").appendChild(wait);
-  try{
-    const response=await fetch(API_ENDPOINT,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      credentials:"same-origin",
-      body:JSON.stringify({
-        message:text,
-        mode:data.mode,
-        context:buildContext(),
-        history:data.messages.slice(-16)
-      })
-    });
-    if(!response.ok)throw new Error("API request failed: "+response.status);
-    const result=await response.json();
-    if(typeof result.reply!=="string")throw new Error("Invalid API response");
-    wait.remove();
-    addMessage("assistant",result.reply);
-    speak(result.reply);
-  }catch(error){
-    wait.remove();
-    addMessage("assistant","I'm unable to connect to the NavAI brain right now. Please check that the Saathi API route is configured and your server is running.");
-    console.error(error);
-  }finally{
-    busy=false;$("sendBtn").disabled=false;
+  function freshDefault(){ return JSON.parse(JSON.stringify(DEFAULT)); }
+  function loadState(){
+    try {
+      let raw = localStorage.getItem(STORE);
+      if (!raw) for (const key of LEGACY_KEYS) { raw = localStorage.getItem(key); if (raw) break; }
+      const saved = raw ? JSON.parse(raw) : {};
+      return {
+        ...freshDefault(), ...saved,
+        profile:{...DEFAULT.profile,...(saved.profile||{})},
+        settings:{...DEFAULT.settings,...(saved.settings||{})},
+        reminders:Array.isArray(saved.reminders)?saved.reminders.filter(x=>x&&typeof x.id==="string"&&typeof x.title==="string"&&typeof x.time==="string"):[],
+        tasks:Array.isArray(saved.tasks)?saved.tasks.filter(x=>x&&typeof x.id==="string"&&typeof x.title==="string").slice(0,100):[],
+        notes:Array.isArray(saved.notes)?saved.notes.filter(x=>x&&typeof x.id==="string"&&typeof x.text==="string").slice(0,100):[],
+        chatHistory:Array.isArray(saved.chatHistory)?saved.chatHistory.filter(x=>x&&["user","assistant"].includes(x.role)&&typeof x.content==="string").slice(-40):[]
+      };
+    } catch (error) { console.warn("Saathi data could not be loaded:",error); return freshDefault(); }
   }
-}
-function getSaathiLanguage(){
-  const language = data.profile.language || "hinglish";
-  if(language === "hindi") return "hi-IN";
-  if(language === "english") return "en-IN";
-  return "hi-IN";
-}
-
-function getPreferredSaathiVoice(){
-  if(!("speechSynthesis" in window)) return null;
-
-  const voices = window.speechSynthesis.getVoices();
-  if(!voices || !voices.length) return null;
-
-  const selected = data.profile.voiceName || "auto";
-
-  if(selected !== "auto"){
-    const exact = voices.find(v => v.voiceURI === selected);
-    if(exact) return exact;
+  function saveState(){ try { localStorage.setItem(STORE,JSON.stringify(state)); return true; } catch(error) { console.error(error); toast("Could not save. Device storage may be full or disabled."); return false; } }
+  function toast(message){ const node=$("toast"); node.textContent=message; node.classList.add("show"); window.clearTimeout(toastTimer); toastTimer=window.setTimeout(()=>node.classList.remove("show"),2800); }
+  function escapeHTML(value){ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+  function setStatus(message,mode="ready"){
+    $("statusText").textContent=message; $("liveText").textContent=message;
+    $("statusDot").classList.toggle("busy",mode!=="ready");
+    $("orbStage").classList.toggle("listening",mode==="listening");
+    $("orbStage").classList.toggle("thinking",mode==="thinking");
   }
-
-  const language = getSaathiLanguage();
-  const matching = voices.filter(v =>
-    (v.lang || "").toLowerCase().startsWith(language.slice(0,2).toLowerCase())
-  );
-
-  const femaleName = /(female|woman|swara|aditi|heera|kalpana|veena|raveena|priya|neerja|pallavi|sangeeta|lekha|kavya|ananya|sneha|manisha)/i;
-
-  return matching.find(v => femaleName.test(v.name)) ||
-    matching[0] ||
-    voices.find(v => femaleName.test(v.name)) ||
-    null;
-}
-
-function populateVoiceOptions(){
-  const select = $("profileVoice");
-  if(!select || !("speechSynthesis" in window)) return;
-
-  const previous = data.profile.voiceName || "auto";
-  const voices = window.speechSynthesis.getVoices();
-
-  select.innerHTML = '<option value="auto">Automatic available voice</option>';
-
-  voices.forEach(voice => {
-    const option = document.createElement("option");
-    option.value = voice.voiceURI;
-    option.textContent = voice.name + " (" + voice.lang + ")";
-    select.appendChild(option);
-  });
-
-  if(previous === "auto" || voices.some(v => v.voiceURI === previous)){
-    select.value = previous;
-  }else{
-    select.value = "auto";
+  function pageName(page){ return ({home:"Home",day:"My day",memory:"Personal memory",reminders:"Reminders",phone:"Phone actions",settings:"Settings"})[page]||"Home"; }
+  function showPage(page){
+    const pages=["home","day","memory","reminders","phone","settings"];
+    if(!pages.includes(page)) page="home";
+    pages.forEach(name=>$(name+"Page").classList.toggle("hidden",name!==page));
+    $("pageTitle").textContent=pageName(page);
+    document.querySelectorAll(".nav-item[data-page]").forEach(button=>button.classList.toggle("active",button.dataset.page===page));
+    closeMenu();
+    if(page==="memory") { fillProfile(); renderNotes(); }
+    if(page==="day") renderTasks();
+    if(page==="reminders") renderReminders();
+    if(page==="phone") updatePhoneStatus();
+    window.scrollTo({top:0,behavior:"smooth"});
   }
-}
-
-function speak(text){
-  if(
-    !data.settings.voice ||
-    !("speechSynthesis" in window) ||
-    !("SpeechSynthesisUtterance" in window)
-  ) return;
-
-  try {
-    const synth = window.speechSynthesis;
-    synth.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(String(text));
-    const voice = getPreferredSaathiVoice();
-
-    utterance.lang = voice ? voice.lang : getSaathiLanguage();
-    if(voice) utterance.voice = voice;
-
-    utterance.rate = 0.94;
-    utterance.pitch = 1.05;
-    utterance.volume = 1;
-
-    synth.speak(utterance);
-  } catch(error) {
-    console.error("Saathi speech error:",error);
+  function closeMenu(){ $("sidebar").classList.remove("open"); $("scrim").classList.remove("show"); }
+  function updateIdentity(){
+    const name=state.profile.name.trim(); $("sideName").textContent=name||"Your Saathi";
+    $("sideAvatar").textContent=(name[0]||"S").toUpperCase();
+    $("greeting").innerHTML=`Hello${name?`, ${escapeHTML(name)}`:" there"} <span>âœ¦</span>`;
   }
-}
-function getOpenAppCommand(transcript){
-  const value = String(transcript || "")
-    .toLowerCase()
-    .replace(/[.,!?]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  const hindi = (...codes) => String.fromCodePoint(...codes);
-
-  const hindiOpenWords = [
-    hindi(0x916,0x94b,0x932,0x94b),
-    hindi(0x916,0x94b,0x932),
-    hindi(0x916,0x94b,0x932,0x928,0x93e),
-    hindi(0x916,0x94b,0x932,0x20,0x926,0x94b),
-    hindi(0x91a,0x93e,0x932,0x942,0x20,0x915,0x930,0x94b),
-    hindi(0x913,0x92a,0x928,0x20,0x915,0x930,0x94b)
-  ];
-
-  const openIntent =
-    /\b(open|launch|start|chalao|chala do|khol|kholo|kholna|khol do|khul jao|open karo|chalu karo|run|dikhao)\b/i.test(value) ||
-    hindiOpenWords.some(word => value.includes(word));
-
-  if(!openIntent) return null;
-
-  const hasHindiOrEnglish = (...terms) =>
-    terms.some(term => value.includes(term));
-
-  if(hasHindiOrEnglish(
-    "whatsapp", "whats app",
-    hindi(0x935,0x94d,0x939,0x93e,0x91f,0x94d,0x938,0x90f,0x92a),
-    hindi(0x935,0x94d,0x939,0x93e,0x91f,0x94d,0x938,0x20,0x905,0x92a)
-  )){
-    return "WhatsApp";
+  function fillProfile(){ for(const [id,key] of Object.entries(PROFILE_FIELDS)) $(id).value=state.profile[key]||""; }
+  function saveProfile(event){
+    event.preventDefault(); for(const [id,key] of Object.entries(PROFILE_FIELDS)) state.profile[key]=$(id).value.trim();
+    saveState(); updateIdentity(); toast("Profile saved on this device.");
   }
-
-  if(hasHindiOrEnglish("youtube", "you tube", hindi(0x92f,0x942,0x91f,0x94d,0x92f,0x942,0x92c))){
-    return "YouTube";
+  function fillSettings(){
+    for(const [id,key] of Object.entries(SETTING_FIELDS)) $(id).checked=!!state.settings[key];
+    $("sQuietStart").value=state.settings.quietStart||"22:00"; $("sQuietEnd").value=state.settings.quietEnd||"07:00";
+    updateNotificationState();
   }
-
-  if(hasHindiOrEnglish("calculator", hindi(0x915,0x948,0x932,0x915,0x941,0x932,0x947,0x91f,0x930))){
-    return "Calculator";
-  }
-
-  if(hasHindiOrEnglish("chrome", hindi(0x915,0x94d,0x930,0x94b,0x92e))){
-    return "Chrome";
-  }
-
-  let name = value
-    .replace(/^(hey jarvis|jarvis|hey saathi|saathi|please|zara)\s*/i, "")
-    .replace(/^(please\s+)?(open|launch|start|run|khol|kholo|kholna|khol do|chalao|chala do|khul jao|open karo|chalu karo|dikhao)\s+/i, "")
-    .replace(/\s+(please|open|launch|start|run|khol|kholo|kholna|khol do|chalao|chala do|khul jao|open karo|chalu karo|dikhao)$/i, "")
-    .replace(/\s+(app|application)$/i, "")
-    .replace(/\s+ko$/i, "")
-    .trim();
-
-  for(const word of hindiOpenWords){
-    if(name.startsWith(word + " ")) name = name.slice(word.length).trim();
-    if(name.endsWith(" " + word)) name = name.slice(0, -word.length).trim();
-  }
-
-  return name.length >= 2 ? name : null;
-}
-function startVoice(){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if(!SR){
-    toast("Is browser mein voice input supported nahi hai.");
-    return;
-  }
-
-  if(recognition){
-    recognition.stop();
-    recognition = null;
-    return;
-  }
-
-  recognition = new SR();
-  recognition.lang = getSaathiLanguage();
-  recognition.interimResults = false;
-  recognition.continuous = false;
-  recognition.maxAlternatives = 3;
-
-  recognition.onresult = e => {
-    const alternatives = Array.from(e.results[0] || []);
-    const selected = alternatives.find(item =>
-      getOpenAppCommand(item.transcript || "")
-    );
-    const transcript = (selected || alternatives[0])?.transcript || "";
-    const appName = getOpenAppCommand(transcript);
-
-    if (
-      appName &&
-      window.NavAIAndroid &&
-      typeof window.NavAIAndroid.openApp === "function"
-    ) {
-      const opened = window.NavAIAndroid.openApp(appName);
-
-      if(opened){
-        addMessage("user", transcript);
-        const reply = "Theek hai, " + appName + " khol raha hoon.";
-        addMessage("assistant", reply);
-        speak(reply);
-        $("chatInput").value = "";
+  function updateNotificationState(){
+    const bridge=window.NavAIAndroid;
+    if(bridge&&typeof bridge.hasReminderPermissions==="function"){
+      try{
+        const allowed=bridge.hasReminderPermissions();
+        $("notificationState").textContent=allowed?"Android reminder permissions are available.":"Android reminder permissions are not fully enabled.";
         return;
+      }catch(error){console.warn("Native permission check failed:",error);}
+    }
+    const permission=("Notification" in window)?Notification.permission:"unsupported";
+    $("notificationState").textContent=permission==="granted"?"Browser notification permission is allowed.":permission==="denied"?"Notifications are blocked in browser settings.":permission==="unsupported"?"Browser notifications are not supported here.":"Notification permission has not been granted.";
+  }
+
+  window.navaiNativePermissionsChanged = function(allowed){
+    updateNotificationState();
+    if(allowed) refreshDailyReminderQueue();
+  };
+  function saveSettings(){
+    for(const [id,key] of Object.entries(SETTING_FIELDS)) state.settings[key]=$(id).checked;
+    state.settings.quietStart=$("sQuietStart").value||"22:00"; state.settings.quietEnd=$("sQuietEnd").value||"07:00";
+    const bridge=window.NavAIAndroid;
+    if(state.settings.wake){
+      if(bridge&&typeof bridge.startWakeWordListening==="function"){
+        try{bridge.startWakeWordListening();}catch(error){console.warn(error);state.settings.wake=false;$("sWake").checked=false;toast("Android wake-word service could not be requested.");}
+      } else { state.settings.wake=false; $("sWake").checked=false; toast("Wake word is available only in the supported Android app."); }
+    } else if(bridge&&typeof bridge.stopWakeWordListening==="function"){
+      try{bridge.stopWakeWordListening();}catch(error){console.warn(error);}
+    }
+    if(state.settings.notifications&&("Notification" in window)&&Notification.permission!=="granted"){
+      state.settings.notifications=false; $("sNotifications").checked=false; toast("Choose Allow notifications first to grant browser permission.");
+    }
+    saveState(); updateNotificationState();
+    if(state.settings.checkin) toast("Preference saved. Automated AI check-ins still need native scheduling support."); else toast("Settings saved.");
+  }
+  function languageCode(){ return state.profile.language==="english"?"en-IN":state.profile.language==="hindi"?"hi-IN":"hi-IN"; }
+  function speak(text){
+    if(!state.settings.voice||!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel(); const utterance=new SpeechSynthesisUtterance(String(text).slice(0,1800));
+    utterance.lang=languageCode(); utterance.rate=1; utterance.pitch=1; window.speechSynthesis.speak(utterance);
+  }
+  function stopVoice(){ if(recognition&&listening){try{recognition.stop();}catch(error){console.warn(error);}} if("speechSynthesis" in window) window.speechSynthesis.cancel(); setStatus("Voice stopped"); }
+  function setResponse(message,heard=""){
+    const text=String(message||""); $("responseText").textContent=text; $("heardText").textContent=heard?`You said: â€œ${heard}â€`:"";
+    $("responseTime").textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+    lastReply=text; $("repeatButton").disabled=!text; $("copyButton").disabled=!text;
+  }
+  function buildContext(){
+    return {
+      profile:state.profile,
+      settings:{language:state.profile.language,spokenReplies:state.settings.voice,quietHours:{start:state.settings.quietStart,end:state.settings.quietEnd}},
+      reminders:state.reminders.map(({id,title,time,repeat})=>({id,title,time,repeat})),
+      tasks:state.tasks.map(({title,done})=>({title,done})),
+      notes:state.notes.map(note=>note.text),
+      currentTime:new Date().toLocaleString(),
+      instructions:"Use saved profile information only when relevant. Be honest, concise, respectful and safe. Never claim a phone action, alarm, message or purchase is complete unless the device confirms it. Ask for explicit confirmation before sensitive actions. Do not claim that automated check-ins are active unless confirmed."
+    };
+  }
+  function extractOpenApp(text){
+    const match=String(text).match(/(?:\bopen\b|\blaunch\b|\bstart\b|\bkhol(?:o)?\b|\bchalao\b|à¤–à¥‹à¤²à¥‹)\s+(.+)/i);
+    return match?match[1].replace(/\s+(app|application)$/i,"").trim():null;
+  }
+  function rememberExchange(userText,assistantText){
+    const now=Date.now();
+    state.chatHistory.push({role:"user",content:String(userText).slice(0,2000),at:now});
+    state.chatHistory.push({role:"assistant",content:String(assistantText).slice(0,4000),at:now});
+    state.chatHistory=state.chatHistory.slice(-40);
+    saveState();
+  }
+
+  function handleReminderChat(message){
+    const text=String(message||"").trim();
+    let pending=state.pendingReminder;
+
+    function reply(answer){
+      setResponse(answer,text);
+      rememberExchange(text,answer);
+      speak(answer);
+    }
+
+    function askRepeat(){
+      pending.step="repeat";
+      state.pendingReminder=pending;
+      saveState();
+      reply("6 baje ka reminder samajh gaya. Aaj ke liye set karun ya roz repeat karun?");
+    }
+
+    function finishReminder(repeat){
+      pending.repeat=repeat;
+      const item={
+        id:`r${Date.now()}`,
+        title:pending.title||"Reminder",
+        time:pending.time,
+        repeat
+      };
+
+      const parts=item.time.split(":").map(Number);
+      const now=new Date();
+      const requested=new Date();
+      requested.setHours(parts[0],parts[1],0,0);
+
+      if(repeat==="once" && requested.getTime()<=now.getTime()){
+        pending.step="tomorrow";
+        state.pendingReminder=pending;
+        saveState();
+        reply(`Aaj ${item.time} ka time nikal chuka hai. Kya kal ${item.time} baje reminder set karun?`);
+        return;
+      }
+
+      const result=scheduleReminderNative(item);
+
+      if(!result.available || result.count===0){
+        state.pendingReminder=pending;
+        saveState();
+        reply("Android reminder service abhi available nahi hai ya alarm schedule nahi hua. NavAI Saathi Android app mein kholkar dobara try kijiye. Abhi reminder set nahi hua hai.");
+        return;
+      }
+
+      state.reminders.push(item);
+      state.pendingReminder=null;
+      saveState();
+      renderReminders();
+
+      if(result.failed){
+        reply(`Reminder save ho gaya, lekin Android ne sirf ${result.count} alarms confirm kiye. Please reminder list check kar lijiye.`);
+      }else{
+        reply(`Done! ${item.time} baje ka ${repeat==="daily"?"daily":"aaj ke liye one-time"} reminder Android par schedule ho gaya.`);
       }
     }
 
-    if(transcript.trim()){
-      sendMessage(transcript);
-    }
-  };
+    if(pending && pending.step==="period"){
+      let period=null;
+      if(/\b(pm|shaam|evening|raat)\b/i.test(text))period="pm";
+      else if(/\b(am|subah|morning)\b/i.test(text))period="am";
 
-  recognition.onerror = () => {
-    toast("Voice input start nahi ho paya. Dobara try karo.");
-  };
-
-  recognition.onend = () => {
-    recognition = null;
-    $("voiceBtn").classList.remove("recording");
-  };
-
-  try {
-    recognition.start();
-    $("voiceBtn").classList.add("recording");
-  } catch(error) {
-    recognition = null;
-    $("voiceBtn").classList.remove("recording");
-    toast("Microphone start nahi ho paya.");
-  }
-}
-function fillProfile(){
-  const p=data.profile;
-  const fields={profileName:"name",profileAge:"age",profileOccupation:"occupation",profileInterests:"interests",profileSchedule:"schedule",profileGoals:"goals",profileFood:"food",profileTone:"tone",profileLanguage:"language"};
-  Object.entries(fields).forEach(([id,key])=>$(id).value=p[key]||"");
-}
-function renderTasks(){
-  const html=data.tasks.map(t=>`
-    <div class="task-row ${t.done?"done":""}">
-      <input type="checkbox" data-task="${t.id}" ${t.done?"checked":""}>
-      <span>${escapeHTML(t.title)} ${t.time?" · "+escapeHTML(t.time):""}</span>
-      <button data-delete-task="${t.id}">✕</button>
-    </div>`).join("")||'<p class="empty">No tasks yet. Add your first task.</p>';
-  $("allTasks").innerHTML=html;
-  $("taskPreview").innerHTML=data.tasks.filter(t=>!t.done).slice(0,3).map(t=>`<div class="task-row"><span>${escapeHTML(t.title)}</span><small>${escapeHTML(t.time||"")}</small></div>`).join("")||'<p class="empty">Your day starts with one small step.</p>';
-}
-function renderRoutines(){
-  $("routineList").innerHTML=data.routines.map(r=>`
-    <div class="routine-row"><span>◷ ${escapeHTML(r.time)} · ${escapeHTML(r.title)}</span><span>${escapeHTML(r.repeat)} <button data-delete-routine="${r.id}">✕</button></span></div>`).join("")||'<p class="empty">No routines added yet.</p>';
-}
-function saveSettings(){
-  data.settings={
-    voice:$("voiceReplies").checked,
-    notifications:$("notifications").checked,
-    auto:$("autoCheckin").checked,
-    quietStart:$("quietStart").value,
-    quietEnd:$("quietEnd").value,
-    wakeWord:!!data.settings.wakeWord
-  };
-  save();
-  if(data.settings.notifications) syncNativeRoutineReminders();
-  toast("Settings saved.");
-}
-function fillSettings(){
-  $("voiceReplies").checked=data.settings.voice;
-  $("notifications").checked=data.settings.notifications;
-  $("autoCheckin").checked=data.settings.auto;
-  $("quietStart").value=data.settings.quietStart;
-  $("quietEnd").value=data.settings.quietEnd;
-  $("wakeWordListening").checked=!!data.settings.wakeWord;
-}
-function inQuietHours(){
-  const [sh,sm]=data.settings.quietStart.split(":").map(Number);
-  const [eh,em]=data.settings.quietEnd.split(":").map(Number);
-  const now=new Date(),current=now.getHours()*60+now.getMinutes();
-  const start=sh*60+sm,end=eh*60+em;
-  return start>end?(current>=start||current<end):(current>=start&&current<end);
-}
-function notify(title,body,tag){
-  if(
-    !data.settings.notifications ||
-    !("Notification" in window) ||
-    Notification.permission !== "granted" ||
-    inQuietHours()
-  ) return false;
-
-  try {
-    const notice = new Notification(title,{
-      body: body,
-      tag: tag || "navai-saathi",
-      requireInteraction: true,
-      renotify: false
-    });
-
-    if(tag && tag.indexOf("navai-routine-") === 0){
-      routineReminderState.notification = notice;
-
-      notice.onclose = () => {
-        if(routineReminderState.active){
-          stopRoutineReminder();
+      if(!period){
+        if(/cancel|chhodo|rehne do|mat set/i.test(text)){
+          state.pendingReminder=null;saveState();
+          reply("Theek hai, reminder cancel kar diya. Koi alarm set nahi hua.");
+          return true;
         }
-      };
+        reply("Bas confirm kar dijiye: 6 AM (subah) ya 6 PM (shaam)?");
+        return true;
+      }
+
+      let hour=pending.hour;
+      if(period==="pm" && hour<12)hour+=12;
+      if(period==="am" && hour===12)hour=0;
+      pending.time=`${String(hour).padStart(2,"0")}:${String(pending.minute||0).padStart(2,"0")}`;
+      askRepeat();
+      return true;
     }
 
-    notice.onclick = () => {
-      window.focus();
-      notice.close();
-      showView("routine");
+    if(pending && pending.step==="repeat"){
+      if(/\b(aaj|sirf aaj|once|one.?time|ek baar)\b/i.test(text)){
+        finishReminder("once");
+        return true;
+      }
+      if(/\b(roz|daily|har din|every day|everyday)\b/i.test(text)){
+        finishReminder("daily");
+        return true;
+      }
+      if(/cancel|chhodo|rehne do|mat set/i.test(text)){
+        state.pendingReminder=null;saveState();
+        reply("Theek hai, reminder cancel kar diya. Koi alarm set nahi hua.");
+        return true;
+      }
+      reply("Aaj ke liye one-time reminder chahiye ya roz daily repeat karna hai?");
+      return true;
+    }
+
+    if(pending && pending.step==="tomorrow"){
+      if(/\b(haan|yes|kal|tomorrow|set karo|kar do)\b/i.test(text)){
+        finishReminder("once");
+        return true;
+      }
+      if(/\b(nahi|no|cancel|rehne do)\b/i.test(text)){
+        state.pendingReminder=null;saveState();
+        reply("Theek hai, reminder cancel kar diya.");
+        return true;
+      }
+      reply("Kya kal isi time reminder set kar doon? Haan ya nahi bata dijiye.");
+      return true;
+    }
+
+    if(pending)return false;
+
+    if(!/\b(remind(?:er)?|yaad dil|alarm)\b/i.test(text))return false;
+
+    const match=text.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b|\b(\d{1,2})\s*baje\b|\b(\d{1,2}):(\d{2})\b/i);
+    if(!match)return false;
+
+    let hour,minute=0,period=null;
+    if(match[1]){
+      hour=Number(match[1]);
+      minute=Number(match[2]||0);
+      period=(match[3]||"").toLowerCase()||null;
+    }else if(match[4]){
+      hour=Number(match[4]);
+    }else{
+      hour=Number(match[5]);
+      minute=Number(match[6]||0);
+    }
+
+    if(hour<1||hour>12||minute>59)return false;
+
+    pending={
+      title:"Reminder",
+      hour,
+      minute,
+      time:null,
+      step:"period",
+      repeat:null
     };
+
+    state.pendingReminder=pending;
+    saveState();
+
+    if(period){
+      if(period==="pm" && hour<12)hour+=12;
+      if(period==="am" && hour===12)hour=0;
+      pending.time=`${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}`;
+      askRepeat();
+    }else{
+      reply(`${hour} baje se aapka matlab subah ${hour} AM hai ya shaam ${hour} PM?`);
+    }
 
     return true;
-  } catch(error) {
-    console.error("Saathi notification error:",error);
-    return false;
-  }
-}
-
-const routineReminderState = {
-  active: null,
-  timer: null,
-  panel: null
-};
-
-function getRoutineReminderLanguage(){
-  const language = String(data.profile?.language || "hinglish").toLowerCase();
-  return ["hindi","english","hinglish"].includes(language)
-    ? language
-    : "hinglish";
-}
-
-function getRoutineReminderMessage(title){
-  const language = getRoutineReminderLanguage();
-  const task = String(title || "").trim().toLowerCase();
-
-  const messages = {
-    wake: {
-      hindi: "सुप्रभात…\n\nउठने का समय हो गया है ना… चलो, अब आराम से उठ जाओ। सुबह हो गई है।",
-      hinglish: "सुप्रभात…\n\nउठने का समय हो गया है ना… चलो, अब आराम से उठ जाओ। सुबह हो गई है।",
-      english: "Good morning… It's time to wake up. Take your time and get up gently."
-    },
-    sleep: {
-      hindi: "सोने का समय हो गया है… चलो, अब आराम से सो जाओ।",
-      hinglish: "सोने का समय हो गया है… चलो, अब आराम से सो जाओ।",
-      english: "It's time to sleep… Let's get some good rest now."
-    },
-    food: {
-      hindi: "खाने का समय हो गया है… चलो, अब थोड़ा खाना खा लो।",
-      hinglish: "खाने का समय हो गया है… चलो, अब थोड़ा खाना खा लो।",
-      english: "It's time to eat… Come on, have something to eat."
-    },
-    rest: {
-      hindi: "अब थोड़ा आराम कर लो… आज थक गए होगे।",
-      hinglish: "अब थोड़ा आराम कर लो… आज थक गए होगे।",
-      english: "Take a little rest now… You must have had a tiring day."
-    },
-    gym: {
-      hindi: "चलो, अब जिम चलने का समय हो गया है… आराम से तैयार हो जाओ।",
-      hinglish: "चलो, अब जिम चलने का समय हो गया है… आराम से तैयार हो जाओ।",
-      english: "It's time for the gym… Get ready at your own pace."
-    },
-    study: {
-      hindi: "चलो, अब पढ़ाई शुरू करने का समय हो गया है… आराम से बैठो और शुरू करो।",
-      hinglish: "चलो, अब पढ़ाई शुरू करने का समय हो गया है… आराम से बैठो और शुरू करो।",
-      english: "It's time to study… Get comfortable and let's get started."
-    },
-    homework: {
-      hindi: "अब होमवर्क करने का समय हो गया है… चलो, आराम से शुरू करो।",
-      hinglish: "अब होमवर्क करने का समय हो गया है… चलो, आराम से शुरू करो।",
-      english: "It's time for homework… Let's get started calmly."
-    },
-    school: {
-      hindi: "स्कूल जाने का समय हो गया है… चलो, अब तैयार हो जाओ।",
-      hinglish: "स्कूल जाने का समय हो गया है… चलो, अब तैयार हो जाओ।",
-      english: "It's time for school… Come on, get ready."
-    },
-    water: {
-      hindi: "पानी पीने का समय हो गया है… चलो, थोड़ा पानी पी लो।",
-      hinglish: "पानी पीने का समय हो गया है… चलो, थोड़ा पानी पी लो।",
-      english: "Time to drink some water… Have a little water."
-    }
-  };
-
-  let category = "";
-
-  if(/wake[\s-]*up|wakeup|wake|morning|get[\s-]*up|rise|uthna|uthne|utho|uth|subah|jago|jaago|उठ|जाग|सुबह/.test(task)){
-    category = "wake";
-  }else if(/sleep|bedtime|go to bed|sona|sone|सोना|सोने|नींद/.test(task)){
-    category = "sleep";
-  }else if(/breakfast|lunch|dinner|food|eat|meal|khana|khana khana|खाना|नाश्ता|भोजन/.test(task)){
-    category = "food";
-  }else if(/rest|relax|break|aaram|आराम|विश्राम/.test(task)){
-    category = "rest";
-  }else if(/gym|workout|exercise|व्यायाम|जिम|कसरत/.test(task)){
-    category = "gym";
-  }else if(/homework|assignment|होमवर्क|गृहकार्य/.test(task)){
-    category = "homework";
-  }else if(/study|studying|revision|padhai|पढ़ाई|अध्ययन/.test(task)){
-    category = "study";
-  }else if(/school|विद्यालय|स्कूल/.test(task)){
-    category = "school";
-  }else if(/water|drink water|paani|पानी/.test(task)){
-    category = "water";
   }
 
-  const selectedLanguage = messages[category];
-  if(selectedLanguage){
-    return selectedLanguage[language] || selectedLanguage.hinglish;
-  }
+  async function askSaathi(raw){
+    const message=String(raw||"").trim(); if(!message||busy) return;
+    if(message.length>2000){toast("Please keep your message under 2,000 characters.");return;}
+    if(handleReminderChat(message))return;
 
-  const safeTitle = String(title || "your activity").trim();
+    // Preserve the original request when the user answers a clarification.
+    const requestMessage = (() => {
+      const history = Array.isArray(state.chatHistory) ? state.chatHistory : [];
+      const lastAssistantIndex = history.map(x => x.role).lastIndexOf("assistant");
+      if (lastAssistantIndex < 0) return message;
 
-  if(language === "hindi"){
-    return "अब " + safeTitle + " का समय है… चलो, आराम से शुरू करो।";
-  }
+      const previousAssistant = String(history[lastAssistantIndex].content || "");
+      const previousUser = [...history.slice(0, lastAssistantIndex)]
+        .reverse().find(x => x.role === "user");
+      if (!previousUser) return message;
 
-  if(language === "english"){
-    return "It's time for " + safeTitle + "… Take your time and get started.";
-  }
+      const askedRepeat = /aaj ke liye|roz|daily|one.?time|once|repeat|हर दिन|रोज़|आज के लिए/i.test(previousAssistant);
+      const isRepeatAnswer = /^(aaj ke liye|sirf aaj|आज के लिए|एक बार|ek baar|once|one.?time|roz|daily|har din|रोज़|हर दिन)[.! ]*$/i.test(message);
 
-  return "अब " + safeTitle + " का समय है… चलो, आराम से शुरू करो।";
-}
-function createRoutineReminderPanel(){
-  if(routineReminderState.panel &&
-     document.body.contains(routineReminderState.panel)){
-    return routineReminderState.panel;
-  }
+      if (!askedRepeat || !isRepeatAnswer) return message;
 
-  const style = document.createElement("style");
-  style.id = "navai-routine-reminder-style";
-  style.textContent = `
-    #navaiActiveRoutineReminder {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 99999;
-      width: min(390px, calc(100vw - 28px));
-      padding: 20px;
-      border: 1px solid #e6d8f3;
-      border-radius: 20px;
-      background: #fffaff;
-      color: #40334f;
-      box-shadow: 0 16px 48px rgba(65, 43, 91, .18);
-      font-family: inherit;
-    }
-    #navaiActiveRoutineReminder .navai-reminder-heading {
-      font-size: 16px;
-      font-weight: 750;
-      margin-bottom: 8px;
-      color: #65458b;
-    }
-    #navaiActiveRoutineReminder .navai-reminder-message {
-      font-size: 14px;
-      line-height: 1.65;
-      margin-bottom: 16px;
-      color: #594d66;
-      overflow-wrap: anywhere;
-    }
-    #navaiActiveRoutineReminder .navai-reminder-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    #navaiActiveRoutineReminder button {
-      border: 0;
-      border-radius: 12px;
-      padding: 11px 15px;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    #navaiReminderDone {
-      flex: 1;
-      color: white;
-      background: #8966b3;
-    }
-    #navaiReminderClose {
-      color: #65458b;
-      background: #f0e8f8;
-    }
-    @media(max-width:520px){
-      #navaiActiveRoutineReminder {
-        right: 14px;
-        bottom: 14px;
-      }
-    }
-  `;
-
-  if(!document.getElementById("navai-routine-reminder-style")){
-    document.head.appendChild(style);
-  }
-
-  const panel = document.createElement("div");
-  panel.id = "navaiActiveRoutineReminder";
-  panel.setAttribute("role","alertdialog");
-  panel.setAttribute("aria-live","polite");
-
-  const heading = document.createElement("div");
-  heading.className = "navai-reminder-heading";
-  heading.textContent = "✦ NavAI Saathi · Gentle reminder";
-
-  const message = document.createElement("div");
-  message.className = "navai-reminder-message";
-  message.id = "navaiReminderMessage";
-
-  const actions = document.createElement("div");
-  actions.className = "navai-reminder-actions";
-
-  const done = document.createElement("button");
-  done.type = "button";
-  done.id = "navaiReminderDone";
-  done.textContent = "ठीक है ✓";
-
-  const close = document.createElement("button");
-  close.type = "button";
-  close.id = "navaiReminderClose";
-  close.textContent = "Close";
-
-  done.addEventListener("click", stopRoutineReminder);
-  close.addEventListener("click", stopRoutineReminder);
-
-  actions.append(done,close);
-  panel.append(heading,message,actions);
-  document.body.appendChild(panel);
-
-  routineReminderState.panel = panel;
-  return panel;
-}
-
-function stopRoutineReminder(){
-  const active = routineReminderState.active;
-
-  if(routineReminderState.timer){
-    clearTimeout(routineReminderState.timer);
-    routineReminderState.timer = null;
-  }
-
-  if("speechSynthesis" in window){
-    window.speechSynthesis.cancel();
-  }
-
-  if(active && active.key){
-    localStorage.setItem(active.key,"done");
-  }
-
-  routineReminderState.active = null;
-
-  const notification = routineReminderState.notification;
-  routineReminderState.notification = null;
-
-  if(notification){
-    notification.close();
-  }
-
-  if(routineReminderState.panel){
-    routineReminderState.panel.remove();
-    routineReminderState.panel = null;
-  }
-
-  toast("Reminder stopped. Well done!");
-}
-
-function speakRoutineReminder(){
-  const active = routineReminderState.active;
-  if(!active) return;
-
-  if(!("speechSynthesis" in window) ||
-     !("SpeechSynthesisUtterance" in window)){
-    routineReminderState.timer = setTimeout(
-      speakRoutineReminder, 2000
-    );
-    return;
-  }
-
-  try {
-    window.speechSynthesis.cancel();
-
-    const speech = new SpeechSynthesisUtterance(
-      getRoutineReminderMessage(active.title)
-    );
-
-    const voice = getPreferredSaathiVoice();
-    const language = getRoutineReminderLanguage();
-
-    if(voice){
-      speech.voice = voice;
-      speech.lang = voice.lang || (
-        language === "english" ? "en-IN" : "hi-IN"
-      );
-    }else{
-      speech.lang = language === "english" ? "en-IN" : "hi-IN";
-    }
-
-    speech.rate = 0.88;
-    speech.pitch = 1.03;
-    speech.volume = 1;
-
-    let repeatScheduled = false;
-
-    const scheduleNextRepeat = () => {
-      if(repeatScheduled) return;
-      repeatScheduled = true;
-
-      if(!routineReminderState.active ||
-         routineReminderState.active.key !== active.key){
-        return;
-      }
-
-      if(routineReminderState.timer){
-        clearTimeout(routineReminderState.timer);
-      }
-
-      routineReminderState.timer = setTimeout(() => {
-        routineReminderState.timer = null;
-
-        if(routineReminderState.active &&
-           routineReminderState.active.key === active.key){
-          speakRoutineReminder();
-        }
-      },2000);
-    };
-
-    speech.onend = scheduleNextRepeat;
-    speech.onerror = scheduleNextRepeat;
-
-    window.speechSynthesis.speak(speech);
-  } catch(error) {
-    console.error("Saathi routine voice error:",error);
-
-    if(routineReminderState.active &&
-       routineReminderState.active.key === active.key){
-      routineReminderState.timer = setTimeout(
-        speakRoutineReminder, 2000
-      );
-    }
-  }
-}
-
-function startRoutineReminder(routine,today){
-  if(routineReminderState.active) return;
-
-  const reminderKey =
-    KEY + ".routineReminder." + routine.id + "." + today;
-
-  if(localStorage.getItem(reminderKey) === "done") return;
-
-  routineReminderState.active = {
-    id: routine.id,
-    title: String(routine.title),
-    key: reminderKey
-  };
-
-  const panel = createRoutineReminderPanel();
-  const message = panel.querySelector("#navaiReminderMessage");
-
-  if(message){
-    message.textContent = getRoutineReminderMessage(routine.title);
-  }
-
-  // Browser notification is optional; voice reminder works independently.
-  notify(
-    "NavAI Saathi - Routine reminder",
-    getRoutineReminderMessage(routine.title),
-    "navai-routine-" + routine.id + "-" + today
-  );
-
-  speakRoutineReminder();
-}
-
-function checkRoutineReminders(){
-  if(routineReminderState.active) return;
-  if(!Array.isArray(data.routines) || !data.routines.length) return;
-  if(inQuietHours()) return;
-
-  const now = new Date();
-  const today = now.getFullYear() + "-" +
-    String(now.getMonth()+1).padStart(2,"0") + "-" +
-    String(now.getDate()).padStart(2,"0");
-
-  const currentMinutes = now.getHours()*60 + now.getMinutes();
-  const weekday = now.getDay();
-
-  for(const routine of data.routines){
-    if(!routine || !routine.id || !routine.time || !routine.title) continue;
-
-    if(
-      routine.repeat === "weekdays" &&
-      (weekday === 0 || weekday === 6)
-    ) continue;
-
-    const parts = routine.time.split(":").map(Number);
-
-    if(
-      parts.length !== 2 ||
-      parts.some(n => !Number.isFinite(n)) ||
-      parts[0] < 0 || parts[0] > 23 ||
-      parts[1] < 0 || parts[1] > 59
-    ) continue;
-
-    const targetMinutes = parts[0]*60 + parts[1];
-    const difference = currentMinutes - targetMinutes;
-
-    if(difference < 0 || difference > 10) continue;
-
-    const reminderKey =
-      KEY + ".routineReminder." + routine.id + "." + today;
-
-    if(localStorage.getItem(reminderKey) === "done") continue;
-
-    startRoutineReminder(routine,today);
-    break;
-  }
-}
-
-// Native Android reminders: AlarmManager continues after the app is swiped away.
-function scheduleNativeRoutine(routine){
-  if(!window.NavAIAndroid || typeof window.NavAIAndroid.scheduleReminder !== "function") return false;
-  if(!routine || !routine.id || !routine.time || !routine.title) return false;
-
-  const parts = routine.time.split(":").map(Number);
-  if(parts.length !== 2 || parts[0] < 0 || parts[0] > 23 || parts[1] < 0 || parts[1] > 59) return false;
-
-  const now = new Date();
-  let scheduled = 0;
-  // Keep a rolling 14-day schedule on Android, including weekday-only routines.
-  for(let dayOffset = 0; dayOffset < 14; dayOffset++){
-    const target = new Date(now.getFullYear(), now.getMonth(), now.getDate() + dayOffset, parts[0], parts[1], 0, 0);
-    if(target.getTime() <= Date.now() + 5000) continue;
-    if(routine.repeat === "weekdays" && (target.getDay() === 0 || target.getDay() === 6)) continue;
-    const dateKey = target.getFullYear() + "-" +
-      String(target.getMonth()+1).padStart(2,"0") + "-" +
-      String(target.getDate()).padStart(2,"0");
-    const nativeId = String(routine.id) + "-" + dateKey;
+      return "CONTEXT: The user is answering your previous clarification. " +
+        "Their original request was: " + String(previousUser.content) +
+        ". Your previous question was: " + previousAssistant +
+        ". Their answer is: " + message +
+        ". Continue the ORIGINAL request using all its details. Do not ask what the answer refers to. " +
+        "If any genuinely necessary detail is still missing, ask only for that detail.";
+    })();
+    busy=true; $("talkButton").disabled=true; $("commandInput").disabled=true; setStatus("Thinkingâ€¦","thinking"); setResponse("Saathi is thinkingâ€¦",message);
     try{
-      window.NavAIAndroid.scheduleReminder(nativeId, String(routine.title), getRoutineReminderMessage(routine.title), getRoutineReminderLanguage(), target.getTime());
-      scheduled++;
-    }catch(error){ console.error("Native reminder scheduling failed", error); }
+      const appName=extractOpenApp(message),bridge=window.NavAIAndroid;
+      if(appName&&bridge&&typeof bridge.openApp==="function"){
+        const opened=bridge.openApp(appName); const reply=opened?`Opening ${appName}.`:`I couldn't find ${appName} on this phone.`;
+        setResponse(reply,message); rememberExchange(message,reply); speak(reply); return;
+      }
+      const controller=new AbortController(),timeout=window.setTimeout(()=>controller.abort(),30000);
+      let response;
+      try{response=await fetch("/api/saathi/chat",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",signal:controller.signal,body:JSON.stringify({message:requestMessage,mode:"companion",context:buildContext(),history:state.chatHistory.slice(-12).map(entry=>({role:entry.role,content:entry.content}))})});}
+      finally{window.clearTimeout(timeout);}
+      let payload; try{payload=await response.json();}catch(error){throw new Error("The assistant service returned an unreadable response.");}
+      if(!response.ok) throw new Error(payload.error||`Assistant service returned ${response.status}.`);
+      const reply=typeof payload.reply==="string"?payload.reply:typeof payload.response==="string"?payload.response:typeof payload.message==="string"?payload.message:"I received an empty response. Please try again.";
+      setResponse(reply,message); rememberExchange(message,reply); speak(reply);
+    }catch(error){
+      console.error("Saathi request failed:",error); const detail=error.name==="AbortError"?"The request took too long. Please try again.":error.message||"Check your internet connection and try again.";
+      setResponse(`I couldn't complete that request. ${detail}`,message); toast("Assistant connection issue");
+    }finally{busy=false;$("talkButton").disabled=false;$("commandInput").disabled=false;setStatus(listening?"Listeningâ€¦":"Ready when you are",listening?"listening":"ready");}
   }
-  return scheduled > 0;
-}
-
-function syncNativeRoutineReminders(){
-  if(!window.NavAIAndroid) return;
-  if(!data.settings.notifications) return;
-  (data.routines || []).forEach(scheduleNativeRoutine);
-}
-
-function scheduleCheck(){
-  const today=new Date().toDateString();
-  const last=localStorage.getItem(KEY+".lastCheckin");
-
-  if(data.settings.auto && last!==today){
-    const hour=new Date().getHours();
-
-    if(hour>=8 && hour<11){
-      notify(
-        "NavAI Saathi",
-        "Good morning! What would you like to focus on today?",
-        "navai-daily-checkin-" + today
-      );
-      localStorage.setItem(KEY+".lastCheckin",today);
-    }
-  }
-
-  checkRoutineReminders();
-}
-window.navaiWakeWordStateChanged = function(enabled, message){
-  data.settings = {...data.settings, wakeWord:!!enabled};
-  const toggle = $("wakeWordListening");
-  if(toggle) toggle.checked = !!enabled;
-  save();
-  if(message) toast(message);
-};
-
-function init(){
-  updateProfile();loadChat();renderTasks();renderRoutines();fillSettings();populateVoiceOptions();
-
-  document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
-  document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
-
-  $("newChat").onclick=()=>{
-    data.messages=[];
-    data.chats[data.mode]=[];
-    save();
-    renderMessages();
-    addMessage("assistant","Hello! I'm here. What would you like to talk about?");
-  };
-  $("startChat").onclick=()=>setMode("companion");
-  $("openProfile").onclick=()=>showView("memory");
-  $("routineReminderBtn").onclick=()=>{showView("routine");$("sidebar").classList.remove("open");};
-  $("settingsBtn").onclick=()=>showView("settings");
-  $("menuToggle").onclick=()=>$("sidebar").classList.toggle("open");
-  $("viewTasks").onclick=()=>showView("tasks");
-  $("addTask").onclick=()=>{showView("tasks");$("taskInput").focus();};
-  $("chatForm").onsubmit=e=>{e.preventDefault();sendMessage($("chatInput").value);};
-  $("voiceBtn").onclick=startVoice;
-  $("clearChat").onclick=()=>{
-    if(confirm("Clear this conversation?")){
-      data.messages=[];
-      data.chats[data.mode]=[];
-      save();
-      renderMessages();
-    }
-  };
-  $("suggestions").onclick=e=>{
-    if(e.target.tagName==="BUTTON")sendMessage(e.target.textContent);
-  };
-  $("profileForm").onsubmit=e=>{
-    e.preventDefault();
-    data.profile={
-      name:$("profileName").value.trim(),age:$("profileAge").value,
-      occupation:$("profileOccupation").value.trim(),interests:$("profileInterests").value.trim(),
-      schedule:$("profileSchedule").value.trim(),goals:$("profileGoals").value.trim(),
-      food:$("profileFood").value.trim(),tone:$("profileTone").value,language:$("profileLanguage").value,voiceName:$("profileVoice").value
+  function startListening(){
+    const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SpeechRecognition){toast("Voice input is not supported in this browser. Try the supported Android app or type below.");return;}
+    if(busy){toast("Please wait for the current response.");return;}
+    if(listening&&recognition){try{recognition.stop();}catch(error){console.warn(error);}return;}
+    recognition=new SpeechRecognition(); recognition.lang=languageCode(); recognition.interimResults=true; recognition.maxAlternatives=1; recognition.continuous=false;
+    recognition.onstart=()=>{listening=true;$("talkLabel").textContent="Listeningâ€¦";setStatus("Listeningâ€¦","listening");};
+    recognition.onresult=event=>{
+      let interim="",finalText="";
+      for(let i=event.resultIndex;i<event.results.length;i++){const transcript=event.results[i][0].transcript;if(event.results[i].isFinal)finalText+=transcript;else interim+=transcript;}
+      if(interim)setResponse(`Listening: ${interim}`); if(finalText.trim())askSaathi(finalText.trim());
     };
-    save();updateProfile();toast("Your profile has been saved.");
-  };
-  $("taskForm").onsubmit=e=>{
-    e.preventDefault();
-    data.tasks.push({id:Date.now(),title:$("taskInput").value.trim(),time:$("taskTime").value,done:false});
-    save();e.target.reset();renderTasks();toast("Task added.");
-  };
-  $("allTasks").onclick=e=>{
-    const id=Number(e.target.dataset.deleteTask);
-    if(id){data.tasks=data.tasks.filter(t=>t.id!==id);save();renderTasks();}
-  };
-  $("allTasks").onchange=e=>{
-    const id=Number(e.target.dataset.task);
-    const task=data.tasks.find(t=>t.id===id);
-    if(task){task.done=e.target.checked;save();renderTasks();}
-  };
-  $("routineForm").onsubmit=e=>{
-    e.preventDefault();
-    const routine={id:Date.now(),title:$("routineTitle").value.trim(),time:$("routineTime").value,repeat:$("routineRepeat").value};
-    data.routines.push(routine);
-    save();e.target.reset();renderRoutines();
-    if(data.settings.notifications) scheduleNativeRoutine(routine);
-    toast("Routine added.");
-  };
-  $("routineList").onclick=e=>{
-    const id=Number(e.target.dataset.deleteRoutine);
-    if(id){
-      if(window.NavAIAndroid && window.NavAIAndroid.cancelReminder){
-        for(let offset=0; offset<14; offset++){
-          const d=new Date(); d.setDate(d.getDate()+offset);
-          const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-          try{window.NavAIAndroid.cancelReminder(String(id)+"-"+key);}catch(error){}
-        }
+    recognition.onerror=event=>{console.warn("Speech recognition:",event.error);if(event.error!=="no-speech"&&event.error!=="aborted")toast(`Microphone: ${event.error}`);};
+    recognition.onend=()=>{listening=false;$("talkLabel").textContent="Tap to speak";if(!busy)setStatus("Ready when you are");};
+    try{recognition.start();}catch(error){console.warn(error);toast("Voice input could not start. Check microphone permission.");}
+  }
+  function renderTasks(){
+    const list=$("taskList"),done=state.tasks.filter(task=>task.done).length,total=state.tasks.length;
+    $("taskProgress").textContent=`${done} / ${total}`; $("taskRemaining").textContent=String(total-done);
+    $("taskProgressBar").style.width=total?`${Math.round(done/total*100)}%`:"0%";
+    if(!total){list.innerHTML='<div class="empty-state">Your day is open. Add your first priority above.</div>';return;}
+    list.replaceChildren();
+    state.tasks.forEach(task=>{
+      const row=document.createElement("div");row.className="task-row";
+      const label=document.createElement("label");label.className="task-label";
+      const checkbox=document.createElement("input");checkbox.type="checkbox";checkbox.checked=!!task.done;checkbox.addEventListener("change",()=>{task.done=checkbox.checked;saveState();renderTasks();});
+      const title=document.createElement("span");title.textContent=task.title;if(task.done)title.classList.add("completed");label.append(checkbox,title);
+      const remove=document.createElement("button");remove.type="button";remove.className="remove-button";remove.textContent="Remove";remove.addEventListener("click",()=>{state.tasks=state.tasks.filter(item=>item.id!==task.id);saveState();renderTasks();});
+      row.append(label,remove);list.append(row);
+    });
+  }
+  function addTask(event){event.preventDefault();const title=$("taskInput").value.trim();if(!title)return;state.tasks.push({id:`t${Date.now()}`,title,done:false,createdAt:Date.now()});saveState();$("taskInput").value="";renderTasks();toast("Added to today's priorities.");}
+  function renderNotes(){
+    const list=$("memoryNotes");if(!state.notes.length){list.innerHTML='<div class="empty-state">No personal notes saved yet.</div>';return;}
+    list.replaceChildren();state.notes.forEach(note=>{const row=document.createElement("div");row.className="note-row";const text=document.createElement("span");text.textContent=note.text;const remove=document.createElement("button");remove.type="button";remove.className="remove-button";remove.textContent="Remove";remove.addEventListener("click",()=>{state.notes=state.notes.filter(item=>item.id!==note.id);saveState();renderNotes();});row.append(text,remove);list.append(row);});
+  }
+  function addNote(event){event.preventDefault();const text=$("noteInput").value.trim();if(!text)return;state.notes.unshift({id:`n${Date.now()}`,text});state.notes=state.notes.slice(0,100);saveState();$("noteInput").value="";renderNotes();toast("Personal note saved on this device.");}
+  function exportData(){
+    const data={app:"NavAI Saathi",version:3,exportedAt:new Date().toISOString(),data:state};
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob);
+    const link=document.createElement("a");link.href=url;link.download="navai-saathi-personal-data.json";document.body.append(link);link.click();link.remove();URL.revokeObjectURL(url);toast("Your data export is ready.");
+  }
+  function clearPersonalData(){
+    if(!window.confirm("Clear your profile, personal notes and today's tasks from this device? Reminders and settings will stay."))return;
+    state.profile={...DEFAULT.profile};state.notes=[];state.tasks=[];saveState();updateIdentity();fillProfile();renderNotes();renderTasks();toast("Personal profile, notes and tasks cleared locally.");
+  }
+  function nextOccurrence(time){const [hours,minutes]=time.split(":").map(Number);const date=new Date();date.setHours(hours,minutes,0,0);if(date.getTime()<=Date.now())date.setDate(date.getDate()+1);return date;}
+  function scheduleReminderNative(item){
+    const bridge=window.NavAIAndroid;
+    if(!bridge||typeof bridge.scheduleReminder!=="function")return {available:false,count:0,ids:[]};
+    const ids=[];
+    try{
+      let scheduled=false;
+      if(item.repeat==="daily" && typeof bridge.scheduleDailyReminder==="function"){
+        const [hour,minute]=item.time.split(":").map(Number);
+        scheduled=bridge.scheduleDailyReminder(item.id,item.title,`Reminder: ${item.title}`,languageCode(),hour,minute)===true;
+      }else{
+        const when=nextOccurrence(item.time);
+        scheduled=bridge.scheduleReminder(item.id,item.title,`Reminder: ${item.title}`,languageCode(),when.getTime())===true;
       }
-      data.routines=data.routines.filter(r=>r.id!==id);save();renderRoutines();
+      if(scheduled)ids.push(item.id);
+    }catch(error){
+      console.warn("Native reminder scheduling failed for",item.id,error);
     }
-  };
-  $("saveSettings").onclick=saveSettings;
-
-  $("wakeWordListening").addEventListener("change",()=>{
-    const toggle = $("wakeWordListening");
-
-    if(toggle.checked){
-      toggle.checked = false;
-
-      if(!window.NavAIAndroid ||
-         typeof window.NavAIAndroid.startWakeWordListening !== "function"){
-        toast("Wake-word control is available in the NavAI Android app only.");
-        return;
-      }
-
+    return {available:true,count:ids.length,ids,failed:ids.length!==1};
+  }
+  function cancelNativeReminder(item){
+    const bridge=window.NavAIAndroid;if(!bridge||typeof bridge.cancelReminder!=="function")return;
+    try{bridge.cancelReminder(item.id);}catch(error){console.warn(error);}
+  }
+  function renderReminders(){
+    const list=$("reminderList");$("reminderCount").textContent=String(state.reminders.length);$("reminderCountPill").textContent=String(state.reminders.length);
+    if(!state.reminders.length){list.innerHTML='<div class="empty-state">No reminders yet. Add one above.</div>';$ ("nextReminder").textContent="Nothing scheduled";return;}
+    const sorted=[...state.reminders].map(item=>({item,when:nextOccurrence(item.time)})).sort((a,b)=>a.when-b.when);$("nextReminder").textContent=sorted[0].when.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+    list.replaceChildren();sorted.forEach(item=>{
+      const row=document.createElement("div");row.className="reminder-row";const info=document.createElement("div");info.className="reminder-info";
+      const icon=document.createElement("span");icon.className="reminder-icon";icon.textContent="â—·";const copy=document.createElement("div");const title=document.createElement("b");title.textContent=item.title;const meta=document.createElement("small");meta.textContent=`${item.time} Â· ${item.repeat==="daily"?"Daily":"One time"}`;copy.append(title,meta);info.append(icon,copy);
+      const remove=document.createElement("button");remove.type="button";remove.className="remove-button";remove.textContent="Remove";remove.addEventListener("click",()=>removeReminder(item.id));row.append(info,remove);list.append(row);
+    });
+  }
+  function addReminder(event){
+    event.preventDefault();const title=$("rTitle").value.trim(),time=$("rTime").value,repeat=$("rRepeat").value;
+    if(!title||!time){toast("Enter a title and time first.");return;}
+    const item={id:`r${Date.now()}`,title,time,repeat};const result=scheduleReminderNative(item);
+    state.reminders.push(item);saveState();renderReminders();$("reminderForm").reset();
+    if(!result.available)toast("Saved locally. Android reminder bridge is unavailable here.");
+    else if(result.count===0)toast("Saved locally, but Android scheduled no alarms. Check permissions.");
+    else if(result.failed)toast(`Saved locally. Android confirmed ${result.count} of the requested alarms.`);
+    else toast(`Saved. Android confirmed ${result.count} reminder alarm${result.count===1?"":"s"}.`);
+  }
+  function removeReminder(id){const item=state.reminders.find(reminder=>reminder.id===id);if(item)cancelNativeReminder(item);state.reminders=state.reminders.filter(reminder=>reminder.id!==id);saveState();renderReminders();toast("Removed from the saved reminder list.");}
+  async function allowNotifications(){
+    const bridge=window.NavAIAndroid;
+    if(bridge&&typeof bridge.requestReminderPermissions==="function"){
       try{
-        window.NavAIAndroid.startWakeWordListening();
-        toast("Microphone permission may be requested. Allow it to continue.");
-      }catch(error){
-        console.error("Wake-word start request failed", error);
-        toast("Could not start wake-word listening.");
-      }
-      return;
+        bridge.requestReminderPermissions();
+        updateNotificationState();
+        toast("Android reminder permission requested. Allow access in Android settings if prompted.");
+        return;
+      }catch(error){console.warn("Android permission request failed:",error);}
     }
-
-    if(window.NavAIAndroid &&
-       typeof window.NavAIAndroid.stopWakeWordListening === "function"){
-      window.NavAIAndroid.stopWakeWordListening();
+    if(!("Notification" in window)){toast("Notifications are not supported in this browser.");return;}
+    try{const permission=await Notification.requestPermission();state.settings.notifications=permission==="granted";$("sNotifications").checked=state.settings.notifications;saveState();updateNotificationState();toast(permission==="granted"?"Browser notifications allowed.":"Notification permission was not granted.");}
+    catch(error){console.warn(error);toast("Could not request notification permission.");}
+  }
+  function updatePhoneStatus(){
+    const connected=!!(window.NavAIAndroid&&typeof window.NavAIAndroid.openApp==="function");
+    const box=$("phoneStatus");box.classList.toggle("connected",connected);
+    box.querySelector("b").textContent=connected?"Android app bridge detected":"Android app bridge not detected";
+    box.querySelector("small").textContent=connected?"App shortcuts can request supported apps to open.":"Open this page inside the NavAI Android app to use app shortcuts.";
+  }
+  function openPhoneApp(name){
+    const bridge=window.NavAIAndroid;
+    if(!bridge||typeof bridge.openApp!=="function"){toast("This action is available only inside the supported NavAI Android app.");return;}
+    try{const opened=bridge.openApp(name);toast(opened?`Opening ${name}.`:`Couldn't find ${name} on this phone.`);}
+    catch(error){console.warn(error);toast(`Could not open ${name}.`);}
+  }
+  function refreshDailyReminderQueue(){
+    // Rebuild the next 14 days whenever Saathi is opened. The Android bridge does not yet expose an automatic rescheduler.
+    const bridge=window.NavAIAndroid;if(!bridge||typeof bridge.scheduleReminder!=="function")return;
+    state.reminders.filter(item=>item.repeat==="daily").forEach(item=>{
+      const first=nextOccurrence(item.time);
+      for(let i=0;i<14;i++){const when=new Date(first);when.setDate(first.getDate()+i);const id=i===0?item.id:`${item.id}-d${i}`;try{bridge.scheduleReminder(id,item.title,`Reminder: ${item.title}`,languageCode(),when.getTime());}catch(error){console.warn("Reminder refresh failed:",error);break;}}
+    });
+  }
+  function init(){
+    updateIdentity();fillSettings();$("todayLabel").textContent=new Date().toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"});$("dayDateBadge").textContent=new Date().toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"}).toUpperCase();
+    document.querySelectorAll("[data-page]").forEach(button=>button.addEventListener("click",()=>showPage(button.dataset.page)));
+    document.querySelectorAll("[data-go]").forEach(button=>button.addEventListener("click",()=>showPage(button.dataset.go)));
+    document.querySelectorAll("[data-prompt]").forEach(button=>button.addEventListener("click",()=>{showPage("home");askSaathi(button.dataset.prompt);}));
+    $("menuButton").addEventListener("click",()=>{$("sidebar").classList.toggle("open");$("scrim").classList.toggle("show");});$("scrim").addEventListener("click",closeMenu);
+    $("talkButton").addEventListener("click",startListening);$("stopButton").addEventListener("click",stopVoice);
+    $("commandForm").addEventListener("submit",event=>{event.preventDefault();const value=$("commandInput").value.trim();if(value){$("commandInput").value="";askSaathi(value);}});
+    $("profileForm").addEventListener("submit",saveProfile);$("taskForm").addEventListener("submit",addTask);$("noteForm").addEventListener("submit",addNote);$("reminderForm").addEventListener("submit",addReminder);
+    $("clearCompleted").addEventListener("click",()=>{state.tasks=state.tasks.filter(task=>!task.done);saveState();renderTasks();});
+    $("saveSettings").addEventListener("click",saveSettings);$("allowNotifications").addEventListener("click",allowNotifications);
+    $("clearMemory").addEventListener("click",clearPersonalData);$("exportData").addEventListener("click",exportData);$("exportSettings").addEventListener("click",exportData);
+    $("clearAllData").addEventListener("click",()=>{if(!window.confirm("Clear ALL NavAI Saathi data saved in this browser, including reminders and settings?"))return;state.reminders.forEach(cancelNativeReminder);state=freshDefault();saveState();updateIdentity();fillProfile();fillSettings();renderNotes();renderTasks();renderReminders();toast("All local Saathi data cleared. Android cancellation requests were sent where supported.");});
+    $("repeatButton").addEventListener("click",()=>speak(lastReply));$("copyButton").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(lastReply);toast("Response copied.");}catch(error){toast("Clipboard permission is not available.");}});
+    document.querySelectorAll("[data-app]").forEach(button=>button.addEventListener("click",()=>openPhoneApp(button.dataset.app)));
+    renderTasks();renderNotes();renderReminders();updatePhoneStatus();refreshDailyReminderQueue();
+    const lastAssistant=state.chatHistory[state.chatHistory.length-1];
+    const lastUser=state.chatHistory[state.chatHistory.length-2];
+    if(lastAssistant&&lastAssistant.role==="assistant"){
+      setResponse(lastAssistant.content,lastUser&&lastUser.role==="user"?lastUser.content:"");
+    } else if(!state.profile.name){
+      setResponse("Welcome to NavAI Saathi. Add your details in Personal memory, then tap the microphone to talk.");
     }
-
-    data.settings = {...data.settings, wakeWord:false};
-    save();
-    toast("Hey Jarvis listening is off.");
-  });
-  $("enableNotifications").onclick=async()=>{
-    if(window.NavAIAndroid && window.NavAIAndroid.requestNotificationPermission){
-      window.NavAIAndroid.requestNotificationPermission();
-      data.settings.notifications=true;
-      save();fillSettings();
-      syncNativeRoutineReminders();
-      toast("Android permission prompt opened. Allow notifications to receive reminders.");
-      return;
-    }
-    if(!("Notification" in window)){toast("Browser notifications are unavailable here. Open Saathi in the NavAI Android app.");return;}
-    const permission=await Notification.requestPermission();
-    data.settings.notifications=permission==="granted";
-    save();fillSettings();
-    if(permission==="granted") syncNativeRoutineReminders();
-    toast(permission==="granted"?"Browser notifications enabled.":"Permission not granted.");
-  };
-  $("moodResult").textContent=data.moods.length?"Last check-in: "+data.moods[data.moods.length-1].mood:"";
-  document.querySelector(".mood-list").onclick=e=>{
-    const b=e.target.closest("button[data-mood]");
-    if(!b)return;
-    const mood=b.dataset.mood;
-    data.moods.push({mood,date:Date.now()});
-    save();
-    document.querySelectorAll(".mood-list button").forEach(x=>x.classList.toggle("selected",x===b));
-    $("moodResult").textContent="Thanks for checking in. You can tell your Saathi more about it anytime.";
-    toast("Check-in saved.");
-  };
-  document.querySelectorAll(".suggestions button").forEach(b=>b.addEventListener("click",()=>{}));
-  scheduleCheck();
-  syncNativeRoutineReminders();
-  setInterval(scheduleCheck,10000);
-}
-if("speechSynthesis" in window){window.speechSynthesis.onvoiceschanged=populateVoiceOptions;}
-init();
+    // Migrate legacy local data to the V3 key without deleting the old copy.
+    if(!localStorage.getItem(STORE))saveState();
+  }
+  document.addEventListener("DOMContentLoaded",init,{once:true});
+})();
