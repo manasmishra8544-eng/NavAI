@@ -392,36 +392,61 @@ function getOpenAppCommand(transcript){
     .replace(/\s+/g, " ")
     .trim();
 
+  const hindi = (...codes) => String.fromCodePoint(...codes);
+
+  const hindiOpenWords = [
+    hindi(0x916,0x94b,0x932,0x94b),
+    hindi(0x916,0x94b,0x932),
+    hindi(0x916,0x94b,0x932,0x928,0x93e),
+    hindi(0x916,0x94b,0x932,0x20,0x926,0x94b),
+    hindi(0x91a,0x93e,0x932,0x942,0x20,0x915,0x930,0x94b),
+    hindi(0x913,0x92a,0x928,0x20,0x915,0x930,0x94b)
+  ];
+
   const openIntent =
-    /\b(open|launch|start|chalao|khol|kholo|kholna)\b|खोलो|खोल|चालू करो|ओपन/i;
+    /\b(open|launch|start|chalao|chala do|khol|kholo|kholna|khol do|khul jao|open karo|chalu karo|run|dikhao)\b/i.test(value) ||
+    hindiOpenWords.some(word => value.includes(word));
 
-  if(!openIntent.test(value)) return null;
+  if(!openIntent) return null;
 
-  if(/whats?app|व्हाट्स.?एप|व्हाट्सएप|व्हाट्स अप/i.test(value)){
+  const hasHindiOrEnglish = (...terms) =>
+    terms.some(term => value.includes(term));
+
+  if(hasHindiOrEnglish(
+    "whatsapp", "whats app",
+    hindi(0x935,0x94d,0x939,0x93e,0x91f,0x94d,0x938,0x90f,0x92a),
+    hindi(0x935,0x94d,0x939,0x93e,0x91f,0x94d,0x938,0x20,0x905,0x92a)
+  )){
     return "WhatsApp";
   }
 
-  if(/youtube|यूट्यूब/i.test(value)){
+  if(hasHindiOrEnglish("youtube", "you tube", hindi(0x92f,0x942,0x91f,0x94d,0x92f,0x942,0x92c))){
     return "YouTube";
   }
 
-  if(/calculator|कैलकुलेटर/i.test(value)){
+  if(hasHindiOrEnglish("calculator", hindi(0x915,0x948,0x932,0x915,0x941,0x932,0x947,0x91f,0x930))){
     return "Calculator";
   }
 
-  if(/chrome|क्रोम/i.test(value)){
+  if(hasHindiOrEnglish("chrome", hindi(0x915,0x94d,0x930,0x94b,0x92e))){
     return "Chrome";
   }
 
   let name = value
-    .replace(/^(please\s+)?(open|launch|start)\s+/i, "")
-    .replace(/\s+(please\s+)?(open|launch|start|khol|kholo|kholna|chalao|open karo)$/i, "")
-    .replace(/\s+(खोलो|खोल|खोलना|ओपन करो)$/i, "")
+    .replace(/^(hey jarvis|jarvis|hey saathi|saathi|please|zara)\s*/i, "")
+    .replace(/^(please\s+)?(open|launch|start|run|khol|kholo|kholna|khol do|chalao|chala do|khul jao|open karo|chalu karo|dikhao)\s+/i, "")
+    .replace(/\s+(please|open|launch|start|run|khol|kholo|kholna|khol do|chalao|chala do|khul jao|open karo|chalu karo|dikhao)$/i, "")
+    .replace(/\s+(app|application)$/i, "")
+    .replace(/\s+ko$/i, "")
     .trim();
 
-  return name || null;
-}
+  for(const word of hindiOpenWords){
+    if(name.startsWith(word + " ")) name = name.slice(word.length).trim();
+    if(name.endsWith(" " + word)) name = name.slice(0, -word.length).trim();
+  }
 
+  return name.length >= 2 ? name : null;
+}
 function startVoice(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -443,7 +468,11 @@ function startVoice(){
   recognition.maxAlternatives = 3;
 
   recognition.onresult = e => {
-    const transcript = e.results[0][0].transcript || "";
+    const alternatives = Array.from(e.results[0] || []);
+    const selected = alternatives.find(item =>
+      getOpenAppCommand(item.transcript || "")
+    );
+    const transcript = (selected || alternatives[0])?.transcript || "";
     const appName = getOpenAppCommand(transcript);
 
     if (
