@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/saathi/style.css?v=20261120-v3">
+  <link rel="stylesheet" href="/saathi/style.css?v=20261121-repair1">
 </head>
 <body>
 <div class="app-shell">
@@ -31,13 +31,13 @@
   <main class="main-area">
     <header class="topbar">
       <div class="topbar-left"><button class="menu-button" id="menuButton" aria-label="Open menu">☰</button><div class="breadcrumb">NavAI <span>/</span> <b id="pageTitle">Home</b></div></div>
-      <div class="topbar-right"><span class="status-indicator" id="statusDot"></span><span id="statusText">Ready when you are</span><button class="top-icon" data-go="settings" aria-label="Settings">⚙</button></div>
+      <div class="topbar-right"><span class="status-indicator" id="statusDot"></span><span id="statusText">Ready when you are</span><a class="app-download-link" href="/static/downloads/NavAI-Saathi-20261121.apk" download="NavAI-Saathi.apk">Download Android app</a><button class="top-icon" data-go="settings" aria-label="Settings">⚙</button></div>
     </header>
 
     <section class="page" id="homePage">
       <div class="welcome-row"><div><div class="eyebrow">YOUR PERSONAL AI COMPANION</div><h1 id="greeting">Hello there <span>✦</span></h1><p class="subheading">Think clearly. Stay organised. Speak naturally.</p></div><div class="date-chip"><span>◷</span><span id="todayLabel">Today</span></div></div>
       <div class="hero-card">
-        <div class="hero-copy"><span class="overline"><i></i> NAVAI SAATHI</span><h2>Your day,<br><em>your Saathi.</em></h2><p>Talk about your plans, ask questions, organise your day or simply tell me what you need.</p>
+        <div class="hero-copy"><span class="overline"><i></i> NAVAI SAATHI</span><h2>Your day,<br><em>your Saathi.</em></h2><p>The website version works right here on desktop and mobile browsers. Talk, plan your day and manage reminders without installing an app. Download the Android app for native phone alarms and supported phone shortcuts.</p>
           <div class="hero-buttons"><button class="button-primary" id="talkButton"><span class="mic-symbol">♩</span><span id="talkLabel">Tap to speak</span></button><button class="button-soft" id="stopButton" type="button">Stop voice</button></div>
           <div class="listening-state"><span class="pulse-dot"></span><span id="liveText">Assistant is ready</span></div>
         </div>
@@ -90,11 +90,11 @@
     </section>
 
     <section class="page hidden" id="remindersPage">
-      <div class="page-intro"><div class="eyebrow">DON'T RELY ON MEMORY ALONE</div><h1>Reminders</h1><p>Create a reminder and send it to the Android app when its native bridge is available.</p></div>
+      <div class="page-intro"><div class="eyebrow">DON'T RELY ON MEMORY ALONE</div><h1>Reminders</h1><p>Reminders work on this website with browser notifications while this Saathi tab stays open. In the Android app, reminders use native phone alarms.</p></div>
       <div class="day-overview"><div class="overview-tile"><span class="overview-icon lavender">♧</span><div><b id="reminderCount">0</b><small>Saved reminders</small></div></div><div class="overview-tile"><span class="overview-icon pink">◷</span><div><b id="nextReminder">Nothing scheduled</b><small>Next reminder time</small></div></div></div>
       <div class="surface-card"><div class="surface-heading"><div><h2>Create a reminder</h2><p>Choose a time and repeat preference.</p></div><span class="surface-mark">＋</span></div>
         <form id="reminderForm" class="reminder-form"><label>Reminder title<input id="rTitle" maxlength="100" placeholder="e.g. Take a break" required></label><label>Time<input id="rTime" type="time" required></label><label>Repeat<select id="rRepeat"><option value="once">One time</option><option value="daily">Daily</option></select></label><button class="button-primary" type="submit">＋ Add reminder</button></form>
-        <p class="helper-note">Daily reminders are queued for the next 14 days when Android scheduling is available. Open Saathi again to refresh the upcoming schedule. Device permissions and battery settings can affect delivery.</p>
+        <p class="helper-note">Website: allow notifications and keep this tab open; browser reminders cannot run after you close the tab or browser. Android app: allow notifications and exact alarms for native scheduled reminders. Device battery settings can still affect delivery.</p>
       </div>
       <div class="surface-card reminders-surface"><div class="surface-heading"><div><h2>Your reminders</h2><p>Remove reminders when plans change.</p></div><span class="count-pill" id="reminderCountPill">0</span></div><div id="reminderList" class="reminder-list"><div class="empty-state">No reminders yet. Add one above.</div></div></div>
     </section>
@@ -133,10 +133,10 @@
       <div class="disclaimer">Wake-word availability and scheduled reminders depend on Android permissions and device behaviour. Force-stop can stop background services.</div>
     </section>
 
-    <footer class="app-footer"><span>NAVAI SAATHI</span><span>Personal companion · Your data, your control</span></footer>
+    <footer class="app-footer"><span>NAVAI SAATHI</span><span>Website version works on desktop and mobile · <a href="/static/downloads/NavAI-Saathi-20261121.apk" download="NavAI-Saathi.apk">Download Android app</a></span></footer>
   </main>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="/saathi/script.js?v=20261120-v3" defer></script>
+<script src="/saathi/script.js?v=20261121-repair1" defer></script>
 </body>
 </html>

@@ -78,7 +78,7 @@
       }catch(error){console.warn("Native permission check failed:",error);}
     }
     const permission=("Notification" in window)?Notification.permission:"unsupported";
-    $("notificationState").textContent=permission==="granted"?"Browser notification permission is allowed.":permission==="denied"?"Notifications are blocked in browser settings.":permission==="unsupported"?"Browser notifications are not supported here.":"Notification permission has not been granted.";
+    $("notificationState").textContent=permission==="granted"?"Website notifications are allowed. Keep this Saathi tab open for browser reminders.":permission==="denied"?"Notifications are blocked in browser settings.":permission==="unsupported"?"Browser notifications are not supported here. Use the Android app for scheduled alarms.":"Allow notifications to use reminders on this website.";
   }
 
   window.navaiNativePermissionsChanged = function(allowed){
@@ -151,7 +151,9 @@
       pending.step="repeat";
       state.pendingReminder=pending;
       saveState();
-      reply("6 baje ka reminder samajh gaya. Aaj ke liye set karun ya roz repeat karun?");
+      const [h,m]=String(pending.time||"06:00").split(":").map(Number);
+      const shown=new Date();shown.setHours(h,m||0,0,0);
+      reply(`${shown.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})} ka reminder samajh gaya. Aaj ke liye set karun ya roz repeat karun?`);
     }
 
     function finishReminder(repeat){
@@ -176,12 +178,13 @@
         return;
       }
 
-      const result=scheduleReminderNative(item);
+      item.dueAt=nextOccurrence(item.time).getTime();
+      const result=scheduleReminder(item);
 
-      if(!result.available || result.count===0){
+      if(!result.ok){
         state.pendingReminder=pending;
         saveState();
-        reply("Android reminder service abhi available nahi hai ya alarm schedule nahi hua. NavAI Saathi Android app mein kholkar dobara try kijiye. Abhi reminder set nahi hua hai.");
+        reply(result.message);
         return;
       }
 
@@ -190,11 +193,8 @@
       saveState();
       renderReminders();
 
-      if(result.failed){
-        reply(`Reminder save ho gaya, lekin Android ne sirf ${result.count} alarms confirm kiye. Please reminder list check kar lijiye.`);
-      }else{
-        reply(`Done! ${item.time} baje ka ${repeat==="daily"?"daily":"aaj ke liye one-time"} reminder Android par schedule ho gaya.`);
-      }
+      const where=result.platform==="android"?"Android alarm":"website notification (keep this tab open)";
+      reply(`Done! ${item.time} ka ${repeat==="daily"?"daily":"one-time"} reminder ${where} par schedule ho gaya.`);
     }
 
     if(pending && pending.step==="period"){
@@ -256,38 +256,26 @@
 
     if(!/\b(remind(?:er)?|yaad dil|alarm)\b/i.test(text))return false;
 
-    const match=text.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b|\b(\d{1,2})\s*baje\b|\b(\d{1,2}):(\d{2})\b/i);
+    const ampm=text.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/i);
+    const baje=text.match(/\b(\d{1,2})(?::(\d{2}))?\s*baje\b/i);
+    const clock=text.match(/\b(\d{1,2}):(\d{2})\b/);
+    const match=ampm||baje||clock;
     if(!match)return false;
 
-    let hour,minute=0,period=null;
-    if(match[1]){
-      hour=Number(match[1]);
-      minute=Number(match[2]||0);
-      period=(match[3]||"").toLowerCase()||null;
-    }else if(match[4]){
-      hour=Number(match[4]);
-    }else{
-      hour=Number(match[5]);
-      minute=Number(match[6]||0);
-    }
+    let hour=Number(match[1]),minute=Number(match[2]||0);
+    const period=ampm?(ampm[3]||"").toLowerCase():null;
+    if(minute>59||hour>23||(period&&(hour<1||hour>12)))return false;
 
-    if(hour<1||hour>12||minute>59)return false;
-
-    pending={
-      title:"Reminder",
-      hour,
-      minute,
-      time:null,
-      step:"period",
-      repeat:null
-    };
-
+    pending={title:"Reminder",hour,minute,time:null,step:"period",repeat:null};
     state.pendingReminder=pending;
     saveState();
 
     if(period){
-      if(period==="pm" && hour<12)hour+=12;
-      if(period==="am" && hour===12)hour=0;
+      if(period==="pm"&&hour<12)hour+=12;
+      if(period==="am"&&hour===12)hour=0;
+      pending.time=`${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}`;
+      askRepeat();
+    }else if(hour===0||hour>12){
       pending.time=`${String(hour).padStart(2,"0")}:${String(minute).padStart(2,"0")}`;
       askRepeat();
     }else{
@@ -385,35 +373,73 @@
   function exportData(){
     const data={app:"NavAI Saathi",version:3,exportedAt:new Date().toISOString(),data:state};
     const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob);
-    const link=document.createElement("a");link.href=url;link.download="navai-saathi-personal-data.json";document.body.append(link);link.click();link.remove();URL.revokeObjectURL(url);toast("Your data export is ready.");
+    const link=document.createElement("a");link.href=url;link.download="navai-saathi-personal-data.json";document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1500);toast("Your data export is ready.");
   }
   function clearPersonalData(){
     if(!window.confirm("Clear your profile, personal notes and today's tasks from this device? Reminders and settings will stay."))return;
     state.profile={...DEFAULT.profile};state.notes=[];state.tasks=[];saveState();updateIdentity();fillProfile();renderNotes();renderTasks();toast("Personal profile, notes and tasks cleared locally.");
   }
   function nextOccurrence(time){const [hours,minutes]=time.split(":").map(Number);const date=new Date();date.setHours(hours,minutes,0,0);if(date.getTime()<=Date.now())date.setDate(date.getDate()+1);return date;}
-  function scheduleReminderNative(item){
+  function scheduleReminder(item){
     const bridge=window.NavAIAndroid;
-    if(!bridge||typeof bridge.scheduleReminder!=="function")return {available:false,count:0,ids:[]};
-    const ids=[];
-    try{
-      let scheduled=false;
-      if(item.repeat==="daily" && typeof bridge.scheduleDailyReminder==="function"){
-        const [hour,minute]=item.time.split(":").map(Number);
-        scheduled=bridge.scheduleDailyReminder(item.id,item.title,`Reminder: ${item.title}`,languageCode(),hour,minute)===true;
-      }else{
-        const when=nextOccurrence(item.time);
-        scheduled=bridge.scheduleReminder(item.id,item.title,`Reminder: ${item.title}`,languageCode(),when.getTime())===true;
+    if(bridge&&typeof bridge.scheduleReminder==="function"){
+      try{
+        let scheduled=false;
+        if(item.repeat==="daily"&&typeof bridge.scheduleDailyReminder==="function"){
+          const [hour,minute]=item.time.split(":").map(Number);
+          scheduled=bridge.scheduleDailyReminder(item.id,item.title,`Reminder: ${item.title}`,languageCode(),hour,minute)===true;
+        }else{
+          const when=item.dueAt?new Date(item.dueAt):nextOccurrence(item.time);
+          scheduled=bridge.scheduleReminder(item.id,item.title,`Reminder: ${item.title}`,languageCode(),when.getTime())===true;
+        }
+        return scheduled?{ok:true,platform:"android"}:{ok:false,message:"Android did not confirm the alarm. Check notification and exact-alarm permissions; reminder was not saved."};
+      }catch(error){
+        console.warn("Native reminder scheduling failed for",item.id,error);
+        return {ok:false,message:"Android could not schedule this alarm. Check app permissions and try again."};
       }
-      if(scheduled)ids.push(item.id);
-    }catch(error){
-      console.warn("Native reminder scheduling failed for",item.id,error);
     }
-    return {available:true,count:ids.length,ids,failed:ids.length!==1};
+    if(!("Notification" in window)||Notification.permission!=="granted"){
+      return {ok:false,message:"Website reminders need notification permission. Open Settings → Allow notifications, then try again. The website must stay open for reminders."};
+    }
+    return {ok:true,platform:"browser"};
   }
   function cancelNativeReminder(item){
     const bridge=window.NavAIAndroid;if(!bridge||typeof bridge.cancelReminder!=="function")return;
     try{bridge.cancelReminder(item.id);}catch(error){console.warn(error);}
+  }
+  function fireBrowserReminder(item){
+    if(!("Notification" in window)||Notification.permission!=="granted")return false;
+    try{
+      const notification=new Notification(item.title,{body:`NavAI Saathi reminder: ${item.title}`,tag:`navai-${item.id}`,renotify:false});
+      notification.onclick=()=>{window.focus();showPage("reminders");notification.close();};
+      if(state.settings.voice&&document.visibilityState==="visible")speak(`Reminder. ${item.title}`);
+      return true;
+    }catch(error){console.warn("Browser reminder notification failed:",error);return false;}
+  }
+  function checkBrowserReminders(){
+    if(window.NavAIAndroid&&typeof window.NavAIAndroid.scheduleReminder==="function")return;
+    if(!( "Notification" in window)||Notification.permission!=="granted")return;
+    const now=new Date(),today=now.toLocaleDateString("en-CA");
+    let changed=false;
+    state.reminders=[...state.reminders].filter(item=>{
+      if(item.repeat==="daily"){
+        const [h,m]=item.time.split(":").map(Number);
+        const firstDue=Number(item.dueAt)||0;
+        if(now.getTime()>=firstDue&&now.getHours()*60+now.getMinutes()>=h*60+m&&item.lastFiredDate!==today){
+          if(fireBrowserReminder(item)){item.lastFiredDate=today;changed=true;}
+        }
+        return true;
+      }
+      const due=Number(item.dueAt)||nextOccurrence(item.time).getTime();
+      if(now.getTime()>=due){
+        if(now.getTime()-due>24*60*60*1000){changed=true;return false;}
+        if(!fireBrowserReminder(item))return true;
+        changed=true;
+        return false;
+      }
+      return true;
+    });
+    if(changed){saveState();renderReminders();}
   }
   function renderReminders(){
     const list=$("reminderList");$("reminderCount").textContent=String(state.reminders.length);$("reminderCountPill").textContent=String(state.reminders.length);
@@ -428,12 +454,12 @@
   function addReminder(event){
     event.preventDefault();const title=$("rTitle").value.trim(),time=$("rTime").value,repeat=$("rRepeat").value;
     if(!title||!time){toast("Enter a title and time first.");return;}
-    const item={id:`r${Date.now()}`,title,time,repeat};const result=scheduleReminderNative(item);
+    const item={id:`r${Date.now()}`,title,time,repeat,dueAt:nextOccurrence(time).getTime()};
+    const result=scheduleReminder(item);
+    if(!result.ok){toast(result.message);return;}
     state.reminders.push(item);saveState();renderReminders();$("reminderForm").reset();
-    if(!result.available)toast("Saved locally. Android reminder bridge is unavailable here.");
-    else if(result.count===0)toast("Saved locally, but Android scheduled no alarms. Check permissions.");
-    else if(result.failed)toast(`Saved locally. Android confirmed ${result.count} of the requested alarms.`);
-    else toast(`Saved. Android confirmed ${result.count} reminder alarm${result.count===1?"":"s"}.`);
+    toast(result.platform==="android"?"Android confirmed the reminder alarm.":"Website reminder saved. Keep this tab open until it fires.");
+    if(result.platform==="browser")checkBrowserReminders();
   }
   function removeReminder(id){const item=state.reminders.find(reminder=>reminder.id===id);if(item)cancelNativeReminder(item);state.reminders=state.reminders.filter(reminder=>reminder.id!==id);saveState();renderReminders();toast("Removed from the saved reminder list.");}
   async function allowNotifications(){
@@ -447,7 +473,7 @@
       }catch(error){console.warn("Android permission request failed:",error);}
     }
     if(!("Notification" in window)){toast("Notifications are not supported in this browser.");return;}
-    try{const permission=await Notification.requestPermission();state.settings.notifications=permission==="granted";$("sNotifications").checked=state.settings.notifications;saveState();updateNotificationState();toast(permission==="granted"?"Browser notifications allowed.":"Notification permission was not granted.");}
+    try{const permission=await Notification.requestPermission();state.settings.notifications=permission==="granted";$("sNotifications").checked=state.settings.notifications;saveState();updateNotificationState();if(permission==="granted")checkBrowserReminders();toast(permission==="granted"?"Website notifications allowed. Keep this tab open for browser reminders.":"Notification permission was not granted.");}
     catch(error){console.warn(error);toast("Could not request notification permission.");}
   }
   function updatePhoneStatus(){
@@ -486,6 +512,8 @@
     $("repeatButton").addEventListener("click",()=>speak(lastReply));$("copyButton").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(lastReply);toast("Response copied.");}catch(error){toast("Clipboard permission is not available.");}});
     document.querySelectorAll("[data-app]").forEach(button=>button.addEventListener("click",()=>openPhoneApp(button.dataset.app)));
     renderTasks();renderNotes();renderReminders();updatePhoneStatus();refreshDailyReminderQueue();
+    checkBrowserReminders();window.setInterval(checkBrowserReminders,10000);
+    document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")checkBrowserReminders();});
     const lastAssistant=state.chatHistory[state.chatHistory.length-1];
     const lastUser=state.chatHistory[state.chatHistory.length-2];
     if(lastAssistant&&lastAssistant.role==="assistant"){
